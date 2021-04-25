@@ -72,7 +72,8 @@ export default {
     items: [
           { title: 'Dashboard', icon: 'mdi-view-dashboard' ,to:'/'},
           { title: 'GridSystem', icon: 'mdi-view-dashboard' ,to:'/grid-system'},
-          { title: 'GridListPage', icon: 'mdi-view-dashboard' ,to:'/grid-list-page'}
+          { title: 'GridListPage', icon: 'mdi-information-outline' ,to:'/grid-list-page'},
+           { title: 'Breakpoints', icon: 'mdi-account' ,to:'/break-points'},
 
         ],
         right: null,
