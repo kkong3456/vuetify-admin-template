@@ -17,10 +17,10 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="text-h6">
-            Application
+            RS-AI
           </v-list-item-title>
           <v-list-item-subtitle>
-            subtext
+            강북/강원 코어센터
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
