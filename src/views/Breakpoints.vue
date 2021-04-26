@@ -25,6 +25,7 @@
           v-model="dialog"
           width="500"
           transition="dialog-bottom-transition"
+          v-bind:fullscreen="$vuetify.breakpoint.mobile"
         >
         <template v-slot:activator="{ on, attrs }">
           <v-btn
@@ -60,6 +61,22 @@
           </v-card-actions>
           </v-card>
         </v-dialog>
+      </v-container>
+    </v-card>
+
+    <v-card class="mt-5">
+      <v-card-title>
+        Vuetify Breakpoint Object
+      </v-card-title>
+
+      <v-container class="grey lighten-4">
+        <v-card class="pa-3" outlined>
+          $vuetify.breakpoint.xs:"{{$vuetify.breakpoint.xs}}"<br>
+          $vuetify.breakpoint.smAndDown : "{{$vuetify.breakpoint.smAndDown}}"<br>
+          $vuetify.breakpoint.height:"{{$vuetify.breakpoint.height}}"<br>
+          $vuetify.breakpoint.width : "{{$vuetify.breakpoint.width}}"<br>
+          $vuetify.breakpoint.thresholds : "{{$vuetify.breakpoint.thresholds}}"<br>
+        </v-card>  
       </v-container>
     </v-card>
   </v-container>
