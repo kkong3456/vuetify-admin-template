@@ -13,16 +13,16 @@
 
     </v-app-bar>
 
-    <v-navigation-drawer 
-      v-model="drawer" 
+    <v-navigation-drawer
+      v-model="drawer"
       dark
       app
       :src="require('@/assets/sidebar.jpg')"
       >
-      <template 
+      <template
         v-slot:img="props"
       >
-        <v-img 
+        <v-img
           :gradient="gradient"
           v-bind="props"
         />

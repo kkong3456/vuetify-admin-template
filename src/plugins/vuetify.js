@@ -2,8 +2,13 @@ import Vue from 'vue';
 import Vuetify from 'vuetify/lib/framework';
 import '@mdi/font/css/materialdesignicons.css'
 //import Vuetify from 'vuentify/lib'
+import colors from 'vuetify/lib/util/colors'
 
 Vue.use(Vuetify);
+
+const theme={
+  primary:colors.deepOrange
+}
 
 export default new Vuetify({
     icons:{
@@ -19,7 +24,9 @@ export default new Vuetify({
                 light:{
                 //    primary:'#555555',  //vuetifyjs.com/en/features/presets/#default-preset 사이트에서 정의된 기본 색상을 재정의
                 //    secondary:'#777777',
-                }
+                },
+               // light:theme,
+                //dark:theme
             }
         }
 
