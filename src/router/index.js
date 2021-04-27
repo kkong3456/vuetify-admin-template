@@ -1,20 +1,33 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Dashboard from '@/views/Dashboard'
-import GridSystem from '@/views/GridSystem'
-import GridListPage from '@/views/GridListPage'
-import Breakpoints from '@/views/Breakpoints'
-import Typography from '@/views/Typography'
-import TableMenu from '@/views/TableMenu'
-import FormMenu from '@/views/FormMenu'
-import ButtonMenu from '@/views/ButtonMenu'
-import IconMenu from '@/views/IconMenu'
 
-import Line from '@/views/Line.vue'
+import RS_Prediction from '@/views/RS_Prediction'
+import RS_Scenario from '@/views/RS_Scenario'
+//import Dashboard from '@/views/Dashboard'
+//import GridSystem from '@/views/GridSystem'
+//import GridListPage from '@/views/GridListPage'
+///import Breakpoints from '@/views/Breakpoints'
+//import Typography from '@/views/Typography'
+//import TableMenu from '@/views/TableMenu'
+//import FormMenu from '@/views/FormMenu'
+//import ButtonMenu from '@/views/ButtonMenu'
+//import IconMenu from '@/views/IconMenu'
+//import Line from '@/views/Line.vue'
 
 Vue.use(VueRouter)
 
 const routes=[
+  {
+    path:'/',
+    name:'RS_Prediction',
+    component:RS_Prediction
+  },
+  {
+    path:'/scenario',
+    name:'RS_Scenario',
+    component:RS_Scenario
+  }
+  /*
     {
         path:'/',
         name:'Dashboard',
@@ -66,6 +79,7 @@ const routes=[
       name:'Line',
       component:Line
     },
+    */
 
 ]
 
