@@ -1,28 +1,32 @@
-<template>
-<v-container>
-  <v-card class="pa-3">
-    <v-row>
-      <v-col cols="auto">
-        <v-icon>mdi-account</v-icon>
-      </v-col>
-      <v-col cols="auto">
-        <v-icon
-          color="orange"
-          x-large
-        >mdi-comment</v-icon>
-      </v-col>
-    </v-row>
-  </v-card>
-</v-container>
-
-</template>
-
 <script>
-export default {
+import { Line } from 'vue-chartjs'
 
+export default {
+  extends: Line,
+  data() {
+    return {
+      chartdata: {
+        labels: ['January', 'February'],
+        datasets: [
+          {
+            label: 'Data One',
+            backgroundColor: '#9575CD',
+            data: [40, 20]
+          },{
+            label: 'Data Two',
+            backgroundColor: '#64B5F6',
+            data: [30, 40]
+          }
+        ],
+      },
+    };
+  },
+  mounted () {
+    this.renderChart(this.chartdata, this.options)
+  }
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>

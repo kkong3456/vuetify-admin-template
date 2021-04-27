@@ -52,6 +52,8 @@
         </v-sheet>
       </v-card>
      </v-col>
+
+
      <v-col
       v-for="count in 4"
       :key="count"
@@ -101,15 +103,36 @@
         </v-card-actions>
       </v-card>
      </v-col>
+
+     <v-col>
+       <v-card>
+         <line-chart></line-chart>
+       </v-card>
+     </v-col> 
+
+     <v-col>
+       <v-card outlined>
+         <real-time-line-chart v-bind:chart-data="dataCollection"></real-time-line-chart>
+         <button @click="fillData()">Randomize</button>
+       </v-card>
+     </v-col>
+
    </v-row>
   </v-container>
 </template>
 
 <script>
+import LineChart from '@/components/LineChart'
+import RealTimeLineChart from '@/components/RealTimeLineChart'
+
 const exhale = ms =>
     new Promise(resolve => setTimeout(resolve, ms))
 
   export default {
+    components:{
+      LineChart, 
+      RealTimeLineChart
+    },
     data: () => ({
       checking: false,
       heartbeats: [],
@@ -122,6 +145,8 @@ const exhale = ms =>
         610,
         760,
       ],
+
+      dataCollection:null  //RealTimeLineChart
     }),
 
     computed: {
@@ -137,9 +162,31 @@ const exhale = ms =>
 
     created () {
       this.takePulse(false)
+      this.fillData();  //RealTimeLineChart
     },
 
     methods: {
+      fillData(){  //RealTimeLinechart
+        this.dataCollection={
+          labels:[this.getRandomInt(),this.getRandomInt()],
+          datasets:[
+            {
+              label:'Main One',
+              backgroundColor: '#f87979',
+              data:[this.getRandomInt(),this.getRandomInt()],
+            },{
+              label:'Main One',
+              backgroundColor:'#f97979',
+              data:[this.getRandomInt(),this.getRandomInt()],
+            },
+          ],
+        };
+        console.log('RealTimeChart',this.dataCollection);
+      },
+      getRandomInt(){   //RealTimeLineChart
+        return Math.floor(Math.random()*(50-4))+5
+      },
+
       heartbeat () {
         return Math.ceil(Math.random() * (120 - 80) + 80)
       },

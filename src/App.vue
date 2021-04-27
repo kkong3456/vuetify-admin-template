@@ -5,12 +5,8 @@
       color="primary"
       dark
     >
-
       <v-app-bar-nav-icon v-on:click="drawer=!drawer"></v-app-bar-nav-icon>
-
       <v-spacer />
-
-
     </v-app-bar>
 
     <v-navigation-drawer
@@ -39,7 +35,6 @@
       </v-list-item>
 
       <v-divider />
-
       <v-list
         dense
         nav
@@ -95,6 +90,7 @@ export default {
           { title: 'FormMenu', icon: 'mdi-graphql' ,to:'/forms'},
           { title: 'ButtonMenu', icon: 'mdi-graphql' ,to:'/buttons'},
           { title: 'IconMenu', icon: 'mdi-graphql' ,to:'/icons'},
+          { title: 'LineChart', icon: 'mdi-graphql',to:'/line'},
 
         ],
         right: null,

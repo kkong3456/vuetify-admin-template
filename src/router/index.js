@@ -10,6 +10,8 @@ import FormMenu from '@/views/FormMenu'
 import ButtonMenu from '@/views/ButtonMenu'
 import IconMenu from '@/views/IconMenu'
 
+import Line from '@/views/Line.vue'
+
 Vue.use(VueRouter)
 
 const routes=[
@@ -57,7 +59,13 @@ const routes=[
       path:'/icons',
       name:'IconMenu',
       component:IconMenu
-    }
+    },
+
+    {
+      path:'/line',
+      name:'Line',
+      component:Line
+    },
 
 ]
 
