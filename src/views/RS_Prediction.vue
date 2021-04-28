@@ -12,8 +12,19 @@
 </template>
 
 <script>
+import axios from 'axios';
+
+const url='http://localhost:8000/booking/'
 export default {
-    
+  mounted(){
+    console.log(`url is ${url}`);
+    axios({
+      method:'GET',
+      url:url
+    }).then(res=>{
+      console.log(res.data);
+    })
+  }
 }
 </script>
 
