@@ -3,11 +3,12 @@
         <v-card>
             <v-row>
                 <v-col>
-                    <p class="text-h5">안뇽 여러분 반가워요.</p>
+                    <p class="text-h5">해지 예측 정보</p>
                 </v-col>
             </v-row>
         </v-card>
     </v-container>
+
 </template>
 
 <script>

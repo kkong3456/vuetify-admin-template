@@ -3,20 +3,20 @@ import VueRouter from 'vue-router'
 
 import RS_Prediction from '@/views/RS_Prediction'
 import RS_Scenario from '@/views/RS_Scenario'
-//import Dashboard from '@/views/Dashboard'
-//import GridSystem from '@/views/GridSystem'
-//import GridListPage from '@/views/GridListPage'
-///import Breakpoints from '@/views/Breakpoints'
-//import Typography from '@/views/Typography'
-//import TableMenu from '@/views/TableMenu'
-//import FormMenu from '@/views/FormMenu'
-//import ButtonMenu from '@/views/ButtonMenu'
-//import IconMenu from '@/views/IconMenu'
-//import Line from '@/views/Line.vue'
+import RS_DangerousSite from '@/views/RS_DangerousSite'
+import RS_SaleVoc from '@/views/RS_SaleVoc'
+import RS_NetworkVoc from '@/views/RS_NetworkVoc'
+import RS_Bonbu from '@/views/RS_Bonbu'
+import RS_Product from '@/views/RS_Product'
+import RS_JisaTv from '@/views/RS_JisaTv'
+import RS_JisaWireless from '@/views/RS_JisaWireless'
+import RS_JisaInternet from '@/views/RS_JisaInternet'
+
+
 
 Vue.use(VueRouter)
 
-dd
+
 
 const routes=[
   {
@@ -28,61 +28,52 @@ const routes=[
     path:'/scenario',
     name:'RS_Scenario',
     component:RS_Scenario
-  }
-  /*
-    {
-        path:'/',
-        name:'Dashboard',
-        component:Dashboard
-    },
-    {
-        path:'/grid-system',
-        name:'GridSystem',
-        component:GridSystem
-    },
-    {
-      path:'/grid-list-page',
-      name:'GridListPage',
-      component:GridListPage,
-    },
-    {
-      path:'/break-points',
-      name:'Breakpoints',
-      component:Breakpoints
-    },
-    {
-      path:'/typo-graphy',
-      name:'Typography',
-      component:Typography
-    },
-    {
-      path:'/tables',
-      name:'TableMenu',
-      component:TableMenu
-    },
-    {
-      path:'/forms',
-      name:'FormMenu',
-      component:FormMenu
-    }, 
-    {
-      path:'/buttons',
-      name:'ButtonMenu',
-      component:ButtonMenu
-    },
-    {
-      path:'/icons',
-      name:'IconMenu',
-      component:IconMenu
-    },
+  },
+  {
+    path:'/dangeroussite',
+    name:'RS_DangerousSite',
+    component:RS_DangerousSite
+  },
 
-    {
-      path:'/line',
-      name:'Line',
-      component:Line
-    },
-    */
+  {
+    path:'/sale-voc',
+    name:'RS_SaleVoc',
+    component:RS_SaleVoc
+  },
 
+  {
+    path:'/network-voc',
+    name:'RS_NetworkVoc',
+    component:RS_NetworkVoc
+  },
+
+  {
+    path:'/bonbu',
+    name:'RS_Bonbu',
+    component:RS_Bonbu
+  },
+
+  {
+    path:'/product',
+    name:'RS_Product',
+    component:RS_Product
+  },
+  {
+    path:'/jisa-tv',
+    name:'RS_JisaTv',
+    component:RS_JisaTv
+  },
+  {
+    path:'/jisa-wireless',
+    name:'RS_JisaWireless',
+    component:RS_JisaWireless
+  },
+  {
+    path:'/jisa-internet',
+    name:'RS_Internet',
+    component:RS_JisaInternet
+  },
+  
 ]
 
 const router=new VueRouter({
