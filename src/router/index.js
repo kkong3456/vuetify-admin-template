@@ -14,6 +14,8 @@ import Line from '@/views/Line.vue'
 
 Vue.use(VueRouter)
 
+dd
+
 const routes=[
     {
         path:'/',
