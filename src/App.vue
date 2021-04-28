@@ -25,7 +25,7 @@
       </template>
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title class="text-h6">
+          <v-list-item-title class="text-h4 font-weight-bold">
             RS-AI
           </v-list-item-title>
           <v-list-item-subtitle>
@@ -39,17 +39,18 @@
         dense
         nav
       >
-        <v-list-item
+        <v-list-item              
           v-for="item in items"
           :key="item.title"
           link
           :to="item.to"
           active-class="secondary"
-          class="py-2"
+          class="py-1 pa-5"
+
         >
-          <v-list-item-icon>
+          <!-- <v-list-item-icon class="mr-3">
             <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
+          </v-list-item-icon> -->
 
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -81,16 +82,18 @@ export default {
     drawer:false,
     gradient:'rgba(0,0,0,0.7),rgba(0,0,0,0.7)',
     items: [
-          { title: 'Dashboard', icon: 'mdi-view-dashboard' ,to:'/'},
-          { title: 'GridSystem', icon: 'mdi-view-dashboard' ,to:'/grid-system'},
-          { title: 'GridListPage', icon: 'mdi-information-outline' ,to:'/grid-list-page'},
-          { title: 'Breakpoints', icon: 'mdi-account' ,to:'/break-points'},
-          { title: 'Typography', icon: 'mdi-graphql' ,to:'/typo-graphy'},
-          { title: 'TableMenu', icon: 'mdi-graphql' ,to:'/tables'},
-          { title: 'FormMenu', icon: 'mdi-graphql' ,to:'/forms'},
-          { title: 'ButtonMenu', icon: 'mdi-graphql' ,to:'/buttons'},
-          { title: 'IconMenu', icon: 'mdi-graphql' ,to:'/icons'},
-          { title: 'LineChart', icon: 'mdi-graphql',to:'/line'},
+      { title: '1. 해지 예측 정보', icon: 'mdi-view-dashboard' ,to:'/'},
+      { title: '1-1. 예측 시나리오', icon: 'mdi-align-horizontal-left',to:'/scenario'}
+          //{ title: 'Dashboard', icon: 'mdi-view-dashboard' ,to:'/'},
+          //{ title: 'GridSystem', icon: 'mdi-view-dashboard' ,to:'/grid-system'},
+          //{ title: 'GridListPage', icon: 'mdi-information-outline' ,to:'/grid-list-page'},
+          //{ title: 'Breakpoints', icon: 'mdi-account' ,to:'/break-points'},
+          //{ title: 'Typography', icon: 'mdi-graphql' ,to:'/typo-graphy'},
+          //{ title: 'TableMenu', icon: 'mdi-graphql' ,to:'/tables'},
+         // { title: 'FormMenu', icon: 'mdi-graphql' ,to:'/forms'},
+         // { title: 'ButtonMenu', icon: 'mdi-graphql' ,to:'/buttons'},
+          //{ title: 'IconMenu', icon: 'mdi-graphql' ,to:'/icons'},
+          //{ title: 'LineChart', icon: 'mdi-graphql',to:'/line'},
 
         ],
         right: null,
