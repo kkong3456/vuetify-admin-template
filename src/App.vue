@@ -188,7 +188,7 @@ export default {
 <style scoped>
 .v-application--is-ltr .v-list--dense.v-list--nav .v-list-group--no-action > .v-list-group__items > .v-list-item {
 padding: 0 8px;}
-.container{margin:0;} /* 본문화면이 중앙으로 치우치는 것을 방지 */
+/*.container{margin:0;}  본문화면이 중앙으로 치우치는 것을 방지 */
 
 
 </style>
