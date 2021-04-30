@@ -33,35 +33,62 @@
 
     methods: {
       fillData () {
+        //this.getLabels();
+        const xxx=this.getJisaSalesValue();
+        console.log(`xxx is ${xxx.의정부지사}`);
 
         this.datacollection = {
           //labels: [this.getRandomInt(), this.getRandomInt()],  x-축
-          labels: this.getLabels(),
+          //labels: this.getLabels(),
+          labels:this.getLabels(),
           datasets: [
             {
               label: '의정부지사',     // 범례
               backgroundColor: '#f87979',
-              data: [this.getRandomInt(), this.getRandomInt()]
+              data: xxx.의정부지사
             }, {
-              label: '강북지사',
-              backgroundColor: '#f87979',
-              data: [this.getRandomInt(), this.getRandomInt()]
+              label: '성북지사',
+              backgroundColor: '#f24979',
+              data: xxx.성북지사
             }
           ]
         }
       },
+      getData(){
+        this.rawRsaiData.map((item,index)=>{
+
+        })
+      },
       getLabels () {
         const arr=new Array();
-        this.rawRsaiData.map((item,idx)=>{
+        this.rawRsaiData.map((item)=>{
           arr.push(item.day);
+          //console.log(item);
         })
 
         const setImsi=new Set(arr)
-        const labelArr=[...setImsi]
-        console.log('xxx',labelArr);
-        return labelArr;
+        const labelArray=[...setImsi]
+        //console.log('xxx',labelArray);
+        return labelArray;
       },
-      getRandomInt(){},
+      getJisaSalesValue(){
+
+        const ujbSalesValueArray=new Array();
+        const sbSalesValueArray=new Array();
+
+        this.rawRsaiData.map((value)=>{
+
+          value.jisa=='의정부지사'?ujbSalesValueArray.push(value.sales):null;
+          value.jisa=='성북지사'?sbSalesValueArray.push(value.sales):null;
+        })
+
+
+        const jisaSaleValueObj={
+          '의정부지사':ujbSalesValueArray,
+          '성북지사':sbSalesValueArray,
+        }
+        return jisaSaleValueObj;
+      },
     }
   }
 </script>
