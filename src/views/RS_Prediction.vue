@@ -21,15 +21,18 @@
         rawRsaiData:null,
       }
     },
-    async mounted () {
+    async created () {
       await axios.get(url)
         .then((res)=>{
-          console.log(res.data[0].jisa);
+          //console.log(res.data[0].jisa);
           this.rawRsaiData=res.data
         }).catch((err)=>{
           console.log("데이터를 가져 오지 못했습니다.",err);
-        })
+        });
+
+        this.fillData();
     },
+
 
     methods: {
       fillData () {
@@ -38,8 +41,6 @@
         console.log(`xxx is ${xxx.의정부지사}`);
 
         this.datacollection = {
-          //labels: [this.getRandomInt(), this.getRandomInt()],  x-축
-          //labels: this.getLabels(),
           labels:this.getLabels(),
           datasets: [
             {
@@ -54,12 +55,8 @@
           ]
         }
       },
-      getData(){
-        this.rawRsaiData.map((item,index)=>{
-
-        })
-      },
-      getLabels () {
+     
+     getLabels () {      //그래프의 x 축 데이터 (일자)
         const arr=new Array();
         this.rawRsaiData.map((item)=>{
           arr.push(item.day);
@@ -71,7 +68,7 @@
         //console.log('xxx',labelArray);
         return labelArray;
       },
-      getJisaSalesValue(){
+      getJisaSalesValue(){    //지사별 매출액(y축)
 
         const ujbSalesValueArray=new Array();
         const sbSalesValueArray=new Array();
