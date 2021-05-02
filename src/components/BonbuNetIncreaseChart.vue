@@ -19,7 +19,7 @@ export default {
 
   data(){
     return {
-      dataCollection:'xxx',
+      dataCollection:null,
       bonbuNetIncreaseData:null,
       bonbuNetIncreaseValueObj:null,
     }
@@ -30,14 +30,14 @@ export default {
     await axios.get(bonbuNetIncreaseUrl)
       .then((res)=>{
         this.bonbuNetIncreaseData=res.data
-        console.log(this.bonbuNetIncreaseData[0].date);
+       // console.log(this.bonbuNetIncreaseData[0].date);
       }).catch((err)=>{
         console.log("데이터를 가져 오지 못했습니다.",err);
       });
 
       this.fillData();
 
-      console.log(`this.dataCollection is ${this.dataCollection}`);
+      //console.log(`this.dataCollection is ${this.dataCollection}`);
       this.renderChart(this.dataCollection,this.options);
   },
 
@@ -54,49 +54,69 @@ export default {
       const yyy=this.getBonbuNetIncreaseValue();
       this.dataCollection = {
         labels:this.getBonbuLabels(),
+
         datasets: [
           {
             label:'북부본부',     // 범례
-            backgroundColor: '#f87979',
-            data: yyy['북부본부']
+            borderColor: '#20B2AA',
+            data: yyy['북부본부'],
+            fill:false,
+            tension:.5,
+            pointHoverBorderColor:'#ff0000',
           }, {
             label: '동부본부',
-            backgroundColor: '#f24979',
-            data: yyy['동부본부']
+            borderColor: '#5F9EA0',
+            data: yyy['동부본부'],
+            fill:false,
+            tension:.5
           },
           {
             label: '강남본부',
-            backgroundColor: '#f24979',
-            data: yyy['강남본부']
+            borderColor: '#7FFFD4',
+            data: yyy['강남본부'],
+            fill:false,
+            tension:.5
           },
           {
             label: '대구/부산본부',
-            backgroundColor: '#f24979',
-            data: yyy['대구/부산본부']
+            borderColor: '#B0E0E6',
+            data: yyy['대구/부산본부'],
+            fill:false,
+            tension:.5
           },
           {
             label: '부산/경남본부',
-            backgroundColor: '#f24979',
-            data: yyy['부산/경남본부']
+            borderColor: '#AFEEEE',
+            data: yyy['부산/경남본부'],
+            fill:false,
+            tension:.5
           },
           {
             label: '서부본부',
-            backgroundColor: '#f24979',
-            data: yyy['서부본부']
+            borderColor: '#ADD8E6',
+            data: yyy['서부본부'],
+            fill:false,
+            tension:.5
           },
           {
             label: '전남/전북본부',
-            backgroundColor: '#f24979',
-            data: yyy['전남/전북본부']
+            borderColor: '#B0C4DE',
+            data: yyy['전남/전북본부'],
+            fill:false,
+            tension:.5
           },
           {
             label: '제주본부',
-            backgroundColor: '#f24979',
-            data: yyy['제주본부']
+            borderColor: '#87CEEB',
+            data: yyy['제주본부'],
+            fill:false,
+            tension:.5
           },{
             label: '충남/충북본부',
-            backgroundColor: '#f24979',
-            data: yyy['충남/충북본부']
+            borderColor: '#87CEFA',
+            data: yyy['충남/충북본부'],
+            fill:false,
+            tension:.5
           },
         ]
       };  //dataCollection
@@ -151,3 +171,6 @@ export default {
   }  //methods
 } //export default end
 </script>
+<style scoped>
+
+</style>

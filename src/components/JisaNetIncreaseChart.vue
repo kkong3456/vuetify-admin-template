@@ -30,14 +30,14 @@ export default {
     await axios.get(jisaNetIncreaseUrl)
       .then((res)=>{
         this.jisaNetIncreaseData=res.data
-        console.log(this.jisaNetIncreaseData[0].date);
+        //console.log(this.jisaNetIncreaseData[0].date);
       }).catch((err)=>{
         console.log("데이터를 가져 오지 못했습니다.",err);
       });
 
       this.fillData();
 
-      console.log(`this.dataCollection is ${this.dataCollection}`);
+      //console.log(`this.dataCollection is ${this.dataCollection}`);
       this.renderChart(this.dataCollection,this.options);
   },
 
