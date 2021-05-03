@@ -1,4 +1,6 @@
 <template>
+<v-container>
+
   <v-data-table
     :headers="headers"
     :items="desserts"
@@ -6,7 +8,9 @@
 
   ></v-data-table>
 <!-- <button v-on:click="getBonbuDesserts()">vvv</button> -->
+</v-container>
 </template>
+
 
 
 <script>
@@ -14,6 +18,8 @@
 
   const bonbuNetIncreaseUrl='http://localhost:8000/bonbu-net-increase-list/';
   const jisaNetIncreaseUrl='http://localhost:8000/jisa-net-increase-list';
+
+
   export default {
 
     data () {
@@ -47,7 +53,7 @@
       await axios.get(bonbuNetIncreaseUrl)
         .then((res)=>{
           this.bonbuNetIncreaseData=res.data
-          console.log(this.bonbuNetIncreaseData[0]);
+          //console.log(this.bonbuNetIncreaseData[0]);
         }).catch((err)=>{
           console.log("데이터를 가져 오지 못했습니다.",err);
         });
@@ -85,17 +91,11 @@
           this.desserts=this.kkk.reverse();
 
         }
-          console.log('dessertsArray is', dessertsArray);
+          //console.log('dessertsArray is', dessertsArray);
         //eturn dessertsArray;
       },
 
-      // getBonbuLabels () {      //테이블의  일자
-      //   const labelArray=new Array();
-      //   this.bonbuNetIncreaseData.map((item)=>{
-      //     labelArray.push(item.date.substring(5));
-      //   })
-      //   return labelArray;
-      // },
+
 
       getBonbuNetIncreaseValue(){    //본부별 순익
         const labelArray=new Array();
@@ -121,7 +121,7 @@
           jesuBonbuArray.push(item.jesu_bonbu);
           chungnam_chungbugArray.push(item.chungnam_chungbug);
         });
-        console.log('부산경남',busan_gyeongnamArray);
+        //console.log('부산경남',busan_gyeongnamArray);
         const bonbuNetIncreaseValueObj={
           '일자':labelArray,
           '북부본부':bugbuBonbuArray,

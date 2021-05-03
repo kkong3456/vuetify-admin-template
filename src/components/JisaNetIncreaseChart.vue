@@ -8,10 +8,46 @@ const jisaNetIncreaseUrl='http://localhost:8000/jisa-net-increase-list/';
 
 const { reactiveProp } = mixins
 
+const options={      //chart options prop를 사용하지 않는 하위컴포넌트에서는 data에 변수값으로 처리
+        responseive:true,
+        maintainAspectRatio:false,  //차트 width,ehgith 크기조절
+        legend:{
+         // display:false,
+        },
+        plugins:{
+          title:{
+            display:true,
+            text:'XXX',
+          }
+        },
+        scales:{
+          yAxes:[{
+            ticks:{
+              min:0,
+              // max:2500,
+              //stepSize:500,
+              //fontSie:52,
+            },
+            gridLines:{
+              //display:false,
+              drawBorder:false,
+            }
+          }],
+          xAxes:[{
+            display:false,
+            gridLines:{
+              display:false,
+              drawBorder:false,
+            }
+          }]
+        }
+      } //end options
+
+
 export default {
   extends: Line,
-  mixins: [reactiveProp],
-  props: ['options'],
+  // mixins: [reactiveProp],
+  // props: ['options'],
 
   components:{
     name:'JisaNetIncreaseChart'
@@ -22,6 +58,7 @@ export default {
       dataCollection:null,
       jisaNetIncreaseData:null,
       jisaNetIncreaseValueObj:null,
+      options:options,
     }
 
   },
@@ -41,14 +78,6 @@ export default {
       this.renderChart(this.dataCollection,this.options);
   },
 
-  mounted () {
-    //console.log(`this.dataCollection is ${this.dataCollection}`);
-    // this.chartData is created in the mixin.
-    // If you want to pass options please create a local options object
-    //this.renderChart(this.chartData, this.options)
-    //this.renderChart(this.bonbuNetIncreaseValueObj,this.options);
-  },
-
   methods: {
     fillData () {
       const yyy=this.getJisaNetIncreaseValue();
@@ -57,51 +86,83 @@ export default {
         datasets: [
           {
             label:'강릉지사',     // 범례
-            backgroundColor: '#f87979',
-            data: yyy['강릉지사']
+            borderColor: '#20B2AA',
+            data: yyy['강릉지사'],
+            fill:false,
+            tension:.5,
+            pointHoverBorderColor:'#ff0000',
+
           }, {
             label: '고양지사',
-            backgroundColor: '#f24979',
-            data: yyy['고양지사']
+            borderColor: '#5F9EA0',
+            data: yyy['고양지사'],
+            fill:false,
+            tension:.5,
+            pointHoverBorderColor:'#ff0000',
           },
           {
             label: '광진지사',
-            backgroundColor: '#f24979',
-            data: yyy['광지진사']
+            borderColor: '#7FFFD4',
+            data: yyy['광진지사'],
+            fill:false,
+            tension:.5,
+            pointHoverBorderColor:'#ff0000',
           },
           {
             label: '광화문지사',
-            backgroundColor: '#f24979',
-            data: yyy['광화문지사']
+            borderColor: '#B0E0E6',
+            data: yyy['광화문지사'],
+            fill:false,
+            tension:.5,
+            pointHoverBorderColor:'#ff0000',
+
           },
           {
             label: '구리지사',
-            backgroundColor: '#f24979',
-            data: yyy['구리지사']
+            borderColor: '#AFEEEE',
+            data: yyy['구리지사'],
+            fill:false,
+            tension:.5,
+            pointHoverBorderColor:'#ff0000',
           },
           {
             label: '노원지사',
-            backgroundColor: '#f24979',
-            data: yyy['노원지사']
+            borderColor: '#ADD8E6',
+            data: yyy['노원지사'],
+            fill:false,
+            tension:.5,
+            pointHoverBorderColor:'#ff0000',
           },
           {
             label: '서대문지사',
-            backgroundColor: '#f24979',
-            data: yyy['서대문지사']
+            borderColor: '#B0C4DE',
+            data: yyy['서대문지사'],
+            fill:false,
+            tension:.5,
+            pointHoverBorderColor:'#ff0000',
           },
           {
             label: '원주지사',
-            backgroundColor: '#f24979',
-            data: yyy['원주지사']
+            borderColor: '#B0C4DE',
+            data: yyy['원주지사'],
+            fill:false,
+            tension:.5,
+            pointHoverBorderColor:'#ff0000',
           },{
             label: '의정부지사',
-            backgroundColor: '#f24979',
-            data: yyy['의정부지사']
+            borderColor: '#87CEEB',
+            data: yyy['의정부지사'],
+            fill:false,
+            tension:.5,
+            pointHoverBorderColor:'#ff0000',
           },
           {
             label: '춘천지사',
-            backgroundColor: '#f24979',
-            data: yyy['춘천지사']
+            borderColor: '#87CEFA',
+            data: yyy['춘천지사'],
+            fill:false,
+            tension:.5,
+            pointHoverBorderColor:'#ff0000',
           }
         ]
       };  //dataCollection

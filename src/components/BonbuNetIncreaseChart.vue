@@ -8,10 +8,48 @@ const jisaNetIncreaseUrl='http://localhost:8000/jisa-net-increase-list';
 
 const { reactiveProp } = mixins
 
+const options={      //chart options prop를 사용하지 않는 하위컴포넌트에서는 data에 변수값으로 처리
+        responsive:true,
+        maintainAspectRatio:false,  //차트 width,ehgith 크기조절
+        legend:{
+         // display:false,
+        },
+        plugins:{
+          title:{
+            display:true,
+            text:'XXX',
+          }
+        },
+        scales:{
+          yAxes:[{
+            ticks:{
+              min:0,
+              // max:2500,
+              //stepSize:500,
+              //fontSie:52,
+            },
+            gridLines:{
+              //display:false,
+              drawBorder:false,
+            }
+          }],
+          xAxes:[{
+            display:false,
+            gridLines:{
+              display:false,
+              drawBorder:false,
+            }
+          }]
+        }
+      } //end options
+
+
+
 export default {
   extends: Line,
-  mixins: [reactiveProp],
-  props: ['options'],
+  //mixins: [reactiveProp],
+  //props: ['options'],
+
 
   components:{
     name:'BonbuNetIncreaseChart'
@@ -22,6 +60,8 @@ export default {
       dataCollection:null,
       bonbuNetIncreaseData:null,
       bonbuNetIncreaseValueObj:null,
+      options:options,
+
     }
 
   },
@@ -39,14 +79,6 @@ export default {
 
       //console.log(`this.dataCollection is ${this.dataCollection}`);
       this.renderChart(this.dataCollection,this.options);
-  },
-
-  mounted () {
-    //console.log(`this.dataCollection is ${this.dataCollection}`);
-    // this.chartData is created in the mixin.
-    // If you want to pass options please create a local options object
-    //this.renderChart(this.chartData, this.options)
-    //this.renderChart(this.bonbuNetIncreaseValueObj,this.options);
   },
 
   methods: {
@@ -68,55 +100,63 @@ export default {
             borderColor: '#5F9EA0',
             data: yyy['동부본부'],
             fill:false,
-            tension:.5
+            tension:.5,
+            pointHoverBorderColor:'#ff0000',
           },
           {
             label: '강남본부',
             borderColor: '#7FFFD4',
             data: yyy['강남본부'],
             fill:false,
-            tension:.5
+            tension:.5,
+            pointHoverBorderColor:'#ff0000',
           },
           {
-            label: '대구/부산본부',
+            label: '대구/경북본부',
             borderColor: '#B0E0E6',
-            data: yyy['대구/부산본부'],
+            data: yyy['대구/경북본부'],
             fill:false,
-            tension:.5
+            tension:.5,
+            pointHoverBorderColor:'#ff0000',
           },
           {
             label: '부산/경남본부',
             borderColor: '#AFEEEE',
             data: yyy['부산/경남본부'],
             fill:false,
-            tension:.5
+            tension:.5,
+            pointHoverBorderColor:'#ff0000',
           },
           {
             label: '서부본부',
             borderColor: '#ADD8E6',
             data: yyy['서부본부'],
             fill:false,
-            tension:.5
+            tension:.5,
+            pointHoverBorderColor:'#ff0000',
           },
           {
             label: '전남/전북본부',
             borderColor: '#B0C4DE',
             data: yyy['전남/전북본부'],
             fill:false,
-            tension:.5
+            tension:.5,
+            pointHoverBorderColor:'#ff0000',
           },
           {
             label: '제주본부',
             borderColor: '#87CEEB',
             data: yyy['제주본부'],
             fill:false,
-            tension:.5
+            tension:.5,
+            pointHoverBorderColor:'#ff0000',
           },{
             label: '충남/충북본부',
             borderColor: '#87CEFA',
             data: yyy['충남/충북본부'],
             fill:false,
-            tension:.5
+            tension:.5,
+            pointHoverBorderColor:'#ff0000',
           },
         ]
       };  //dataCollection
