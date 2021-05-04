@@ -11,6 +11,7 @@ import RS_Product from '@/views/RS_Product'
 import RS_JisaTv from '@/views/RS_JisaTv'
 import RS_JisaWireless from '@/views/RS_JisaWireless'
 import RS_JisaInternet from '@/views/RS_JisaInternet'
+import RS_Read from '@/components/board/Read'
 
 
 
@@ -19,11 +20,11 @@ Vue.use(VueRouter)
 
 
 const routes=[
-  {
-    path:'/',
-    name:'RS_Prediction',
-    component:RS_Prediction
-  },
+  // {
+  //   path:'/',
+  //   name:'RS_Prediction',
+  //   component:RS_Prediction
+  // },
   {
     path:'/scenario',
     name:'RS_Scenario',
@@ -73,7 +74,13 @@ const routes=[
     name:'RS_Internet',
     component:RS_JisaInternet
   },
-  
+  {
+    path:'/',
+    name:'Read',
+    component:RS_Read
+
+  }
+
 ]
 
 const router=new VueRouter({
