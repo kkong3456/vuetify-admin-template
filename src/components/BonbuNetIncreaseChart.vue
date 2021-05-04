@@ -3,7 +3,7 @@ import Vue from 'vue'
 import { Line, mixins } from 'vue-chartjs'
 import axios from 'axios';
 
-const bonbuNetIncreaseUrl='http://localhost:8000/bonbu-net-increase-list/';
+const bonbuNetIncreaseUrl='http://172.30.1.44:8000/bonbu-net-increase-list/';
 const jisaNetIncreaseUrl='http://localhost:8000/jisa-net-increase-list';
 
 const { reactiveProp } = mixins
@@ -61,7 +61,6 @@ export default {
       bonbuNetIncreaseData:null,
       bonbuNetIncreaseValueObj:null,
       options:options,
-
     }
 
   },
@@ -89,19 +88,19 @@ export default {
 
         datasets: [
           {
-            label:'북부본부',     // 범례
+            label:'ji-북부본부',     // 범례
             borderColor: '#20B2AA',
             data: yyy['북부본부'],
             fill:false,
             tension:.5,
             pointHoverBorderColor:'#ff0000',
           }, {
-            label: '동부본부',
+            label:'동부본부',
             borderColor: '#5F9EA0',
             data: yyy['동부본부'],
             fill:false,
             tension:.5,
-            pointHoverBorderColor:'#ff0000',
+            pointHoverBorderColor:' b',
           },
           {
             label: '강남본부',
