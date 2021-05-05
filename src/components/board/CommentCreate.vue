@@ -1,67 +1,73 @@
 <template>
-  <div>
-    <b-input v-model="subject" placeholder="제목을 입력해 주세요"></b-input>
-    <b-form-textarea
-      v-model="context"
-      placeholder="내용을 입력해 주세요"
-      rows="3"
-      max-rows="6"
-    ></b-form-textarea>
-    <b-button @click="updateMode ? updateContent() : uploadContent()">저장</b-button>
-    <b-button @click="cancle">취소</b-button>
+  <div class="comment-create">
+    <b-input-group :prepend="name" class="mt-3">
+      <b-form-textarea
+        id="textarea"
+        v-model="context"
+        :placeholder="isSubComment ? '덧글에 덧글을 달아주세요~!' : '코멘트를 달아주세요~!'"
+        rows="3"
+        max-rows="6"
+      ></b-form-textarea>
+      <b-input-group-append>
+        <b-button variant="info" @click="isSubComment ? createSubComment() : createComment()">작성하기</b-button>
+      </b-input-group-append>
+    </b-input-group>
   </div>
 </template>
 <script>
-import data from '@/data'
+import data from "@/data";
+
 export default {
-  name: 'Create',
+  name: "CommentCreate",
+  props: {
+    contentId: Number,
+    reloadComments: Function,
+    reloadSubComments: Function,
+    subCommentToggle: Function,
+    isSubComment: Boolean,
+    commentId: Number,
+  },
   data() {
     return {
-      subject: '',
-      context: '',
-      userId: 1,
-      createdAt: '2019-04-17 11:32:42',
-      updatedAt: null,
-      updateObject: null,
-      updateMode: this.$route.params.contentId > 0 ? true : false
-    }
-  },
-  created() {
-    if (this.$route.params.contentId > 0) {
-      const contentId = Number(this.$route.params.contentId)
-      this.updateObject = data.Content.filter(item => item.content_id === contentId)[0]
-      this.subject = this.updateObject.title;
-      this.context = this.updateObject.context;
-    }
+      name: "르라나",
+      context: ""
+    };
   },
   methods: {
-    uploadContent() {
-      let items = data.Content.sort((a,b) => {return b.content_id - a.content_id})
-      const content_id = items[0].content_id + 1
-      data.Content.push({
-        content_id: content_id,
-        user_id: this.userId,
-        title: this.subject,
+    createComment() {
+      const comment_id = data.Comment[data.Comment.length - 1].comment_id + 1;
+      data.Comment.push({
+        comment_id: comment_id,
+        user_id: 1,
+        content_id: this.contentId,
         context: this.context,
-        created_at: this.createdAt,
+        created_at: "2019-04-19 14:11:11",
         updated_at: null
-      })
-      this.$router.push({
-        path: '/board/free/'
-      })
+      });
+      this.reloadComments();
+      this.subCommentToggle();
+      this.context = "";
     },
-    updateContent() {
-      this.updateObject.title = this.subject;
-      this.updateObject.context = this.context;
-      this.$router.push({
-        path: '/board/free/'
-      })
-    },
-    cancle() {
-      this.$router.push({
-        path: '/board/free/'
-      })
+    createSubComment() {
+      const subcomment_id = data.SubComment[data.SubComment.length - 1].subcomment_id + 1;
+      data.SubComment.push({
+        subcomment_id: subcomment_id,
+        comment_id: this.commentId,
+        user_id: 1,
+        context: this.context,
+        created_at: "2019-04-19 16:22:11",
+        updated_at: null
+      });
+      this.reloadSubComments();
+      this.subCommentToggle();
+      this.context = "";
     }
   }
-}
+};
 </script>
+<style scoped>
+.comment-create {
+  display: flex;
+  margin-bottom: 1em;
+}
+</style>

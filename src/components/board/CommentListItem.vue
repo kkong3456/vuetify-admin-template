@@ -42,6 +42,7 @@
 <script>
 import data from "@/data";
 import CommentCreate from "./CommentCreate";
+
 export default {
   name: "CommentListItem",
   props: {
@@ -77,7 +78,7 @@ export default {
         ...subCommentItem,
         user_name: data.User.filter(
           item => item.user_id === subCommentItem.user_id
-        )[0].name
+        )[0].name 
       }));
     }
   }
@@ -89,6 +90,7 @@ export default {
   justify-content: space-between;
   padding-bottom: 1em;
 }
+
 .comment-list-item-name {
   display: flex;
   flex-direction: column;
@@ -97,6 +99,7 @@ export default {
   border: 0.5px solid black;
   padding: 1em;
 }
+
 .comment-list-item-context {
   display: flex;
   justify-content: center;
@@ -104,6 +107,7 @@ export default {
   width: 50em;
   border: 0.5px solid black;
 }
+
 .comment-list-item-button {
   display: flex;
   flex-direction: column;
@@ -112,9 +116,11 @@ export default {
   border: 0.5px solid black;
   padding: 1em;
 }
+
 .btn {
   margin-bottom: 1em;
 }
+
 .comment-list-item-subcomment-list {
   display: flex;
   justify-content: space-between;

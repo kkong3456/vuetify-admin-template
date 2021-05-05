@@ -10,6 +10,7 @@
 import data from "@/data";
 import CommentListItem from './CommentListItem';
 import CommentCreate from './CommentCreate';
+
 export default {
   name: "CommentList",
   props: {
