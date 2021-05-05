@@ -11,9 +11,10 @@ import RS_Product from '@/views/RS_Product'
 import RS_JisaTv from '@/views/RS_JisaTv'
 import RS_JisaWireless from '@/views/RS_JisaWireless'
 import RS_JisaInternet from '@/views/RS_JisaInternet'
-import RS_Read from '@/components/board/RS_Read'
-import RS_Create from '@/components/board/RS_Create'
-import RS_Detail from '@/components/board/RS_Detail'
+import Board from '@/components/board/Board'
+import ContentDetail from '@/components/board/ContentDetail';
+import Create from '@/components/board/Create';
+
 
 
 
@@ -22,11 +23,11 @@ Vue.use(VueRouter)
 
 
 const routes=[
-  // {
-  //   path:'/',
-  //   name:'RS_Prediction',
-  //   component:RS_Prediction
-  // },
+  {
+    path:'/',
+    name:'RS_Prediction',
+    component:RS_Prediction
+  },
   {
     path:'/scenario',
     name:'RS_Scenario',
@@ -77,22 +78,20 @@ const routes=[
     component:RS_JisaInternet
   },
   {
-    path:'/',
-    name:'RS_Read',
-    component:RS_Read
-
+    path:'/board/free',
+    name:'Board',
+    component:Board,
   },
   {
-    path:'/create/:contentId?',
-    name:'RS_Create',
-    component:RS_Create
+    path:'/board/free/detail/:contentId',
+    name:'ContentDetail',
+    component:ContentDetail,
   },
   {
-    path:'/detail/:contentId',
-    name:'RS_Detail',
-    component:RS_Detail,
-  }
-
+    path:'/board/free/create/:contentId?',
+    name:'Create',
+    component:Create,
+  },
 
 ]
 
