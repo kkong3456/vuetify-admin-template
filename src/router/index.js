@@ -1,10 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-<<<<<<< HEAD
-=======
 // import RS_Prediction from '@/views/RS_Prediction'
->>>>>>> 3e18ce119b6b27384196c3dc05d65fc1f22c4d58
 import RS_Dashboard from '@/views/RS_Dashboard'
 import RS_Scenario from '@/views/RS_Scenario'
 import RS_DangerousSite from '@/views/RS_DangerousSite'
@@ -27,10 +24,6 @@ const routes=[
     path:'/',
     name:'RS_Dashboard',
     component:RS_Dashboard
-<<<<<<< HEAD
-   
-=======
->>>>>>> 3e18ce119b6b27384196c3dc05d65fc1f22c4d58
   },
   {
     path:'/scenario',

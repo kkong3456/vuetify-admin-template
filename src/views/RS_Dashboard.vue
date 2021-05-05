@@ -5,11 +5,7 @@
       cols="12"
       lg="6"
     >
-<<<<<<< HEAD
-      <div class="text-h5 font-weight-medium text-center text--secondary">[본부별 가입자 변동 추이]</div>
-=======
       <div class="text-h5 font-weight-medium text-center text--secondary">[본부별 순익 변동 추이]</div>
->>>>>>> 3e18ce119b6b27384196c3dc05d65fc1f22c4d58
 
       <v-card
         class='pa-2 elevation-5'
@@ -25,11 +21,7 @@
       cols="12"
       lg="6"
     >
-<<<<<<< HEAD
-       <div class="text-h5 font-weight-medium text-center text--secondary">[본부별 가입자 변동 데이터]</div>
-=======
        <div class="text-h5 font-weight-medium text-center text--secondary">[본부별 순익 변동 데이터]</div>
->>>>>>> 3e18ce119b6b27384196c3dc05d65fc1f22c4d58
       <v-card
         class='pa-2 elevation-5'
         outlined
@@ -47,11 +39,7 @@
       cols="12"
       lg="6"
     >
-<<<<<<< HEAD
-      <div class="text-h5 font-weight-medium text-center text--secondary">[지사별 가입자 변동 추이]</div>
-=======
       <div class="text-h5 font-weight-medium text-center text--secondary">[지사별 순익 변동 추이]</div>
->>>>>>> 3e18ce119b6b27384196c3dc05d65fc1f22c4d58
       <v-card
         class='pa-2 elevation-5'
         outlined
@@ -65,11 +53,7 @@
       cols="12"
       lg="6"
     >
-<<<<<<< HEAD
-      <div class="text-h5 font-weight-medium text-center text--secondary">[지사별 가입자 변동 데이터]</div>
-=======
       <div class="text-h5 font-weight-medium text-center text--secondary">[지사별 순익 변동 데이터]</div>
->>>>>>> 3e18ce119b6b27384196c3dc05d65fc1f22c4d58
       <v-card
         class='pa-2'
         outlined
@@ -90,17 +74,9 @@
   import BonbuNetIncreaseTable from '../components/BonbuNetIncreaseTable';
   import JisaNetIncreaseTable from '../components/JisaNetIncreaseTable';
 
-  // const BonbuNetIncreaseChart=()=>import ('../components/BonbuNetIncreaseChart');
-
-
   export default {
-<<<<<<< HEAD
-    name:'RS_Dashboard',
-=======
->>>>>>> 3e18ce119b6b27384196c3dc05d65fc1f22c4d58
     components: {
       BonbuNetIncreaseChart,
-     
       JisaNetIncreaseChart,
       BonbuNetIncreaseTable,
       JisaNetIncreaseTable,

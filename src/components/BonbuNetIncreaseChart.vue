@@ -3,11 +3,7 @@ import Vue from 'vue'
 import { Line, mixins } from 'vue-chartjs'
 import axios from 'axios';
 
-<<<<<<< HEAD
 const bonbuNetIncreaseUrl='http://172.21.26.252:8000/bonbu-net-increase-list/';
-=======
-const bonbuNetIncreaseUrl='http://172.30.1.44:8000/bonbu-net-increase-list/';
->>>>>>> 3e18ce119b6b27384196c3dc05d65fc1f22c4d58
 const jisaNetIncreaseUrl='http://localhost:8000/jisa-net-increase-list';
 
 const { reactiveProp } = mixins
