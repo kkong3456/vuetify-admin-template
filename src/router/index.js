@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import RS_Prediction from '@/views/RS_Prediction'
+import RS_Dashboard from '@/views/RS_Dashboard'
 import RS_Scenario from '@/views/RS_Scenario'
 import RS_DangerousSite from '@/views/RS_DangerousSite'
 import RS_SaleVoc from '@/views/RS_SaleVoc'
@@ -21,8 +21,9 @@ Vue.use(VueRouter)
 const routes=[
   {
     path:'/',
-    name:'RS_Prediction',
-    component:RS_Prediction
+    name:'RS_Dashboard',
+    component:RS_Dashboard
+   
   },
   {
     path:'/scenario',
