@@ -11,7 +11,9 @@ import RS_Product from '@/views/RS_Product'
 import RS_JisaTv from '@/views/RS_JisaTv'
 import RS_JisaWireless from '@/views/RS_JisaWireless'
 import RS_JisaInternet from '@/views/RS_JisaInternet'
-import RS_Read from '@/components/board/Read'
+import RS_Read from '@/components/board/RS_Read'
+import RS_Create from '@/components/board/RS_Create'
+import RS_Detail from '@/components/board/RS_Detail'
 
 
 
@@ -76,10 +78,21 @@ const routes=[
   },
   {
     path:'/',
-    name:'Read',
+    name:'RS_Read',
     component:RS_Read
 
+  },
+  {
+    path:'/create/:contentId?',
+    name:'RS_Create',
+    component:RS_Create
+  },
+  {
+    path:'/detail/:contentId',
+    name:'RS_Detail',
+    component:RS_Detail,
   }
+
 
 ]
 
