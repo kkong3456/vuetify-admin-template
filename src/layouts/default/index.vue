@@ -1,14 +1,6 @@
   <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <v-app-bar-nav-icon v-on:click="drawer=!drawer"></v-app-bar-nav-icon>
-      <v-spacer />
-    </v-app-bar>
-
+    <default-bar @drawer="drawer=!drawer"></default-bar>
     <v-navigation-drawer
       v-model="drawer"
       dark
@@ -89,8 +81,13 @@
 </template>
 
 <script>
+import DefaultBar from './AppBar'
+
 export default {
   name:'DefaultLayout',
+  components:{
+    DefaultBar
+  },
   data: () => ({
     drawer:true,
     gradient:'rgba(0,0,0,0.7),rgba(0,0,0,0.7)',
@@ -175,7 +172,7 @@ export default {
             },
             {
               text:'회원가입',
-              to:'/authentication/sing-up',
+              to:'/authentication/sign-up',
               icon:'mdi-account-group'
             },{
               text:'상품리스트',

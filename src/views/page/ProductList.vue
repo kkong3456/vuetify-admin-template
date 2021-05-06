@@ -1,6 +1,6 @@
 <template>
   <div>
-    Product list
+    Product xxx
   </div>
 </template>
 

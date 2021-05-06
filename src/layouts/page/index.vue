@@ -1,7 +1,8 @@
 <template>
   <v-app>
     <v-app-bar
-      app="primary"
+      app
+      color="primary"
       dark
     >
       <v-toolbar-title>Page Layout</v-toolbar-title>
@@ -10,7 +11,7 @@
 
   <v-main>
     <v-container fluid>
-      <div> Product list</div>
+     <router-view></router-view>
     </v-container>
   </v-main>
   </v-app>
