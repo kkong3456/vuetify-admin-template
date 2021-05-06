@@ -12,6 +12,13 @@ import RS_Product from '@/views/RS_Product'
 import RS_JisaTv from '@/views/RS_JisaTv'
 import RS_JisaWireless from '@/views/RS_JisaWireless'
 import RS_JisaInternet from '@/views/RS_JisaInternet'
+import SignIn from '@/views/authentication/Signin'
+import SignUp from '@/views/authentication/Signup'
+import ProductList from '@/views/page/ProductList'
+
+import DefaultLayout from '@/layouts/default/index'
+import PageLayout from '@/layouts/page/index'
+import AuthenticationLayout from '@/layouts/authentication/index'
 
 
 
@@ -22,59 +29,92 @@ Vue.use(VueRouter)
 const routes=[
   {
     path:'/',
-    name:'RS_Dashboard',
-    component:RS_Dashboard
-  },
-  {
-    path:'/scenario',
-    name:'RS_Scenario',
-    component:RS_Scenario
-  },
-  {
-    path:'/dangeroussite',
-    name:'RS_DangerousSite',
-    component:RS_DangerousSite
-  },
+    component:DefaultLayout,
+    children:[
+      {
+        path:'/',
+        name:'RS_Dashboard',
+        component:RS_Dashboard
+      },
+      {
+        path:'/scenario',
+        name:'RS_Scenario',
+        component:RS_Scenario
+      },
+      {
+        path:'/dangeroussite',
+        name:'RS_DangerousSite',
+        component:RS_DangerousSite
+      },
 
-  {
-    path:'/sale-voc',
-    name:'RS_SaleVoc',
-    component:RS_SaleVoc
-  },
+      {
+        path:'/sale-voc',
+        name:'RS_SaleVoc',
+        component:RS_SaleVoc
+      },
 
-  {
-    path:'/network-voc',
-    name:'RS_NetworkVoc',
-    component:RS_NetworkVoc
-  },
+      {
+        path:'/network-voc',
+        name:'RS_NetworkVoc',
+        component:RS_NetworkVoc
+      },
 
-  {
-    path:'/bonbu',
-    name:'RS_Bonbu',
-    component:RS_Bonbu
-  },
+      {
+        path:'/bonbu',
+        name:'RS_Bonbu',
+        component:RS_Bonbu
+      },
 
-  {
-    path:'/product',
-    name:'RS_Product',
-    component:RS_Product
+      {
+        path:'/product',
+        name:'RS_Product',
+        component:RS_Product
+      },
+      {
+        path:'/jisa-tv',
+        name:'RS_JisaTv',
+        component:RS_JisaTv
+      },
+      {
+        path:'/jisa-wireless',
+        name:'RS_JisaWireless',
+        component:RS_JisaWireless
+      },
+      {
+        path:'/jisa-internet',
+        name:'RS_JisaInternet',
+        component:RS_JisaInternet
+      },
+    ]
   },
   {
-    path:'/jisa-tv',
-    name:'RS_JisaTv',
-    component:RS_JisaTv
+    path:'/authentication',
+    component:AuthenticationLayout,
+    children:[
+      {
+        path:'sign-in',
+        name:'SignIn',
+        component:SignIn,
+      },
+      {
+        path:'sign-up',
+        name:'SignUp',
+        component:SignUp,
+      }
+    ]
   },
   {
-    path:'/jisa-wireless',
-    name:'RS_JisaWireless',
-    component:RS_JisaWireless
-  },
-  {
-    path:'/jisa-internet',
-    name:'RS_Internet',
-    component:RS_JisaInternet
-  },
+    path:'/page',
+    component:PageLayout,
+    children:[
+      {
+        path:'product-list',
+        name:'ProductList',
+        component:ProductList,
 
+      },
+    ]
+  }
 ]
 
 const router=new VueRouter({
