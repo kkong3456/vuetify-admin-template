@@ -3,7 +3,7 @@
     <default-bar @drawer="drawer=!drawer"></default-bar>
     <default-drawer v-model="drawer"></default-drawer>
     <default-view></default-view>
-    
+
   </v-app>
 </template>
 
@@ -22,7 +22,7 @@ export default {
 
   data(){
     return {
-      drawer:false
+      drawer:true
     }
   }
 

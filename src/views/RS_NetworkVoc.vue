@@ -1,25 +1,41 @@
 <template>
-
-    <v-container fluid>
-        <!-- <input v-bind:value="inputText" v-on:input="updateInput"/> -->
-        <input v-model="inputText"/>
-        <v-card>{{inputText}}</v-card>
-    </v-container>
-
+  <div id="app">
+    <BarChart/>
+    <RadarChart/>
+    <PieChart/>
+    <AreaChart/>
+    <LineChart/>
+  </div>
 </template>
 
 <script>
+import BarChart from '@/components/charts/BarChart'
+import RadarChart from '@/components/charts/RadarChart'
+import PieChart from '@/components/charts/PieChart'
+import AreaChart from '@/components/charts/AreaChart'
+import LineChart from '@/components/charts/LineChart'
+
 export default {
-    data(){
-        return {
-            inputText:'여기에 입력하세요',
-        }
-    },
-    methods:{
-        updateInput(e){
-            const updateText=e.target.value;
-            this.inputText=updateText;
-        }
+  name:'',
+  components:{
+    BarChart,
+    RadarChart,
+    PieChart,
+    AreaChart,
+    LineChart,
+  },
+
+  data(){
+    return{
+      chartData:{
+        Books:24,
+        Magazine:30,
+        Newspapers:10
+      }
     }
+  }
+
+
+
 }
 </script>

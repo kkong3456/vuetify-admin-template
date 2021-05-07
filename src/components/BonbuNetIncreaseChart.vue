@@ -83,12 +83,13 @@ export default {
   methods: {
     fillData () {
       const yyy=this.getBonbuNetIncreaseValue();
+      console.log(`yyyy['북부본부'] is ${yyy['북부본부']}`)
       this.dataCollection = {
         labels:this.getBonbuLabels(),
 
         datasets: [
           {
-            label:'ji-북부본부',     // 범례
+            label:'북부본부',     // 범례
             borderColor: '#20B2AA',
             data: yyy['북부본부'],
             fill:false,
