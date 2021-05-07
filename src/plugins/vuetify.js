@@ -22,7 +22,7 @@ export default new Vuetify({
         theme:{
             themes:{
                 light:{
-                //    primary:'#555555',  //vuetifyjs.com/en/features/presets/#default-preset 사이트에서 정의된 기본 색상을 재정의
+                    primary:'#ff0000',  //vuetifyjs.com/en/features/presets/#default-preset 사이트에서 정의된 기본 색상을 재정의
                 //    secondary:'#777777',
                 },
                // light:theme,

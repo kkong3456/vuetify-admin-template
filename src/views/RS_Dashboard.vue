@@ -11,8 +11,9 @@
         class='pa-2 elevation-5'
         outlined
         tile
-
       >
+       
+       
         <bonbu-net-increase-chart></bonbu-net-increase-chart>
       </v-card>
     </v-col>
