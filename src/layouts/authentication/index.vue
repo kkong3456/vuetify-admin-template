@@ -1,16 +1,15 @@
 <template>
   <v-app>
-
-  <v-main>
-    <v-container fluid>
-     <router-view></router-view>
-    </v-container>
-  </v-main>
+    <AuthenticationView/>
   </v-app>
 
 </template>
 <script>
+import AuthenticationView from './View'
 export default {
-  name:'AuthenticationLayout'
+  name:'AuthenticationLayout',
+  components:{
+    AuthenticationView
+  }
 }
 </script>

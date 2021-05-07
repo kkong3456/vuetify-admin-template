@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container fluid>
         <v-card>
             <v-row>
                 <v-col>
@@ -12,6 +12,7 @@
 
 <script>
 export default {
+
     
 }
 </script>
