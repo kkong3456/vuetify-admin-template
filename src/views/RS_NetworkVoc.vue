@@ -4,7 +4,7 @@
     <BonbuRadarChart/>
     <PieChart/>
     <BonbuAreaChart/>
-    <LineChart/>
+    <BonbuLineChart/>
   </div>
 </template>
 
@@ -13,7 +13,7 @@ import BonbuBarChart from '@/components/charts/BonbuBarChart'
 import BonbuRadarChart from '@/components/charts/BonbuRadarChart'
 import PieChart from '@/components/charts/PieChart'
 import BonbuAreaChart from '@/components/charts/BonbuAreaChart'
-import LineChart from '@/components/charts/LineChart'
+import BonbuLineChart from '@/components/charts/BonbuLineChart'
 
 export default {
   name:'',
@@ -22,7 +22,7 @@ export default {
     BonbuRadarChart,
     PieChart,
     BonbuAreaChart,
-    LineChart,
+    BonbuLineChart,
   },
 
   data(){
