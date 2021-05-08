@@ -3,7 +3,7 @@ import Vue from 'vue'
 import { Line, mixins } from 'vue-chartjs'
 import axios from 'axios';
 
-// const bonbuNetIncreaseUrl='http://172.21.26.252:8000/api/bonbu-net-increase-list/';
+//const bonbuNetIncreaseUrl='http://172.21.26.252:8000/api/bonbu-net-increase-list/';
 const bonbuNetIncreaseUrl='http://localhost:8000/api/bonbu-net-increase-list/';
 
 const { reactiveProp } = mixins
@@ -73,6 +73,7 @@ export default {
       }).catch((err)=>{
         console.log("데이터를 가져 오지 못했습니다.",err);
       });
+
 
       this.fillData();
 

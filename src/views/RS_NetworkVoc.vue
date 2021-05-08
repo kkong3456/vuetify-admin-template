@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <BarChart/>
+    <BonbuBarChart/>
     <RadarChart/>
     <PieChart/>
     <AreaChart/>
@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import BarChart from '@/components/charts/BarChart'
+import BonbuBarChart from '@/components/charts/BonbuBarChart'
 import RadarChart from '@/components/charts/RadarChart'
 import PieChart from '@/components/charts/PieChart'
 import AreaChart from '@/components/charts/AreaChart'
@@ -18,7 +18,7 @@ import LineChart from '@/components/charts/LineChart'
 export default {
   name:'',
   components:{
-    BarChart,
+    BonbuBarChart,
     RadarChart,
     PieChart,
     AreaChart,
