@@ -2,7 +2,7 @@
   <div id="app">
     <BonbuBarChart/>
     <BonbuRadarChart/>
-    <PieChart/>
+    <BonbuPieChart/>
     <BonbuAreaChart/>
     <BonbuLineChart/>
   </div>
@@ -11,7 +11,7 @@
 <script>
 import BonbuBarChart from '@/components/charts/BonbuBarChart'
 import BonbuRadarChart from '@/components/charts/BonbuRadarChart'
-import PieChart from '@/components/charts/PieChart'
+import BonbuPieChart from '@/components/charts/BonbuPieChart'
 import BonbuAreaChart from '@/components/charts/BonbuAreaChart'
 import BonbuLineChart from '@/components/charts/BonbuLineChart'
 
@@ -20,7 +20,7 @@ export default {
   components:{
     BonbuBarChart,
     BonbuRadarChart,
-    PieChart,
+    BonbuPieChart,
     BonbuAreaChart,
     BonbuLineChart,
   },

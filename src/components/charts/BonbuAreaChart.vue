@@ -31,7 +31,7 @@ export default {
     this.gradient2.addColorStop(0, "rgba(0, 231, 255, 0.9)");
     this.gradient2.addColorStop(0.5, "rgba(0, 231, 255, 0.25)");
     this.gradient2.addColorStop(1, "rgba(0, 231, 255, 0)");
-    console.log('xxx')
+    //console.log('xxx')
 
   },
  async created() {
@@ -52,7 +52,7 @@ export default {
   methods: {
     fillData () {
       const yyy=this.getBonbuNetIncreaseValue();
-      console.log(`yyyy['북부본부'] is ${yyy['북부본부']}`)
+      //console.log(`yyyy['북부본부'] is ${yyy['북부본부']}`)
       this.dataCollection = {
         labels:this.getBonbuLabels(),
 

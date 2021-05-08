@@ -9,38 +9,58 @@ const bonbuNetIncreaseUrl='http://localhost:8000/api/bonbu-net-increase-list/';
 const { reactiveProp } = mixins
 
 const options={      //chart options prop를 사용하지 않는 하위컴포넌트에서는 data에 변수값으로 처리
-        responsive:true,
-        maintainAspectRatio:false,  //차트 width,ehgith 크기조절
-        legend:{
-          display:true,
-        },
-        plugins:{
-          title:{
-            display:true,
-            text:'XXX',
-          }
-        },
-        scales:{
-          yAxes:[{
-            ticks:{
-              min:0,
-              // max:2500,
-              //stepSize:500,
-              //fontSie:52,
+         responsive:true,
+         maintainAspectRatio:false,//차트 width,ehgith  자동 크기조절
+        // hoverBorderWidth:5,
+        // borderWidth:20,
+        // legend:{
+        //   display:true,
+        // },
+          plugins:{
+            legend:{
+              display:true,
+              align:'center',
             },
-            gridLines:{
-              //display:false,
-              drawBorder:false,
+            title:{
+              display:true,
+              text:'XXX',
+            },
+          },
+          elements:{
+            point:{
+              pointStyle:'circle',
+              radius:3,
+              // borderWidth:10,
+              hoverRadius:5,
+            },
+            line:{
+              tension:.3,
+              //stepped:true,
             }
-          }],
-          xAxes:[{
-            display:false,
-            gridLines:{
-              display:false,
-              drawBorder:false,
-            }
-          }]
-        }
+
+          }
+
+        // scales:{
+        //   yAxes:[{
+        //     ticks:{
+        //       min:0,
+        //       // max:2500,
+        //       //stepSize:500,
+        //       //fontSie:52,
+        //     },
+        //     gridLines:{
+        //       //display:false,
+        //       drawBorder:false,
+        //     }
+        //   }],
+        //   xAxes:[{
+        //     display:true,
+        //     gridLines:{
+        //       display:false,
+        //       drawBorder:false,
+        //     }
+        //   }]
+        // }
       } //end options
 
 
@@ -95,15 +115,18 @@ export default {
             backgroundColor:"transparent",
             data: yyy['북부본부'],
             fill:false,
-            tension:.5,
+            // tension:.5,
             pointHoverBorderColor:'#ff0000',
+            // hoverBorderWith:20,
+
+
           }, {
             label:'동부본부',
             borderColor: '#5F9EA0',
             backgroundColor:"transparent",
             data: yyy['동부본부'],
             fill:false,
-            tension:.5,
+            // tension:.5,
             pointHoverBorderColor:' b',
           },
           {
@@ -112,7 +135,7 @@ export default {
             backgroundColor:"transparent",
             data: yyy['강남본부'],
             fill:false,
-            tension:.5,
+            // tension:.5,
             pointHoverBorderColor:'#ff0000',
           },
           {
@@ -121,7 +144,7 @@ export default {
             backgroundColor:"transparent",
             data: yyy['대구/경북본부'],
             fill:false,
-            tension:.5,
+            // tension:.5,
             pointHoverBorderColor:'#ff0000',
           },
           {
@@ -130,7 +153,7 @@ export default {
             backgroundColor:"transparent",
             data: yyy['부산/경남본부'],
             fill:false,
-            tension:.5,
+            // tension:.5,
             pointHoverBorderColor:'#ff0000',
           },
           {
@@ -139,7 +162,7 @@ export default {
             backgroundColor:"transparent",
             data: yyy['서부본부'],
             fill:false,
-            tension:.5,
+            // tension:.5,
             pointHoverBorderColor:'#ff0000',
           },
           {
@@ -148,7 +171,7 @@ export default {
             backgroundColor:"transparent",
             data: yyy['전남/전북본부'],
             fill:false,
-            tension:.5,
+            // tension:.5,
             pointHoverBorderColor:'#ff0000',
           },
           {
@@ -157,7 +180,7 @@ export default {
             backgroundColor:"transparent",
             data: yyy['제주본부'],
             fill:false,
-            tension:.5,
+            // tension:.5,
             pointHoverBorderColor:'#ff0000',
           },{
             label: '충남/충북본부',
@@ -165,7 +188,7 @@ export default {
             backgroundColor:"transparent",
             data: yyy['충남/충북본부'],
             fill:false,
-            tension:.5,
+            // tension:.5,
             pointHoverBorderColor:'#ff0000',
           },
         ]
