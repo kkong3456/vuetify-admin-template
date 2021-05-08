@@ -1,27 +1,27 @@
 <template>
   <div id="app">
     <BonbuBarChart/>
-    <RadarChart/>
+    <BonbuRadarChart/>
     <PieChart/>
-    <AreaChart/>
+    <BonbuAreaChart/>
     <LineChart/>
   </div>
 </template>
 
 <script>
 import BonbuBarChart from '@/components/charts/BonbuBarChart'
-import RadarChart from '@/components/charts/RadarChart'
+import BonbuRadarChart from '@/components/charts/BonbuRadarChart'
 import PieChart from '@/components/charts/PieChart'
-import AreaChart from '@/components/charts/AreaChart'
+import BonbuAreaChart from '@/components/charts/BonbuAreaChart'
 import LineChart from '@/components/charts/LineChart'
 
 export default {
   name:'',
   components:{
     BonbuBarChart,
-    RadarChart,
+    BonbuRadarChart,
     PieChart,
-    AreaChart,
+    BonbuAreaChart,
     LineChart,
   },
 
