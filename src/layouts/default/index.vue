@@ -3,6 +3,7 @@
     <default-bar @drawer="drawer=!drawer"></default-bar>
     <default-drawer v-model="drawer"></default-drawer>
     <default-view></default-view>
+    <default-footer></default-footer>
 
   </v-app>
 </template>
@@ -11,6 +12,7 @@
 import DefaultBar from './AppBar'
 import DefaultDrawer from './Drawer'
 import DefaultView from './View';
+import DefaultFooter from './Footer'
 
 export default {
   name:'DefaultLayout',
@@ -18,6 +20,7 @@ export default {
     DefaultBar,
     DefaultDrawer,
     DefaultView,
+    DefaultFooter,
   },
 
   data(){

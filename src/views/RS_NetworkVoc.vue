@@ -5,6 +5,7 @@
     <BonbuPieChart/>
     <BonbuAreaChart/>
     <BonbuLineChart/>
+    <Calendar/>
   </div>
 </template>
 
@@ -15,6 +16,8 @@ import BonbuPieChart from '@/components/charts/BonbuPieChart'
 import BonbuAreaChart from '@/components/charts/BonbuAreaChart'
 import BonbuLineChart from '@/components/charts/BonbuLineChart'
 
+import Calendar from '@/components/etc/Calendar'
+
 export default {
   name:'',
   components:{
@@ -23,6 +26,8 @@ export default {
     BonbuPieChart,
     BonbuAreaChart,
     BonbuLineChart,
+
+    Calendar,
   },
 
   data(){
