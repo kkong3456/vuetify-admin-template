@@ -1,7 +1,7 @@
 <template>
 <v-navigation-drawer
     v-bind="$attrs"
-    
+
     dark
     app
     :src="require('@/assets/sidebar.jpg')"
@@ -69,14 +69,14 @@
     </div>
     </v-list>
 </v-navigation-drawer>
-  
+
 </template>
 
 <script>
 
 export default {
     name:'DefaultDrawer',
-    
+
     data: () => ({
     gradient:'rgba(0,0,0,0.7),rgba(0,0,0,0.7)',
     // items: [
@@ -153,20 +153,20 @@ export default {
                 to    : '/jisa-internet',
                 icon  : 'mdi-plus'
             },
-            {
-              text: '로그인',
-              to : '/authentication/sign-in',
-              icon :'mdi-login'
-            },
-            {
-              text:'회원가입',
-              to:'/authentication/sign-up',
-              icon:'mdi-account-group'
-            },{
-              text:'상품리스트',
-              to:'/page/product-list',
-              icon:'mdi-gift'
-            }
+            // {
+            //   text: '로그인',
+            //   to : '/authentication/sign-in',
+            //   icon :'mdi-login'
+            // },
+            // {
+            //   text:'회원가입',
+            //   to:'/authentication/sign-up',
+            //   icon:'mdi-account-group'
+            // },{
+            //   text:'상품리스트',
+            //   to:'/page/product-list',
+            //   icon:'mdi-gift'
+            // }
         ]
     }
   ]

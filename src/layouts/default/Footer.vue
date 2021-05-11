@@ -7,7 +7,7 @@
       justify="center"
       no-gutters
     >
-      <v-btn
+      <!-- <v-btn
         v-for="link in links"
         :key="link"
         color="white"
@@ -17,14 +17,19 @@
         class="my-2"
       >
         {{ link }}
-      </v-btn>
+      </v-btn> -->
       <v-col
         class="primary lighten-2 py-4 text-center white--text"
         cols="12"
       >
-        {{ new Date().getFullYear() }} — <strong>강북/강원 코어 운용센터</strong>
+        {{ new Date().getFullYear() }} — <strong>강북/강원 코어 운용센터 — {{xxx}}</strong>
+        <v-btn  v-on:click="showLog">show</v-btn>
       </v-col>
+
     </v-row>
+
+
+
   </v-footer>
 </template>
 
@@ -37,8 +42,8 @@
           'Contact'
         ]
 
-
       }
-    }
+    },
+    props:['xxx'],
   }
 </script>

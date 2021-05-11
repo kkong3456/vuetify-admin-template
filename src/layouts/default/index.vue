@@ -1,9 +1,9 @@
   <template>
   <v-app>
-    <default-bar @drawer="drawer=!drawer"></default-bar>
+    <default-bar @drawer="drawer=!drawer" :xxx=str></default-bar>
     <default-drawer v-model="drawer"></default-drawer>
     <default-view></default-view>
-    <default-footer></default-footer>
+    <default-footer v-bind:xxx=str ></default-footer>
 
   </v-app>
 </template>
@@ -25,10 +25,13 @@ export default {
 
   data(){
     return {
-      drawer:true
+      drawer:true,
+      str:"Powered by kkong",
     }
-  }
+  },
+  methods:{
 
+  }
 }
 </script>
 
