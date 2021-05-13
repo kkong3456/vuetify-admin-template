@@ -3,8 +3,8 @@ import Vue from 'vue'
 import { Line, mixins } from 'vue-chartjs'
 import axios from 'axios';
 
-//const bonbuNetIncreaseUrl='http://172.21.26.252:8000/api/bonbu-net-increase-list/';
-const bonbuNetIncreaseUrl='http://localhost:8000/api/bonbu-net-increase-list/';
+//const bonbuNetIncreaseUrl='http://172.21.220.97/api/dash.json/';
+const bonbuNetIncreaseUrl='http://localhost:8000/api/rsai-jojik-list/';
 
 const { reactiveProp } = mixins
 
@@ -23,7 +23,7 @@ const options={      //chart options prop를 사용하지 않는 하위컴포넌
         scales:{
           yAxes:[{
             ticks:{
-              min:0,
+              //min:0,
               // max:2500,
               //stepSize:500,
               //fontSie:52,
@@ -34,7 +34,7 @@ const options={      //chart options prop를 사용하지 않는 하위컴포넌
             }
           }],
           xAxes:[{
-            display:false,
+            display:true,
             gridLines:{
               display:false,
               drawBorder:false,
@@ -42,8 +42,6 @@ const options={      //chart options prop를 사용하지 않는 하위컴포넌
           }]
         }
       } //end options
-
-
 
 export default {
   extends: Line,
@@ -59,7 +57,6 @@ export default {
     return {
       dataCollection:null,
       bonbuNetIncreaseData:null,
-      bonbuNetIncreaseValueObj:null,
       options:options,
     }
 
@@ -69,14 +66,11 @@ export default {
     await axios.get(bonbuNetIncreaseUrl)
       .then((res)=>{
         this.bonbuNetIncreaseData=res.data
-       // console.log(this.bonbuNetIncreaseData[0].date);
+        //console.log(this.bonbuNetIncreaseData);
       }).catch((err)=>{
         console.log("데이터를 가져 오지 못했습니다.",err);
       });
-
-
       this.fillData();
-
       //console.log(`this.dataCollection is ${this.dataCollection}`);
       this.renderChart(this.dataCollection,this.options);
   },
@@ -84,22 +78,24 @@ export default {
   methods: {
     fillData () {
       const yyy=this.getBonbuNetIncreaseValue();
-      console.log(`yyyy['북부본부'] is ${yyy['북부본부']}`)
+      console.log('yyy',yyy);
+    
+      
       this.dataCollection = {
-        labels:this.getBonbuLabels(),
+        labels:yyy['북부'].sysdate.map((d)=>d.substring(5)),
 
         datasets: [
           {
             label:'북부본부',     // 범례
             borderColor: '#20B2AA',
-            data: yyy['북부본부'],
+            data: yyy['북부'].this_hj_count,
             fill:false,
             tension:.5,
             pointHoverBorderColor:'#ff0000',
           }, {
             label:'동부본부',
             borderColor: '#5F9EA0',
-            data: yyy['동부본부'],
+            data: yyy['동부'].this_hj_count,
             fill:false,
             tension:.5,
             pointHoverBorderColor:' b',
@@ -107,108 +103,133 @@ export default {
           {
             label: '강남본부',
             borderColor: '#7FFFD4',
-            data: yyy['강남본부'],
+            data: yyy['강남'].this_hj_count,
             fill:false,
             tension:.5,
             pointHoverBorderColor:'#ff0000',
           },
-          {
-            label: '대구/경북본부',
-            borderColor: '#B0E0E6',
-            data: yyy['대구/경북본부'],
-            fill:false,
-            tension:.5,
-            pointHoverBorderColor:'#ff0000',
-          },
-          {
-            label: '부산/경남본부',
-            borderColor: '#AFEEEE',
-            data: yyy['부산/경남본부'],
-            fill:false,
-            tension:.5,
-            pointHoverBorderColor:'#ff0000',
-          },
-          {
-            label: '서부본부',
-            borderColor: '#ADD8E6',
-            data: yyy['서부본부'],
-            fill:false,
-            tension:.5,
-            pointHoverBorderColor:'#ff0000',
-          },
-          {
-            label: '전남/전북본부',
-            borderColor: '#B0C4DE',
-            data: yyy['전남/전북본부'],
-            fill:false,
-            tension:.5,
-            pointHoverBorderColor:'#ff0000',
-          },
-          {
-            label: '제주본부',
-            borderColor: '#87CEEB',
-            data: yyy['제주본부'],
-            fill:false,
-            tension:.5,
-            pointHoverBorderColor:'#ff0000',
-          },{
-            label: '충남/충북본부',
-            borderColor: '#87CEFA',
-            data: yyy['충남/충북본부'],
-            fill:false,
-            tension:.5,
-            pointHoverBorderColor:'#ff0000',
-          },
+        
         ]
       };  //dataCollection
     },  //fillData()
 
 
     getBonbuLabels () {      //그래프의 x 축 데이터 (일자)
-      const labelArray=new Array();
+      const imsiArray=new Array();
       this.bonbuNetIncreaseData.map((item)=>{
-        labelArray.push(item.date.substring(5));
+        imsiArray.push(item.sysdate.substring(0));
       })
+      const set=new Set(imsiArray);
+      const labelArray=[...set];
+      //console.log(labelArray);
       return labelArray;
     },
 
-    getBonbuNetIncreaseValue(){    //본부별 순익(y축)
-      const bugbuBonbuArray=Array();
-      const dongbuBonbuArray=Array();
-      const gangnamBonbuArray=Array();
-      const daegu_gyeongbugArray=Array();
-      const busan_gyeongnamArray=Array();
-      const seobuBonbuArray=Array();
-      const jeonnam_jeonbugArray=Array();
-      const jesuBonbuArray=Array();
-      const chungnam_chungbugArray=Array();
+    getBonbuNetIncreaseValue(){    //본부(y축)
+      let bonbuTotalObj={};
+      let bugbuBonbuObj={};
+      let dongbuBonbuObj={};
+      let gangnamBonbuObj={};
+     
+      //const bugbuIdArray=Array();
+      const bugbuSysdateArray=Array();
+      const bugbuProductArray=Array();
+      const bugbuJojikArray=Array();
+      const bugbuThisHjCountArray=Array();
+      const bugbuThisHjRatioArray=Array();
+      //const bugbuThatHjCountArray=Array();
+      //const bugbuThatHjRatioArray=Array();
+      const bugbuUpRatioArray=Array();
+      const bugbuRankArray=Array();
 
+      const dongbuSysdateArray=Array();
+      const dongbuProductArray=Array();
+      const dongbuJojikArray=Array();
+      const dongbuThisHjCountArray=Array();
+      const dongbuThisHjRatioArray=Array();
+      const dongbuUpRatioArray=Array();
+      const dongbuRankArray=Array();
+
+      const gangnamSysdateArray=Array();
+      const gangnamProductArray=Array();
+      const gangnamJojikArray=Array();
+      const gangnamThisHjCountArray=Array();
+      const gangnamThisHjRatioArray=Array();
+      const gangnamUpRatioArray=Array();
+      const gangnamRankArray=Array();
+
+
+     
       this.bonbuNetIncreaseData.map((item)=>{
-        bugbuBonbuArray.push(item.bugbu_bonbu);
-        dongbuBonbuArray.push(item.dongbu_bonbu);
-        gangnamBonbuArray.push(item.gangnam_bonbu);
-        daegu_gyeongbugArray.push(item.daegu_gyeongbug);
-        busan_gyeongnamArray.push(item.busan_gyeongnam);
-        seobuBonbuArray.push(item.seobu_bonbu);
-        jeonnam_jeonbugArray.push(item.jeonnam_jeonbug);
-        jesuBonbuArray.push(item.jesu_bonbu);
-        chungnam_chungbugArray.push(item.chungnam_chungbug);
+        //console.log(`item is ${bonbuArray[bonbu]}`);
+  
+        if(item.jojik==='북부'){
+          bugbuSysdateArray.push(item.sysdate);
+          bugbuProductArray.push(item.product);
+          bugbuJojikArray.push(item.jojik);
+          bugbuThisHjCountArray.push(item.this_hj_count);
+          bugbuThisHjRatioArray.push(item.this_hj_ratio);
+          bugbuUpRatioArray.push(item.up_ratio);
+          bugbuRankArray.push(item.rank);
+        } 
+        if(item.jojik==='동부'){
+          dongbuSysdateArray.push(item.sysdate);
+          dongbuProductArray.push(item.product);
+          dongbuJojikArray.push(item.jojik);
+          dongbuThisHjCountArray.push(item.this_hj_count);
+          dongbuThisHjRatioArray.push(item.this_hj_ratio);
+          dongbuUpRatioArray.push(item.up_ratio);
+          dongbuRankArray.push(item.rank);
+        }      
+        if(item.jojik==='강남'){
+          gangnamSysdateArray.push(item.sysdate);
+          gangnamProductArray.push(item.product);
+          gangnamJojikArray.push(item.jojik);
+          gangnamThisHjCountArray.push(item.this_hj_count);
+          gangnamThisHjRatioArray.push(item.this_hj_ratio);
+          gangnamUpRatioArray.push(item.up_ratio);
+          gangnamRankArray.push(item.rank);
+        }          
+
       });
 
-      const bonbuNetIncreaseValueObj={
-        '북부본부':bugbuBonbuArray,
-        '동부본부':dongbuBonbuArray,
-        '강남본부':gangnamBonbuArray,
-        '대구/경북본부':daegu_gyeongbugArray,
-        '부산/경남본부':busan_gyeongnamArray,
-        '서부본부':seobuBonbuArray,
-        '전남/전북본부':jeonnam_jeonbugArray,
-        '제주본부':jesuBonbuArray,
-        '충남/충북본부':chungnam_chungbugArray,
-      }
-      //console.log(bonbuNetIncreaseValueObj);
-      return bonbuNetIncreaseValueObj;
-    },
+        bugbuBonbuObj={
+          'sysdate':bugbuSysdateArray,
+          'product':bugbuProductArray,
+          'jojik':bugbuJojikArray,
+          'this_hj_count':bugbuThisHjCountArray,
+          'this_hj_ratio':bugbuThisHjRatioArray,           
+          'up_ratio':bugbuUpRatioArray,
+          'rank':bugbuRankArray,
+        }
+
+        dongbuBonbuObj={
+          'sysdate':dongbuSysdateArray,
+          'product':dongbuProductArray,
+          'jojik':dongbuJojikArray,
+          'this_hj_count':dongbuThisHjCountArray,
+          'this_hj_ratio':dongbuThisHjRatioArray,           
+          'up_ratio':dongbuUpRatioArray,
+          'rank':dongbuRankArray,
+        }
+
+        gangnamBonbuObj={
+          'sysdate':gangnamSysdateArray,
+          'product':gangnamProductArray,
+          'jojik':gangnamJojikArray,
+          'this_hj_count':gangnamThisHjCountArray,
+          'this_hj_ratio':gangnamThisHjRatioArray,           
+          'up_ratio':gangnamUpRatioArray,
+          'rank':gangnamRankArray,
+        }
+
+        bonbuTotalObj={
+          '북부':bugbuBonbuObj,
+          '동부':dongbuBonbuObj,
+          '강남':gangnamBonbuObj,
+        }
+      return bonbuTotalObj;
+    }, //end getNetBonbuIncreaseValue
   }  //methods
 } //export default end
 </script>
