@@ -153,6 +153,11 @@ export default {
                 to    : '/jisa-internet',
                 icon  : 'mdi-plus'
             },
+            {
+                text : '3-6 해지현황 표(상품별)',
+                to : '/hj-table',
+                icon  : 'mdi-plus'
+            }
             // {
             //   text: '로그인',
             //   to : '/authentication/sign-in',

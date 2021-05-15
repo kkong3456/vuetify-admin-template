@@ -3,8 +3,8 @@ import Vue from 'vue'
 import { Line, mixins } from 'vue-chartjs'
 import axios from 'axios';
 
-//const bonbuNetIncreaseUrl='http://172.21.220.97/api/dash.json/';
-const bonbuNetIncreaseUrl='http://localhost:8000/api/rsai-jojik-list/';
+const bonbuNetIncreaseUrl='http://172.21.220.97/api/dash.json?page=1';
+//const bonbuNetIncreaseUrl='http://localhost:8000/api/rsai-jojik-list/';
 
 const { reactiveProp } = mixins
 
@@ -65,7 +65,7 @@ export default {
   async created () {
     await axios.get(bonbuNetIncreaseUrl)
       .then((res)=>{
-        this.bonbuNetIncreaseData=res.data
+        this.bonbuNetIncreaseData=res.data.results
         //console.log(this.bonbuNetIncreaseData);
       }).catch((err)=>{
         console.log("데이터를 가져 오지 못했습니다.",err);

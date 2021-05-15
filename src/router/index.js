@@ -12,6 +12,7 @@ import RS_Product from '@/views/RS_Product'
 import RS_JisaTv from '@/views/RS_JisaTv'
 import RS_JisaWireless from '@/views/RS_JisaWireless'
 import RS_JisaInternet from '@/views/RS_JisaInternet'
+import RS_HjTable from '@/views/RS_HjTable'
 import SignIn from '@/views/authentication/Signin'
 import SignUp from '@/views/authentication/Signup'
 import ProductList from '@/views/page/ProductList'
@@ -85,6 +86,11 @@ const routes=[
         name:'RS_JisaInternet',
         component:RS_JisaInternet
       },
+      {
+        path:'/hj-table',
+        name:'RS_HjTable',
+        component:RS_HjTable
+      }
     ]
   },
   {

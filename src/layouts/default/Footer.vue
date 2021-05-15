@@ -23,7 +23,6 @@
         cols="12"
       >
         {{ new Date().getFullYear() }} — <strong>강북/강원 코어 운용센터 — {{xxx}}</strong>
-        <v-btn  v-on:click="showLog">show</v-btn>
       </v-col>
 
     </v-row>
