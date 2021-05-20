@@ -2,15 +2,27 @@
 <div>
     <v-row>
         <v-col>
-            <mobile-hj-table></mobile-hj-table> 
+            <v-card
+                elevation="5"
+            >
+            <mobile-hj-table></mobile-hj-table>
+            </v-card> 
         </v-col>
         <v-col>
+            <v-card
+                elevation="5"
+            >
             <internet-hj-table></internet-hj-table>
+            </v-card>
         </v-col>
     </v-row>
     <v-row>
         <v-col>
+            <v-card
+                elevation="5"
+            >
             <tv-hj-table></tv-hj-table>
+            </v-card>
         </v-col>
     </v-row>
     

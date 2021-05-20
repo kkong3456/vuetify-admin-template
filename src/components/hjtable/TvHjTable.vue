@@ -170,13 +170,13 @@
                 thisHjRatio:yyy.thisHjRatio[i]?yyy.thisHjRatio[i]:0,
                 thatHjCount:yyy.thatHjCount[i]?yyy.thatHjCount[i]:0,
                 thatHjRatio:yyy.thatHjRatio[i]?yyy.thatHjRatio[i]:0,
-                upRatio:yyy.upRatio[i]?yyy.upRatio[i]:0,
+                upRatio:yyy.upRatio[i]?parseFloat(yyy.upRatio[i]).toFixed(3):0,
                 rank:yyy.rank[i]?yyy.rank[i]:0,
             }
 
             dessertsArray.push(obj);         
-            this.kkk=Object.values(dessertsArray);          
-            this.desserts=this.kkk.reverse()
+            this.desserts=Object.values(dessertsArray);          
+            //this.desserts=this.kkk.reverse()
         }
       } , 
       getBonbuNetIncreaseValue(){    //axios로 받아온 데이터를 상품별로 Obj로 만든다
@@ -195,7 +195,7 @@
             //console.log(item);
             if(item.product==='tv'){  
                 dateArray.push(item.sysdate);
-                jojikArray.push(item.jojik);
+                jojikArray.push(item.jojik.replace('/','').substring(0,4));
                 thisHjCountArray.push(item.this_hj_count);
                 thisHjRatioArray.push(item.this_hj_ratio);
                 thatHjCountArray.push(item.that_hj_count);

@@ -12,7 +12,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 
-
+table.v-data-table-header  th{
+ 
+}
 </style>

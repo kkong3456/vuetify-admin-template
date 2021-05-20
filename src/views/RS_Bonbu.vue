@@ -6,16 +6,23 @@
                   col=12
                   lg=6
                 >
-                    <p class="text-h5 text-center">3.1 본부별 전주 비교</p>
-                    <bonbu-bar-chart></bonbu-bar-chart>
+                    <p class="text-h5 text-center">[순신규 추이]</p>
+                    <bonbu-net-increase-line-chart></bonbu-net-increase-line-chart>
 
                 </v-col>
                 <v-col
                   col=12
                   lg=6
                 >
-                  <p class="text-h5 text-center">3.1 본부별 전주 비교</p>
-                  <bonbu-radar-chart></bonbu-radar-chart>
+                  <p class="text-h5 text-center">[순해지 추이]</p>
+                  
+                </v-col>
+
+                <v-col
+                  col=12
+                  lg=6
+                > 
+                  <p class="text-h5 text-center">[순증 추이]</p>
                 </v-col>
             </v-row>
         </v-card>
@@ -23,13 +30,13 @@
 </template>
 
 <script>
-import BonbuBarChart from '@/components/charts/BonbuBarChart'
-import BonbuRadarChart from '@/components/charts/BonbuRadarChart'
+import BonbuNetIncreaseLineChart from '@/components/charts/BonbuNetIncreaseLineChart'
+
 export default {
   name:'RS_Bonbu',
   components:{
-    BonbuBarChart,
-    BonbuRadarChart,
+    BonbuNetIncreaseLineChart,
+    //BonbuRadarChart,
   }
 }
 </script>
