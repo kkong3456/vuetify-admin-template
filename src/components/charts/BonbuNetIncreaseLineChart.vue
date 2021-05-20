@@ -103,12 +103,12 @@ export default {
   methods: {
     fillData () {
       const yyy=this.getBonbuNetIncreaseValue();
-      console.log(`yyyy['북부본부'] is ${yyy.date}`)
+      console.log(`yyyy['강남'] is ${yyy.강남고객본부.sysdate}`)
       this.dataCollection = {
-        labels:this.getBonbuLabels(),
+        labels:yyy.date,
         datasets: [
           {
-            label:'북부본부',     // 범례
+            label:yyy.jojik,     // 범례
             borderColor: '#20B2AA',
             backgroundColor:"transparent",
             data: yyy['북부본부'],
@@ -193,31 +193,235 @@ export default {
     },  //fillData()
 
 
-    getBonbuLabels () {      //그래프의 x 축 데이터 (일자)
-      const labelArray=new Array();
-      this.bonbuNetIncreaseData.map((item)=>{
-        labelArray.push(item.sysdate.substring(5));
-      })
-      return labelArray;
-    },
-
     getBonbuNetIncreaseValue(){    //본부별 순익(y축)
-      const sysdateArray=new Array();
-      const jojik2NameArray=new Array();
-      const countSumArray=new Array();
+      let bonbuNetIncreaseValueObj={}
+      let customerExperenceBonbuObj={}
+      let jejuDanObj={};
+      let youngUpBonbuObj={}
+      let sudokwanYoungUpDanObj={}
+      let gangnamBonbuObj={}
+      let daeguBonbuObj={}
+      let chungNamBonbuObj={}
+      let seobuBonbuObj={}
+      let jeonamBonbuObj={}
+      let bugbuBonbuObj={}
+      let dongbuBonbuObj={}
+      let busanBonbuObj={}
+
+      const customerExperenceBonbuSysdateArray=new Array();
+      const customerExperenceBonbuJojikArray=new Array();
+      const customerExperenceBonbuCountSumArray=new Array();
+
+      const jejuDanSysdateArray=new Array();
+      const jejuDanJojikArray=new Array();
+      const jejuDanCountSumArray=new Array();
+
+      const youngUpBonbuSysdateArray=new Array();
+      const youngUpBonbuJojikArray=new Array();
+      const youngUpBonbuCountSumArray=new Array();
+
+      const sudokwanYoungUpDanSysdateArray=new Array();
+      const sudokwanYoungUpDanJojikArray=new Array();
+      const sudokwanYoungUpDanCountSumArray=new Array();
+
+      const gangnamBonbuSysdateArray=new Array();
+      const gangnamBonbuJojikArray=new Array();
+      const gangnamBonbuCountSumArray=new Array;
+
+      const daeguBonbuSysdateArray=new Array();
+      const daeguBonbuJojikArray=new Array();
+      const daeguBonbuCountSumArray=new Array();
+
+      const chungNamBonbuSysdateArray=new Array();
+      const chungNamBonbuJojikArray=new Array();
+      const chungNamBonbuCountSumArray=new Array();
+
+      const seobuBonbuSysdateArray=new Array();
+      const seobuBonbuJojikArray=new Array();
+      const seobuBonbuCountSumArray=new Array();
+
+      const jeonamBonbuSysdateArray=new Array();
+      const jeonamBonbuJojikArray=new Array();
+      const jeonamBonbuCountSumArray=new Array();
+
+      const bugbuBonbuSysdateArray=new Array();
+      const bugbuBonbuJojikArray=new Array();
+      const bugbuBonbuCountSumArray=new Array();
+
+      const dongbuBonbuSysdateArray=new Array();
+      const dongbuBonbuJojikArray=new Array();
+      const dongbuBonbuCountSumArray=new Array();
+
+      const busanBonbuSysdateArray=new Array();
+      const busanBonbuJojikArray=new Array();
+      const busanBonbuCountSumArray=new Array();
 
       this.bonbuNetIncreaseData.map((item)=>{
-        sysdateArray.push(item.sysdate.substring(5,10));
-        jojik2NameArray.push(item.jojik2_name);
-        countSumArray.push(item.count_sum);
+        //console.log(`item is ${item.jojik2_name}`);
+        if(item.jojik2_name==='고객경험혁신본부'){
+          customerExperenceBonbuSysdateArray.push(item.sysdate);
+          customerExperenceBonbuJojikArray.push(item.jojik2_name);
+          customerExperenceBonbuCountSumArray.push(item.count_sum);
+        }
+        if(item.jojik2_name==='제주단'){
+          jejuDanSysdateArray.push(item.sysdate);
+          jejuDanJojikArray.push(item.jojik2_name);
+          jejuDanCountSumArray.push(item.count_sum);
+        }
+        if(item.jojik2_name==='영업본부'){
+          youngUpBonbuSysdateArray.push(item.sysdate);
+          youngUpBonbuJojikArray.push(item.jojik2_name);
+          youngUpBonbuCountSumArray.push(item.count_sum);
+        }
+
+        if(item.jojik2_name==='수도권도매영업단'){
+          sudokwanYoungUpDanSysdateArray.push(item.sysdate);
+          sudokwanYoungUpDanJojikArray.push(item.jojik2_name);
+          sudokwanYoungUpDanCountSumArray.push(item.count_sum);
+        }
+
+        if(item.jojik2_name==='강남고객본부'){
+          gangnamBonbuSysdateArray.push(item.sysdate);
+          gangnamBonbuJojikArray.push(item.jojik2_name);
+          gangnamBonbuCountSumArray.push(item.count_sum);
+        }
+
+        if(item.jojik2_name==='대구/경북고객본부'){
+          daeguBonbuSysdateArray.push(item.sysdate);
+          daeguBonbuJojikArray.push(item.jojik2_name);
+          daeguBonbuCountSumArray.push(item.count_sum);
+        }
+
+        if(item.jojik2_name==='충남/충북고객본부'){
+          chungNamBonbuSysdateArray.push(item.sysdate);
+          chungNamBonbuJojikArray.push(item.jojik2_name);
+          chungNamBonbuCountSumArray.push(item.count_sum);
+        }
+
+        if(item.jojik2_name==='서부고객보본부'){
+          seobuBonbuSysdateArray.push(item.sysdate);
+          seobuBonbuJojikArray.push(item.jojik2_name);
+          seobuBonbuCountSumArray.push(item.count_sum);
+        }
+
+        if(item.jojik2_name==='전남/전북고객본부'){
+          jeonamBonbuSysdateArray.push(item.sysdate);
+          jeonamBonbuJojikArray.push(item.jojik2_name);
+          jeonamBonbuCountSumArray.push(item.count_sum);
+        }
+
+        if(item.jojik2_name==='북부고객본부'){
+          bugbuBonbuSysdateArray.push(item.sysdate);
+          bugbuBonbuJojikArray.push(item.jojik2_name);
+          bugbuBonbuCountSumArray.push(item.count_sum);
+        }
+
+        if(item.jojik2_name==='동부고객본부'){
+          dongbuBonbuSysdateArray.push(item.sysdate);
+          dongbuBonbuJojikArray.push(item.jojik2_name);
+          dongbuBonbuCountSumArray.push(item.count_sum);
+        }
+
+        if(item.jojik2_name==='부산/경남고객본부'){
+          busanBonbuSysdateArray.push(item.sysdate);
+          busanBonbuJojikArray.push(item.jojik2_name);
+          busanBonbuCountSumArray.push(item.count_sum);
+        }
+
+     
+
+        customerExperenceBonbuObj={
+          'sysdate':customerExperenceBonbuSysdateArray,
+          'jojik':customerExperenceBonbuJojikArray,
+          'countSum':customerExperenceBonbuCountSumArray,
+        }
+
+        jejuDanObj={
+          'sysdate':jejuDanSysdateArray,
+          'jojik':jejuDanJojikArray,
+          'countSum':jejuDanCountSumArray,
+        }
+
+        youngUpBonbuObj={
+          'sysdate':youngUpBonbuSysdateArray,
+          'jojik':youngUpBonbuJojikArray,
+          'countSum':youngUpBonbuCountSumArray,
+        }
+
+        sudokwanYoungUpDanObj={
+          'sysdate':seobuBonbuSysdateArray,
+          'jojik':seobuBonbuJojikArray,
+          'countSum':seobuBonbuCountSumArray,
+        }
+
+        gangnamBonbuObj={
+          'sysdate':gangnamBonbuSysdateArray,
+          'jojik':gangnamBonbuJojikArray,
+          'countSum':gangnamBonbuCountSumArray,
+        }
+
+        daeguBonbuObj={
+          'sysdate':daeguBonbuSysdateArray,
+          'jojik':daeguBonbuJojikArray,
+          'countSum':daeguBonbuCountSumArray,
+        }
+
+        chungNamBonbuObj={
+          'sysdate':chungNamBonbuSysdateArray,
+          'jojik':chungNamBonbuJojikArray,
+          'countSum':chungNamBonbuCountSumArray,
+        }
+
+        seobuBonbuObj={
+          'sysdate':seobuBonbuSysdateArray,
+          'jojik':seobuBonbuJojikArray,
+          'countSum':seobuBonbuCountSumArray,
+        }
+
+        jeonamBonbuObj={
+          'sysdate':jeonamBonbuSysdateArray,
+          'jojik':jeonamBonbuJojikArray,
+          'countSum':jeonamBonbuCountSumArray,
+        }
+
+        bugbuBonbuObj={
+          'sysdate':bugbuBonbuSysdateArray,
+          'jojik':bugbuBonbuJojikArray,
+          'countSum':bugbuBonbuCountSumArray,
+        }
+
+        dongbuBonbuObj={
+          'sysdate':dongbuBonbuSysdateArray,
+          'jojik':dongbuBonbuJojikArray,
+          'countSum':dongbuBonbuCountSumArray,
+        }
+
+        busanBonbuObj={
+          'sysdate':busanBonbuSysdateArray,
+          'jojik':busanBonbuJojikArray,
+          'countSum':busanBonbuCountSumArray
+        }
+
+        bonbuNetIncreaseValueObj={
+          '고객경험혁신본부':customerExperenceBonbuObj,
+          '제주단':jejuDanObj,
+          '영업본부':youngUpBonbuObj,
+          '수도권도매영업단':sudokwanYoungUpDanObj,
+          '강남고객본부':gangnamBonbuObj,
+          '대구/경북고객본부':daeguBonbuObj,
+          '충남/충북고객본부':chungNamBonbuObj,
+          '서부고객본부':seobuBonbuObj,
+          '전남/전북고객본부':jeonamBonbuObj,
+          '북부고객본부':bugbuBonbuObj,
+          '동부고객본부':dongbuBonbuObj,
+          '부산/경남고객본부':busanBonbuObj,
+        }
+
+       
+
       });
 
-      const bonbuNetIncreaseValueObj={
-        date:sysdateArray,
-        jojik:jojik2NameArray,
-        countSum:countSumArray,
-      }
-      //console.log(bonbuNetIncreaseValueObj);
+     
       return bonbuNetIncreaseValueObj;
     },
   }  //methods

@@ -1,13 +1,13 @@
 <template>
 <v-navigation-drawer
     v-bind="$attrs"
-
     dark
     app
     :src="require('@/assets/sidebar.jpg')"
     >
+    <!-- v-if="$vuetify.breakpoint.mdAndDown" -->
     <template
-    v-slot:img="props"
+        v-slot:img="props"
     >
     <v-img
         :gradient="gradient"
