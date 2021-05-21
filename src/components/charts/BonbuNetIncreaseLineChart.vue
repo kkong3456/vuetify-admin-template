@@ -4,6 +4,8 @@ import { Line, mixins } from 'vue-chartjs'
 import axios from 'axios';
 
 const bonbuNetIncreaseUrl='http://172.21.220.97/api/net/bonbu.json/?kind=start&page=1'; //kind=start순증
+// const allHjUrl='http://172.21.220.97/api/dash.json?page=1';
+// const allHjUrl2='http://172.21.220.97/api/dash.json?page=';
 
 const { reactiveProp } = mixins
 
