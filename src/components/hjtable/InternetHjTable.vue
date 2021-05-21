@@ -44,8 +44,8 @@
 
 
 
-  const allHjUrl='http://172.21.220.97/api/dash.json?page=1';
-  const allHjUrl2='http://172.21.220.97/api/dash.json?page=';
+  const allHjUrl='http://172.21.220.97/api/dash.json';
+  //const allHjUrl2='http://172.21.220.97/api/dash.json?page=';
   //const allHjUrl3='http://172.21.220.97/api/dash.json?page=3';
 
  
@@ -59,49 +59,18 @@
         
         search:'',        // 테이블 서치
         thisHjCount:'',     //테이블의 당월해지 기준 소트
-        desserts:this.dessertsArray,
+        //desserts:this.dessertsArray,
+        desserts:this.desserts,
       }
     },//data
 
     async created () {
-      await axios.get(allHjUrl).then((res,err)=>{
-          this.totalHjUrlPage=res.data.count;   // 약 8000여개 이상의 데이터가 있고, 1page당 100개 row가 있음
-          this.totalHjUrlPage=Math.ceil(this.totalHjUrlPage/100);
+      await axios.get(allHjUrl).then((res)=>{
+          this.bonbuNetIncreaseData=res.data.results;
       }).catch((err)=>{
-          console.log(err);
+          alert(err);
       });
-
-      await axios.all(
-          [
-            axios.get(allHjUrl2+this.totalHjUrlPage),
-            axios.get(allHjUrl2+(this.totalHjUrlPage-1)),
-            axios.get(allHjUrl2+(this.totalHjUrlPage-2)),
-            axios.get(allHjUrl2+(this.totalHjUrlPage-3)),
-            axios.get(allHjUrl2+(this.totalHjUrlPage-4)),
-            axios.get(allHjUrl2+(this.totalHjUrlPage-5)),
-            axios.get(allHjUrl2+(this.totalHjUrlPage-6)),
-            axios.get(allHjUrl2+(this.totalHjUrlPage-7)),
-            axios.get(allHjUrl2+(this.totalHjUrlPage-8)),
-            axios.get(allHjUrl2+(this.totalHjUrlPage-9)),
-          ]
-        ).then(axios.spread((...res)=>{
-            const resp1=res[0].data.results;
-            const resp2=res[1].data.results;
-            const resp3=res[2].data.results;
-            const resp4=res[3].data.results;
-            const resp5=res[4].data.results;
-            const resp6=res[5].data.results;
-            const resp7=res[6].data.results;
-            const resp8=res[7].data.results;
-            const resp9=res[8].data.results;
-            const resp10=res[9].data.results;
-            const resp=[...resp1,...resp2,...resp3,...resp4,...resp5,...resp6,...resp7,...resp8,...resp9,...resp10];
-        
-            this.bonbuNetIncreaseData=resp;
-        })).catch((err)=>{
-          console.log("데이터를 가져 오지 못했습니다.",err);
-        });
-
+    
         this.getBonbuNetIncreaseValue();
         this.getDesserts();
     },
@@ -157,10 +126,11 @@
     methods: {  
       getDesserts(){
         const yyy=this.getBonbuNetIncreaseValue();
-        //console.log(yyy.rank);
+       
         const dessertsArray=new Array();
 
-        for(let i=0;i<yyy.date.length;i++){
+        for(let i=yyy.date.length-1;i>500;i--){
+        //for(let i=0;i<30;i++){
             let obj={
                 name:yyy.jojik[i],                                      //테이블에 보여주는 포맷
                 date:yyy.date[i]?yyy.date[i]:0,
@@ -174,7 +144,7 @@
 
             dessertsArray.push(obj);         
             this.desserts=Object.values(dessertsArray);          
-            //this.desserts=this.kkk.reverse()
+            //this.desserts=this.desserts.reverse()
         }
       } , 
       getBonbuNetIncreaseValue(){    //axios로 받아온 데이터를 상품별로 Obj로 만든다
@@ -187,10 +157,11 @@
         let thatHjRatioArray=new Array()
         let upRatioArray=new Array()
         let rankArray=new Array()
+        //console.log('xxxx');
 
 
         this.bonbuNetIncreaseData.map((item)=>{
-            //console.log(item);
+            //console.log('item is ',item.rank);
             if(item.product==='internet'){  
                 dateArray.push(item.sysdate);
                 jojikArray.push(item.jojik.replace('/','').substring(0,4));

@@ -3,7 +3,7 @@ import Vue from 'vue'
 import { Line, mixins } from 'vue-chartjs'
 import axios from 'axios';
 
-const bonbuNetIncreaseUrl='http://172.21.220.97/api/net/bonbu.json/?kind=net'; //kind=start순증
+const bonbuNetIncreaseUrl='http://172.21.220.97/api/net/bonbu.json/?kind=end'; //kind=start순증
 
 
 const { reactiveProp } = mixins
@@ -72,7 +72,7 @@ export default {
 
 
   components:{
-    name:'BonbuNetIncreaseLineChart'
+    name:'BonbuNetHjLineChart'
   },
 
   data(){
@@ -103,8 +103,8 @@ export default {
 
   methods: {
     fillData () {
-      const yyy=this.getBonbuNetIncreaseValue();
-      //console.log(`yyyy['강남'] is ${yyy.강남고객본부.sysdate}`)
+      //const yyy=this.getBonbuNetIncreaseValue();
+      console.log(`yyyy['강남'] is ${yyy.강남고객본부.sysdate}`)
       this.dataCollection = {
         labels:yyy.북부고객본부.sysdate.map((day)=>day.substring(5,10)),
         datasets: [
@@ -338,8 +338,6 @@ export default {
           '동부고객본부':dongbuBonbuObj,
           '부산/경남고객본부':busanBonbuObj,
         }
-
-       
 
       });
 

@@ -3,7 +3,7 @@ import Vue from 'vue'
 import { Line, mixins } from 'vue-chartjs'
 import axios from 'axios';
 
-const bonbuNetIncreaseUrl='http://172.21.220.97/api/net/bonbu.json/?kind=net'; //kind=start순증
+const bonbuNetIncreaseUrl='http://172.21.220.97/api/net/bonbu.json/?kind=start'; //kind=start순증
 
 
 const { reactiveProp } = mixins
@@ -72,7 +72,7 @@ export default {
 
 
   components:{
-    name:'BonbuNetIncreaseLineChart'
+    name:'BonbuNetNewIncreaseLineChart'
   },
 
   data(){

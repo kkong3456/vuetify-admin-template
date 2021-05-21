@@ -2,15 +2,15 @@
 <div>
     <v-row>
         <v-col>
-            <v-card
-                elevation="5"
+            <v-card   
+                outlined
             >
             <mobile-hj-table></mobile-hj-table>
             </v-card> 
         </v-col>
         <v-col>
-            <v-card
-                elevation="5"
+            <v-card 
+                outlined
             >
             <internet-hj-table></internet-hj-table>
             </v-card>
@@ -19,7 +19,7 @@
     <v-row>
         <v-col>
             <v-card
-                elevation="5"
+                outlined
             >
             <tv-hj-table></tv-hj-table>
             </v-card>
@@ -217,3 +217,10 @@
      }
   }
 </script>
+
+<style scoped>
+/* thead.v-data-table-header >tr >th{
+   font-size:30px !important;
+   color:#ff0000;
+ }  */
+</style>
