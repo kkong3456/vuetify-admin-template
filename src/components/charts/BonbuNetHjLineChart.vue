@@ -103,8 +103,8 @@ export default {
 
   methods: {
     fillData () {
-      //const yyy=this.getBonbuNetIncreaseValue();
-      console.log(`yyyy['강남'] is ${yyy.강남고객본부.sysdate}`)
+      const yyy=this.getBonbuNetIncreaseValue();
+      //console.log(`yyyy['강남'] is ${yyy.강남고객본부.sysdate}`)
       this.dataCollection = {
         labels:yyy.북부고객본부.sysdate.map((day)=>day.substring(5,10)),
         datasets: [

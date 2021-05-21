@@ -3,23 +3,23 @@
         <v-card>
             <v-row>
                 <v-col>
-                    <p class="text-h5 text-center">[무선 순신규 추이]</p>
-                    <bonbu-net-new-increase-line-chart></bonbu-net-new-increase-line-chart>
+                    <p class="text-h5 text-center">[상품별 순신규 추이]</p>
+                    <product-net-new-increase-line-chart></product-net-new-increase-line-chart>
 
                 </v-col>
             </v-row>
              <v-row>
                 <v-col>
-                  <p class="text-h5 text-center">[무선 순해지 추이]</p>
-                  <bonbu-net-hj-line-chart></bonbu-net-hj-line-chart>
+                  <p class="text-h5 text-center">[상품별 순해지 추이]</p>
+                  <product-hj-line-chart></product-hj-line-chart>
                   
                 </v-col>
              </v-row>
              <v-row>
 
                 <v-col> 
-                  <p class="text-h5 text-center">[무선 순증/감 추이]</p>
-                  <bonbu-net-increase-line-chart></bonbu-net-increase-line-chart>
+                  <p class="text-h5 text-center">[상품별 순증/감 추이]</p>
+                  <product-net-increase-line-chart></product-net-increase-line-chart>
                 </v-col>
             </v-row>
         </v-card>
@@ -27,16 +27,16 @@
 </template>
 
 <script>
-import BonbuNetNewIncreaseLineChart from '@/components/charts/BonbuNetNewIncreaseLineChart'
-import BonbuNetIncreaseLineChart from '@/components/charts/BonbuNetIncreaseLineChart'
-import BonbuNetHjLineChart from '@/components/charts/BonbuNetHjLineChart'
+import ProductNetNewIncreaseLineChart from '@/components/charts/ProductNetNewIncreaseLineChart'
+import ProductNetIncreaseLineChart from '@/components/charts/ProductNetIncreaseLineChart'
+import ProductHjLineChart from '@/components/charts/ProductHjLineChart'
 
 export default {
   name:'RS_Bonbu',
   components:{
-    BonbuNetNewIncreaseLineChart,
-    BonbuNetIncreaseLineChart,
-    BonbuNetHjLineChart,
+    ProductNetNewIncreaseLineChart,
+    ProductNetIncreaseLineChart,
+    ProductHjLineChart,
     //BonbuRadarChart,
   }
 }
