@@ -1,3 +1,4 @@
+
 <script>
 import Vue from 'vue'
 import { Line, mixins } from 'vue-chartjs'
@@ -5,6 +6,9 @@ import axios from 'axios';
 
 const jisaNetNewIncreaseUrl='http://172.21.220.97/api/net/jisa.json/?prod=미디어&bonbu=북부고객본부&kind=start' 
 const jisaNetNewIncreaseUrl2='http://172.21.220.97/api/net/jisa.json/?prod=미디어&bonbu=동부고객본부&kind=start' 
+const xxx=selectedBonbu;
+
+console.log('selected Bonbu is ',selectedBonbu);
 // const jisaNetIncreaseUrl='http://172.21.220.97/api/net/jisa.json/?prod=미디어&bonbu=북부고객본부&kind=net' 
 
 
@@ -84,8 +88,9 @@ export default {
       bonbuNetIncreaseValueObj:null,
       options:options,
     }
-
   },
+  
+  props:['selectedBonbu'],
 
   async created () {
     await axios.all(
