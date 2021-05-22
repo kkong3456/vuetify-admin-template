@@ -1,11 +1,8 @@
 <template>
   <v-app>
-    <page-app-bar></page-app-bar>
-    <page-view></page-view>
-
-  
+    <page-app-bar />
+    <page-view />
   </v-app>
-
 </template>
 <script>
 import PageAppBar from './AppBar'

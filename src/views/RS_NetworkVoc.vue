@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <BonbuBarChart/>
-    <BonbuRadarChart/>
-    <BonbuPieChart/>
-    <BonbuAreaChart/>
+    <BonbuBarChart />
+    <BonbuRadarChart />
+    <BonbuPieChart />
+    <BonbuAreaChart />
    
-    <Calendar/>
+    <Calendar />
   </div>
 </template>
 

@@ -22,18 +22,15 @@
         class="primary lighten-2 py-4 text-center white--text"
         cols="12"
       >
-        {{ new Date().getFullYear() }} — <strong>강북/강원 코어 운용센터 — {{xxx}}</strong>
+        {{ new Date().getFullYear() }} — <strong>강북/강원 코어 운용센터 — {{ xxx }}</strong>
       </v-col>
-
     </v-row>
-
-
-
   </v-footer>
 </template>
 
 <script>
   export default {
+    props:['xxx'],
     data() {
       return {
         links:[
@@ -43,6 +40,5 @@
 
       }
     },
-    props:['xxx'],
   }
 </script>

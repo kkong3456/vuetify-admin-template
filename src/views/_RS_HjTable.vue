@@ -1,37 +1,36 @@
 <template>
-<v-container>
-
-  <v-data-table
-    :headers="headers"
-    :items="desserts"
-    :items-per-page="5"
-    class="elevation-1"
-    :search="search"
-    :custom-filter="filterOnlyCaptsText"
-  >
-    <template v-slot:top>
+  <v-container>
+    <v-data-table
+      :headers="headers"
+      :items="desserts"
+      :items-per-page="5"
+      class="elevation-1"
+      :search="search"
+      :custom-filter="filterOnlyCaptsText"
+    >
+      <template v-slot:top>
         <v-text-field
-            v-model="search"
-            label="기관명으로 조회"
-            class="mx-4"
-        ></v-text-field>
-    </template>
-    <template v-slot:body.append>
+          v-model="search"
+          label="기관명으로 조회"
+          class="mx-4"
+        />
+      </template>
+      <template v-slot:body.append>
         <tr>
-            <td></td>
-            <td>
-                <v-text-field
-                    v-model="thisHjCount"
-                    type="number"
-                    label="당월해지(기준이하) 조회"
-                ></v-text-field>
-            </td>
-            <td colspan="4"></td>
+          <td />
+          <td>
+            <v-text-field
+              v-model="thisHjCount"
+              type="number"
+              label="당월해지(기준이하) 조회"
+            />
+          </td>
+          <td colspan="4" />
         </tr>
-    </template>
-  </v-data-table>
-<!-- <button v-on:click="getBonbuDesserts()">vvv</button> -->
-</v-container>
+      </template>
+    </v-data-table>
+    <!-- <button v-on:click="getBonbuDesserts()">vvv</button> -->
+  </v-container>
 </template>
 
 
@@ -51,23 +50,6 @@
         thisHjCount:'',     //테이블의 당월해지 기준 소트
         desserts:this.dessertsArray,
       }
-    },//data
-
-    async created () {
-      await axios.get(allHjUrl)
-        .then((res)=>{
-          this.bonbuNetIncreaseData=res.data.results
-          //console.log(this.bonbuNetIncreaseData);
-        }).catch((err)=>{
-          console.log("데이터를 가져 오지 못했습니다.",err);
-        });
-
-        this.getBonbuNetIncreaseValue();
-        this.getDesserts()
-    },
-
-    mounted(){
-    
     },
     computed:{
         headers(){
@@ -112,6 +94,23 @@
                 }
             ]
         }
+    },//data
+
+    async created () {
+      await axios.get(allHjUrl)
+        .then((res)=>{
+          this.bonbuNetIncreaseData=res.data.results
+          //console.log(this.bonbuNetIncreaseData);
+        }).catch((err)=>{
+          console.log("데이터를 가져 오지 못했습니다.",err);
+        });
+
+        this.getBonbuNetIncreaseValue();
+        this.getDesserts()
+    },
+
+    mounted(){
+    
     },
 
     methods: {  

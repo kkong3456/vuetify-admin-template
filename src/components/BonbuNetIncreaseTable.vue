@@ -1,14 +1,12 @@
 <template>
-<v-container>
-
-  <v-data-table
-    :headers="headers"
-    :items="desserts"
-    :items-per-page="5"
-
-  ></v-data-table>
-<!-- <button v-on:click="getBonbuDesserts()">vvv</button> -->
-</v-container>
+  <v-container>
+    <v-data-table
+      :headers="headers"
+      :items="desserts"
+      :items-per-page="5"
+    />
+    <!-- <button v-on:click="getBonbuDesserts()">vvv</button> -->
+  </v-container>
 </template>
 
 

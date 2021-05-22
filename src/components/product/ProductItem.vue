@@ -1,11 +1,11 @@
 <template>
-    <v-card
+  <v-card
     class="mx-auto"
   >
     <v-img
       class="white--text align-end"
       height="200px"
-      v-bind:src="require('@/assets/sidebar.jpg')"
+      :src="require('@/assets/sidebar.jpg')"
     >
       <v-card-title>Top 10 Australian beaches</v-card-title>
     </v-img>

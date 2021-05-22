@@ -44,7 +44,6 @@ const options={      //chart options prop를 사용하지 않는 하위컴포넌
       } //end options
 
 export default {
-  extends: Line,
   //mixins: [reactiveProp],
   //props: ['options'],
 
@@ -52,6 +51,7 @@ export default {
   components:{
     name:'BonbuNetIncreaseChart'
   },
+  extends: Line,
 
   data(){
     return {

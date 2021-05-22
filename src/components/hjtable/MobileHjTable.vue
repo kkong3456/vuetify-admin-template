@@ -1,40 +1,42 @@
 <template>
-<div>
-    <div class="text-h5 text-center font-weight-medium text--secondary">[모바일 상품]</div>
-  <v-data-table
-    :headers="headers"
-    :items="desserts"
-    :items-per-page="10"
-    class="elevation-1"
-    :search="search"
-    :custom-filter="filterOnlyCaptsText"
-  >
-    <template v-slot:top>
+  <div>
+    <div class="text-h5 text-center font-weight-medium text--secondary">
+      [모바일 상품]
+    </div>
+    <v-data-table
+      :headers="headers"
+      :items="desserts"
+      :items-per-page="10"
+      class="elevation-1"
+      :search="search"
+      :custom-filter="filterOnlyCaptsText"
+    >
+      <template v-slot:top>
         <v-text-field
-            v-model="search"
-            label="기관명/일자으로 조회"
-            class="mx-4"
-        ></v-text-field>
-    </template>
-    <template v-slot:body.append>
+          v-model="search"
+          label="기관명/일자으로 조회"
+          class="mx-4"
+        />
+      </template>
+      <template v-slot:body.append>
         <tr
-            cols="12"
-            lg="6"    
+          cols="12"
+          lg="6"    
         >
-            <td></td>
-            <td>
-                <v-text-field
-                    v-model="thisHjCount"
-                    type="number"
-                    label="당월해지 건수기준 조회(이하)"
-                ></v-text-field>
-            </td>
-            <td colspan="4"></td>
+          <td />
+          <td>
+            <v-text-field
+              v-model="thisHjCount"
+              type="number"
+              label="당월해지 건수기준 조회(이하)"
+            />
+          </td>
+          <td colspan="4" />
         </tr>
-    </template>
-  </v-data-table>
-<!-- <button v-on:click="getBonbuDesserts()">vvv</button> -->
-</div>
+      </template>
+    </v-data-table>
+    <!-- <button v-on:click="getBonbuDesserts()">vvv</button> -->
+  </div>
 </template>
 
 
@@ -56,21 +58,6 @@
         thisHjCount:'',     //테이블의 당월해지 기준 소트
         desserts:this.desserts,
       }
-    },//data
-
-    async created () {
-      await axios.get(allHjUrl).then((res)=>{
-          this.bonbuNetIncreaseData=res.data.results;
-      }).catch((err)=>{
-          alert(err);
-      });
-    
-        this.getBonbuNetIncreaseValue();
-        this.getDesserts();
-    },
-
-    mounted(){
-    
     },
     computed:{
         headers(){
@@ -115,6 +102,21 @@
                 }
             ]
         }
+    },//data
+
+    async created () {
+      await axios.get(allHjUrl).then((res)=>{
+          this.bonbuNetIncreaseData=res.data.results;
+      }).catch((err)=>{
+          alert(err);
+      });
+    
+        this.getBonbuNetIncreaseValue();
+        this.getDesserts();
+    },
+
+    mounted(){
+    
     },
 
     methods: {  

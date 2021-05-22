@@ -1,13 +1,15 @@
 <template>
-    <v-container fluid>
-        <v-card>
-            <v-row>
-                <v-col>
-                    <p class="text-h5">1.2 고위험 사이트</p>
-                </v-col>
-            </v-row>
-        </v-card>
-    </v-container>
+  <v-container fluid>
+    <v-card>
+      <v-row>
+        <v-col>
+          <p class="text-h5">
+            1.2 고위험 사이트
+          </p>
+        </v-col>
+      </v-row>
+    </v-card>
+  </v-container>
 </template>
 
 <script>

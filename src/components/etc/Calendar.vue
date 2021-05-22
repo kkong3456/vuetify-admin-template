@@ -20,7 +20,7 @@
         hide-details
         class="ma-2"
         label="type"
-      ></v-select>
+      />
       <v-select
         v-model="mode"
         :items="modes"
@@ -29,7 +29,7 @@
         hide-details
         label="event-overlap-mode"
         class="ma-2"
-      ></v-select>
+      />
       <v-select
         v-model="weekday"
         :items="weekdays"
@@ -38,8 +38,8 @@
         hide-details
         label="weekdays"
         class="ma-2"
-      ></v-select>
-      <v-spacer></v-spacer>
+      />
+      <v-spacer />
       <v-btn
         icon
         class="ma-2"
@@ -59,7 +59,7 @@
         :event-overlap-threshold="30"
         :event-color="getEventColor"
         @change="getEvents"
-      ></v-calendar>
+      />
     </v-sheet>
   </div>
 </template>

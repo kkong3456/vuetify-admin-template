@@ -4,15 +4,15 @@ import Vue from 'vue'
 import { Line, mixins } from 'vue-chartjs'
 import axios from 'axios';
 
-const jisaNetNewIncreaseUrl='http://172.21.220.97/api/net/jisa.json/?prod=미디어&bonbu=북부고객본부&kind=start' 
-const jisaNetNewIncreaseUrl2='http://172.21.220.97/api/net/jisa.json/?prod=미디어&bonbu=동부고객본부&kind=start' 
-const xxx=selectedBonbu;
+const jisaNetNewIncreaseUrl='http://172.21.220.97/api/net/jisa.json/?prod=미디어&kind=start&bonbu='
+//const jisaNetNewIncreaseUrl2='http://172.21.220.97/api/net/jisa.json/?prod=미디어&bonbu=동부고객본부&kind=start'
 
-console.log('selected Bonbu is ',selectedBonbu);
-// const jisaNetIncreaseUrl='http://172.21.220.97/api/net/jisa.json/?prod=미디어&bonbu=북부고객본부&kind=net' 
+// const jisaNetIncreaseUrl='http://172.21.220.97/api/net/jisa.json/?prod=미디어&bonbu=북부고객본부&kind=net'
 
 
 const { reactiveProp } = mixins
+
+
 
 const options={      //chart options prop를 사용하지 않는 하위컴포넌트에서는 data에 변수값으로 처리
          responsive:true,
@@ -76,10 +76,13 @@ export default {
   //mixins: [reactiveProp],
   //props: ['options'],
 
+  props:['selectedBonbu'],
 
   components:{
     name:'JisaTvNetNewIncreaseLineChart'
   },
+
+
 
   data(){
     return {
@@ -87,31 +90,59 @@ export default {
       bonbuNetIncreaseData:null,
       bonbuNetIncreaseValueObj:null,
       options:options,
+      //selectedBonbu:'',
+
+
     }
   },
-  
-  props:['selectedBonbu'],
 
-  async created () {
-    await axios.all(
-      [
-        axios.get(jisaNetNewIncreaseUrl),
-        axios.get(jisaNetNewIncreaseUrl2),
-      ]
-    ).then(axios.spread((...res)=>{
-      const resp1=res[0].data.results;
-      const resp2=res[1].data.results;
+  watch:{
 
-      const resp=[...resp1,...resp2];
-      this.bonbuNetIncreaseData=resp;
-    })).catch((err)=>{
-      console.log('데이터를 가져오지 못했습니다',err);
-    });
+    selectedBonbu:(val)=>{
+      console.log(jisaNetNewIncreaseUrl+val);
 
-      this.fillData();
+
+    // selectedBonbu:async (val)=>{
+
+    //     await axios.get(jisaNetNewIncreaseUrl).then((res)=>{
+    //     bonbuNetIncreaseData=res.data.results
+
+    // }).catch((err)=>{
+    //   console.log("데이터를 로드 못했습니다.");
+    //    console.log(val+','+jisaNetNewIncreaseUrl);
+    // });
+
+
+    //  this.fillData();
 
       //console.log(`this.dataCollection is ${this.dataCollection}`);
-      this.renderChart(this.dataCollection,this.options);
+      //this.renderChart(this.dataCollection,this.options);
+    }
+  },
+
+
+  async created () {
+    // console.log('selecttedBonbu is ',this.selectedBonbu);
+    // await axios.all(
+    //   [
+    //     axios.get(jisaNetNewIncreaseUrl),
+    //     axios.get(jisaNetNewIncreaseUrl2),
+    //   ]
+    // ).then(axios.spread((...res)=>{
+
+    //   const resp1=res[0].data.results;
+    //   const resp2=res[1].data.results;
+
+    //   const resp=[...resp1,...resp2];
+    //   this.bonbuNetIncreaseData=resp;
+    // })).catch((err)=>{
+    //   console.log('데이터를 가져오지 못했습니다',err);
+    // });
+
+    //   this.fillData();
+
+    //   //console.log(`this.dataCollection is ${this.dataCollection}`);
+    //   this.renderChart(this.dataCollection,this.options);
   },
 
   methods: {
@@ -131,7 +162,7 @@ export default {
             pointHoverBorderColor:'#ff0000',
             // hoverBorderWith:20,
 
-          }, 
+          },
           {
             label:yyy.광진지사.jojik[0],
             borderColor: '#5F9EA0',
@@ -238,7 +269,7 @@ export default {
       let uiJeongBuJisaObj={}
       let chunCheonJisaObj={}
 
-      
+
 
       const goYangSysdateArray=new Array();
       const goYangjojik2Array=new Array();
@@ -332,7 +363,7 @@ export default {
           noWonCountSumArray.push(item.count_sum);
         }
 
-        
+
          if(item.jojik3_name==='서대문지사'){
           seoDaeMoonSysdateArray.push(item.sysdate);
           seoDaeMoonjojik3Array.push(item.jojik3_name);
@@ -365,14 +396,14 @@ export default {
           uiJeongBuCountSumArray.push(item.count_sum);
         }
 
-  
+
          if(item.jojik3_name==='춘천지사'){
           chunCheonSysdateArray.push(item.sysdate);
           chunCheonjojik3Array.push(item.jojik3_name);
           chunCheonProductArray.push(item.prod2);
           chunCheonCountSumArray.push(item.count_sum);
         }
-       
+
 
 
         goYangJisaObj={
@@ -443,7 +474,7 @@ export default {
           'product': chunCheonProductArray,
           'countSum': chunCheonCountSumArray,
         }
-       
+
         bonbuNetIncreaseValueObj={
           '고양지사': goYangJisaObj,
           '광진지사': gwangJinJisaObj,
@@ -459,7 +490,7 @@ export default {
         }
       });
 
-     
+
       return bonbuNetIncreaseValueObj;
     },
   }  //methods

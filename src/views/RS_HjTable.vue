@@ -1,33 +1,31 @@
 <template>
-<div>
+  <div>
     <v-row>
-        <v-col>
-            <v-card   
-                outlined
-            >
-            <mobile-hj-table></mobile-hj-table>
-            </v-card> 
-        </v-col>
-        <v-col>
-            <v-card 
-                outlined
-            >
-            <internet-hj-table></internet-hj-table>
-            </v-card>
-        </v-col>
+      <v-col>
+        <v-card   
+          outlined
+        >
+          <mobile-hj-table />
+        </v-card> 
+      </v-col>
+      <v-col>
+        <v-card 
+          outlined
+        >
+          <internet-hj-table />
+        </v-card>
+      </v-col>
     </v-row>
     <v-row>
-        <v-col>
-            <v-card
-                outlined
-            >
-            <tv-hj-table></tv-hj-table>
-            </v-card>
-        </v-col>
+      <v-col>
+        <v-card
+          outlined
+        >
+          <tv-hj-table />
+        </v-card>
+      </v-col>
     </v-row>
-    
-    
-</div>  
+  </div>  
 </template>
 
 
@@ -56,6 +54,50 @@
         // thisHjCount:'',     //테이블의 당월해지 기준 소트
         // desserts:this.dessertsArray,
       }
+    },
+    computed:{
+        // headers(){
+        //     return [
+        //         {
+        //             text:'기관명',
+        //             align:'start',
+        //             sortable:false,
+        //             value:'name',
+        //         },
+        //         {
+        //             text:'일자',
+        //             value:'date',
+        //         },
+        //         {
+        //             text:'당월해지',
+        //             value:'thisHjCount',
+        //             filter:value=>{
+        //                 if(!this.thisHjCount) return true
+        //                 return value < parseInt(this.thisHjCount)
+        //             },
+        //         },
+        //         {
+        //             text:'당월비율',
+        //             value:'thisHjRatio',
+        //         },
+        //         {
+        //             text:'전월해지',
+        //             value:'thatHjCount',
+        //         },
+        //         {
+        //             text:'전월비율',
+        //             value:'thisHjRatio',
+        //         },
+        //         {
+        //             text:'개선율',
+        //             value:'upRatio',
+        //         },
+        //         {
+        //             text:'랭킹',
+        //             value:'rank',
+        //         }
+        //     ]
+        // }
     },//data
 
     async created () {
@@ -103,50 +145,6 @@
 
     mounted(){
     
-    },
-    computed:{
-        // headers(){
-        //     return [
-        //         {
-        //             text:'기관명',
-        //             align:'start',
-        //             sortable:false,
-        //             value:'name',
-        //         },
-        //         {
-        //             text:'일자',
-        //             value:'date',
-        //         },
-        //         {
-        //             text:'당월해지',
-        //             value:'thisHjCount',
-        //             filter:value=>{
-        //                 if(!this.thisHjCount) return true
-        //                 return value < parseInt(this.thisHjCount)
-        //             },
-        //         },
-        //         {
-        //             text:'당월비율',
-        //             value:'thisHjRatio',
-        //         },
-        //         {
-        //             text:'전월해지',
-        //             value:'thatHjCount',
-        //         },
-        //         {
-        //             text:'전월비율',
-        //             value:'thisHjRatio',
-        //         },
-        //         {
-        //             text:'개선율',
-        //             value:'upRatio',
-        //         },
-        //         {
-        //             text:'랭킹',
-        //             value:'rank',
-        //         }
-        //     ]
-        // }
     },
 
     methods: {  

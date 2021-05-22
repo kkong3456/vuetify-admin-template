@@ -1,42 +1,44 @@
 <template>
-<div>
-<v-card>
-    <div class="text-h5 text-center font-weight-medium text--secondary">[TV 상품]</div>
-  <v-data-table
-    :headers="headers"
-    :items="desserts"
-    :items-per-page="10"
-    class="elevation-1"
-    :search="search"
-    :custom-filter="filterOnlyCaptsText"
-  >
-    <template v-slot:top>
-        <v-text-field
+  <div>
+    <v-card>
+      <div class="text-h5 text-center font-weight-medium text--secondary">
+        [TV 상품]
+      </div>
+      <v-data-table
+        :headers="headers"
+        :items="desserts"
+        :items-per-page="10"
+        class="elevation-1"
+        :search="search"
+        :custom-filter="filterOnlyCaptsText"
+      >
+        <template v-slot:top>
+          <v-text-field
             v-model="search"
             label="기관명/일자으로 조회"
             class="mx-4"
-        ></v-text-field>
-    </template>
-    <template v-slot:body.append>
-        <tr
+          />
+        </template>
+        <template v-slot:body.append>
+          <tr
             cols="12"
             lg="6"    
-        >
-            <td></td>
+          >
+            <td />
             <td>
-                <v-text-field
-                    v-model="thisHjCount"
-                    type="number"
-                    label="당월해지 건수기준 조회(이하)"
-                ></v-text-field>
+              <v-text-field
+                v-model="thisHjCount"
+                type="number"
+                label="당월해지 건수기준 조회(이하)"
+              />
             </td>
-            <td colspan="4"></td>
-        </tr>
-    </template>
-  </v-data-table>
-<!-- <button v-on:click="getBonbuDesserts()">vvv</button> -->
-</v-card>
-</div>
+            <td colspan="4" />
+          </tr>
+        </template>
+      </v-data-table>
+      <!-- <button v-on:click="getBonbuDesserts()">vvv</button> -->
+    </v-card>
+  </div>
 </template>
 
 
@@ -63,6 +65,50 @@
         thisHjCount:'',     //테이블의 당월해지 기준 소트
         desserts:this.dessertsArray,
       }
+    },
+    computed:{
+        headers(){
+            return [
+                {
+                    text:'기관명',
+                    align:'start',
+                    sortable:false,
+                    value:'name',
+                },
+                {
+                    text:'일자',
+                    value:'date',
+                },
+                {
+                    text:'당월해지',
+                    value:'thisHjCount',
+                    filter:value=>{
+                        if(!this.thisHjCount) return true
+                        return value < parseInt(this.thisHjCount)
+                    },
+                },
+                {
+                    text:'당월비율',
+                    value:'thisHjRatio',
+                },
+                {
+                    text:'전월해지',
+                    value:'thatHjCount',
+                },
+                {
+                    text:'전월비율',
+                    value:'thisHjRatio',
+                },
+                {
+                    text:'개선율',
+                    value:'upRatio',
+                },
+                {
+                    text:'랭킹',
+                    value:'rank',
+                }
+            ]
+        }
     },//data
 
     async created () {
@@ -110,50 +156,6 @@
 
     mounted(){
     
-    },
-    computed:{
-        headers(){
-            return [
-                {
-                    text:'기관명',
-                    align:'start',
-                    sortable:false,
-                    value:'name',
-                },
-                {
-                    text:'일자',
-                    value:'date',
-                },
-                {
-                    text:'당월해지',
-                    value:'thisHjCount',
-                    filter:value=>{
-                        if(!this.thisHjCount) return true
-                        return value < parseInt(this.thisHjCount)
-                    },
-                },
-                {
-                    text:'당월비율',
-                    value:'thisHjRatio',
-                },
-                {
-                    text:'전월해지',
-                    value:'thatHjCount',
-                },
-                {
-                    text:'전월비율',
-                    value:'thisHjRatio',
-                },
-                {
-                    text:'개선율',
-                    value:'upRatio',
-                },
-                {
-                    text:'랭킹',
-                    value:'rank',
-                }
-            ]
-        }
     },
 
     methods: {  
