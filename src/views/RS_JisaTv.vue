@@ -8,8 +8,9 @@
           <template>
             <v-select
               v-model="selectedBonbu"
-              :items="['동부고객본부', '북부고객본부', '서부고객본부', '강남고객본부']"
+              :items="['동부고객본부', '북부고객본부', '서부고객본부', '강남고객본부','충남/충북고객본부','전남/전북고객본부','부산/경남고객본부','대구/경북고객본부']"
               label="광역본부"
+              @change="changeUrl(selectedBonbu)"
             >
               <template v-slot:item="{ item, attrs, on }">
                 <v-list-item
@@ -19,7 +20,7 @@
                   <v-list-item-title
                     :id="attrs['aria-labelledby']"
                     v-text="item"
-                  ></v-list-item-title>
+                  />
                 </v-list-item>
               </template>
             </v-select>
@@ -34,7 +35,10 @@
           <p class="text-h5 text-center">
             [지사  TV 순신규 추이]
           </p>
-          <jisa-tv-net-new-increase-line-chart v-bind:selectedBonbu="selectedBonbu"/>
+          <jisa-tv-net-new-increase-line-chart 
+            ref="changeBonbu1"
+            :selected-bonbu="selectedBonbu"  
+          />
         </v-col>
       </v-row>
       <v-row>
@@ -42,7 +46,10 @@
           <p class="text-h5 text-center">
             [지사 TV 순해지 추이]
           </p>
-          <jisa-tv-hj-line-chart />
+          <jisa-tv-hj-line-chart 
+            ref="changeBonbu2"
+            
+          />
         </v-col>
       </v-row>
       <v-row>
@@ -50,7 +57,9 @@
           <p class="text-h5 text-center">
             [지사 TV 순증/감 추이]
           </p>
-          <jisa-tv-net-increase-line-chart />
+          <jisa-tv-net-increase-line-chart 
+            ref="changeBonbu3"
+          />
         </v-col>
       </v-row>
     </v-card>
@@ -73,7 +82,15 @@ export default {
 
   data(){
     return{
-      selectedBonbu:'',
+      selectedBonbu:'북부고객본부',
+    }
+  },
+  methods:{
+    changeUrl(selectedBonbu){
+      console.log(selectedBonbu);
+      this.$refs.changeBonbu1.changeBonbu(selectedBonbu);
+      this.$refs.changeBonbu2.changeBonbu(selectedBonbu);
+      this.$refs.changeBonbu3.changeBonbu(selectedBonbu);
     }
   }
 
