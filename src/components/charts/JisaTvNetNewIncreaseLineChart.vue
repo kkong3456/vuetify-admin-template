@@ -21,13 +21,13 @@ const bonbuJisaObj={
 
 
 const options={      //chart options prop를 사용하지 않는 하위컴포넌트에서는 data에 변수값으로 처리
-         responsive:true,
-         maintainAspectRatio:false,//차트 width,ehgith  자동 크기조절
-        // hoverBorderWidth:5,
-        // borderWidth:20,
-        // legend:{
-        //   display:true,
-        // },
+          responsive:true,
+          maintainAspectRatio:false,//차트 width,ehgith  자동 크기조절
+          hoverBorderWidth:5,
+          borderWidth:1,
+          legend:{
+            display:true,
+          },
           plugins:{
             legend:{
               display:true,
@@ -120,14 +120,8 @@ export default {
       })
     },
 
-
-
-   
-
     fillData (bonbuName) {
       const yyy=this.getBonbuNetIncreaseValue(bonbuName);
-      console.log(`yyyy['강남'] is ${yyy.firstJisa.sysdate}`)
-      let datasets=[];
      
       if(bonbuName==='북부고객본부' || bonbuName==='동부고객본부' || bonbuName==='전남/전북고객본부'){
         this.dataCollection = {
@@ -135,51 +129,51 @@ export default {
           datasets: [
             {
               label:yyy.firstJisa.jojik[0],     // 범례
-              borderColor: '#20B2AA',
-              backgroundColor:"transparent",
+              borderColor: '#6697F8',
+              backgroundColor:"#transparent",
               data: yyy.firstJisa.countSum,
               fill:false,
-              // tension:.5,
+              tension:.5,
               pointHoverBorderColor:'#ff0000',
               // hoverBorderWith:20,
 
             },
             {
               label:yyy.secondJisa.jojik[0],
-              borderColor: '#5F9EA0',
+              borderColor: '#5CE082',
               backgroundColor:"transparent",
               data: yyy.secondJisa.countSum,
               fill:false,
-              // tension:.5,
+              tension:.5,
               pointHoverBorderColor:'#ff0000',
             },
             {
               label: yyy.thirdJisa.jojik[0],
-              borderColor: '#7FFFD4',
+              borderColor: '#F7E872',
               backgroundColor:"transparent",
               data: yyy.thirdJisa.countSum,
               fill:false,
-              // tension:.5,
+              tension:.5,
               pointHoverBorderColor:'#ff0000',
             },
 
             {
               label: yyy.fourthJisa.jojik[0],
-              borderColor: '#7FFFD4',
+              borderColor: '#E0815C',
               backgroundColor:"transparent",
               data: yyy.fourthJisa.countSum,
               fill:false,
-              // tension:.5,
+              tension:.5,
               pointHoverBorderColor:'#ff0000',
             },
 
             {
               label: yyy.fifthJisa.jojik[0],
-              borderColor: '#8FFFD4',
+              borderColor: '#C641FF',
               backgroundColor:"transparent",
               data: yyy.fifthJisa.countSum,
               fill:false,
-              // tension:.5,
+              tension:.5,
               pointHoverBorderColor:'#ff0000',
             },
           ]
@@ -191,7 +185,7 @@ export default {
           datasets: [
             {
               label:yyy.firstJisa.jojik[0],     // 범례
-              borderColor: '#20B2AA',
+              borderColor: '#6697F8',
               backgroundColor:"transparent",
               data: yyy.firstJisa.countSum,
               fill:false,
@@ -202,7 +196,7 @@ export default {
             },
             {
               label:yyy.secondJisa.jojik[0],
-              borderColor: '#5F9EA0',
+              borderColor: '#5CE082',
               backgroundColor:"transparent",
               data: yyy.secondJisa.countSum,
               fill:false,
@@ -211,7 +205,7 @@ export default {
             },
             {
               label: yyy.thirdJisa.jojik[0],
-              borderColor: '#7FFFD4',
+              borderColor: '#F7E872',
               backgroundColor:"transparent",
               data: yyy.thirdJisa.countSum,
               fill:false,
@@ -221,7 +215,7 @@ export default {
 
             {
               label: yyy.fourthJisa.jojik[0],
-              borderColor: '#7FFFD4',
+              borderColor: '#E0815C',
               backgroundColor:"transparent",
               data: yyy.fourthJisa.countSum,
               fill:false,
@@ -231,7 +225,7 @@ export default {
 
             {
               label: yyy.fifthJisa.jojik[0],
-              borderColor: '#8FFFD4',
+              borderColor: '#C641FF',
               backgroundColor:"transparent",
               data: yyy.fifthJisa.countSum,
               fill:false,
@@ -241,7 +235,7 @@ export default {
 
             {
               label: yyy.sixthJisa.jojik[0],
-              borderColor: '#8FFFD4',
+              borderColor: '#FF81B1',
               backgroundColor:"transparent",
               data: yyy.sixthJisa.countSum,
               fill:false,
@@ -332,18 +326,6 @@ export default {
 
 
     getBonbuNetIncreaseValue(url){    //본부별 순익(y축)
-
-      let jisaCount=0;
-
-      console.log('url is ',url);
-     
-        if (Object.keys(bonbuJisaObj).includes(url)){
-          jisaCount=bonbuJisaObj[url].length;
-          console.log(bonbuJisaObj[url][0]);
-        }else{
-          console.log('해당 되는 본부명이 없습니다.');
-        }
-      
       let bonbuNetIncreaseValueObj={};
       let firstJisaObj={};
       let secondJisaObj={}

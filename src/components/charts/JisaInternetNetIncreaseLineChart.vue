@@ -126,8 +126,8 @@ export default {
 
     fillData (bonbuName) {
       const yyy=this.getBonbuNetIncreaseValue(bonbuName);
-      console.log(`yyyy['강남'] is ${yyy.firstJisa.sysdate}`)
-      let datasets=[];
+      //console.log(`yyyy['강남'] is ${yyy.firstJisa.sysdate}`)
+
      
       if(bonbuName==='북부고객본부' || bonbuName==='동부고객본부' || bonbuName==='전남/전북고객본부'){
         this.dataCollection = {
