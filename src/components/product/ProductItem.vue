@@ -36,6 +36,6 @@
 <script>
 
 export default {
-    name:'ProductItem',    
+  name:'ProductItem',    
 }
 </script>

@@ -16,9 +16,14 @@
     </template>
     <v-list-item>
       <v-list-item-content>
-        <v-list-item-title class="text-h4 font-weight-bold">
-          RS-AI
-        </v-list-item-title>
+        <router-link
+          to="/"
+          class="text-decoration-none white--text"
+        >
+          <v-list-item-title class="text-h4 font-weight-bold">
+            RS-AI
+          </v-list-item-title>
+        </router-link>
         <v-list-item-subtitle class="teal--text text--lighten-4">
           강북/강원 코어센터
         </v-list-item-subtitle>
@@ -78,9 +83,9 @@
 <script>
 
 export default {
-    name:'DefaultDrawer',
+  name:'DefaultDrawer',
 
-    data: () => ({
+  data: () => ({
     gradient:'rgba(0,0,0,0.7),rgba(0,0,0,0.7)',
     // items: [
     //   { title: '1. 해지 예측 정보', icon: 'mdi-view-dashboard' ,to:'/'},
@@ -89,96 +94,96 @@ export default {
     //  ],
     right: null,
     links: [
-    {
+      {
         to     : '/',
         icon   : 'mdi-view-dashboard',
         text   : 'Dashboard',
-    },
+      },
 
-    {
+      {
         icon     : 'mdi-folder',
         text     : '1. 해지 예측 정보',
         subLinks : [
-            {
-                text : '1-1 예측 시나리오',
-                to    : '/scenario',
-                icon  : 'mdi-plus'
-            },
-            {
-                text : '1-2 고 위험 사이트',
-                to    : '/dangeroussite',
-                icon  : 'mdi-plus'
-            },
+          {
+            text : '1-1 예측 시나리오',
+            to    : '/scenario',
+            icon  : 'mdi-plus'
+          },
+          {
+            text : '1-2 고 위험 사이트',
+            to    : '/dangeroussite',
+            icon  : 'mdi-plus'
+          },
         ]
-    },
-    {
+      },
+      {
         icon     : 'mdi-folder',
         text     : '2. 해지 징후 VOC',
         subLinks : [
-            {
-                text : '2-1 해지관련 VOC 추이',
-                to    : '/sale-voc',
-                icon  : 'mdi-plus'
-            },
-            {
-                text : '2-2 유무선 품질 VOC',
-                to    : '/network-voc',
-                icon  : 'mdi-plus'
-            },
+          {
+            text : '2-1 해지관련 VOC 추이',
+            to    : '/sale-voc',
+            icon  : 'mdi-plus'
+          },
+          {
+            text : '2-2 유무선 품질 VOC',
+            to    : '/network-voc',
+            icon  : 'mdi-plus'
+          },
         ]
-    },
-    {
+      },
+      {
         icon     : 'mdi-folder',
         text     : '3. 실적/지표 관리',
         subLinks : [
-            {
-                text : '3-1 본부별 추이',
-                to    : '/bonbu',
-                icon  : 'mdi-plus'
-            },
-            {
-                text : '3-2 상품별 추이',
-                to    : '/product',
-                icon  : 'mdi-plus'
-            },
-            {
-                text : '3-3 지사별 추이(TV)',
-                to    : '/jisa-tv',
-                icon  : 'mdi-plus'
-            },
-            {
-                text : '3-4 지사별 추이(무선)',
-                to    : '/jisa-wireless',
-                icon  : 'mdi-plus'
-            },
-            {
-                text : '3-5 지사별 추이(인터넷)',
-                to    : '/jisa-internet',
-                icon  : 'mdi-plus'
-            },
-            {
-                text : '3-6 해지현황 표(상품별)',
-                to : '/hj-table',
-                icon  : 'mdi-plus'
-            }
-            // {
-            //   text: '로그인',
-            //   to : '/authentication/sign-in',
-            //   icon :'mdi-login'
-            // },
-            // {
-            //   text:'회원가입',
-            //   to:'/authentication/sign-up',
-            //   icon:'mdi-account-group'
-            // },{
-            //   text:'상품리스트',
-            //   to:'/page/product-list',
-            //   icon:'mdi-gift'
-            // }
+          {
+            text : '3-1 본부별 추이',
+            to    : '/bonbu',
+            icon  : 'mdi-plus'
+          },
+          {
+            text : '3-2 상품별 추이',
+            to    : '/product',
+            icon  : 'mdi-plus'
+          },
+          {
+            text : '3-3 지사별 추이(TV)',
+            to    : '/jisa-tv',
+            icon  : 'mdi-plus'
+          },
+          {
+            text : '3-4 지사별 추이(무선)',
+            to    : '/jisa-wireless',
+            icon  : 'mdi-plus'
+          },
+          {
+            text : '3-5 지사별 추이(인터넷)',
+            to    : '/jisa-internet',
+            icon  : 'mdi-plus'
+          },
+          {
+            text : '3-6 해지현황 표(상품별)',
+            to : '/hj-table',
+            icon  : 'mdi-plus'
+          }
+          // {
+          //   text: '로그인',
+          //   to : '/authentication/sign-in',
+          //   icon :'mdi-login'
+          // },
+          // {
+          //   text:'회원가입',
+          //   to:'/authentication/sign-up',
+          //   icon:'mdi-account-group'
+          // },{
+          //   text:'상품리스트',
+          //   to:'/page/product-list',
+          //   icon:'mdi-gift'
+          // }
         ]
-    }
-  ]
-})
+      }
+    ]
+  })
 }
 
 </script>

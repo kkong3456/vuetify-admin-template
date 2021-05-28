@@ -7,6 +7,6 @@
 </template>
 <script>
 export default {
-    name:'DefaultView',
+  name:'DefaultView',
 }
 </script>

@@ -21,65 +21,65 @@ const bonbuJisaObj={
 
 
 const options={      //chart options prop를 사용하지 않는 하위컴포넌트에서는 data에 변수값으로 처리
-         responsive:true,
-         maintainAspectRatio:false,//차트 width,ehgith  자동 크기조절
-        // hoverBorderWidth:5,
-        // borderWidth:20,
-        // legend:{
-        //   display:true,
-        // },
-          plugins:{
-            legend:{
-              display:true,
-              align:'center',
-            },
-            title:{
-              display:true,
-              text:'XXX',
-            },
-          },
-          elements:{
-            point:{
-              pointStyle:'circle',
-              radius:3,
-              // borderWidth:10,
-              hoverRadius:5,
-            },
-            line:{
-              tension:.3,
-              //stepped:true,
-            }
+  responsive:true,
+  maintainAspectRatio:false,//차트 width,ehgith  자동 크기조절
+  // hoverBorderWidth:5,
+  // borderWidth:20,
+  // legend:{
+  //   display:true,
+  // },
+  plugins:{
+    legend:{
+      display:true,
+      align:'center',
+    },
+    title:{
+      display:true,
+      text:'XXX',
+    },
+  },
+  elements:{
+    point:{
+      pointStyle:'circle',
+      radius:3,
+      // borderWidth:10,
+      hoverRadius:5,
+    },
+    line:{
+      tension:.3,
+      //stepped:true,
+    }
 
-          }
+  }
 
-        // scales:{
-        //   yAxes:[{
-        //     ticks:{
-        //       min:0,
-        //       // max:2500,
-        //       //stepSize:500,
-        //       //fontSie:52,
-        //     },
-        //     gridLines:{
-        //       //display:false,
-        //       drawBorder:false,
-        //     }
-        //   }],
-        //   xAxes:[{
-        //     display:true,
-        //     gridLines:{
-        //       display:false,
-        //       drawBorder:false,
-        //     }
-        //   }]
-        // }
-      } //end options
+  // scales:{
+  //   yAxes:[{
+  //     ticks:{
+  //       min:0,
+  //       // max:2500,
+  //       //stepSize:500,
+  //       //fontSie:52,
+  //     },
+  //     gridLines:{
+  //       //display:false,
+  //       drawBorder:false,
+  //     }
+  //   }],
+  //   xAxes:[{
+  //     display:true,
+  //     gridLines:{
+  //       display:false,
+  //       drawBorder:false,
+  //     }
+  //   }]
+  // }
+} //end options
 
 export default {
-  extends: Line,
-  mixins: [reactiveProp],
   //props: ['options'],
   name:'JisaInternetNetNewIncreaseLineChart',
+  extends: Line,
+  mixins: [reactiveProp],
 
 
   data(){
@@ -94,14 +94,14 @@ export default {
   },
  
   async created () {
-     await axios.get(jisaNetNewIncreaseUrl+'북부고객본부').then((res)=>{
-        this.bonbuNetIncreaseData=res.data.results;
+    await axios.get(jisaNetNewIncreaseUrl+'북부고객본부').then((res)=>{
+      this.bonbuNetIncreaseData=res.data.results;
       
-        this.fillData('북부고객본부');
-        this.renderChart(this.dataCollection,this.options);
-      }).catch((err)=>{
-        console.log('데이터를 가져오지 못했습니다.',err);
-      })
+      this.fillData('북부고객본부');
+      this.renderChart(this.dataCollection,this.options);
+    }).catch((err)=>{
+      console.log('데이터를 가져오지 못했습니다.',err);
+    })
   },
 
   methods: {
@@ -333,12 +333,12 @@ export default {
 
       console.log('url is ',url);
      
-        if (Object.keys(bonbuJisaObj).includes(url)){
-          jisaCount=bonbuJisaObj[url].length;
-          console.log(bonbuJisaObj[url][0]);
-        }else{
-          console.log('해당 되는 본부명이 없습니다.');
-        }
+      if (Object.keys(bonbuJisaObj).includes(url)){
+        jisaCount=bonbuJisaObj[url].length;
+        console.log(bonbuJisaObj[url][0]);
+      }else{
+        console.log('해당 되는 본부명이 없습니다.');
+      }
       
       let bonbuNetIncreaseValueObj={};
       let firstJisaObj={};
@@ -396,7 +396,7 @@ export default {
       
 
       this.bonbuNetIncreaseData.map((item)=>{
-          //console.log('item is ',item);
+        //console.log('item is ',item);
 
         if(item.jojik3_name===bonbuJisaObj[url][0]){
           firstSysdateArray.push(item.sysdate);
@@ -426,21 +426,21 @@ export default {
         }
 
 
-         if(item.jojik3_name===bonbuJisaObj[url][4]){
+        if(item.jojik3_name===bonbuJisaObj[url][4]){
           fifthSysdateArray.push(item.sysdate);
           fifthjojik3Array.push(item.jojik3_name);
           fifthProductArray.push(item.prod2);
           fifthCountSumArray.push(item.count_sum);
         }
 
-         if(item.jojik3_name===bonbuJisaObj[url][5]){
+        if(item.jojik3_name===bonbuJisaObj[url][5]){
           sixthSysdateArray.push(item.sysdate);
           sixthjojik3Array.push(item.jojik3_name);
           sixthProductArray.push(item.prod2);
           sixthCountSumArray.push(item.count_sum);
         }
 
-         if(item.jojik3_name===bonbuJisaObj[url][6]){
+        if(item.jojik3_name===bonbuJisaObj[url][6]){
           seventhSysdateArray.push(item.sysdate);
           seventhjojik3Array.push(item.jojik3_name);
           seventhProductArray.push(item.prod2);

@@ -37,7 +37,6 @@
           </p>
           <jisa-tv-net-new-increase-line-chart 
             ref="changeBonbu1"
-            :selected-bonbu="selectedBonbu"  
           />
         </v-col>
       </v-row>
@@ -48,7 +47,6 @@
           </p>
           <jisa-tv-hj-line-chart 
             ref="changeBonbu2"
-            
           />
         </v-col>
       </v-row>

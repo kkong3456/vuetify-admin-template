@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card>
-       <v-row
+      <v-row
         class="mb-5"
       >
         <v-col>
@@ -81,7 +81,7 @@ export default {
     }
   },
 
-   methods:{
+  methods:{
     changeUrl(selectedBonbu){
       console.log(selectedBonbu);
       this.$refs.changeBonbu1.changeBonbu(selectedBonbu);

@@ -3,7 +3,7 @@ import Vue from 'vue'
 import { Line, mixins } from 'vue-chartjs'
 import axios from 'axios';
 
-const jisaNetNewIncreaseUrl='http://172.21.220.97/api/net/jisa.json/?prod=미디어&kind=net&bonbu='
+const jisaVocUrl='http://172.21.220.97/api/voc/rm.json/?&kind=jisa&bonbu='
 
 const { reactiveProp } = mixins
 
@@ -23,11 +23,11 @@ const bonbuJisaObj={
 const options={      //chart options prop를 사용하지 않는 하위컴포넌트에서는 data에 변수값으로 처리
   responsive:true,
   maintainAspectRatio:false,//차트 width,ehgith  자동 크기조절
-  // hoverBorderWidth:5,
-  // borderWidth:20,
-  // legend:{
-  //   display:true,
-  // },
+  hoverBorderWidth:5,
+  borderWidth:1,
+  legend:{
+    display:true,
+  },
   plugins:{
     legend:{
       display:true,
@@ -47,6 +47,7 @@ const options={      //chart options prop를 사용하지 않는 하위컴포넌
     },
     line:{
       tension:.3,
+      borderWidth:1,
       //stepped:true,
     }
 
@@ -76,12 +77,12 @@ const options={      //chart options prop를 사용하지 않는 하위컴포넌
 } //end options
 
 export default {
-  name:'JisaTvNetIncreaseLineChart',
-  extends: Line,
-  mixins: [reactiveProp],
   //props: ['options'],
 
-  props:['selectedBonbu'],
+
+  name:'JisaTvNetNewIncreaseLineChart',
+  extends: Line,
+  mixins: [reactiveProp],
 
 
   data(){
@@ -90,14 +91,13 @@ export default {
       bonbuNetIncreaseData:null,
       bonbuNetIncreaseValueObj:null,
       options:options,
-      //selectedBonbu:'',
-
     }
   },
  
   async created () {
-    await axios.get(jisaNetNewIncreaseUrl+'북부고객본부').then((res)=>{
+    await axios.get(jisaVocUrl+'북부고객본부').then((res)=>{
       this.bonbuNetIncreaseData=res.data.results;
+      //console.log(this.bonbuNetIncreaseData);
       
       this.fillData('북부고객본부');
       this.renderChart(this.dataCollection,this.options);
@@ -110,9 +110,9 @@ export default {
     async changeBonbu(bonbuName){
 
       //console.log('url is ',url);
-      await axios.get(jisaNetNewIncreaseUrl+bonbuName).then((res)=>{
+      await axios.get(jisaVocUrl+bonbuName).then((res)=>{
         this.bonbuNetIncreaseData=res.data.results;
-      
+        
         this.fillData(bonbuName);
         this.renderChart(this.dataCollection,this.options);
       }).catch((err)=>{
@@ -120,76 +120,74 @@ export default {
       })
     },
 
-
-
-   
-
     fillData (bonbuName) {
       const yyy=this.getBonbuNetIncreaseValue(bonbuName);
      
       if(bonbuName==='북부고객본부' || bonbuName==='동부고객본부' || bonbuName==='전남/전북고객본부'){
+        console.log('this is 북부/동부/전남/전북 본부');
         this.dataCollection = {
           labels:yyy.firstJisa.sysdate.map((day)=>day.substring(5,10)),
           datasets: [
             {
               label:yyy.firstJisa.jojik[0],     // 범례
-              borderColor: '#20B2AA',
-              backgroundColor:"transparent",
+              borderColor: '#6697F8',
+              backgroundColor:"#transparent",
               data: yyy.firstJisa.countSum,
               fill:false,
-              // tension:.5,
+              tension:.5,
               pointHoverBorderColor:'#ff0000',
               // hoverBorderWith:20,
 
             },
             {
               label:yyy.secondJisa.jojik[0],
-              borderColor: '#5F9EA0',
+              borderColor: '#5CE082',
               backgroundColor:"transparent",
               data: yyy.secondJisa.countSum,
               fill:false,
-              // tension:.5,
+              tension:.5,
               pointHoverBorderColor:'#ff0000',
             },
             {
               label: yyy.thirdJisa.jojik[0],
-              borderColor: '#7FFFD4',
+              borderColor: '#F7E872',
               backgroundColor:"transparent",
               data: yyy.thirdJisa.countSum,
               fill:false,
-              // tension:.5,
+              tension:.5,
               pointHoverBorderColor:'#ff0000',
             },
 
             {
               label: yyy.fourthJisa.jojik[0],
-              borderColor: '#7FFFD4',
+              borderColor: '#E0815C',
               backgroundColor:"transparent",
               data: yyy.fourthJisa.countSum,
               fill:false,
-              // tension:.5,
+              tension:.5,
               pointHoverBorderColor:'#ff0000',
             },
 
             {
               label: yyy.fifthJisa.jojik[0],
-              borderColor: '#8FFFD4',
+              borderColor: '#C641FF',
               backgroundColor:"transparent",
               data: yyy.fifthJisa.countSum,
               fill:false,
-              // tension:.5,
+              tension:.5,
               pointHoverBorderColor:'#ff0000',
             },
           ]
         }
       }
       if(bonbuName==='강남고객본부' || bonbuName==='충남/충북고객본부' || bonbuName==='대구/경북고객본부'){
+        console.log('this is  강남 본부');
         this.dataCollection = {
           labels:yyy.firstJisa.sysdate.map((day)=>day.substring(5,10)),
           datasets: [
             {
               label:yyy.firstJisa.jojik[0],     // 범례
-              borderColor: '#20B2AA',
+              borderColor: '#6697F8',
               backgroundColor:"transparent",
               data: yyy.firstJisa.countSum,
               fill:false,
@@ -200,7 +198,7 @@ export default {
             },
             {
               label:yyy.secondJisa.jojik[0],
-              borderColor: '#5F9EA0',
+              borderColor: '#5CE082',
               backgroundColor:"transparent",
               data: yyy.secondJisa.countSum,
               fill:false,
@@ -209,7 +207,7 @@ export default {
             },
             {
               label: yyy.thirdJisa.jojik[0],
-              borderColor: '#7FFFD4',
+              borderColor: '#F7E872',
               backgroundColor:"transparent",
               data: yyy.thirdJisa.countSum,
               fill:false,
@@ -219,7 +217,7 @@ export default {
 
             {
               label: yyy.fourthJisa.jojik[0],
-              borderColor: '#7FFFD4',
+              borderColor: '#E0815C',
               backgroundColor:"transparent",
               data: yyy.fourthJisa.countSum,
               fill:false,
@@ -229,7 +227,7 @@ export default {
 
             {
               label: yyy.fifthJisa.jojik[0],
-              borderColor: '#8FFFD4',
+              borderColor: '#C641FF',
               backgroundColor:"transparent",
               data: yyy.fifthJisa.countSum,
               fill:false,
@@ -239,7 +237,7 @@ export default {
 
             {
               label: yyy.sixthJisa.jojik[0],
-              borderColor: '#8FFFD4',
+              borderColor: '#FF81B1',
               backgroundColor:"transparent",
               data: yyy.sixthJisa.countSum,
               fill:false,
@@ -329,8 +327,7 @@ export default {
     },  //fillData()
 
 
-    getBonbuNetIncreaseValue(url){    //본부별 순익(y
-      
+    getBonbuNetIncreaseValue(url){    //본부별 순익(y축)
       let bonbuNetIncreaseValueObj={};
       let firstJisaObj={};
       let secondJisaObj={}
@@ -339,6 +336,7 @@ export default {
       let fifthJisaObj={}
       let sixthJisaObj={}
       let seventhJisaObj={}
+      //console.log('url is ',url);
 
       const firstSysdateArray=new Array();
       const firstjojik2Array=new Array();
@@ -389,52 +387,52 @@ export default {
       this.bonbuNetIncreaseData.map((item)=>{
         //console.log('item is ',item);
 
-        if(item.jojik3_name===bonbuJisaObj[url][0]){
-          firstSysdateArray.push(item.sysdate);
-          firstjojik3Array.push(item.jojik3_name);
-          firstProductArray.push(item.prod2);
+        if(item.sy_jojik3===bonbuJisaObj[url][0]){
+          firstSysdateArray.push(item.basedate);
+          firstjojik3Array.push(item.sy_jojik3);
+          //firstProductArray.push(item.prod2);
           firstCountSumArray.push(item.count_sum);
         }
 
-        if(item.jojik3_name===bonbuJisaObj[url][1]){
-          secondSysdateArray.push(item.sysdate);
-          secondjojik3Array.push(item.jojik3_name);
-          secondProductArray.push(item.prod2);
+        if(item.sy_jojik3===bonbuJisaObj[url][1]){
+          secondSysdateArray.push(item.basedate);
+          secondjojik3Array.push(item.sy_jojik3);
+          //secondProductArray.push(item.prod2);
           secondCountSumArray.push(item.count_sum);
         }
 
-        if(item.jojik3_name===bonbuJisaObj[url][2]){
-          thirdSysdateArray.push(item.sysdate);
-          thirdjojik3Array.push(item.jojik3_name);
-          thirdProductArray.push(item.prod2);
+        if(item.sy_jojik3===bonbuJisaObj[url][2]){
+          thirdSysdateArray.push(item.basedate);
+          thirdjojik3Array.push(item.sy_jojik3);
+          //thirdProductArray.push(item.prod2);
           thirdCountSumArray.push(item.count_sum);
         }
-        if(item.jojik3_name===bonbuJisaObj[url][3]){
-          fourthSysdateArray.push(item.sysdate);
-          fourthjojik3Array.push(item.jojik3_name);
-          fourthProductArray.push(item.prod2);
+        if(item.sy_jojik3===bonbuJisaObj[url][3]){
+          fourthSysdateArray.push(item.basedate);
+          fourthjojik3Array.push(item.sy_jojik3);
+          //fourthProductArray.push(item.prod2);
           fourthCountSumArray.push(item.count_sum);
         }
 
 
-        if(item.jojik3_name===bonbuJisaObj[url][4]){
-          fifthSysdateArray.push(item.sysdate);
-          fifthjojik3Array.push(item.jojik3_name);
-          fifthProductArray.push(item.prod2);
+        if(item.sy_jojik3===bonbuJisaObj[url][4]){
+          fifthSysdateArray.push(item.basedate);
+          fifthjojik3Array.push(item.sy_jojik3);
+          //fifthProductArray.push(item.prod2);
           fifthCountSumArray.push(item.count_sum);
         }
 
-        if(item.jojik3_name===bonbuJisaObj[url][5]){
-          sixthSysdateArray.push(item.sysdate);
-          sixthjojik3Array.push(item.jojik3_name);
-          sixthProductArray.push(item.prod2);
+        if(item.sy_jojik3===bonbuJisaObj[url][5]){
+          sixthSysdateArray.push(item.basedate);
+          sixthjojik3Array.push(item.sy_jojik3);
+          //sixthProductArray.push(item.prod2);
           sixthCountSumArray.push(item.count_sum);
         }
 
-        if(item.jojik3_name===bonbuJisaObj[url][6]){
-          seventhSysdateArray.push(item.sysdate);
-          seventhjojik3Array.push(item.jojik3_name);
-          seventhProductArray.push(item.prod2);
+        if(item.sy_jojik3===bonbuJisaObj[url][6]){
+          seventhSysdateArray.push(item.basedate);
+          seventhjojik3Array.push(item.sy_jojik3);
+          //seventhProductArray.push(item.prod2);
           seventhCountSumArray.push(item.count_sum);
         }
       });
@@ -442,51 +440,51 @@ export default {
       firstJisaObj={
         'sysdate': firstSysdateArray,
         'jojik': firstjojik3Array,
-        'product': firstProductArray,
+        //'product': firstProductArray,
         'countSum': firstCountSumArray,
       }
 
       secondJisaObj={
         'sysdate': secondSysdateArray,
         'jojik':secondjojik3Array,
-        'product': secondProductArray,
+        // 'product': secondProductArray,
         'countSum': secondCountSumArray,
       }
 
       thirdJisaObj={
         'sysdate': thirdSysdateArray,
         'jojik':thirdjojik3Array,
-        'product': thirdProductArray,
+        // 'product': thirdProductArray,
         'countSum': thirdCountSumArray,
       }
       fourthJisaObj={
         'sysdate': fourthSysdateArray,
         'jojik': fourthjojik3Array,
-        'product': fourthProductArray,
+        //  'product': fourthProductArray,
         'countSum': fourthCountSumArray,
       }
 
       fifthJisaObj={
         'sysdate': fifthSysdateArray,
         'jojik':fifthjojik3Array,
-        'product': fifthProductArray,
+        //  'product': fifthProductArray,
         'countSum': fifthCountSumArray,
       }
 
       sixthJisaObj={
         'sysdate': sixthSysdateArray,
         'jojik': sixthjojik3Array,
-        'product': sixthProductArray,
+        //  'product': sixthProductArray,
         'countSum': sixthCountSumArray,
       }
     
       seventhJisaObj={
         'sysdate': seventhSysdateArray,
         'jojik': seventhjojik3Array,
-        'product': seventhProductArray,
+        //  'product': seventhProductArray,
         'countSum': seventhCountSumArray,
       }
-  
+    
       bonbuNetIncreaseValueObj={
         'firstJisa': firstJisaObj,
         'secondJisa': secondJisaObj,

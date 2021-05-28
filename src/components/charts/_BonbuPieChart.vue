@@ -6,10 +6,10 @@ import axios from 'axios';
 const bonbuNetIncreaseUrl='http://localhost:8000/api/bonbu-net-increase-list/';
 
 
-  const options={
-    responsive :true,
-    maintainAspectRatio:false,
-  };
+const options={
+  responsive :true,
+  maintainAspectRatio:false,
+};
 
 export default {
   extends: Pie,

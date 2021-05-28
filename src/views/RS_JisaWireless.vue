@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card>
-       <v-row
+      <v-row
         class="mb-5"
       >
         <v-col>

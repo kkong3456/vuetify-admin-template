@@ -6,6 +6,6 @@
 
 <script>
 export default {
-    name:'AuthenticationView'
+  name:'AuthenticationView'
 }
 </script>

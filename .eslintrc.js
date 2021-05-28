@@ -9,5 +9,6 @@ module.exports = {
   rules: {
     'vuetify/no-deprecated-classes': 'error',
     'vuetify/no-legacy-grid':'error',  //veutify 2.0 미만버전 코딩 에러처리
+    'indent':["error",2],
   }
 }

@@ -1,13 +1,11 @@
 <script>
-import { Bar } from "vue-chartjs";
-import { Line, mixins } from 'vue-chartjs'
-import axios from 'axios'
-
+import { Radar } from "vue-chartjs";
+import axios from 'axios';
 // const bonbuNetIncreaseUrl='http://172.21.26.252:8000/api/bonbu-net-increase-list/';
 const bonbuNetIncreaseUrl='http://localhost:8000/api/bonbu-net-increase-list/';
 
 export default {
-  extends: Bar,
+  extends: Radar,
   data(){
     return {
       dataCollection:null,
@@ -20,7 +18,7 @@ export default {
     await axios.get(bonbuNetIncreaseUrl)
       .then((res)=>{
         this.bonbuNetIncreaseData=res.data
-       // console.log(this.bonbuNetIncreaseData[0].date);
+        // console.log(this.bonbuNetIncreaseData[0].date);
       }).catch((err)=>{
         console.log("데이터를 가져 오지 못했습니다.",err);
       });
@@ -42,7 +40,12 @@ export default {
         datasets: [
           {
             label:'전주('+yyy['일자'][yyy['일자'].length-8].substring(5)+')',     // 범례
-            backgroundColor: '#20B2AA',
+            backgroundColor: "rgba(179,181,198,0.2)",
+            borderColor: "rgba(179,181,198,1)",
+            pointBackgroundColor: "rgba(179,181,198,1)",
+            pointBorderColor: "#fff",
+            pointHoverBackgroundColor: "#fff",
+            pointHoverBorderColor: "rgba(179,181,198,1)",
             data: [
               yyy['북부본부'][yyy['북부본부'].length-8],
               yyy['동부본부'][yyy['동부본부'].length-8],
@@ -58,7 +61,12 @@ export default {
 
           }, {
             label:'전주('+yyy['일자'][yyy['일자'].length-1].substring(5)+')',
-            backgroundColor: '#ff9EA0',
+            backgroundColor: "rgba(255,99,132,0.2)",
+            borderColor: "rgba(255,99,132,1)",
+            pointBackgroundColor: "rgba(255,99,132,1)",
+            pointBorderColor: "#fff",
+            pointHoverBackgroundColor: "#fff",
+            pointHoverBorderColor: "rgba(255,99,132,1)",
             data:[
               yyy['북부본부'][yyy['북부본부'].length-1],
               yyy['동부본부'][yyy['동부본부'].length-1],

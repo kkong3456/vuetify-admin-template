@@ -31,76 +31,76 @@
 
 
 <script>
-  import axios from 'axios';
-  import MobileHjTable from '@/components/tables/hjtable/MobileHjTable'
-  import InternetHjTable from '@/components/tables/hjtable/InternetHjTable'
-  import TvHjTable from '@/components/tables/hjtable/TvHjTable'
+import axios from 'axios';
+import MobileHjTable from '@/components/tables/hjtable/MobileHjTable'
+import InternetHjTable from '@/components/tables/hjtable/InternetHjTable'
+import TvHjTable from '@/components/tables/hjtable/TvHjTable'
 
  
-  export default {
-    components:{
-        MobileHjTable,
-        InternetHjTable,
-        TvHjTable,
-    },
+export default {
+  components:{
+    MobileHjTable,
+    InternetHjTable,
+    TvHjTable,
+  },
 
-    data () {
-      return {
-        // bonbuNetIncreaseData:null,
-        // bonbuNetIncreaseValueObj:null,  
-        // totalHjUrlPage:null,         //api url page의 제일 마지막 부분 확인
+  data () {
+    return {
+      // bonbuNetIncreaseData:null,
+      // bonbuNetIncreaseValueObj:null,  
+      // totalHjUrlPage:null,         //api url page의 제일 마지막 부분 확인
         
-        // search:'',        // 테이블 서치
-        // thisHjCount:'',     //테이블의 당월해지 기준 소트
-        // desserts:this.dessertsArray,
-      }
-    },
-    computed:{
-        // headers(){
-        //     return [
-        //         {
-        //             text:'기관명',
-        //             align:'start',
-        //             sortable:false,
-        //             value:'name',
-        //         },
-        //         {
-        //             text:'일자',
-        //             value:'date',
-        //         },
-        //         {
-        //             text:'당월해지',
-        //             value:'thisHjCount',
-        //             filter:value=>{
-        //                 if(!this.thisHjCount) return true
-        //                 return value < parseInt(this.thisHjCount)
-        //             },
-        //         },
-        //         {
-        //             text:'당월비율',
-        //             value:'thisHjRatio',
-        //         },
-        //         {
-        //             text:'전월해지',
-        //             value:'thatHjCount',
-        //         },
-        //         {
-        //             text:'전월비율',
-        //             value:'thisHjRatio',
-        //         },
-        //         {
-        //             text:'개선율',
-        //             value:'upRatio',
-        //         },
-        //         {
-        //             text:'랭킹',
-        //             value:'rank',
-        //         }
-        //     ]
-        // }
-    },//data
+      // search:'',        // 테이블 서치
+      // thisHjCount:'',     //테이블의 당월해지 기준 소트
+      // desserts:this.dessertsArray,
+    }
+  },
+  computed:{
+    // headers(){
+    //     return [
+    //         {
+    //             text:'기관명',
+    //             align:'start',
+    //             sortable:false,
+    //             value:'name',
+    //         },
+    //         {
+    //             text:'일자',
+    //             value:'date',
+    //         },
+    //         {
+    //             text:'당월해지',
+    //             value:'thisHjCount',
+    //             filter:value=>{
+    //                 if(!this.thisHjCount) return true
+    //                 return value < parseInt(this.thisHjCount)
+    //             },
+    //         },
+    //         {
+    //             text:'당월비율',
+    //             value:'thisHjRatio',
+    //         },
+    //         {
+    //             text:'전월해지',
+    //             value:'thatHjCount',
+    //         },
+    //         {
+    //             text:'전월비율',
+    //             value:'thisHjRatio',
+    //         },
+    //         {
+    //             text:'개선율',
+    //             value:'upRatio',
+    //         },
+    //         {
+    //             text:'랭킹',
+    //             value:'rank',
+    //         }
+    //     ]
+    // }
+  },//data
 
-    async created () {
+  async created () {
     //   await axios.get(allHjUrl).then((res,err)=>{
     //       this.totalHjUrlPage=res.data.count;   // 약 8000여개 이상의 데이터가 있고, 1page당 100개 row가 있음
     //       this.totalHjUrlPage=Math.ceil(this.totalHjUrlPage/100);
@@ -141,13 +141,13 @@
 
     //     this.getBonbuNetIncreaseValue();
     //     this.getDesserts();
-    },
+  },
 
-    mounted(){
+  mounted(){
     
-    },
+  },
 
-    methods: {  
+  methods: {  
     //   getDesserts(){
     //     const yyy=this.getBonbuNetIncreaseValue();
     //     //console.log(yyy.rank);
@@ -212,8 +212,8 @@
     //     return mobileHjObj;
     //   },
 
-     }
   }
+}
 </script>
 
 <style scoped>

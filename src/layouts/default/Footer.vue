@@ -29,16 +29,16 @@
 </template>
 
 <script>
-  export default {
-    props:['xxx'],
-    data() {
-      return {
-        links:[
-          'Home',
-          'Contact'
-        ]
+export default {
+  props:['xxx'],
+  data() {
+    return {
+      links:[
+        'Home',
+        'Contact'
+      ]
 
-      }
-    },
-  }
+    }
+  },
+}
 </script>
