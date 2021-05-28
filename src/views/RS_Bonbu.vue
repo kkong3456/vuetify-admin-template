@@ -30,9 +30,9 @@
 </template>
 
 <script>
-import BonbuNetNewIncreaseLineChart from '@/components/charts/BonbuNetNewIncreaseLineChart'
-import BonbuNetIncreaseLineChart from '@/components/charts/BonbuNetIncreaseLineChart'
-import BonbuNetHjLineChart from '@/components/charts/BonbuNetHjLineChart'
+import BonbuNetNewIncreaseLineChart from '@/components/charts/bonbuincreasechart/BonbuNetNewIncreaseLineChart'
+import BonbuNetIncreaseLineChart from '@/components/charts/bonbuincreasechart/BonbuNetIncreaseLineChart'
+import BonbuNetHjLineChart from '@/components/charts/bonbuincreasechart/BonbuNetHjLineChart'
 
 export default {
   name:'RSBonbu',

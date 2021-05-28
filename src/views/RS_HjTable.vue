@@ -32,9 +32,9 @@
 
 <script>
   import axios from 'axios';
-  import MobileHjTable from '@/components/hjtable/MobileHjTable'
-  import InternetHjTable from '@/components/hjtable/InternetHjTable'
-  import TvHjTable from '@/components/hjtable/TvHjTable'
+  import MobileHjTable from '@/components/tables/hjtable/MobileHjTable'
+  import InternetHjTable from '@/components/tables/hjtable/InternetHjTable'
+  import TvHjTable from '@/components/tables/hjtable/TvHjTable'
 
  
   export default {

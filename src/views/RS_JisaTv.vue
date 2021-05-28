@@ -67,9 +67,9 @@
 </template>
 
 <script>
-import JisaTvNetNewIncreaseLineChart from '@/components/charts/JisaTvNetNewIncreaseLineChart'
-import JisaTvNetIncreaseLineChart from '@/components/charts/JisaTvNetIncreaseLineChart'
-import JisaTvHjLineChart from '@/components/charts/JisaTvHjLineChart'
+import JisaTvNetNewIncreaseLineChart from '@/components/charts/jisaproductchart/JisaTvNetNewIncreaseLineChart'
+import JisaTvNetIncreaseLineChart from '@/components/charts/jisaproductchart/JisaTvNetIncreaseLineChart'
+import JisaTvHjLineChart from '@/components/charts/jisaproductchart/JisaTvHjLineChart'
 
 export default {
   name:'RSJisaTv',

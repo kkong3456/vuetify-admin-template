@@ -62,9 +62,9 @@
 </template>
 
 <script>
-import JisaInternetNetNewIncreaseLineChart from '@/components/charts/JisaInternetNetNewIncreaseLineChart'
-import JisaInternetNetIncreaseLineChart from '@/components/charts/JisaInternetNetIncreaseLineChart'
-import JisaInternetHjLineChart from '@/components/charts/JisaInternetHjLineChart'
+import JisaInternetNetNewIncreaseLineChart from '@/components/charts/jisaproductchart/JisaInternetNetNewIncreaseLineChart'
+import JisaInternetNetIncreaseLineChart from '@/components/charts/jisaproductchart/JisaInternetNetIncreaseLineChart'
+import JisaInternetHjLineChart from '@/components/charts/jisaproductchart/JisaInternetHjLineChart'
 
 export default {
   name:'RSJisaInternet',

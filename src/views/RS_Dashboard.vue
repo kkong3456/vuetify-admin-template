@@ -84,7 +84,7 @@
           outlined
           tile
         >
-          <bonbu-bar-chart />
+          <!-- <bonbu-bar-chart /> -->
         </v-card>
       </v-col>
       <v-col
@@ -99,7 +99,7 @@
           outlined
           title
         >
-          <bonbu-radar-chart />
+          <!-- <bonbu-radar-chart /> -->
         </v-card>
       </v-col>
     </v-row>
@@ -111,8 +111,8 @@
   import JisaNetIncreaseChart from '../components/JisaNetIncreaseChart';
   import BonbuNetIncreaseTable from '../components/BonbuNetIncreaseTable';
   import JisaNetIncreaseTable from '../components/JisaNetIncreaseTable';
-  import BonbuBarChart from '@/components/charts/BonbuBarChart';
-  import BonbuRadarChart from '@/components/charts/BonbuRadarChart';
+  // import BonbuBarChart from '@/components/charts/BonbuBarChart';
+  // import BonbuRadarChart from '@/components/charts/BonbuRadarChart';
 
   export default {
     components: {
@@ -120,8 +120,8 @@
       JisaNetIncreaseChart,
       BonbuNetIncreaseTable,
       JisaNetIncreaseTable,
-      BonbuBarChart,
-      BonbuRadarChart,
+      // BonbuBarChart,
+      // BonbuRadarChart,
     },
     data () {
       return {

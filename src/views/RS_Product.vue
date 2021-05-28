@@ -30,9 +30,9 @@
 </template>
 
 <script>
-import ProductNetNewIncreaseLineChart from '@/components/charts/ProductNetNewIncreaseLineChart'
-import ProductNetIncreaseLineChart from '@/components/charts/ProductNetIncreaseLineChart'
-import ProductHjLineChart from '@/components/charts/ProductHjLineChart'
+import ProductNetNewIncreaseLineChart from '@/components/charts/bonbuproductchart/ProductNetNewIncreaseLineChart'
+import ProductNetIncreaseLineChart from '@/components/charts/bonbuproductchart/ProductNetIncreaseLineChart'
+import ProductHjLineChart from '@/components/charts/bonbuproductchart/ProductHjLineChart'
 
 export default {
   name:'RSBonbu',
@@ -40,7 +40,6 @@ export default {
     ProductNetNewIncreaseLineChart,
     ProductNetIncreaseLineChart,
     ProductHjLineChart,
-    //BonbuRadarChart,
   }
 }
 </script>
