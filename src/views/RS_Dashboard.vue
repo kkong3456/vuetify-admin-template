@@ -1,105 +1,11 @@
 <template>
-  <v-container
-    class="grey lighten-5"
-    fluid
-  >
+  <v-container fluid>
     <v-row>
-      <v-col
-        cols="12"
-        lg="6"
-      >
-        <div class="text-h5 font-weight-medium text-center text--secondary">
-          [본부별 가입자 증감 추이]
-        </div>
-
+      <v-col>
         <v-card
-          class="pa-2 elevation-5"
           outlined
-          tile
         >
-          <bonbu-net-increase-chart />
-        </v-card>
-      </v-col>
-      <v-spacer />
-      <v-col
-        cols="12"
-        lg="6"
-      >
-        <div class="text-h5 font-weight-medium text-center text--secondary">
-          [본부별 가입자 증감 데이터]
-        </div>
-        <v-card
-          class="pa-2 elevation-5"
-          outlined
-          tile
-        >
-          <bonbu-net-increase-table />
-        </v-card>
-      </v-col>
-    </v-row>
-
-    <v-row>
-      <v-col
-        cols="12"
-        lg="6"
-      >
-        <div class="text-h5 font-weight-medium text-center text--secondary">
-          [지사별 가입자 증가 추이]
-        </div>
-        <v-card
-          class="pa-2 elevation-5"
-          outlined
-          tile
-        >
-          <jisa-net-increase-chart />
-        </v-card>
-      </v-col>
-      <v-spacer />
-      <v-col
-        cols="12"
-        lg="6"
-      >
-        <div class="text-h5 font-weight-medium text-center text--secondary">
-          [지사별 순익 변동 데이터]
-        </div>
-        <v-card
-          class="pa-2"
-          outlined
-          tile
-        >
-          <jisa-net-increase-table />
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col
-        cols="12"
-        lg="6"
-      >
-        <div class="text-h5 font-weight-medium text-center text--secondary">
-          [본부별 가입자 순증 데이터(전주비교)]
-        </div>
-        <v-card
-          class="pa-2"
-          outlined
-          tile
-        >
-          <!-- <bonbu-bar-chart /> -->
-        </v-card>
-      </v-col>
-      <v-col
-        cols="12"
-        lg="6"
-      >
-        <div class="text-h5 font-weight-medium text-center text--secondary">
-          [본부별 가입자 순증 데이터(전주비교2)]
-        </div>
-        <v-card
-          class="pa-2"
-          outlined
-          title
-        >
-          <!-- <bonbu-radar-chart /> -->
+          여기는 대시보드 자리입니다.
         </v-card>
       </v-col>
     </v-row>
@@ -107,33 +13,11 @@
 </template>
 
 <script>
-  import BonbuNetIncreaseChart from '../components/BonbuNetIncreaseChart';
-  import JisaNetIncreaseChart from '../components/JisaNetIncreaseChart';
-  import BonbuNetIncreaseTable from '../components/BonbuNetIncreaseTable';
-  import JisaNetIncreaseTable from '../components/JisaNetIncreaseTable';
-  // import BonbuBarChart from '@/components/charts/BonbuBarChart';
-  // import BonbuRadarChart from '@/components/charts/BonbuRadarChart';
-
-  export default {
-    components: {
-      BonbuNetIncreaseChart,
-      JisaNetIncreaseChart,
-      BonbuNetIncreaseTable,
-      JisaNetIncreaseTable,
-      // BonbuBarChart,
-      // BonbuRadarChart,
-    },
-    data () {
-      return {
-
-      }
-    },
-  }
+export default {
+  
+}
 </script>
 
-<style>
-  .small {
-    /* max-width: 600px;
-    margin:  150px auto; */
-  }
+<style scoped>
+
 </style>
