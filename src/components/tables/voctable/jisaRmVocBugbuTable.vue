@@ -27,7 +27,7 @@
 
 <script>
 import axios from 'axios';
-const jisaVocUrl='http://172.21.220.97/api/voc/rit.json/?&kind=jisa&bonbu=북부고객본부';
+const jisaVocUrl='http://172.21.220.97/api/voc/rm.json/?&kind=jisa&bonbu=북부고객본부';
 
 const bonbuJisaObj={
   '북부고객본부':['고양지사','광진지사','광화문지사','노원지사','서대문지사'],
@@ -128,7 +128,7 @@ export default {
         //this.desserts=Object.values(dessertsArray);
       }
       this.desserts=Object.values(dessertsArray);
-      //('this.dessertsArray',dessertsArray);  
+      //console.log('this.dessertsArray',dessertsArray);  
     }, 
 
     getBonbuNetIncreaseValue(url){    //본부별 순익(y축)
@@ -176,27 +176,27 @@ export default {
       this.bonbuNetIncreaseData.map((item)=>{
        
         if(item.sy_jojik3==='고양지사'){
-          firstSysdateArray.push(item.voc_rcv_date);
+          firstSysdateArray.push(item.basedate);
           firstjojik3Array.push(item.sy_jojik3);
           //firstProductArray.push(item.prod2);
           firstCountSumArray.push(item.count_sum);
         }
 
         if(item.sy_jojik3==='광진지사'){
-          secondSysdateArray.push(item.voc_rcv_date);
+          secondSysdateArray.push(item.basedate);
           secondjojik3Array.push(item.sy_jojik3);
           //secondProductArray.push(item.prod2);
           secondCountSumArray.push(item.count_sum);
         }
 
         if(item.sy_jojik3==='광화문지사'){
-          thirdSysdateArray.push(item.voc_rcv_date);
+          thirdSysdateArray.push(item.basedate);
           thirdjojik3Array.push(item.sy_jojik3);
           //thirdProductArray.push(item.prod2);
           thirdCountSumArray.push(item.count_sum);
         }
         if(item.sy_jojik3==='노원지사'){
-          fourthSysdateArray.push(item.voc_rcv_date);
+          fourthSysdateArray.push(item.basedate);
           fourthjojik3Array.push(item.sy_jojik3);
           //fourthProductArray.push(item.prod2);
           fourthCountSumArray.push(item.count_sum);
@@ -204,7 +204,7 @@ export default {
 
 
         if(item.sy_jojik3==='서대문지사'){
-          fifthSysdateArray.push(item.voc_rcv_date);
+          fifthSysdateArray.push(item.basedate);
           fifthjojik3Array.push(item.sy_jojik3);
           //fifthProductArray.push(item.prod2);
           fifthCountSumArray.push(item.count_sum);

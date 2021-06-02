@@ -48,8 +48,8 @@ import axios from 'axios';
 
 
 
-const allHjUrl='http://172.21.220.97/api/dash.json?page=1';
-const allHjUrl2='http://172.21.220.97/api/dash.json?page=';
+const allHjUrl='http://172.21.220.97/api/dash.json';
+//const allHjUrl2='http://172.21.220.97/api/dash.json?page=';
 //const allHjUrl3='http://172.21.220.97/api/dash.json?page=3';
 
  
@@ -113,42 +113,41 @@ export default {
 
   async created () {
     await axios.get(allHjUrl).then((res,err)=>{
-      this.totalHjUrlPage=res.data.count;   // 약 8000여개 이상의 데이터가 있고, 1page당 100개 row가 있음
-      this.totalHjUrlPage=Math.ceil(this.totalHjUrlPage/100);
+      this.bonbuNetIncreaseData=res.data.results
     }).catch((err)=>{
       console.log(err);
     });
 
-    await axios.all(
-      [
-        axios.get(allHjUrl2+this.totalHjUrlPage),
-        axios.get(allHjUrl2+(this.totalHjUrlPage-1)),
-        axios.get(allHjUrl2+(this.totalHjUrlPage-2)),
-        axios.get(allHjUrl2+(this.totalHjUrlPage-3)),
-        axios.get(allHjUrl2+(this.totalHjUrlPage-4)),
-        axios.get(allHjUrl2+(this.totalHjUrlPage-5)),
-        axios.get(allHjUrl2+(this.totalHjUrlPage-6)),
-        axios.get(allHjUrl2+(this.totalHjUrlPage-7)),
-        axios.get(allHjUrl2+(this.totalHjUrlPage-8)),
-        axios.get(allHjUrl2+(this.totalHjUrlPage-9)),
-      ]
-    ).then(axios.spread((...res)=>{
-      const resp1=res[0].data.results;
-      const resp2=res[1].data.results;
-      const resp3=res[2].data.results;
-      const resp4=res[3].data.results;
-      const resp5=res[4].data.results;
-      const resp6=res[5].data.results;
-      const resp7=res[6].data.results;
-      const resp8=res[7].data.results;
-      const resp9=res[8].data.results;
-      const resp10=res[9].data.results;
-      const resp=[...resp1,...resp2,...resp3,...resp4,...resp5,...resp6,...resp7,...resp8,...resp9,...resp10];
+    // await axios.all(
+    //   [
+    //     axios.get(allHjUrl2+this.totalHjUrlPage),
+    //     axios.get(allHjUrl2+(this.totalHjUrlPage-1)),
+    //     axios.get(allHjUrl2+(this.totalHjUrlPage-2)),
+    //     axios.get(allHjUrl2+(this.totalHjUrlPage-3)),
+    //     axios.get(allHjUrl2+(this.totalHjUrlPage-4)),
+    //     axios.get(allHjUrl2+(this.totalHjUrlPage-5)),
+    //     axios.get(allHjUrl2+(this.totalHjUrlPage-6)),
+    //     axios.get(allHjUrl2+(this.totalHjUrlPage-7)),
+    //     axios.get(allHjUrl2+(this.totalHjUrlPage-8)),
+    //     axios.get(allHjUrl2+(this.totalHjUrlPage-9)),
+    //   ]
+    // ).then(axios.spread((...res)=>{
+    //   const resp1=res[0].data.results;
+    //   const resp2=res[1].data.results;
+    //   const resp3=res[2].data.results;
+    //   const resp4=res[3].data.results;
+    //   const resp5=res[4].data.results;
+    //   const resp6=res[5].data.results;
+    //   const resp7=res[6].data.results;
+    //   const resp8=res[7].data.results;
+    //   const resp9=res[8].data.results;
+    //   const resp10=res[9].data.results;
+    //   const resp=[...resp1,...resp2,...resp3,...resp4,...resp5,...resp6,...resp7,...resp8,...resp9,...resp10];
         
-      this.bonbuNetIncreaseData=resp;
-    })).catch((err)=>{
-      console.log("데이터를 가져 오지 못했습니다.",err);
-    });
+    //   this.bonbuNetIncreaseData=resp;
+    // })).catch((err)=>{
+    //   console.log("데이터를 가져 오지 못했습니다.",err);
+    // });
 
     //this.getBonbuNetIncreaseValue();
     this.getDesserts();
@@ -164,7 +163,7 @@ export default {
       //console.log(yyy.rank);
       const dessertsArray=new Array();
 
-      for(let i=0;i<yyy.date.length;i++){
+      for(let i=yyy.date.length-1;i>0;i--){
         let obj={
           name:yyy.jojik[i],                                      //테이블에 보여주는 포맷
           date:yyy.date[i]?yyy.date[i]:0,

@@ -27,7 +27,7 @@
 
 <script>
 import axios from 'axios';
-const jisaVocUrl='http://172.21.220.97/api/voc/rit.json/?&kind=jisa&bonbu=북부고객본부';
+const jisaVocUrl='http://172.21.220.97/api/voc/rit.json/?&kind=jisa&bonbu=동부고객본부';
 
 const bonbuJisaObj={
   '북부고객본부':['고양지사','광진지사','광화문지사','노원지사','서대문지사'],
@@ -43,7 +43,7 @@ const bonbuJisaObj={
 
  
 export default {
-  //name:MobileHjTable,
+  //name:jisaRitVocDongbuTable,
   data () {
     return {
       bonbuNetIncreaseData:null,
@@ -62,7 +62,7 @@ export default {
         },
        
         {
-          text:'고양지사',
+          text:'강릉지사',
           value:'firstJisaCountSum',
           // filter:value=>{
           //   if(!this.thisHjCount) return true
@@ -70,19 +70,19 @@ export default {
           // },
         },
         {
-          text:'광진지사',
+          text:'구리지사',
           value:'secondJisaCountSum',
         },
         {
-          text:'광화문지사',
+          text:'의정부지사',
           value:'thirdJisaCountSum',
         },
         {
-          text:'노원지사',
+          text:'원주지사',
           value:'fourthJisaCountSum',
         },
         {
-          text:'서대문지사',
+          text:'춘천지사',
           value:'fifthJisaCountSum',
         },
        
@@ -128,7 +128,7 @@ export default {
         //this.desserts=Object.values(dessertsArray);
       }
       this.desserts=Object.values(dessertsArray);
-      //('this.dessertsArray',dessertsArray);  
+      //console.log('this.dessertsArray',dessertsArray);  
     }, 
 
     getBonbuNetIncreaseValue(url){    //본부별 순익(y축)
@@ -175,27 +175,27 @@ export default {
 
       this.bonbuNetIncreaseData.map((item)=>{
        
-        if(item.sy_jojik3==='고양지사'){
+        if(item.sy_jojik3==='강릉지사'){
           firstSysdateArray.push(item.voc_rcv_date);
           firstjojik3Array.push(item.sy_jojik3);
           //firstProductArray.push(item.prod2);
           firstCountSumArray.push(item.count_sum);
         }
 
-        if(item.sy_jojik3==='광진지사'){
+        if(item.sy_jojik3==='구리지사'){
           secondSysdateArray.push(item.voc_rcv_date);
           secondjojik3Array.push(item.sy_jojik3);
           //secondProductArray.push(item.prod2);
           secondCountSumArray.push(item.count_sum);
         }
 
-        if(item.sy_jojik3==='광화문지사'){
+        if(item.sy_jojik3==='원주지사'){
           thirdSysdateArray.push(item.voc_rcv_date);
           thirdjojik3Array.push(item.sy_jojik3);
           //thirdProductArray.push(item.prod2);
           thirdCountSumArray.push(item.count_sum);
         }
-        if(item.sy_jojik3==='노원지사'){
+        if(item.sy_jojik3==='의정부지사'){
           fourthSysdateArray.push(item.voc_rcv_date);
           fourthjojik3Array.push(item.sy_jojik3);
           //fourthProductArray.push(item.prod2);
@@ -203,7 +203,7 @@ export default {
         }
 
 
-        if(item.sy_jojik3==='서대문지사'){
+        if(item.sy_jojik3==='춘천지사'){
           fifthSysdateArray.push(item.voc_rcv_date);
           fifthjojik3Array.push(item.sy_jojik3);
           //fifthProductArray.push(item.prod2);

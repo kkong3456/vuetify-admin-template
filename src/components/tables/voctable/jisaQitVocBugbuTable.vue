@@ -27,7 +27,7 @@
 
 <script>
 import axios from 'axios';
-const jisaVocUrl='http://172.21.220.97/api/voc/rit.json/?&kind=jisa&bonbu=북부고객본부';
+const jisaVocUrl='http://172.21.220.97/api/voc/qit.json/?&kind=jisa&bonbu=북부고객본부';
 
 const bonbuJisaObj={
   '북부고객본부':['고양지사','광진지사','광화문지사','노원지사','서대문지사'],
@@ -128,7 +128,7 @@ export default {
         //this.desserts=Object.values(dessertsArray);
       }
       this.desserts=Object.values(dessertsArray);
-      //('this.dessertsArray',dessertsArray);  
+      //console.log('this.dessertsArray',dessertsArray);  
     }, 
 
     getBonbuNetIncreaseValue(url){    //본부별 순익(y축)

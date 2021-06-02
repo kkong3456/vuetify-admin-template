@@ -3,7 +3,7 @@ import Vue from 'vue'
 import { Line, mixins} from 'vue-chartjs'
 import axios from 'axios';
 
-const jisaVocUrl='http://172.21.220.97/api/voc/rit.json/?&kind=jisa&bonbu='
+const jisaVocUrl='http://172.21.220.97/api/voc/qit.json/?&kind=jisa&bonbu='
 
 const { reactiveProp } = mixins
 
@@ -124,7 +124,7 @@ export default {
       const yyy=this.getBonbuNetIncreaseValue(bonbuName);
      
       if(bonbuName==='북부고객본부' || bonbuName==='동부고객본부' || bonbuName==='전남/전북고객본부'){
-      
+       
         this.dataCollection = {
           labels:yyy.firstJisa.sysdate.map((day)=>day.substring(5,10)),
           datasets: [
@@ -182,7 +182,7 @@ export default {
         }
       }
       if(bonbuName==='강남고객본부' || bonbuName==='충남/충북고객본부' || bonbuName==='대구/경북고객본부'){
-       
+        
         this.dataCollection = {
           labels:yyy.firstJisa.sysdate.map((day)=>day.substring(5,10)),
           datasets: [

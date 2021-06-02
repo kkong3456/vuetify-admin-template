@@ -1,9 +1,9 @@
 <script>
 import Vue from 'vue'
-import { Line, mixins} from 'vue-chartjs'
+import { Line, mixins } from 'vue-chartjs'
 import axios from 'axios';
 
-const jisaVocUrl='http://172.21.220.97/api/voc/rit.json/?&kind=jisa&bonbu='
+const jisaVocUrl='http://172.21.220.97/api/voc/qm.json/?&kind=jisa&bonbu='
 
 const { reactiveProp } = mixins
 
@@ -24,9 +24,9 @@ const options={      //chart options prop를 사용하지 않는 하위컴포넌
   responsive:true,
   maintainAspectRatio:false,//차트 width,ehgith  자동 크기조절
   hoverBorderWidth:5,
+  borderWidth:1,
   legend:{
     display:true,
-    // onClick:null,
   },
   plugins:{
     legend:{
@@ -124,20 +124,19 @@ export default {
       const yyy=this.getBonbuNetIncreaseValue(bonbuName);
      
       if(bonbuName==='북부고객본부' || bonbuName==='동부고객본부' || bonbuName==='전남/전북고객본부'){
-      
+        
         this.dataCollection = {
           labels:yyy.firstJisa.sysdate.map((day)=>day.substring(5,10)),
           datasets: [
             {
               label:yyy.firstJisa.jojik[0],     // 범례
               borderColor: '#6697F8',
-              //backgroundColor:"#6697F8",
-              backgroundColor:'rgba(56,56,155,0.1)',
+              backgroundColor:"#transparent",
               data: yyy.firstJisa.countSum,
-              fill:true,
+              fill:false,
               tension:.5,
               pointHoverBorderColor:'#ff0000',
-              //borderWidth:1,
+              // hoverBorderWith:20,
 
             },
             {
@@ -182,7 +181,7 @@ export default {
         }
       }
       if(bonbuName==='강남고객본부' || bonbuName==='충남/충북고객본부' || bonbuName==='대구/경북고객본부'){
-       
+        
         this.dataCollection = {
           labels:yyy.firstJisa.sysdate.map((day)=>day.substring(5,10)),
           datasets: [
@@ -388,51 +387,51 @@ export default {
       this.bonbuNetIncreaseData.map((item)=>{
         //console.log('item is ',item);
 
-        if(item.sy_jojik3===bonbuJisaObj[url][0]){
-          firstSysdateArray.push(item.voc_rcv_date);
-          firstjojik3Array.push(item.sy_jojik3);
+        if(item.sj_jojik3===bonbuJisaObj[url][0]){
+          firstSysdateArray.push(item.basedate);
+          firstjojik3Array.push(item.sj_jojik3);
           //firstProductArray.push(item.prod2);
           firstCountSumArray.push(item.count_sum);
         }
 
-        if(item.sy_jojik3===bonbuJisaObj[url][1]){
-          secondSysdateArray.push(item.voc_rcv_date);
-          secondjojik3Array.push(item.sy_jojik3);
+        if(item.sj_jojik3===bonbuJisaObj[url][1]){
+          secondSysdateArray.push(item.basedate);
+          secondjojik3Array.push(item.sj_jojik3);
           //secondProductArray.push(item.prod2);
           secondCountSumArray.push(item.count_sum);
         }
 
-        if(item.sy_jojik3===bonbuJisaObj[url][2]){
-          thirdSysdateArray.push(item.voc_rcv_date);
-          thirdjojik3Array.push(item.sy_jojik3);
+        if(item.sj_jojik3===bonbuJisaObj[url][2]){
+          thirdSysdateArray.push(item.basedate);
+          thirdjojik3Array.push(item.sj_jojik3);
           //thirdProductArray.push(item.prod2);
           thirdCountSumArray.push(item.count_sum);
         }
-        if(item.sy_jojik3===bonbuJisaObj[url][3]){
-          fourthSysdateArray.push(item.voc_rcv_date);
-          fourthjojik3Array.push(item.sy_jojik3);
+        if(item.sj_jojik3===bonbuJisaObj[url][3]){
+          fourthSysdateArray.push(item.basedate);
+          fourthjojik3Array.push(item.sj_jojik3);
           //fourthProductArray.push(item.prod2);
           fourthCountSumArray.push(item.count_sum);
         }
 
 
-        if(item.sy_jojik3===bonbuJisaObj[url][4]){
-          fifthSysdateArray.push(item.voc_rcv_date);
-          fifthjojik3Array.push(item.sy_jojik3);
+        if(item.sj_jojik3===bonbuJisaObj[url][4]){
+          fifthSysdateArray.push(item.basedate);
+          fifthjojik3Array.push(item.sj_jojik3);
           //fifthProductArray.push(item.prod2);
           fifthCountSumArray.push(item.count_sum);
         }
 
-        if(item.sy_jojik3===bonbuJisaObj[url][5]){
-          sixthSysdateArray.push(item.voc_rcv_date);
-          sixthjojik3Array.push(item.sy_jojik3);
+        if(item.sj_jojik3===bonbuJisaObj[url][5]){
+          sixthSysdateArray.push(item.basedate);
+          sixthjojik3Array.push(item.sj_jojik3);
           //sixthProductArray.push(item.prod2);
           sixthCountSumArray.push(item.count_sum);
         }
 
-        if(item.sy_jojik3===bonbuJisaObj[url][6]){
-          seventhSysdateArray.push(item.voc_rcv_date);
-          seventhjojik3Array.push(item.sy_jojik3);
+        if(item.sj_jojik3===bonbuJisaObj[url][6]){
+          seventhSysdateArray.push(item.basedate);
+          seventhjojik3Array.push(item.sj_jojik3);
           //seventhProductArray.push(item.prod2);
           seventhCountSumArray.push(item.count_sum);
         }

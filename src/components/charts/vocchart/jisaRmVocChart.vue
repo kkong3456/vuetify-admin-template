@@ -124,7 +124,7 @@ export default {
       const yyy=this.getBonbuNetIncreaseValue(bonbuName);
      
       if(bonbuName==='북부고객본부' || bonbuName==='동부고객본부' || bonbuName==='전남/전북고객본부'){
-        console.log('this is 북부/동부/전남/전북 본부');
+      
         this.dataCollection = {
           labels:yyy.firstJisa.sysdate.map((day)=>day.substring(5,10)),
           datasets: [
@@ -181,7 +181,7 @@ export default {
         }
       }
       if(bonbuName==='강남고객본부' || bonbuName==='충남/충북고객본부' || bonbuName==='대구/경북고객본부'){
-        console.log('this is  강남 본부');
+    
         this.dataCollection = {
           labels:yyy.firstJisa.sysdate.map((day)=>day.substring(5,10)),
           datasets: [

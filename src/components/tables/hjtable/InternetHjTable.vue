@@ -131,7 +131,7 @@ export default {
        
       const dessertsArray=new Array();
 
-      for(let i=yyy.date.length-1;i>500;i--){
+      for(let i=yyy.date.length-1;i>0;i--){
         //for(let i=0;i<30;i++){
         let obj={
           name:yyy.jojik[i],                                      //테이블에 보여주는 포맷

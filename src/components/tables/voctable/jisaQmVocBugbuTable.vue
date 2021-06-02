@@ -27,7 +27,7 @@
 
 <script>
 import axios from 'axios';
-const jisaVocUrl='http://172.21.220.97/api/voc/rit.json/?&kind=jisa&bonbu=북부고객본부';
+const jisaVocUrl='http://172.21.220.97/api/voc/qm.json/?&kind=jisa&bonbu=북부고객본부';
 
 const bonbuJisaObj={
   '북부고객본부':['고양지사','광진지사','광화문지사','노원지사','서대문지사'],
@@ -95,6 +95,7 @@ export default {
   async created () {
     await axios.get(jisaVocUrl).then((res)=>{
       this.bonbuNetIncreaseData=res.data.results;
+      //console.log('data is ',this.bonbuNetIncreaseData);
       
     }).catch((err)=>{
       alert(err);
@@ -128,19 +129,17 @@ export default {
         //this.desserts=Object.values(dessertsArray);
       }
       this.desserts=Object.values(dessertsArray);
-      //('this.dessertsArray',dessertsArray);  
+      //console.log('this.dessertsArray',dessertsArray);  
     }, 
 
-    getBonbuNetIncreaseValue(url){    //본부별 순익(y축)
+    getBonbuNetIncreaseValue(){    //본부별 순익(y축)
       let bonbuNetIncreaseValueObj={};
       let firstJisaObj={};
       let secondJisaObj={}
       let thirdJisaObj={}
       let fourthJisaObj={}
       let fifthJisaObj={}
-      let sixthJisaObj={}
-      let seventhJisaObj={}
-      //console.log('url is ',url);
+     
 
       const firstSysdateArray=new Array();
       const firstjojik2Array=new Array();
@@ -174,43 +173,46 @@ export default {
       const fifthCountSumArray=new Array();  
 
       this.bonbuNetIncreaseData.map((item)=>{
+
+        //console.log('item is', item);
        
-        if(item.sy_jojik3==='고양지사'){
-          firstSysdateArray.push(item.voc_rcv_date);
-          firstjojik3Array.push(item.sy_jojik3);
+        if(item.sj_jojik3==='고양지사'){
+          firstSysdateArray.push(item.basedate);
+          firstjojik3Array.push(item.sj_jojik3);   //sy 가 아니고, sj임
           //firstProductArray.push(item.prod2);
           firstCountSumArray.push(item.count_sum);
         }
 
-        if(item.sy_jojik3==='광진지사'){
-          secondSysdateArray.push(item.voc_rcv_date);
-          secondjojik3Array.push(item.sy_jojik3);
+        if(item.sj_jojik3==='광진지사'){
+          secondSysdateArray.push(item.basedate);
+          secondjojik3Array.push(item.sj_jojik3);
           //secondProductArray.push(item.prod2);
           secondCountSumArray.push(item.count_sum);
         }
 
-        if(item.sy_jojik3==='광화문지사'){
-          thirdSysdateArray.push(item.voc_rcv_date);
-          thirdjojik3Array.push(item.sy_jojik3);
+        if(item.sj_jojik3==='광화문지사'){
+          thirdSysdateArray.push(item.basedate);
+          thirdjojik3Array.push(item.sj_jojik3);
           //thirdProductArray.push(item.prod2);
           thirdCountSumArray.push(item.count_sum);
         }
-        if(item.sy_jojik3==='노원지사'){
-          fourthSysdateArray.push(item.voc_rcv_date);
-          fourthjojik3Array.push(item.sy_jojik3);
+        if(item.sj_jojik3==='노원지사'){
+          fourthSysdateArray.push(item.basedate);
+          fourthjojik3Array.push(item.sj_jojik3);
           //fourthProductArray.push(item.prod2);
           fourthCountSumArray.push(item.count_sum);
         }
 
 
-        if(item.sy_jojik3==='서대문지사'){
-          fifthSysdateArray.push(item.voc_rcv_date);
-          fifthjojik3Array.push(item.sy_jojik3);
+        if(item.sj_jojik3==='서대문지사'){
+          fifthSysdateArray.push(item.basedate);
+          fifthjojik3Array.push(item.sj_jojik3);
           //fifthProductArray.push(item.prod2);
           fifthCountSumArray.push(item.count_sum);
         }
       });
          
+      //console.log('fifthjojik3Array',firstjojik3Array);
       firstJisaObj={
         'sysdate': firstSysdateArray,
         'jojik': firstjojik3Array,
@@ -244,7 +246,6 @@ export default {
         //  'product': fifthProductArray,
         'countSum': fifthCountSumArray,
       }
-
     
     
       bonbuNetIncreaseValueObj={
@@ -255,7 +256,6 @@ export default {
         'fifthJisa':fifthJisaObj,
       }
 
-      //console.log('bonbuNetIncrease',bonbuNetIncreaseValueObj);
       return bonbuNetIncreaseValueObj;
     },
 

@@ -125,7 +125,7 @@ export default {
       //console.log(yyy.rank);
       const dessertsArray=new Array();
 
-      for(let i=yyy.date.length-1;i>500;i--){
+      for(let i=yyy.date.length-1;i>0;i--){
         let obj={
           name:yyy.jojik[i],                                      //테이블에 보여주는 포맷
           date:yyy.date[i]?yyy.date[i]:0,
