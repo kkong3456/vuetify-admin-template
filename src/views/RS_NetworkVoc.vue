@@ -43,7 +43,8 @@
           <p class="text-h5 text-center">
             [ VOC 해지관련 - 인터넷/TV 데이터]
           </p>
-          <jisa-rit-voc-table 
+          <jisa-rit-voc-bugbu-table 
+            v-if="selectedBonbu=='북부고객본부'"
             ref="changeBonbu2"
           />
         </v-col>
@@ -75,14 +76,14 @@
 <script>
 import jisaRitVocChart from '@/components/charts/vocchart/jisaRitVocChart'
 import jisaRmVocChart from '@/components/charts/vocchart/jisaRmVocChart'
-import jisaRitVocTable from '@/components/tables/voctable/jisaRitVocTable'
+import jisaRitVocBugbuTable from '@/components/tables/voctable/jisaRitVocBugbuTable'
 
 export default {
   name:'RSNetworkVoc',
   components:{
     jisaRitVocChart,
     jisaRmVocChart,
-    jisaRitVocTable,
+    jisaRitVocBugbuTable,
 
   },
 

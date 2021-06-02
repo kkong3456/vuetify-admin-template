@@ -150,7 +150,7 @@ export default {
       console.log("데이터를 가져 오지 못했습니다.",err);
     });
 
-    this.getBonbuNetIncreaseValue();
+    //this.getBonbuNetIncreaseValue();
     this.getDesserts();
   },
 
@@ -177,9 +177,10 @@ export default {
         }
 
         dessertsArray.push(obj);         
-        this.desserts=Object.values(dessertsArray);          
+               
         //this.desserts=this.kkk.reverse()
       }
+      this.desserts=Object.values(dessertsArray);  
     } , 
     getBonbuNetIncreaseValue(){    //axios로 받아온 데이터를 상품별로 Obj로 만든다
       let mobileHjObj={}
