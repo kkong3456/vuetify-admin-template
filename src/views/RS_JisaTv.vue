@@ -1,9 +1,7 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-card>
-      <v-row
-        class="mb-5"
-      >
+      <v-row>
         <v-col>
           <template>
             <v-select
@@ -25,6 +23,177 @@
               </template>
             </v-select>
           </template>
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col>
+          <v-card
+            outlined
+            tile
+            class="text-center pa-2 font-weight-bold"
+            color="blue lighten-2"
+          >
+            순신규가입자수({{ selectedBonbu }})
+          </v-card>
+          <div class="d-flex">
+            <v-card 
+              outlined
+              class="text-center"
+              width="33%"
+            >
+              <v-card-subtitle>전월</v-card-subtitle>
+              <v-divider />
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4"
+              >
+                200
+              </v-card-text>
+            </v-card>  
+            <v-spacer />
+
+            <v-card 
+              outlined
+              class="text-center"
+              width="33%"
+            >
+              <v-card-subtitle>금월</v-card-subtitle>
+              <v-divider />
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4"
+              >
+                300
+              </v-card-text>
+            </v-card>
+            <v-spacer />
+        
+            <v-card 
+              outlined    
+              class="text-center"
+              width="33%"
+            >
+              <v-card-subtitle>증감비율(%)</v-card-subtitle>
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4"
+              >
+                50%
+              </v-card-text>
+            </v-card>
+          </div>
+        </v-col>
+
+        <v-col>
+          <v-card
+            outlined
+            class="text-center pa-2 font-weight-bold"
+            color="blue lighten-2"
+            tile
+          >
+            순해지가입자수({{ selectedBonbu }})
+          </v-card>
+          <div class="d-flex">
+            <v-card 
+              outlined
+              class="text-center"
+              width="33%"
+            >
+              <v-card-subtitle>
+                전월
+              </v-card-subtitle>
+              <v-divider />
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4"
+              >
+                200
+              </v-card-text>
+            </v-card>  
+            <v-spacer />
+
+            <v-card 
+              outlined
+              class="text-center"
+              width="33%"
+            >
+              <v-card-subtitle>
+                금월
+              </v-card-subtitle>
+              <v-divider />
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4"
+              >
+                300
+              </v-card-text>
+            </v-card>
+            <v-spacer />
+        
+            <v-card 
+              outlined    
+              class="text-center"
+              width="33%"
+            >
+              <v-card-subtitle>증감비율(%)</v-card-subtitle>
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4"
+              >
+                50%
+              </v-card-text>
+            </v-card>
+          </div>
+        </v-col>
+
+        <v-col>
+          <v-card
+            outlined
+            class="text-center pa-2 font-weight-bold"
+            color="blue lighten-2"
+            tile
+          >
+            순증가 가입자수({{ selectedBonbu }})
+          </v-card>
+          <div class="d-flex">
+            <v-card 
+              outlined
+              class="text-center"
+              width="33%"
+            >
+              <v-card-subtitle>전월</v-card-subtitle>
+              <v-divider />
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4"
+              >
+                200
+              </v-card-text>
+            </v-card>  
+            <v-spacer />
+
+            <v-card 
+              outlined
+              class="text-center"
+              width="33%"
+            >
+              <v-card-subtitle>금월</v-card-subtitle>
+              <v-divider />
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4"
+              >
+                300
+              </v-card-text>
+            </v-card>
+            <v-spacer />
+        
+            <v-card 
+              outlined    
+              class="text-center"
+              width="33%"
+            >
+              <v-card-subtitle>증감비율(%)</v-card-subtitle>
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4"
+              >
+                50%
+              </v-card-text>
+            </v-card>
+          </div>
         </v-col>
       </v-row>
 

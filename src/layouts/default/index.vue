@@ -3,7 +3,10 @@
     <default-bar @drawer="drawer=!drawer" />
     <default-drawer v-model="drawer" />
     <default-view />
-    <default-footer :xxx="str" />
+    <default-footer
+      :xxx="str"
+      :drawer="drawer"
+    />
   </v-app>
 </template>
 
@@ -25,7 +28,7 @@ export default {
   data(){
     return {
       drawer:true,
-      str:"Powered by kkong",
+      str:"Powered by RSAI-TF",
     }
   },
   methods:{
