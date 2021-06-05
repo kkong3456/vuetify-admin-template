@@ -1,6 +1,9 @@
 <template>
   <v-container fluid>
-    <v-card>
+    <v-card
+      outlined
+      class="pa-3"
+    >
       <v-row
         class="mb-5"
       >

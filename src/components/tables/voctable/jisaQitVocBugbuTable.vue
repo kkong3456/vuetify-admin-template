@@ -5,7 +5,6 @@
       :headers="headers"
       :items="desserts"
       :items-per-page="5"
-      class="elevation-1"    
     >
       <template v-slot:top />
       <template v-slot:body.append>
@@ -13,7 +12,6 @@
           cols="12"
           lg="6"    
         >
-          <td />
           <td />
           <td colspan="4" />
         </tr>

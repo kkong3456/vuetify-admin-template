@@ -4,8 +4,7 @@
     <v-data-table
       :headers="headers"
       :items="desserts"
-      :items-per-page="5"
-      class="elevation-1"    
+      :items-per-page="5" 
     >
       <template v-slot:top />
       <template v-slot:body.append>
