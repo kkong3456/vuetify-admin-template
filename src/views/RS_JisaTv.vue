@@ -27,7 +27,10 @@
       </v-row>
 
       <v-row>
-        <v-col>
+        <v-col
+          cols="12"
+          md="4"
+        >
           <v-card
             outlined
             tile
@@ -82,7 +85,10 @@
           </div>
         </v-col>
 
-        <v-col>
+        <v-col
+          cols="12"
+          md="4"
+        >
           <v-card
             outlined
             class="text-center pa-2 font-weight-bold"
@@ -141,7 +147,10 @@
           </div>
         </v-col>
 
-        <v-col>
+        <v-col
+          cols="12"
+          md="4"
+        >
           <v-card
             outlined
             class="text-center pa-2 font-weight-bold"
@@ -197,10 +206,58 @@
         </v-col>
       </v-row>
 
+
+      <!-- 테이블 -->
       <v-row
         class="mt-5"
       >
-        <v-col>
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <p class="text-h5 text-center">
+            [지사  TV 순신규 누적]
+          </p>
+          <jisa-tv-net-new-increase-table 
+            ref="changeBonbu4"
+          />
+        </v-col>
+    
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <p class="text-h5 text-center">
+            [지사 TV 순해지 추이]
+          </p>
+          <jisa-tv-hj-line-chart 
+            ref="changeBonbu5"
+          />
+        </v-col>
+   
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <p class="text-h5 text-center">
+            [지사 TV 순증/감 추이]
+          </p>
+          <jisa-tv-net-increase-line-chart 
+            ref="changeBonbu6"
+          />
+        </v-col>
+      </v-row>
+    
+    
+    
+      <!-- 그래프-->
+      <v-row
+        class="mt-5"
+      >
+        <v-col
+          cols="12"
+          md="4"
+        >
           <p class="text-h5 text-center">
             [지사  TV 순신규 추이]
           </p>
@@ -208,9 +265,11 @@
             ref="changeBonbu1"
           />
         </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
+    
+        <v-col
+          cols="12"
+          md="4"
+        >
           <p class="text-h5 text-center">
             [지사 TV 순해지 추이]
           </p>
@@ -218,9 +277,11 @@
             ref="changeBonbu2"
           />
         </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
+   
+        <v-col
+          cols="12"
+          md="4"
+        >
           <p class="text-h5 text-center">
             [지사 TV 순증/감 추이]
           </p>
@@ -238,6 +299,10 @@ import JisaTvNetNewIncreaseLineChart from '@/components/charts/jisaproductchart/
 import JisaTvNetIncreaseLineChart from '@/components/charts/jisaproductchart/JisaTvNetIncreaseLineChart'
 import JisaTvHjLineChart from '@/components/charts/jisaproductchart/JisaTvHjLineChart'
 
+import JisaTvNetNewIncreaseTable from '@/components/tables/jisaproducttable/JisaTvNetNewIncreaseTable'
+
+
+
 export default {
   name:'RSJisaTv',
   components:{
@@ -245,6 +310,8 @@ export default {
     JisaTvNetIncreaseLineChart,
     JisaTvHjLineChart,
     //BonbuRadarChart,
+
+    JisaTvNetNewIncreaseTable,
   },
 
   data(){
@@ -258,6 +325,7 @@ export default {
       this.$refs.changeBonbu1.changeBonbu(selectedBonbu);
       this.$refs.changeBonbu2.changeBonbu(selectedBonbu);
       this.$refs.changeBonbu3.changeBonbu(selectedBonbu);
+      this.$refs.changeBonbu4.changeBonbu(selectedBonbu);
     }
   }
 
