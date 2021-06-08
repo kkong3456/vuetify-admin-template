@@ -1,9 +1,7 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-card>
-      <v-row
-        class="mb-5"
-      >
+      <v-row>
         <v-col>
           <template>
             <v-select
@@ -27,30 +25,265 @@
           </template>
         </v-col>
       </v-row>
+
       <v-row>
-        <v-col>
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <v-card
+            outlined
+            tile
+            class="text-center pa-2 font-weight-bold"
+            color="blue lighten-2"
+          >
+            순신규가입자수({{ selectedBonbu }})
+          </v-card>
+          <div class="d-flex">
+            <v-card 
+              outlined
+              class="text-center"
+              width="33%"
+            >
+              <v-card-subtitle>전월</v-card-subtitle>
+              <v-divider />
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4"
+              >
+                200
+              </v-card-text>
+            </v-card>  
+            <v-spacer />
+
+            <v-card 
+              outlined
+              class="text-center"
+              width="33%"
+            >
+              <v-card-subtitle>금월</v-card-subtitle>
+              <v-divider />
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4"
+              >
+                300
+              </v-card-text>
+            </v-card>
+            <v-spacer />
+        
+            <v-card 
+              outlined    
+              class="text-center"
+              width="33%"
+            >
+              <v-card-subtitle>증감비율(%)</v-card-subtitle>
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4"
+              >
+                50%
+              </v-card-text>
+            </v-card>
+          </div>
+        </v-col>
+
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <v-card
+            outlined
+            class="text-center pa-2 font-weight-bold"
+            color="blue lighten-2"
+            tile
+          >
+            순해지가입자수({{ selectedBonbu }})
+          </v-card>
+          <div class="d-flex">
+            <v-card 
+              outlined
+              class="text-center"
+              width="33%"
+            >
+              <v-card-subtitle>
+                전월
+              </v-card-subtitle>
+              <v-divider />
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4"
+              >
+                200
+              </v-card-text>
+            </v-card>  
+            <v-spacer />
+
+            <v-card 
+              outlined
+              class="text-center"
+              width="33%"
+            >
+              <v-card-subtitle>
+                금월
+              </v-card-subtitle>
+              <v-divider />
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4"
+              >
+                300
+              </v-card-text>
+            </v-card>
+            <v-spacer />
+        
+            <v-card 
+              outlined    
+              class="text-center"
+              width="33%"
+            >
+              <v-card-subtitle>증감비율(%)</v-card-subtitle>
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4"
+              >
+                50%
+              </v-card-text>
+            </v-card>
+          </div>
+        </v-col>
+
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <v-card
+            outlined
+            class="text-center pa-2 font-weight-bold"
+            color="blue lighten-2"
+            tile
+          >
+            순증가 가입자수({{ selectedBonbu }})
+          </v-card>
+          <div class="d-flex">
+            <v-card 
+              outlined
+              class="text-center"
+              width="33%"
+            >
+              <v-card-subtitle>전월</v-card-subtitle>
+              <v-divider />
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4"
+              >
+                200
+              </v-card-text>
+            </v-card>  
+            <v-spacer />
+
+            <v-card 
+              outlined
+              class="text-center"
+              width="33%"
+            >
+              <v-card-subtitle>금월</v-card-subtitle>
+              <v-divider />
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4"
+              >
+                300
+              </v-card-text>
+            </v-card>
+            <v-spacer />
+        
+            <v-card 
+              outlined    
+              class="text-center"
+              width="33%"
+            >
+              <v-card-subtitle>증감비율(%)</v-card-subtitle>
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4"
+              >
+                50%
+              </v-card-text>
+            </v-card>
+          </div>
+        </v-col>
+      </v-row>
+
+
+      <!-- 테이블 -->
+      <v-row
+        class="mt-5"
+      >
+        <v-col
+          cols="12"
+          md="4"
+        >
           <p class="text-h5 text-center">
-            [지사 무선 순신규 추이]
+            [지사 무선 순신규]
+          </p>
+          <jisa-mobile-net-new-increase-table 
+            ref="changeBonbu4"
+          />
+        </v-col>
+    
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <p class="text-h5 text-center">
+            [지사 무선 순해지]
+          </p>
+          <jisa-mobile-hj-table 
+            ref="changeBonbu5"
+          />
+        </v-col>
+   
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <p class="text-h5 text-center">
+            [지사 무선 순증/감]
+          </p>
+          <jisa-mobile-net-increase-table 
+            ref="changeBonbu6"
+          />
+        </v-col>
+      </v-row>
+    
+    
+    
+      <!-- 그래프-->
+      <v-row
+        class="mt-5"
+      >
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <p class="text-h5 text-center">
+            [지사 무선 순신규]
           </p>
           <jisa-wireless-net-new-increase-line-chart 
             ref="changeBonbu1"
           />
         </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
+    
+        <v-col
+          cols="12"
+          md="4"
+        >
           <p class="text-h5 text-center">
-            [지사 무선 순해지 추이]
+            [지사 무선 순해지]
           </p>
           <jisa-wireless-hj-line-chart 
             ref="changeBonbu2"
           />
         </v-col>
-      </v-row>
-      <v-row>
-        <v-col> 
+   
+        <v-col
+          cols="12"
+          md="4"
+        >
           <p class="text-h5 text-center">
-            [지사 무선 순증/감 추이]
+            [지사 무선 순증/감 ]
           </p>
           <jisa-wireless-net-increase-line-chart 
             ref="changeBonbu3"
@@ -60,11 +293,15 @@
     </v-card>
   </v-container>
 </template>
-
 <script>
 import JisaWirelessNetNewIncreaseLineChart from '@/components/charts/jisaproductchart/JisaWirelessNetNewIncreaseLineChart'
 import JisaWirelessNetIncreaseLineChart from '@/components/charts/jisaproductchart/JisaWirelessNetIncreaseLineChart'
 import JisaWirelessHjLineChart from '@/components/charts/jisaproductchart/JisaWirelessHjLineChart'
+
+import JisaMobileNetNewIncreaseTable from '@/components/tables/jisaproducttable/JisaMobileNetNewIncreaseTable'
+import JisaMobileNetIncreaseTable from '@/components/tables/jisaproducttable/JisaMobileNetIncreaseTable'
+import JisaMobileHjTable from '@/components/tables/jisaproducttable/JisaMobileHjTable'
+
 
 export default {
   name:'RSJisaTv',
@@ -73,6 +310,11 @@ export default {
     JisaWirelessNetIncreaseLineChart,
     JisaWirelessHjLineChart,
     //BonbuRadarChart,
+
+    JisaMobileNetNewIncreaseTable,
+    JisaMobileNetIncreaseTable,
+    JisaMobileHjTable,
+
   },
 
   data(){
@@ -86,6 +328,9 @@ export default {
       this.$refs.changeBonbu1.changeBonbu(selectedBonbu);
       this.$refs.changeBonbu2.changeBonbu(selectedBonbu);
       this.$refs.changeBonbu3.changeBonbu(selectedBonbu);
+      this.$refs.changeBonbu4.changeBonbu(selectedBonbu);
+      this.$refs.changeBonbu5.changeBonbu(selectedBonbu);
+      this.$refs.changeBonbu6.changeBonbu(selectedBonbu);
     }
   }
 }
