@@ -19,5 +19,6 @@ export default {
    vertical-align:middle !important; 
    해지 테이블의 헤더 글자 크기 조정
    */
- } 
-</style>
+  
+ }
+ </style>

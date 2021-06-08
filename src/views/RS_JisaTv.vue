@@ -220,6 +220,7 @@
           </p>
           <jisa-tv-net-new-increase-table 
             ref="changeBonbu4"
+            :propsdata="netNewIncreaseData"
           />
         </v-col>
     
@@ -232,6 +233,7 @@
           </p>
           <jisa-tv-hj-table 
             ref="changeBonbu5"
+            :propsdata="netHjData"
           />
         </v-col>
    
@@ -244,6 +246,7 @@
           </p>
           <jisa-tv-net-increase-table 
             ref="changeBonbu6"
+            :propsdata="netIncreaseData"
           />
         </v-col>
       </v-row>
@@ -259,7 +262,7 @@
           md="4"
         >
           <p class="text-h5 text-center">
-            [지사  TV 순신규 추이]
+            [지사  TV 순신규]
           </p>
           <jisa-tv-net-new-increase-line-chart 
             ref="changeBonbu1"
@@ -271,7 +274,7 @@
           md="4"
         >
           <p class="text-h5 text-center">
-            [지사 TV 순해지 추이]
+            [지사 TV 순해지]
           </p>
           <jisa-tv-hj-line-chart 
             ref="changeBonbu2"
@@ -283,7 +286,7 @@
           md="4"
         >
           <p class="text-h5 text-center">
-            [지사 TV 순증/감 추이]
+            [지사 TV 순증/감]
           </p>
           <jisa-tv-net-increase-line-chart 
             ref="changeBonbu3"
@@ -320,6 +323,9 @@ export default {
   data(){
     return{
       selectedBonbu:'북부고객본부',
+      netNewIncreaseData:'순신규',
+      netHjData:'순해지',
+      netIncreaseData:'순증/감'
     }
   },
   methods:{

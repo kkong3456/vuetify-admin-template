@@ -220,6 +220,7 @@
           </p>
           <jisa-internet-net-new-increase-table 
             ref="changeBonbu4"
+            :propsdata="netNewIncreaseData"
           />
         </v-col>
     
@@ -232,6 +233,7 @@
           </p>
           <jisa-internet-hj-table 
             ref="changeBonbu5"
+            :propsdata="netHjData"
           />
         </v-col>
    
@@ -244,6 +246,7 @@
           </p>
           <jisa-internet-net-increase-table 
             ref="changeBonbu6"
+            :propsdata="netIncreaseData"
           />
         </v-col>
       </v-row>
@@ -317,7 +320,12 @@ export default {
 
   data(){
     return{
-      selectedBonbu:'북부고객본부'
+      selectedBonbu:'북부고객본부',
+
+      netNewIncreaseData:'순신규',
+      netHjData:'순해지',
+      netIncreaseData:'순증/감'
+
     }
   },
 

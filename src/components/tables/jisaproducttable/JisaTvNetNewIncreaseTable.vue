@@ -44,6 +44,8 @@ const bonbuJisaObj={
 }
 
 export default {
+
+  props:['propsdata'],
   // name:MobileHjTable,
   data () {
     return {
@@ -77,7 +79,7 @@ export default {
           // },
         },
         {
-          text:'순신규증가',
+          text:this.propsdata,
           value:'countSum',
         },
       ]

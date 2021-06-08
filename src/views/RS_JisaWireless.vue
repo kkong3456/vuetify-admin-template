@@ -220,6 +220,7 @@
           </p>
           <jisa-mobile-net-new-increase-table 
             ref="changeBonbu4"
+            :propsdata="netNewIncreaseData"
           />
         </v-col>
     
@@ -232,6 +233,7 @@
           </p>
           <jisa-mobile-hj-table 
             ref="changeBonbu5"
+            :propsdata="netHjData"
           />
         </v-col>
    
@@ -244,6 +246,7 @@
           </p>
           <jisa-mobile-net-increase-table 
             ref="changeBonbu6"
+            :propsdata="netIncreaseData"
           />
         </v-col>
       </v-row>
@@ -259,7 +262,7 @@
           md="4"
         >
           <p class="text-h5 text-center">
-            [지사 무선 순신규]
+            [지사 무선 순신규] 
           </p>
           <jisa-wireless-net-new-increase-line-chart 
             ref="changeBonbu1"
@@ -319,7 +322,11 @@ export default {
 
   data(){
     return{
-      selectedBonbu:'북부고객본부'
+      selectedBonbu:'북부고객본부',
+
+      netNewIncreaseData:'순증가',
+      netHjData:'순해지',
+      netIncreaseData:'순증/감'
     }
   },
   methods:{

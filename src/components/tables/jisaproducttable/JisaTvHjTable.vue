@@ -44,6 +44,8 @@ const bonbuJisaObj={
 }
 
 export default {
+
+  props:['propsdata'],
   // name:MobileHjTable,
   data () {
     return {
@@ -51,10 +53,10 @@ export default {
       bonbuNetIncreaseValueObj:null,  
       totalHjUrlPage:null,         //api url page의 제일 마지막 부분 확인  
       search:'',        // 테이블 서치
-      //thisHjCount:'',     //테이블의 당월해지 기준 소트
       desserts:this.desserts,
     }
   },
+
   computed:{
     headers(){
       return [
@@ -77,7 +79,7 @@ export default {
           // },
         },
         {
-          text:'순신규증가',
+          text:this.propsdata,
           value:'countSum',
         },
       ]

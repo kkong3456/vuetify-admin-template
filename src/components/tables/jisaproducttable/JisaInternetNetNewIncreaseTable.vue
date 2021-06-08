@@ -44,6 +44,8 @@ const bonbuJisaObj={
 }
 
 export default {
+
+  props:['propsdata'],
   // name:MobileHjTable,
   data () {
     return {
@@ -55,6 +57,7 @@ export default {
       desserts:this.desserts,
     }
   },
+  
   computed:{
     headers(){
       return [
@@ -77,7 +80,7 @@ export default {
           // },
         },
         {
-          text:'순신규증가',
+          text:this.propsdata,
           value:'countSum',
         },
       ]
@@ -633,3 +636,6 @@ export default {
   }
 }
 </script>
+<style>
+
+</style>

@@ -55,6 +55,9 @@ export default {
       desserts:this.desserts,
     }
   },
+
+  props:['propsdata'],
+
   computed:{
     headers(){
       return [
@@ -77,7 +80,7 @@ export default {
           // },
         },
         {
-          text:'순신규증가',
+          text:this.propsdata,
           value:'countSum',
         },
       ]
