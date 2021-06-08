@@ -33,9 +33,12 @@ const routes=[
     component:DefaultLayout,
     children:[
       {
+        // path:'/',
+        // name:'RS_Dashboard',
+        // component:RS_Dashboard
         path:'/',
-        name:'RS_Dashboard',
-        component:RS_Dashboard
+        name:'RS_JisaTv',
+        component:RS_JisaTv
       },
       {
         path:'/scenario',

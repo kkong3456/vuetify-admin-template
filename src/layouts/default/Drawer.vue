@@ -95,9 +95,12 @@ export default {
     right: null,
     links: [
       {
-        to     : '/',
-        icon   : 'mdi-view-dashboard',
-        text   : 'Dashboard',
+        // to     : '/',
+        // icon   : 'mdi-view-dashboard',
+        // text   : 'Dashboard',
+        to  : '/',
+        icon:'mdi-view-dashboard',
+        text:'Dashboard',
       },
 
       {
