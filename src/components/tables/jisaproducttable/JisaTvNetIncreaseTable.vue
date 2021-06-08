@@ -30,7 +30,7 @@ import axios from 'axios';
 
 
 
-const jisaNetNewIncreaseUrl='http://172.21.220.97/api/net/jisa.json/?prod=미디어&kind=start&bonbu='
+const jisaNetNewIncreaseUrl='http://172.21.220.97/api/net/jisa.json/?prod=미디어&kind=net&bonbu='
 
 const bonbuJisaObj={
   '북부고객본부':['고양지사','광진지사','광화문지사','노원지사','서대문지사'],

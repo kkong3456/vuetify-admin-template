@@ -216,7 +216,7 @@
           md="4"
         >
           <p class="text-h5 text-center">
-            [지사  TV 순신규 누적]
+            [지사  TV 순신규]
           </p>
           <jisa-tv-net-new-increase-table 
             ref="changeBonbu4"
@@ -230,7 +230,7 @@
           <p class="text-h5 text-center">
             [지사 TV 순해지 추이]
           </p>
-          <jisa-tv-hj-line-chart 
+          <jisa-tv-hj-table 
             ref="changeBonbu5"
           />
         </v-col>
@@ -242,7 +242,7 @@
           <p class="text-h5 text-center">
             [지사 TV 순증/감 추이]
           </p>
-          <jisa-tv-net-increase-line-chart 
+          <jisa-tv-net-increase-table 
             ref="changeBonbu6"
           />
         </v-col>
@@ -300,7 +300,8 @@ import JisaTvNetIncreaseLineChart from '@/components/charts/jisaproductchart/Jis
 import JisaTvHjLineChart from '@/components/charts/jisaproductchart/JisaTvHjLineChart'
 
 import JisaTvNetNewIncreaseTable from '@/components/tables/jisaproducttable/JisaTvNetNewIncreaseTable'
-
+import JisaTvNetIncreaseTable from '@/components/tables/jisaproducttable/JisaTvNetIncreaseTable'
+import JisaTvHjTable from '@/components/tables/jisaproducttable/JisaTvHjTable'
 
 
 export default {
@@ -312,6 +313,8 @@ export default {
     //BonbuRadarChart,
 
     JisaTvNetNewIncreaseTable,
+    JisaTvNetIncreaseTable,
+    JisaTvHjTable,
   },
 
   data(){
@@ -326,6 +329,8 @@ export default {
       this.$refs.changeBonbu2.changeBonbu(selectedBonbu);
       this.$refs.changeBonbu3.changeBonbu(selectedBonbu);
       this.$refs.changeBonbu4.changeBonbu(selectedBonbu);
+      this.$refs.changeBonbu5.changeBonbu(selectedBonbu);
+      this.$refs.changeBonbu6.changeBonbu(selectedBonbu);
     }
   }
 
