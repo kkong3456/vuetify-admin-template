@@ -132,9 +132,9 @@ export default {
               label:yyy.firstJisa.jojik[0],     // 범례
               borderColor: '#6697F8',
               //backgroundColor:"#6697F8",
-              backgroundColor:'rgba(56,56,155,0.1)',
+              //backgroundColor:'rgba(56,56,155,0.1)',
               data: yyy.firstJisa.countSum,
-              fill:true,
+              fill:false,
               tension:.5,
               pointHoverBorderColor:'#ff0000',
               //borderWidth:1,
@@ -238,7 +238,7 @@ export default {
 
             {
               label: yyy.sixthJisa.jojik[0],
-              borderColor: '#FF81B1',
+              borderColor: '#FF33CC',
               backgroundColor:"transparent",
               data: yyy.sixthJisa.countSum,
               fill:false,
@@ -255,7 +255,7 @@ export default {
           datasets: [
             {
               label:yyy.firstJisa.jojik[0],     // 범례
-              borderColor: '#20B2AA',
+              borderColor: '#6697F8',
               backgroundColor:"transparent",
               data: yyy.firstJisa.countSum?yyy.firstJisa.countSum:0,
               fill:false,
@@ -266,7 +266,7 @@ export default {
             },
             {
               label:yyy.secondJisa.jojik[0],
-              borderColor: '#5F9EA0',
+              borderColor: '#5CE082',
               backgroundColor:"transparent",
               data: yyy.secondJisa.countSum?yyy.secondJisa.countSum:0,
               fill:false,
@@ -275,7 +275,7 @@ export default {
             },
             {
               label: yyy.thirdJisa.jojik[0],
-              borderColor: '#7FFFD4',
+              borderColor: '#F7E872',
               backgroundColor:"transparent",
               data: yyy.thirdJisa.countSum?yyy.thirdJisa.countSum:0,
               fill:false,
@@ -285,7 +285,7 @@ export default {
 
             {
               label: yyy.fourthJisa.jojik[0],
-              borderColor: '#7FFFD4',
+              borderColor: '#E0815C',
               backgroundColor:"transparent",
               data: yyy.fourthJisa.countSum?yyy.fourthJisa.countSum:0,
               fill:false,
@@ -295,7 +295,7 @@ export default {
 
             {
               label: yyy.fifthJisa.jojik[0],
-              borderColor: '#8FFFD4',
+              borderColor: '#C641FF',
               backgroundColor:"transparent",
               data: yyy.fifthJisa.countSum?yyy.fifthJisa.countSum:0,
               fill:false,
@@ -305,7 +305,7 @@ export default {
 
             {
               label: yyy.sixthJisa.jojik[0],
-              borderColor: '#9FFFD4',
+              borderColor: '#FF33CC',
               backgroundColor:"transparent",
               data: yyy.sixthJisa.countSum?yyy.sixthJisa.countSum:0,
               fill:false,
@@ -314,7 +314,7 @@ export default {
             },
             {
               label: yyy.seventhJisa.jojik[0],
-              borderColor: '#BFFFD4',
+              borderColor: '#FFBB33',
               backgroundColor:"transparent",
               data: yyy.seventhJisa.countSum?yyy.seventhJisa.countSum:0,
               fill:false,

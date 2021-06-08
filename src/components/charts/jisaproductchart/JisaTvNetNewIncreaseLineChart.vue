@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import { Line, mixins } from 'vue-chartjs'
 import axios from 'axios';
+import {chartColor} from '@/components/charts/color.js';
 
 const jisaNetNewIncreaseUrl='http://172.21.220.97/api/net/jisa.json/?prod=미디어&kind=start&bonbu='
 
@@ -41,12 +42,13 @@ const options={      //chart options prop를 사용하지 않는 하위컴포넌
   elements:{
     point:{
       pointStyle:'circle',
-      radius:3,
+      radius:2,
       // borderWidth:10,
       hoverRadius:5,
     },
     line:{
       tension:.3,
+      borderWidth:1,
       //stepped:true,
     }
 
@@ -128,7 +130,7 @@ export default {
           datasets: [
             {
               label:yyy.firstJisa.jojik[0],     // 범례
-              borderColor: '#6697F8',
+              borderColor: chartColor.firstJisaColor,
               backgroundColor:"#transparent",
               data: yyy.firstJisa.countSum,
               fill:false,
@@ -139,7 +141,7 @@ export default {
             },
             {
               label:yyy.secondJisa.jojik[0],
-              borderColor: '#5CE082',
+              borderColor: chartColor.secondJisaColor,
               backgroundColor:"transparent",
               data: yyy.secondJisa.countSum,
               fill:false,
@@ -148,7 +150,7 @@ export default {
             },
             {
               label: yyy.thirdJisa.jojik[0],
-              borderColor: '#F7E872',
+              borderColor: chartColor.thirdJisaColor,
               backgroundColor:"transparent",
               data: yyy.thirdJisa.countSum,
               fill:false,
@@ -158,7 +160,7 @@ export default {
 
             {
               label: yyy.fourthJisa.jojik[0],
-              borderColor: '#E0815C',
+              borderColor: chartColor.fourthJisaColor,
               backgroundColor:"transparent",
               data: yyy.fourthJisa.countSum,
               fill:false,
@@ -168,7 +170,7 @@ export default {
 
             {
               label: yyy.fifthJisa.jojik[0],
-              borderColor: '#C641FF',
+              borderColor: chartColor.fifthJisaColor,
               backgroundColor:"transparent",
               data: yyy.fifthJisa.countSum,
               fill:false,
@@ -184,7 +186,7 @@ export default {
           datasets: [
             {
               label:yyy.firstJisa.jojik[0],     // 범례
-              borderColor: '#6697F8',
+              borderColor: chartColor.firstJisaColor,
               backgroundColor:"transparent",
               data: yyy.firstJisa.countSum,
               fill:false,
@@ -195,7 +197,7 @@ export default {
             },
             {
               label:yyy.secondJisa.jojik[0],
-              borderColor: '#5CE082',
+              borderColor: chartColor.secondJisaColor,
               backgroundColor:"transparent",
               data: yyy.secondJisa.countSum,
               fill:false,
@@ -204,7 +206,7 @@ export default {
             },
             {
               label: yyy.thirdJisa.jojik[0],
-              borderColor: '#F7E872',
+              borderColor: chartColor.thirdJisaColor,
               backgroundColor:"transparent",
               data: yyy.thirdJisa.countSum,
               fill:false,
@@ -214,7 +216,7 @@ export default {
 
             {
               label: yyy.fourthJisa.jojik[0],
-              borderColor: '#E0815C',
+              borderColor: chartColor.fourthJisaColor,
               backgroundColor:"transparent",
               data: yyy.fourthJisa.countSum,
               fill:false,
@@ -224,7 +226,7 @@ export default {
 
             {
               label: yyy.fifthJisa.jojik[0],
-              borderColor: '#C641FF',
+              borderColor: chartColor.fifthJisaColor,
               backgroundColor:"transparent",
               data: yyy.fifthJisa.countSum,
               fill:false,
@@ -234,7 +236,7 @@ export default {
 
             {
               label: yyy.sixthJisa.jojik[0],
-              borderColor: '#FF81B1',
+              borderColor: chartColor.sixthJisaColor,
               backgroundColor:"transparent",
               data: yyy.sixthJisa.countSum,
               fill:false,
@@ -251,7 +253,7 @@ export default {
           datasets: [
             {
               label:yyy.firstJisa.jojik[0],     // 범례
-              borderColor: '#20B2AA',
+              borderColor: chartColor.firstJisaColor,
               backgroundColor:"transparent",
               data: yyy.firstJisa.countSum?yyy.firstJisa.countSum:0,
               fill:false,
@@ -262,7 +264,7 @@ export default {
             },
             {
               label:yyy.secondJisa.jojik[0],
-              borderColor: '#5F9EA0',
+              borderColor: chartColor.secondJisaColor,
               backgroundColor:"transparent",
               data: yyy.secondJisa.countSum?yyy.secondJisa.countSum:0,
               fill:false,
@@ -271,7 +273,7 @@ export default {
             },
             {
               label: yyy.thirdJisa.jojik[0],
-              borderColor: '#7FFFD4',
+              borderColor: chartColor.thirdJisaColor,
               backgroundColor:"transparent",
               data: yyy.thirdJisa.countSum?yyy.thirdJisa.countSum:0,
               fill:false,
@@ -281,7 +283,7 @@ export default {
 
             {
               label: yyy.fourthJisa.jojik[0],
-              borderColor: '#7FFFD4',
+              borderColor: chartColor.fourthJisaColor,
               backgroundColor:"transparent",
               data: yyy.fourthJisa.countSum?yyy.fourthJisa.countSum:0,
               fill:false,
@@ -291,7 +293,7 @@ export default {
 
             {
               label: yyy.fifthJisa.jojik[0],
-              borderColor: '#8FFFD4',
+              borderColor: chartColor.fifthJisaColor,
               backgroundColor:"transparent",
               data: yyy.fifthJisa.countSum?yyy.fifthJisa.countSum:0,
               fill:false,
@@ -301,7 +303,7 @@ export default {
 
             {
               label: yyy.sixthJisa.jojik[0],
-              borderColor: '#9FFFD4',
+              borderColor: chartColor.sixthJisaColor,
               backgroundColor:"transparent",
               data: yyy.sixthJisa.countSum?yyy.sixthJisa.countSum:0,
               fill:false,
@@ -310,7 +312,7 @@ export default {
             },
             {
               label: yyy.seventhJisa.jojik[0],
-              borderColor: '#BFFFD4',
+              borderColor: chartColor.seventhJisaColor,
               backgroundColor:"transparent",
               data: yyy.seventhJisa.countSum?yyy.seventhJisa.countSum:0,
               fill:false,

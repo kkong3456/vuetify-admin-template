@@ -2,6 +2,7 @@
   <v-app>
     <default-bar @drawer="drawer=!drawer" />
     <default-drawer v-model="drawer" />
+   
     <default-view />
     <default-footer
       :xxx="str"
