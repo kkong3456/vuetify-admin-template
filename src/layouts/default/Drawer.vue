@@ -124,15 +124,26 @@ export default {
         text     : '2. 해지 징후 VOC',
         subLinks : [
           {
-            text : '2-1 해지관련 VOC 추이',
-            to    : '/sale-voc',
+            text : '2-1  영업VOC - 상품별',
+            to    : '/sale-voc-product',
             icon  : 'mdi-plus'
           },
           {
-            text : '2-2 유무선 품질 VOC',
-            to    : '/network-voc',
+            text:'2-2 영업VOC - 업무유형별',
+            to :'/sale-voc-work',
+            icon:'mdi-plus'
+          },
+         
+          {
+            text : '2-3 품질VOC - 상품별',
+            to    : '/network-voc-product',
             icon  : 'mdi-plus'
           },
+          {
+            text:'2-4 품질VOC - 업무유형별',
+            to : '/network-voc-work',
+            icon:'mdi-plus'
+          }
         ]
       },
       {

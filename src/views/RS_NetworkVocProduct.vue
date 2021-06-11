@@ -30,58 +30,12 @@
           </template>
         </v-col>
       </v-row>
-
       <v-row
         class="mt-5"
       >
         <v-col>
           <p class="text-h5 text-center">
-            [ VOC 해지관련 - 인터넷/TV ]
-          </p>
-          <jisa-rit-voc-chart 
-            ref="changeBonbu1"
-          />
-        </v-col>
-        <v-col>
-          <p class="text-h5 text-center">
-            [ VOC 해지관련 - 인터넷/TV 데이터]
-          </p>
-          <jisa-rit-voc-bugbu-table 
-            v-if="selectedBonbu=='북부고객본부'"
-          />
-          <jisa-rit-voc-dongbu-table
-            v-if="selectedBonbu=='동부고객본부'"
-          />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <p class="text-h5 text-center">
-            [ VOC 해지관련 - 무선]
-          </p>
-          <jisa-rm-voc-chart 
-            ref="changeBonbu2"
-          />
-        </v-col>
-        <v-col>
-          <p class="text-h5 text-center">
-            [ VOC 해지관련 - 무선 데이터]
-          </p>
-          <jisa-rm-voc-bugbu-table 
-            v-if="selectedBonbu=='북부고객본부'"
-          />
-          <jisa-rm-voc-dongbu-table
-            v-if="selectedBonbu=='동부고객본부'"
-          />
-        </v-col>
-      </v-row>
-
-      <v-row
-        class="mt-5"
-      >
-        <v-col>
-          <p class="text-h5 text-center">
-            [ VOC 해지관련 - Quility 인터넷/TV ]
+            [ 품질VOC 인터넷/TV ]
           </p>
           <jisa-qit-voc-chart 
             ref="changeBonbu3"
@@ -89,7 +43,7 @@
         </v-col>
         <v-col>
           <p class="text-h5 text-center">
-            [ VOC 해지관련 - Quility인터넷/TV 데이터]
+            [ 품질VOC 인터넷/TV ]
           </p>
           <jisa-qit-voc-bugbu-table 
             v-if="selectedBonbu=='북부고객본부'"
@@ -105,7 +59,7 @@
       >
         <v-col>
           <p class="text-h5 text-center">
-            [ VOC 해지관련 - Quility 무선 ]
+            [ 품질VOC 무선 ]
           </p>
           <jisa-qm-voc-chart 
             ref="changeBonbu4"
@@ -113,7 +67,7 @@
         </v-col>
         <v-col>
           <p class="text-h5 text-center">
-            [ VOC 해지관련 - Quility 무선 - 데이터]
+            [ 품질VOC - 무선 ]
           </p>
           <jisa-qm-voc-bugbu-table 
             v-if="selectedBonbu=='북부고객본부'"
@@ -128,13 +82,13 @@
 </template>
 
 <script>
-import jisaRitVocChart from '@/components/charts/vocchart/jisaRitVocChart'
-import jisaRitVocBugbuTable from '@/components/tables/voctable/jisaRitVocBugbuTable'
-import jisaRitVocDongbuTable from '@/components/tables/voctable/jisaRitVocDongbuTable'
+// import jisaRitVocChart from '@/components/charts/vocchart/jisaRitVocChart'
+// import jisaRitVocBugbuTable from '@/components/tables/voctable/jisaRitVocBugbuTable'
+// import jisaRitVocDongbuTable from '@/components/tables/voctable/jisaRitVocDongbuTable'
 
-import jisaRmVocChart from '@/components/charts/vocchart/jisaRmVocChart'
-import jisaRmVocBugbuTable from '@/components/tables/voctable/jisaRmVocBugbuTable'
-import jisaRmVocDongbuTable from '@/components/tables/voctable/jisaRmVocDongbuTable'
+// import jisaRmVocChart from '@/components/charts/vocchart/jisaRmVocChart'
+// import jisaRmVocBugbuTable from '@/components/tables/voctable/jisaRmVocBugbuTable'
+// import jisaRmVocDongbuTable from '@/components/tables/voctable/jisaRmVocDongbuTable'
 
 import jisaQitVocChart from '@/components/charts/vocchart/jisaQitVocChart'
 import jisaQitVocBugbuTable from '@/components/tables/voctable/jisaQitVocBugbuTable'
@@ -146,15 +100,15 @@ import jisaQmVocDongbuTable from '@/components/tables/voctable/jisaQmVocDongbuTa
 
 
 export default {
-  name:'RSNetworkVoc',
+  name:'RSNetworkVocJisa',
   components:{
-    jisaRitVocChart,
-    jisaRmVocChart,
-    jisaRitVocBugbuTable,
-    jisaRitVocDongbuTable,
+    // jisaRitVocChart,
+    // jisaRmVocChart,
+    // jisaRitVocBugbuTable,
+    // jisaRitVocDongbuTable,
 
-    jisaRmVocBugbuTable,
-    jisaRmVocDongbuTable,
+    // jisaRmVocBugbuTable,
+    // jisaRmVocDongbuTable,
 
     jisaQitVocChart,
     jisaQitVocBugbuTable,
@@ -173,8 +127,8 @@ export default {
   methods:{
     changeUrl(selectedBonbu){
       console.log(selectedBonbu);
-      this.$refs.changeBonbu1.changeBonbu(selectedBonbu);
-      this.$refs.changeBonbu2.changeBonbu(selectedBonbu);
+      // this.$refs.changeBonbu1.changeBonbu(selectedBonbu);
+      // this.$refs.changeBonbu2.changeBonbu(selectedBonbu);
       this.$refs.changeBonbu3.changeBonbu(selectedBonbu);
       this.$refs.changeBonbu4.changeBonbu(selectedBonbu);
     }

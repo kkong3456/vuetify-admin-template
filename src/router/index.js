@@ -5,8 +5,12 @@ import VueRouter from 'vue-router'
 import RS_Dashboard from '@/views/RS_Dashboard'
 import RS_Scenario from '@/views/RS_Scenario'
 import RS_DangerousSite from '@/views/RS_DangerousSite'
-import RS_SaleVoc from '@/views/RS_SaleVoc'
-import RS_NetworkVoc from '@/views/RS_NetworkVoc'
+
+import RS_SaleVocProduct from '@/views/RS_SaleVocProduct'
+import RS_SaleVocWork from '@/views/RS_SaleVocWork'
+import RS_NetworkVocProduct from '@/views/RS_NetworkVocProduct'
+import RS_NetworkVocWork from'@/views/RS_NetworkVocWork'
+
 import RS_Bonbu from '@/views/RS_Bonbu'
 import RS_Product from '@/views/RS_Product'
 import RS_JisaTv from '@/views/RS_JisaTv'
@@ -52,15 +56,26 @@ const routes=[
       },
 
       {
-        path:'/sale-voc',
-        name:'RS_SaleVoc',
-        component:RS_SaleVoc
+        path:'/sale-voc-product',
+        name:'RS_SaleVocProduct',
+        component:RS_SaleVocProduct
+      },
+      {
+        path:'/sale-voc-work',
+        name:'RS_SaleVocWork',
+        component:RS_SaleVocWork
       },
 
       {
-        path:'/network-voc',
-        name:'RS_NetworkVoc',
-        component:RS_NetworkVoc
+        path:'/network-voc-product',
+        name:'RS_NetworkVocProduct',
+        component:RS_NetworkVocProduct
+      },
+
+      {
+        path:'/network-voc-work',
+        name:'RS_NetworkVocWork',
+        component:RS_NetworkVocWork,
       },
 
       {

@@ -44,6 +44,8 @@ const bonbuJisaObj={
 }
 
 export default {
+
+  props:['propsdata'],
   // name:MobileHjTable,
   data () {
     return {
@@ -55,8 +57,6 @@ export default {
       desserts:this.desserts,
     }
   },
-
-  props:['propsdata'],
 
   computed:{
     headers(){
