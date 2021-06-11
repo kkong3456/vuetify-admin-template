@@ -67,11 +67,11 @@ export default {
           value:'name',
         },
         {
-          text:'start day',
+          text:'START DAY',
           value:'startdate',
         },
         {
-          text:'end day',
+          text:'END DAY',
           value:'enddate',
           // filter:value=>{
           //   if(!this.thisHjCount) return true
@@ -260,8 +260,10 @@ export default {
       }
     } , 
     getBonbuNetIncreaseValue(bonbuName){    //axios로 받아온 데이터를 상품별로 Obj로 만든다
-      let jisaTvObj={}
-      let dateArray=new Array();
+      let jisaTvThisObj={};
+      let jidsTvLastObj={};
+      let thisDateArray=new Array();
+      let lastDateArray=new Array();
 
       let firstJisa='';
       let secondJisa='';
@@ -272,13 +274,21 @@ export default {
       let seventhJisa='';
       
 
-      let firstJisaCountSum=0;
-      let secondJisaCountSum=0;
-      let thirdJisaCountSum=0;
-      let fourthJisaCountSum=0;
-      let fifthJisaCountSum=0;
-      let sixthJisaCountSum=0;
-      let seventhJisaCountSum=0;
+      let firstJisaThisCountSum=0;
+      let secondJisaThisCountSum=0;
+      let thirdJisaThisCountSum=0;
+      let fourthJisaThisCountSum=0;
+      let fifthJisaThisCountSum=0;
+      let sixthJisaThisCountSum=0;
+      let seventhJisaThisCountSum=0;
+
+      let firstJisaLastCountSum=0;
+      let secondJisaLastCountSum=0;
+      let thirdJisaLastCountSum=0;
+      let fourthJisaLastCountSum=0;
+      let fifthJisaLastCountSum=0;
+      let sixthJisaLastCountSum=0;
+      let seventhJisaLastCountSum=0;
 
       //북부고객본부
       if(bonbuName==='북부고객본부'){
@@ -289,35 +299,68 @@ export default {
         fifthJisa='서대문지사';
 
         this.bonbuNetIncreaseData.map((item)=>{
-          dateArray.push(item.sysdate);
+         
+          console.log('item.sysdate is ',item.sysdate.substring(5,7));
 
-          if(item.jojik3_name==='고양지사') {
-            firstJisaCountSum+=item.count_sum;
+          if(item.sysdate.substring(5,7)==='02'){
+            thisDateArray.push(item.sysdate);
+            if(item.jojik3_name==='고양지사') {
+              firstJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='광진지사') {
+              secondJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='광화문지사') {
+              thirdJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='노원지사') {
+              fourthJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='서대문지사') {
+              fifthJisaThisCountSum+=item.count_sum;
+            }
           }
-          if(item.jojik3_name==='광진지사') {
-            secondJisaCountSum+=item.count_sum;
+
+          if(item.sysdate.substring(5,7)==='01'){
+            lastDateArray.push(item.sysdate);
+
+            if(item.jojik3_name==='고양지사'){
+              firstJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='광진지사'){
+              secondJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='광화문지사'){
+              thirdJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='노원지사'){
+              fourthJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='서대문지사'){
+              fifthJisaLastCountSum+=item.count_sum;
+            }
           }
-          if(item.jojik3_name==='광화문지사') {
-            thirdJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='노원지사') {
-            fourthJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='서대문지사') {
-            fifthJisaCountSum+=item.count_sum;
-          }                          
         });
       }
 
-      jisaTvObj={
-        'sysdate':dateArray,
-        'firstJisa':[firstJisa,firstJisaCountSum],
-        'secondJisa':[secondJisa,secondJisaCountSum],
-        'thirdJisa':[thirdJisa,thirdJisaCountSum],
-        'fourthJisa':[fourthJisa,fourthJisaCountSum],
-        'fifthJisa':[fifthJisa,fifthJisaCountSum],
-        'sixthJisa':[sixthJisa,sixthJisaCountSum],
-             
+      jisaTvThisObj={
+        'sysdate':thisDateArray,
+        'firstJisa':[firstJisa,firstJisaThisCountSum],
+        'secondJisa':[secondJisa,secondJisaThisCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaThisCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaThisCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaThisCountSum],
+        'sixthJisa':[sixthJisa,sixthJisaThisCountSum],        
+      }
+
+      jisaTvTLastObj={
+        'sysdate':lastDateArray,
+        'firstJisa':[firstJisa,firstJisaTLastCountSum],
+        'secondJisa':[secondJisa,secondJisaLastCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaLastCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaLastCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaLastCountSum],
+        'sixthJisa':[sixthJisa,sixthJisaLastCountSum],        
       }
 
       //동부고객본부
@@ -329,33 +372,65 @@ export default {
         fifthJisa='춘천지사';
 
         this.bonbuNetIncreaseData.map((item)=>{
-          dateArray.push(item.sysdate);
+         
+          if(item.sysdate.substring(5,7)==='02'){
+            thisDateArray.push(item.sysdate);
 
-          if(item.jojik3_name==='강릉지사') {
-            firstJisaCountSum+=item.count_sum;
+            if(item.jojik3_name==='강릉지사') {
+              firstJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='구리지사') {
+              secondJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='원주지사') {
+              thirdJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='의정부지사') {
+              fourthJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='춘천지사') {
+              fifthJisaThisCountSum+=item.count_sum;
+            }
           }
-          if(item.jojik3_name==='구리지사') {
-            secondJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='원주지사') {
-            thirdJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='의정부지사') {
-            fourthJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='춘천지사') {
-            fifthJisaCountSum+=item.count_sum;
-          }                          
+          
+          if(item.sysdate.substring(5,7)==='01'){
+            lastDateArray.push(item.sysdate);
+
+            if(item.jojik3_name==='강릉지사') {
+              firstJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='구리지사') {
+              secondJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='원주지사') {
+              thirdJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='의정부지사') {
+              fourthJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='춘천지사') {
+              fifthJisaLastCountSum+=item.count_sum;
+            }
+          }              
         });
       }
 
-      jisaTvObj={
+      jisaTvThisObj={
         'sysdate':dateArray,
-        'firstJisa':[firstJisa,firstJisaCountSum],
-        'secondJisa':[secondJisa,secondJisaCountSum],
-        'thirdJisa':[thirdJisa,thirdJisaCountSum],
-        'fourthJisa':[fourthJisa,fourthJisaCountSum],
-        'fifthJisa':[fifthJisa,fifthJisaCountSum],     
+        'firstJisa':[firstJisa,firstJisaThisCountSum],
+        'secondJisa':[secondJisa,secondJisaThisCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaThisCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaThisCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaThisCountSum],     
+      }
+
+      jisaTvLastObj={
+        'sysdate':dateArray,
+        'firstJisa':[firstJisa,firstJisaLastCountSum],
+        'secondJisa':[secondJisa,secondJisaLastCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaLastCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaLastCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaLastCountSum],     
       }
 
       //전남/전북고객본부
@@ -367,36 +442,63 @@ export default {
         fifthJisa='전주지사';
 
         this.bonbuNetIncreaseData.map((item)=>{
-          dateArray.push(item.sysdate);
-
-          if(item.jojik3_name==='광주지사') {
-            firstJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='목포지사') {
-            secondJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='순천지사') {
-            thirdJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='익산지사') {
-            fourthJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='전주지사') {
-            fifthJisaCountSum+=item.count_sum;
-          }                          
+          if(item.sysdate.substring(5,7)==='02'){
+            thisDateArray.push(item.sysdate);
+            if(item.jojik3_name==='광주지사') {
+              firstJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='목포지사') {
+              secondJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='순천지사') {
+              thirdJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='익산지사') {
+              fourthJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='전주지사') {
+              fifthJisaThisCountSum+=item.count_sum;
+            } 
+          }                       
+          
+          if(item.sysdate.substring(5,7)==='01'){
+            lastDateArray.push(item.sysdate);
+            if(item.jojik3_name==='광주지사') {
+              firstJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='목포지사') {
+              secondJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='순천지사') {
+              thirdJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='익산지사') {
+              fourthJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='전주지사') {
+              fifthJisaLastCountSum+=item.count_sum;
+            } 
+          }                       
         });
       }
 
-      jisaTvObj={
-        'sysdate':dateArray,
-        'firstJisa':[firstJisa,firstJisaCountSum],
-        'secondJisa':[secondJisa,secondJisaCountSum],
-        'thirdJisa':[thirdJisa,thirdJisaCountSum],
-        'fourthJisa':[fourthJisa,fourthJisaCountSum],
-        'fifthJisa':[fifthJisa,fifthJisaCountSum],     
+      jisaTvThisObj={
+        'sysdate':thisDateArray,
+        'firstJisa':[firstJisa,firstJisaThisCountSum],
+        'secondJisa':[secondJisa,secondJisaThisCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaThisCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaThisCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaThisCountSum],     
       }
 
-
+      jisaTvLastObj={
+        'sysdate': lastDateArray,
+        'firstJisa':[firstJisa,firstJisaLastCountSum],
+        'secondJisa':[secondJisa,secondJisaLastCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaLastCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaLastCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaLastCountSum],     
+      }
 
       //강남고객본부
       if(bonbuName==='강남고객본부'){
