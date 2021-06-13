@@ -50,7 +50,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                200
+                {{ netNewIncreaseLastMonth }}
               </v-card-text>
             </v-card>  
             <v-spacer />
@@ -65,7 +65,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                300
+                {{ netNewIncreaseThisMonth }}
               </v-card-text>
             </v-card>
             <v-spacer />
@@ -76,10 +76,11 @@
               width="33%"
             >
               <v-card-subtitle>증감비율(%)</v-card-subtitle>
+              <v-divider />
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                50%
+                {{ netNewIncreaseDiff }} %
               </v-card-text>
             </v-card>
           </div>
@@ -110,7 +111,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                200
+                {{ netHjLastMonth }}
               </v-card-text>
             </v-card>  
             <v-spacer />
@@ -127,7 +128,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                300
+                {{ netHjThisMonth }}
               </v-card-text>
             </v-card>
             <v-spacer />
@@ -138,10 +139,11 @@
               width="33%"
             >
               <v-card-subtitle>증감비율(%)</v-card-subtitle>
+              <v-divider />
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                50%
+                {{ netHjDiff }} %
               </v-card-text>
             </v-card>
           </div>
@@ -170,7 +172,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                200
+                {{ netIncreaseLastMonth }}
               </v-card-text>
             </v-card>  
             <v-spacer />
@@ -185,7 +187,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                300
+                {{ netIncreaseThisMonth }}
               </v-card-text>
             </v-card>
             <v-spacer />
@@ -196,10 +198,11 @@
               width="33%"
             >
               <v-card-subtitle>증감비율(%)</v-card-subtitle>
+              <v-divider />
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                50%
+                {{ netIncreaseDiff }} %
               </v-card-text>
             </v-card>
           </div>
@@ -221,6 +224,9 @@
           <jisa-mobile-net-new-increase-table 
             ref="changeBonbu4"
             :propsdata="netNewIncreaseData"
+            @netNewIncreaseLastMonth="netNewIncreaseLastMonthFunc"
+            @netNewIncreaseThisMonth="netNewIncreaseThisMonthFunc"
+            @netNewIncreaseDiff="netNewIncreaseDiffFunc"
           />
         </v-col>
     
@@ -234,6 +240,9 @@
           <jisa-mobile-hj-table 
             ref="changeBonbu5"
             :propsdata="netHjData"
+            @netHjLastMonth="netHjLastMonthFunc"
+            @netHjThisMonth="netHjThisMonthFunc"
+            @netHjDiff="netHjDiffFunc"
           />
         </v-col>
    
@@ -247,6 +256,9 @@
           <jisa-mobile-net-increase-table 
             ref="changeBonbu6"
             :propsdata="netIncreaseData"
+            @netIncreaseLastMonth="netIncreaseLastMonthFunc"
+            @netIncreaseThisMonth="netIncreaseThisMonthFunc"
+            @netIncreaseDiff="netIncreaseDiffFunc"
           />
         </v-col>
       </v-row>
@@ -326,7 +338,19 @@ export default {
 
       netNewIncreaseData:'순증가',
       netHjData:'순해지',
-      netIncreaseData:'순증/감'
+      netIncreaseData:'순증/감',
+
+      netNewIncreaseLastMonth:0,
+      netHjLastMonth:0,
+      netIncreaseLastMonth:0,
+
+      netNewIncreaseThisMonth:0,
+      netHjThisMonth:0,
+      netIncreaseThisMonth:0,
+
+      netNewIncreaseDiff:0,
+      netHjDiff:0,
+      netIncreaseDiff:0,
     }
   },
   methods:{
@@ -338,6 +362,40 @@ export default {
       this.$refs.changeBonbu4.changeBonbu(selectedBonbu);
       this.$refs.changeBonbu5.changeBonbu(selectedBonbu);
       this.$refs.changeBonbu6.changeBonbu(selectedBonbu);
+    },
+    netNewIncreaseLastMonthFunc(val){
+      this.netNewIncreaseLastMonth=val.toLocaleString();
+    },
+
+    netNewIncreaseThisMonthFunc(val){
+      this.netNewIncreaseThisMonth=val.toLocaleString();
+    },
+
+    netNewIncreaseDiffFunc(val){
+      this.netNewIncreaseDiff=val.toLocaleString();
+    },
+
+    netHjLastMonthFunc(val){
+      this.netHjLastMonth=val.toLocaleString();
+    },
+
+    netHjThisMonthFunc(val){
+      this.netHjThisMonth=val.toLocaleString();
+    },
+
+    netHjDiffFunc(val){
+      this.netHjDiff=val.toLocaleString();
+    },
+
+    netIncreaseLastMonthFunc(val){
+      console.log('netIncreaseLastMonth 서부본부',val);
+      this.netIncreaseLastMonth=val.toLocaleString();
+    },
+    netIncreaseThisMonthFunc(val){
+      this.netIncreaseThisMonth=val.toLocaleString();
+    },
+    netIncreaseDiffFunc(val){
+      this.netIncreaseDiff=val.toLocaleString();
     }
   }
 }

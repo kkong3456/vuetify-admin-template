@@ -46,7 +46,7 @@ const bonbuJisaObj={
 export default {
 
   props:['propsdata'],
-  // name:MobileHjTable,
+  
   data () {
     return {
       bonbuNetIncreaseData:null,
@@ -57,7 +57,6 @@ export default {
       desserts:this.desserts,
     }
   },
-  
   computed:{
     headers(){
       return [
@@ -68,11 +67,11 @@ export default {
           value:'name',
         },
         {
-          text:'start day',
+          text:'START DAY',
           value:'startdate',
         },
         {
-          text:'end day',
+          text:'END DAY',
           value:'enddate',
           // filter:value=>{
           //   if(!this.thisHjCount) return true
@@ -114,94 +113,102 @@ export default {
     },
 
     getDesserts(bonbuName){
-      const yyy=this.getBonbuNetIncreaseValue(bonbuName);
-     
+      const yyy=this.getBonbuNetIncreaseValue(bonbuName);     
       if(bonbuName==='북부고객본부' || bonbuName==='동부고객본부' ||  bonbuName==='전남/전북고객본부'){
-
+        
         this.desserts=[
           {
-            name:yyy.firstJisa[0],
-            startdate:yyy.sysdate[0].substring(2,10),
-            enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10),
-            countSum:yyy.firstJisa[1]
+            name:yyy.this.firstJisa[0],
+            startdate:yyy.this.sysdate[0].substring(2,10),
+            enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
+            countSum:yyy.this.firstJisa[1].toLocaleString(),
           },
           {
-            name:yyy.secondJisa[0],
-            startdate:yyy.sysdate[0].substring(2,10),
-            enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10),
-            countSum:yyy.secondJisa[1]
+            name:yyy.this.secondJisa[0],
+            startdate:yyy.this.sysdate[0].substring(2,10),
+            enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
+            countSum:yyy.this.secondJisa[1].toLocaleString(),
           },
           {
-            name:yyy.thirdJisa[0],
-            startdate:yyy.sysdate[0].substring(2,10),
-            enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10),
-            countSum:yyy.thirdJisa[1]
+            name:yyy.this.thirdJisa[0],
+            startdate:yyy.this.sysdate[0].substring(2,10),
+            enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
+            countSum:yyy.this.thirdJisa[1].toLocaleString(),
           },
           {
-            name:yyy.fourthJisa[0],
-            startdate:yyy.sysdate[0].substring(2,10),
-            enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10),
-            countSum:yyy.fourthJisa[1]
+            name:yyy.this.fourthJisa[0],
+            startdate:yyy.this.sysdate[0].substring(2,10),
+            enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
+            countSum:yyy.this.fourthJisa[1].toLocaleString(),
           },
           {
-            name:yyy.fifthJisa[0]?yyy.fifthJisa[0]:null,
-            startdate:yyy.sysdate[0].substring(2,10)?yyy.sysdate[0].substring(2,10):null,
-            enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10)?yyy.sysdate[yyy.sysdate.length-1].substring(2,10):null,
-            countSum:yyy.fifthJisa[1]?yyy.fifthJisa[1]:null,
+            name:yyy.this.fifthJisa[0],
+            startdate:yyy.this.sysdate[0].substring(2,10),
+            enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
+            countSum:yyy.this.fifthJisa[1].toLocaleString(),
           },
-          // {
-          //   name:yyy.sixthJisa[0]?yyy.sixthJisa[0]:'',
-          //   startdate:yyy.sysdate[0].substring(2,10)?yyy.sysdate[0].substring(2,10):'',
-          //   enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10)?sysdate[yyy.sysdate.length-1].substring(2,10):'',
-          //   countSum:yyy.sixthJisa[1]?yyy.sixthJisa[1]:'',
-          // },
-          // {
-          //   name:yyy.seventhJisa[0]?yyy.seventhJisa[0]:null,
-          //   startdate:yyy.sysdate[0].substring(2,10)?yyy.sysdate[0].substring(2,10):null,
-          //   enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10)?yyy.sysdate[yyy.sysdate.length-1].substring(2,10):null,
-          //   countSum:yyy.seventhJisa[1]?yyy.seventhJisa[1]:null,
-          // },
+        // {
+        //   name:yyy.sixthJisa[0]?yyy.sixthJisa[0]:'',
+        //   startdate:yyy.sysdate[0].substring(2,10)?yyy.sysdate[0].substring(2,10):'',
+        //   enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10)?sysdate[yyy.sysdate.length-1].substring(2,10):'',
+        //   countSum:yyy.sixthJisa[1]?yyy.sixthJisa[1]:'',
+        // },
+        // {
+        //   name:yyy.seventhJisa[0]?yyy.seventhJisa[0]:null,
+        //   startdate:yyy.sysdate[0].substring(2,10)?yyy.sysdate[0].substring(2,10):null,
+        //   enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10)?yyy.sysdate[yyy.sysdate.length-1].substring(2,10):null,
+        //   countSum:yyy.seventhJisa[1]?yyy.seventhJisa[1]:null,
+        // },
         ]
+
+        //상위컴포넌트에 전월/금월/증감율 데이터를 넘긴다.
+        let netNewIncreaseLastMonth=yyy.last.firstJisa[1]+yyy.last.secondJisa[1]+yyy.last.thirdJisa[1]+yyy.last.fourthJisa[1]+yyy.last.fifthJisa[1];
+        let netNewIncreaseThisMonth=yyy.this.firstJisa[1]+yyy.this.secondJisa[1]+yyy.this.thirdJisa[1]+yyy.this.fourthJisa[1]+yyy.this.fifthJisa[1];
+        let netNewIncreaseDiff=((netNewIncreaseThisMonth-netNewIncreaseLastMonth)/netNewIncreaseLastMonth*100).toFixed(1);
+      
+        this.$emit('netNewIncreaseLastMonth',netNewIncreaseLastMonth);
+        this.$emit('netNewIncreaseThisMonth',netNewIncreaseThisMonth);
+        this.$emit('netNewIncreaseDiff',netNewIncreaseDiff);
       }
 
       if(bonbuName==='강남고객본부' || bonbuName==='충남/충북고객본부' ||  bonbuName==='대구/경북고객본부'){
 
         this.desserts=[
           {
-            name:yyy.firstJisa[0],
-            startdate:yyy.sysdate[0].substring(2,10),
-            enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10),
-            countSum:yyy.firstJisa[1]
+            name:yyy.this.firstJisa[0],
+            startdate:yyy.this.sysdate[0].substring(2,10),
+            enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
+            countSum:yyy.this.firstJisa[1].toLocaleString(),
           },
           {
-            name:yyy.secondJisa[0],
-            startdate:yyy.sysdate[0].substring(2,10),
-            enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10),
-            countSum:yyy.secondJisa[1]
+            name:yyy.this.secondJisa[0],
+            startdate:yyy.this.sysdate[0].substring(2,10),
+            enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
+            countSum:yyy.this.secondJisa[1].toLocaleString(),
           },
           {
-            name:yyy.thirdJisa[0],
-            startdate:yyy.sysdate[0].substring(2,10),
-            enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10),
-            countSum:yyy.thirdJisa[1]
+            name:yyy.this.thirdJisa[0],
+            startdate:yyy.this.sysdate[0].substring(2,10),
+            enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
+            countSum:yyy.this.thirdJisa[1].toLocaleString(),
           },
           {
-            name:yyy.fourthJisa[0],
-            startdate:yyy.sysdate[0].substring(2,10),
-            enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10),
-            countSum:yyy.fourthJisa[1]
+            name:yyy.this.fourthJisa[0],
+            startdate:yyy.this.sysdate[0].substring(2,10),
+            enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
+            countSum:yyy.this.fourthJisa[1].toLocaleString(),
           },
           {
-            name:yyy.fifthJisa[0]?yyy.fifthJisa[0]:null,
-            startdate:yyy.sysdate[0].substring(2,10)?yyy.sysdate[0].substring(2,10):null,
-            enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10)?yyy.sysdate[yyy.sysdate.length-1].substring(2,10):null,
-            countSum:yyy.fifthJisa[1]?yyy.fifthJisa[1]:null,
+            name:yyy.this.fifthJisa[0],
+            startdate:yyy.this.sysdate[0].substring(2,10),
+            enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
+            countSum:yyy.this.fifthJisa[1].toLocaleString(),
           },
           {
-            name:yyy.sixthJisa[0],
-            startdate:yyy.sysdate[0].substring(2,10),
-            enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10),
-            countSum:yyy.sixthJisa[1]?yyy.sixthJisa[1]:'',
+            name:yyy.this.sixthJisa[0],
+            startdate:yyy.this.sysdate[0].substring(2,10),
+            enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
+            countSum:yyy.this.sixthJisa[1].toLocaleString(),
           },
           // {
           //   name:yyy.seventhJisa[0]?yyy.seventhJisa[0]:null,
@@ -210,59 +217,79 @@ export default {
           //   countSum:yyy.seventhJisa[1]?yyy.seventhJisa[1]:null,
           // },
         ]
+
+        //상위컴포넌트에 전월/금월/증감율 데이터를 넘긴다.
+        let netNewIncreaseLastMonth=yyy.last.firstJisa[1]+yyy.last.secondJisa[1]+yyy.last.thirdJisa[1]+yyy.last.fourthJisa[1]+yyy.last.fifthJisa[1]+yyy.last.sixthJisa[1];
+        let netNewIncreaseThisMonth=yyy.this.firstJisa[1]+yyy.this.secondJisa[1]+yyy.this.thirdJisa[1]+yyy.this.fourthJisa[1]+yyy.this.fifthJisa[1]+yyy.this.sixthJisa[1];
+        let netNewIncreaseDiff=((netNewIncreaseThisMonth-netNewIncreaseLastMonth)/netNewIncreaseLastMonth*100).toFixed(1);
+      
+        this.$emit('netNewIncreaseLastMonth',netNewIncreaseLastMonth);
+        this.$emit('netNewIncreaseThisMonth',netNewIncreaseThisMonth);
+        this.$emit('netNewIncreaseDiff',netNewIncreaseDiff);
       }
 
       if(bonbuName==='서부고객본부' || bonbuName==='부산/경남고객본부'){
 
         this.desserts=[
           {
-            name:yyy.firstJisa[0],
-            startdate:yyy.sysdate[0].substring(2,10),
-            enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10),
-            countSum:yyy.firstJisa[1]
+            name:yyy.this.firstJisa[0],
+            startdate:yyy.this.sysdate[0].substring(2,10),
+            enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
+            countSum:yyy.this.firstJisa[1].toLocaleString(),
           },
           {
-            name:yyy.secondJisa[0],
-            startdate:yyy.sysdate[0].substring(2,10),
-            enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10),
-            countSum:yyy.secondJisa[1]
+            name:yyy.this.secondJisa[0],
+            startdate:yyy.this.sysdate[0].substring(2,10),
+            enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
+            countSum:yyy.this.secondJisa[1].toLocaleString(),
           },
           {
-            name:yyy.thirdJisa[0],
-            startdate:yyy.sysdate[0].substring(2,10),
-            enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10),
-            countSum:yyy.thirdJisa[1]
+            name:yyy.this.thirdJisa[0],
+            startdate:yyy.this.sysdate[0].substring(2,10),
+            enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
+            countSum:yyy.this.thirdJisa[1].toLocaleString(),
           },
           {
-            name:yyy.fourthJisa[0],
-            startdate:yyy.sysdate[0].substring(2,10),
-            enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10),
-            countSum:yyy.fourthJisa[1]
+            name:yyy.this.fourthJisa[0],
+            startdate:yyy.this.sysdate[0].substring(2,10),
+            enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
+            countSum:yyy.this.fourthJisa[1].toLocaleString(),
           },
           {
-            name:yyy.fifthJisa[0]?yyy.fifthJisa[0]:null,
-            startdate:yyy.sysdate[0].substring(2,10)?yyy.sysdate[0].substring(2,10):null,
-            enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10)?yyy.sysdate[yyy.sysdate.length-1].substring(2,10):null,
-            countSum:yyy.fifthJisa[1]?yyy.fifthJisa[1]:null,
+            name:yyy.this.fifthJisa[0],
+            startdate:yyy.this.sysdate[0].substring(2,10),
+            enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
+            countSum:yyy.this.fifthJisa[1].toLocaleString(),
           },
           {
-            name:yyy.sixthJisa[0],
-            startdate:yyy.sysdate[0].substring(2,10),
-            enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10),
-            countSum:yyy.sixthJisa[1],
+            name:yyy.this.sixthJisa[0],
+            startdate:yyy.this.sysdate[0].substring(2,10),
+            enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
+            countSum:yyy.this.sixthJisa[1].toLocaleString(),
           },
           {
-            name:yyy.seventhJisa[0]?yyy.seventhJisa[0]:null,
-            startdate:yyy.sysdate[0].substring(2,10)?yyy.sysdate[0].substring(2,10):null,
-            enddate:yyy.sysdate[yyy.sysdate.length-1].substring(2,10)?yyy.sysdate[yyy.sysdate.length-1].substring(2,10):null,
-            countSum:yyy.seventhJisa[1]?yyy.seventhJisa[1]:null,
+            name:yyy.this.seventhJisa[0],
+            startdate:yyy.this.sysdate[0].substring(2,10),
+            enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
+            countSum:yyy.this.seventhJisa[1].toLocaleString(),
           },
         ]
+
+        //상위컴포넌트에 전월/금월/증감율 데이터를 넘긴다.
+        let netNewIncreaseLastMonth=yyy.last.firstJisa[1]+yyy.last.secondJisa[1]+yyy.last.thirdJisa[1]+yyy.last.fourthJisa[1]+yyy.last.fifthJisa[1]+yyy.last.sixthJisa[1]+yyy.last.seventhJisa[1];
+        let netNewIncreaseThisMonth=yyy.this.firstJisa[1]+yyy.this.secondJisa[1]+yyy.this.thirdJisa[1]+yyy.this.fourthJisa[1]+yyy.this.fifthJisa[1]+yyy.this.sixthJisa[1]+yyy.this.seventhJisa[1];
+        let netNewIncreaseDiff=((netNewIncreaseThisMonth-netNewIncreaseLastMonth)/netNewIncreaseLastMonth*100).toFixed(1);
+      
+        this.$emit('netNewIncreaseLastMonth',netNewIncreaseLastMonth);
+        this.$emit('netNewIncreaseThisMonth',netNewIncreaseThisMonth);
+        this.$emit('netNewIncreaseDiff',netNewIncreaseDiff);
       }
     } , 
     getBonbuNetIncreaseValue(bonbuName){    //axios로 받아온 데이터를 상품별로 Obj로 만든다
-      let jisaTvObj={}
-      let dateArray=new Array();
+      let jisaTvThisObj={};
+      let jisaTvLastObj={};
+      let thisDateArray=new Array();
+      let lastDateArray=new Array();
 
       let firstJisa='';
       let secondJisa='';
@@ -273,13 +300,21 @@ export default {
       let seventhJisa='';
       
 
-      let firstJisaCountSum=0;
-      let secondJisaCountSum=0;
-      let thirdJisaCountSum=0;
-      let fourthJisaCountSum=0;
-      let fifthJisaCountSum=0;
-      let sixthJisaCountSum=0;
-      let seventhJisaCountSum=0;
+      let firstJisaThisCountSum=0;
+      let secondJisaThisCountSum=0;
+      let thirdJisaThisCountSum=0;
+      let fourthJisaThisCountSum=0;
+      let fifthJisaThisCountSum=0;
+      let sixthJisaThisCountSum=0;
+      let seventhJisaThisCountSum=0;
+
+      let firstJisaLastCountSum=0;
+      let secondJisaLastCountSum=0;
+      let thirdJisaLastCountSum=0;
+      let fourthJisaLastCountSum=0;
+      let fifthJisaLastCountSum=0;
+      let sixthJisaLastCountSum=0;
+      let seventhJisaLastCountSum=0;
 
       //북부고객본부
       if(bonbuName==='북부고객본부'){
@@ -290,35 +325,66 @@ export default {
         fifthJisa='서대문지사';
 
         this.bonbuNetIncreaseData.map((item)=>{
-          dateArray.push(item.sysdate);
+         
+          if(item.sysdate.substring(5,7)==='02'){
+            thisDateArray.push(item.sysdate);
+            if(item.jojik3_name==='고양지사') {
+              firstJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='광진지사') {
+              secondJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='광화문지사') {
+              thirdJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='노원지사') {
+              fourthJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='서대문지사') {
+              fifthJisaThisCountSum+=item.count_sum;
+            }
+          }
 
-          if(item.jojik3_name==='고양지사') {
-            firstJisaCountSum+=item.count_sum;
+          if(item.sysdate.substring(5,7)==='01'){
+            lastDateArray.push(item.sysdate);
+
+            if(item.jojik3_name==='고양지사'){
+              firstJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='광진지사'){
+              secondJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='광화문지사'){
+              thirdJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='노원지사'){
+              fourthJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='서대문지사'){
+              fifthJisaLastCountSum+=item.count_sum;
+            }
           }
-          if(item.jojik3_name==='광진지사') {
-            secondJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='광화문지사') {
-            thirdJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='노원지사') {
-            fourthJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='서대문지사') {
-            fifthJisaCountSum+=item.count_sum;
-          }                          
         });
       }
 
-      jisaTvObj={
-        'sysdate':dateArray,
-        'firstJisa':[firstJisa,firstJisaCountSum],
-        'secondJisa':[secondJisa,secondJisaCountSum],
-        'thirdJisa':[thirdJisa,thirdJisaCountSum],
-        'fourthJisa':[fourthJisa,fourthJisaCountSum],
-        'fifthJisa':[fifthJisa,fifthJisaCountSum],
-        'sixthJisa':[sixthJisa,sixthJisaCountSum],
-             
+      jisaTvThisObj={
+        'sysdate':thisDateArray,
+        'firstJisa':[firstJisa,firstJisaThisCountSum],
+        'secondJisa':[secondJisa,secondJisaThisCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaThisCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaThisCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaThisCountSum],
+        'sixthJisa':[sixthJisa,sixthJisaThisCountSum],        
+      }
+
+      jisaTvLastObj={
+        'sysdate':lastDateArray,
+        'firstJisa':[firstJisa,firstJisaLastCountSum],
+        'secondJisa':[secondJisa,secondJisaLastCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaLastCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaLastCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaLastCountSum],
+        'sixthJisa':[sixthJisa,sixthJisaLastCountSum],        
       }
 
       //동부고객본부
@@ -330,33 +396,65 @@ export default {
         fifthJisa='춘천지사';
 
         this.bonbuNetIncreaseData.map((item)=>{
-          dateArray.push(item.sysdate);
+         
+          if(item.sysdate.substring(5,7)==='02'){
+            thisDateArray.push(item.sysdate);
 
-          if(item.jojik3_name==='강릉지사') {
-            firstJisaCountSum+=item.count_sum;
+            if(item.jojik3_name==='강릉지사') {
+              firstJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='구리지사') {
+              secondJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='원주지사') {
+              thirdJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='의정부지사') {
+              fourthJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='춘천지사') {
+              fifthJisaThisCountSum+=item.count_sum;
+            }
           }
-          if(item.jojik3_name==='구리지사') {
-            secondJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='원주지사') {
-            thirdJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='의정부지사') {
-            fourthJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='춘천지사') {
-            fifthJisaCountSum+=item.count_sum;
-          }                          
+          
+          if(item.sysdate.substring(5,7)==='01'){
+            lastDateArray.push(item.sysdate);
+
+            if(item.jojik3_name==='강릉지사') {
+              firstJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='구리지사') {
+              secondJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='원주지사') {
+              thirdJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='의정부지사') {
+              fourthJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='춘천지사') {
+              fifthJisaLastCountSum+=item.count_sum;
+            }
+          }              
         });
       }
 
-      jisaTvObj={
-        'sysdate':dateArray,
-        'firstJisa':[firstJisa,firstJisaCountSum],
-        'secondJisa':[secondJisa,secondJisaCountSum],
-        'thirdJisa':[thirdJisa,thirdJisaCountSum],
-        'fourthJisa':[fourthJisa,fourthJisaCountSum],
-        'fifthJisa':[fifthJisa,fifthJisaCountSum],     
+      jisaTvThisObj={
+        'sysdate':thisDateArray,
+        'firstJisa':[firstJisa,firstJisaThisCountSum],
+        'secondJisa':[secondJisa,secondJisaThisCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaThisCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaThisCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaThisCountSum],     
+      }
+
+      jisaTvLastObj={
+        'sysdate':lastDateArray,
+        'firstJisa':[firstJisa,firstJisaLastCountSum],
+        'secondJisa':[secondJisa,secondJisaLastCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaLastCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaLastCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaLastCountSum],     
       }
 
       //전남/전북고객본부
@@ -368,36 +466,63 @@ export default {
         fifthJisa='전주지사';
 
         this.bonbuNetIncreaseData.map((item)=>{
-          dateArray.push(item.sysdate);
-
-          if(item.jojik3_name==='광주지사') {
-            firstJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='목포지사') {
-            secondJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='순천지사') {
-            thirdJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='익산지사') {
-            fourthJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='전주지사') {
-            fifthJisaCountSum+=item.count_sum;
-          }                          
+          if(item.sysdate.substring(5,7)==='02'){
+            thisDateArray.push(item.sysdate);
+            if(item.jojik3_name==='광주지사') {
+              firstJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='목포지사') {
+              secondJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='순천지사') {
+              thirdJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='익산지사') {
+              fourthJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='전주지사') {
+              fifthJisaThisCountSum+=item.count_sum;
+            } 
+          }                       
+          
+          if(item.sysdate.substring(5,7)==='01'){
+            lastDateArray.push(item.sysdate);
+            if(item.jojik3_name==='광주지사') {
+              firstJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='목포지사') {
+              secondJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='순천지사') {
+              thirdJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='익산지사') {
+              fourthJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='전주지사') {
+              fifthJisaLastCountSum+=item.count_sum;
+            } 
+          }                       
         });
       }
 
-      jisaTvObj={
-        'sysdate':dateArray,
-        'firstJisa':[firstJisa,firstJisaCountSum],
-        'secondJisa':[secondJisa,secondJisaCountSum],
-        'thirdJisa':[thirdJisa,thirdJisaCountSum],
-        'fourthJisa':[fourthJisa,fourthJisaCountSum],
-        'fifthJisa':[fifthJisa,fifthJisaCountSum],     
+      jisaTvThisObj={
+        'sysdate':thisDateArray,
+        'firstJisa':[firstJisa,firstJisaThisCountSum],
+        'secondJisa':[secondJisa,secondJisaThisCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaThisCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaThisCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaThisCountSum],     
       }
 
-
+      jisaTvLastObj={
+        'sysdate': lastDateArray,
+        'firstJisa':[firstJisa,firstJisaLastCountSum],
+        'secondJisa':[secondJisa,secondJisaLastCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaLastCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaLastCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaLastCountSum],     
+      }
 
       //강남고객본부
       if(bonbuName==='강남고객본부'){
@@ -409,37 +534,72 @@ export default {
         sixthJisa='평택지사';
 
         this.bonbuNetIncreaseData.map((item)=>{
-          dateArray.push(item.sysdate);
+          if(item.sysdate.substring(5,7)==='02'){
+            thisDateArray.push(item.sysdate);
 
-          if(item.jojik3_name==='강남지사') {
-            firstJisaCountSum+=item.count_sum;
+            if(item.jojik3_name==='강남지사') {
+              firstJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='분당지사') {
+              secondJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='송파지사') {
+              thirdJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='수원지사') {
+              fourthJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='용인지사') {
+              fifthJisaThisCountSum+=item.count_sum;
+            }    
+            if(item.jojik3_name==='평택지사'){
+              sixthJisaThisCountSum+=item.count_sum;
+            }
           }
-          if(item.jojik3_name==='분당지사') {
-            secondJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='송파지사') {
-            thirdJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='수원지사') {
-            fourthJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='용인지사') {
-            fifthJisaCountSum+=item.count_sum;
-          }    
-          if(item.jojik3_name==='평택지사'){
-            sixthJisaCountSum+=item.count_sum;
-          }                      
+          
+          if(item.sysdate.substring(5,7)==='01'){
+            lastDateArray.push(item.sysdate);
+
+            if(item.jojik3_name==='강남지사') {
+              firstJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='분당지사') {
+              secondJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='송파지사') {
+              thirdJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='수원지사') {
+              fourthJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='용인지사') {
+              fifthJisaLastCountSum+=item.count_sum;
+            }    
+            if(item.jojik3_name==='평택지사'){
+              sixthJisaLastCountSum+=item.count_sum;
+            }
+          }               
         });
       }
 
-      jisaTvObj={
-        'sysdate':dateArray,
-        'firstJisa':[firstJisa,firstJisaCountSum],
-        'secondJisa':[secondJisa,secondJisaCountSum],
-        'thirdJisa':[thirdJisa,thirdJisaCountSum],
-        'fourthJisa':[fourthJisa,fourthJisaCountSum],
-        'fifthJisa':[fifthJisa,fifthJisaCountSum],  
-        'sixthJisa':[sixthJisa,sixthJisaCountSum],   
+      jisaTvThisObj={
+        'sysdate':thisDateArray,
+        'firstJisa':[firstJisa,firstJisaThisCountSum],
+        'secondJisa':[secondJisa,secondJisaThisCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaThisCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaThisCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaThisCountSum],  
+        'sixthJisa':[sixthJisa,sixthJisaThisCountSum],   
+      }
+
+      jisaTvLastObj={
+        'sysdate':lastDateArray,
+        'firstJisa':[firstJisa,firstJisaLastCountSum],
+        'secondJisa':[secondJisa,secondJisaLastCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaLastCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaLastCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaLastCountSum],  
+        'sixthJisa':[sixthJisa,sixthJisaLastCountSum],   
       }
 
 
@@ -453,37 +613,73 @@ export default {
         sixthJisa='홍성지사';
 
         this.bonbuNetIncreaseData.map((item)=>{
-          dateArray.push(item.sysdate);
 
-          if(item.jojik3_name==='대전지사') {
-            firstJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='서대전지사') {
-            secondJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='천안지사') {
-            thirdJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='청주지사') {
-            fourthJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='충주지사') {
-            fifthJisaCountSum+=item.count_sum;
+          if(item.sysdate.substring(5,7)==='02'){
+            thisDateArray.push(item.sysdate);
+
+            if(item.jojik3_name==='대전지사') {
+              firstJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='서대전지사') {
+              secondJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='천안지사') {
+              thirdJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='청주지사') {
+              fourthJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='충주지사') {
+              fifthJisaThisCountSum+=item.count_sum;
+            }    
+            if(item.jojik3_name==='홍성지사'){
+              sixthJisaThisCountSum+=item.count_sum;
+            } 
           }    
-          if(item.jojik3_name==='홍성지사'){
-            sixthJisaCountSum+=item.count_sum;
-          }                      
+
+          if(item.sysdate.substring(5,7)==='01'){
+            lastDateArray.push(item.sysdate);
+
+            if(item.jojik3_name==='대전지사') {
+              firstJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='서대전지사') {
+              secondJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='천안지사') {
+              thirdJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='청주지사') {
+              fourthJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='충주지사') {
+              fifthJisaLastCountSum+=item.count_sum;
+            }    
+            if(item.jojik3_name==='홍성지사'){
+              sixthJisaLastCountSum+=item.count_sum;
+            } 
+          }                     
         });
       }
 
-      jisaTvObj={
-        'sysdate':dateArray,
-        'firstJisa':[firstJisa,firstJisaCountSum],
-        'secondJisa':[secondJisa,secondJisaCountSum],
-        'thirdJisa':[thirdJisa,thirdJisaCountSum],
-        'fourthJisa':[fourthJisa,fourthJisaCountSum],
-        'fifthJisa':[fifthJisa,fifthJisaCountSum],  
-        'sixthJisa':[sixthJisa,sixthJisaCountSum],   
+      jisaTvThisObj={
+        'sysdate':thisDateArray,
+        'firstJisa':[firstJisa,firstJisaThisCountSum],
+        'secondJisa':[secondJisa,secondJisaThisCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaThisCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaThisCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaThisCountSum],  
+        'sixthJisa':[sixthJisa,sixthJisaThisCountSum],   
+      }
+
+      jisaTvLastObj={
+        'sysdate':lastDateArray,
+        'firstJisa':[firstJisa,firstJisaLastCountSum],
+        'secondJisa':[secondJisa,secondJisaLastCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaLastCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaLastCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaLastCountSum],  
+        'sixthJisa':[sixthJisa,sixthJisaLastCountSum],   
       }
 
 
@@ -497,37 +693,73 @@ export default {
         sixthJisa='포항지사';
 
         this.bonbuNetIncreaseData.map((item)=>{
-          dateArray.push(item.sysdate);
 
-          if(item.jojik3_name==='구미지사') {
-            firstJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='달서지사') {
-            secondJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='동대구지사') {
-            thirdJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='서대구지사') {
-            fourthJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='안동지사') {
-            fifthJisaCountSum+=item.count_sum;
-          }    
-          if(item.jojik3_name==='포항지사'){
-            sixthJisaCountSum+=item.count_sum;
-          }                      
+          if(item.sysdate.substring(5,7)==='02'){
+            thisDateArray.push(item.sysdate);
+
+            if(item.jojik3_name==='구미지사') {
+              firstJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='달서지사') {
+              secondJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='동대구지사') {
+              thirdJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='서대구지사') {
+              fourthJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='안동지사') {
+              fifthJisaThisCountSum+=item.count_sum;
+            }    
+            if(item.jojik3_name==='포항지사'){
+              sixthJisaThisCountSum+=item.count_sum;
+            }
+          }      
+          
+          if(item.sysdate.substring(5,7)==='01'){
+            lastDateArray.push(item.sysdate);
+
+            if(item.jojik3_name==='구미지사') {
+              firstJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='달서지사') {
+              secondJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='동대구지사') {
+              thirdJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='서대구지사') {
+              fourthJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='안동지사') {
+              fifthJisaLastCountSum+=item.count_sum;
+            }    
+            if(item.jojik3_name==='포항지사'){
+              sixthJisaLastCountSum+=item.count_sum;
+            }
+          }               
         });
       }
 
-      jisaTvObj={
-        'sysdate':dateArray,
-        'firstJisa':[firstJisa,firstJisaCountSum],
-        'secondJisa':[secondJisa,secondJisaCountSum],
-        'thirdJisa':[thirdJisa,thirdJisaCountSum],
-        'fourthJisa':[fourthJisa,fourthJisaCountSum],
-        'fifthJisa':[fifthJisa,fifthJisaCountSum],  
-        'sixthJisa':[sixthJisa,sixthJisaCountSum],   
+      jisaTvThisObj={
+        'sysdate':thisDateArray,
+        'firstJisa':[firstJisa,firstJisaThisCountSum],
+        'secondJisa':[secondJisa,secondJisaThisCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaThisCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaThisCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaThisCountSum],  
+        'sixthJisa':[sixthJisa,sixthJisaThisCountSum],   
+      }
+
+      jisaTvLastObj={
+        'sysdate':lastDateArray,
+        'firstJisa':[firstJisa,firstJisaLastCountSum],
+        'secondJisa':[secondJisa,secondJisaLastCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaLastCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaLastCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaLastCountSum],  
+        'sixthJisa':[sixthJisa,sixthJisaLastCountSum],   
       }
 
 
@@ -542,41 +774,81 @@ export default {
         seventhJisa='창원지사';
 
         this.bonbuNetIncreaseData.map((item)=>{
-          dateArray.push(item.sysdate);
 
-          if(item.jojik3_name==='남부산지사') {
-            firstJisaCountSum+=item.count_sum;
+          if(item.sysdate.substring(5,7)==='02'){
+            thisDateArray.push(item.sysdate);
+
+            if(item.jojik3_name==='남부산지사') {
+              firstJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='동부산지사') {
+              secondJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='북부산지사') {
+              thirdJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='서부산지사') {
+              fourthJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='울산지사') {
+              fifthJisaThisCountSum+=item.count_sum;
+            }    
+            if(item.jojik3_name==='진주지사'){
+              sixthJisaThisCountSum+=item.count_sum;
+            }                      
+            if(item.jojik3_name==='창원지사'){
+              seventhJisaThisCountSum+=item.count_sum;
+            }
           }
-          if(item.jojik3_name==='동부산지사') {
-            secondJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='북부산지사') {
-            thirdJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='서부산지사') {
-            fourthJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='울산지사') {
-            fifthJisaCountSum+=item.count_sum;
-          }    
-          if(item.jojik3_name==='진주지사'){
-            sixthJisaCountSum+=item.count_sum;
-          }                      
-          if(item.jojik3_name==='창원지사'){
-            seventhJisaCountSum+=item.count_sum;
+
+          if(item.sysdate.substring(5,7)==='01'){
+            lastDateArray.push(item.sysdate);
+
+            if(item.jojik3_name==='남부산지사') {
+              firstJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='동부산지사') {
+              secondJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='북부산지사') {
+              thirdJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='서부산지사') {
+              fourthJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='울산지사') {
+              fifthJisaLastCountSum+=item.count_sum;
+            }    
+            if(item.jojik3_name==='진주지사'){
+              sixthJisaLastCountSum+=item.count_sum;
+            }                      
+            if(item.jojik3_name==='창원지사'){
+              seventhJisaLastCountSum+=item.count_sum;
+            }
           }
         });
       }
 
-      jisaTvObj={
-        'sysdate':dateArray,
-        'firstJisa':[firstJisa,firstJisaCountSum],
-        'secondJisa':[secondJisa,secondJisaCountSum],
-        'thirdJisa':[thirdJisa,thirdJisaCountSum],
-        'fourthJisa':[fourthJisa,fourthJisaCountSum],
-        'fifthJisa':[fifthJisa,fifthJisaCountSum],  
-        'sixthJisa':[sixthJisa,sixthJisaCountSum],  
-        'seventhJisa':[seventhJisa,seventhJisaCountSum], 
+      jisaTvThisObj={
+        'sysdate':thisDateArray,
+        'firstJisa':[firstJisa,firstJisaThisCountSum],
+        'secondJisa':[secondJisa,secondJisaThisCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaThisCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaThisCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaThisCountSum],  
+        'sixthJisa':[sixthJisa,sixthJisaThisCountSum],  
+        'seventhJisa':[seventhJisa,seventhJisaThisCountSum], 
+      }
+
+      jisaTvLastObj={
+        'sysdate':lastDateArray,
+        'firstJisa':[firstJisa,firstJisaLastCountSum],
+        'secondJisa':[secondJisa,secondJisaLastCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaLastCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaLastCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaLastCountSum],  
+        'sixthJisa':[sixthJisa,sixthJisaLastCountSum],  
+        'seventhJisa':[seventhJisa,seventhJisaLastCountSum], 
       }
 
       //서부고객본부
@@ -590,52 +862,89 @@ export default {
         seventhJisa='인천지사';
 
         this.bonbuNetIncreaseData.map((item)=>{
-          dateArray.push(item.sysdate);
 
-          if(item.jojik3_name==='강서지사') {
-            firstJisaCountSum+=item.count_sum;
+          if(item.sysdate.substring(5,7)==='02'){
+            thisDateArray.push(item.sysdate);
+
+            if(item.jojik3_name==='강서지사') {
+              firstJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='구로지사') {
+              secondJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='부천지사') {
+              thirdJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='서인천지사') {
+              fourthJisaThisCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='안산지사') {
+              fifthJisaThisCountSum+=item.count_sum;
+            }    
+            if(item.jojik3_name==='안양지사'){
+              sixthJisaThisCountSum+=item.count_sum;
+            }                      
+            if(item.jojik3_name==='인천지사'){
+              seventhJisaThisCountSum+=item.count_sum;
+            }
           }
-          if(item.jojik3_name==='구로지사') {
-            secondJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='부천지사') {
-            thirdJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='서인천지사') {
-            fourthJisaCountSum+=item.count_sum;
-          }
-          if(item.jojik3_name==='안산지사') {
-            fifthJisaCountSum+=item.count_sum;
-          }    
-          if(item.jojik3_name==='안양지사'){
-            sixthJisaCountSum+=item.count_sum;
-          }                      
-          if(item.jojik3_name==='인천지사'){
-            seventhJisaCountSum+=item.count_sum;
+
+          if(item.sysdate.substring(5,7)==='01'){
+            lastDateArray.push(item.sysdate);
+
+            if(item.jojik3_name==='강서지사') {
+              firstJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='구로지사') {
+              secondJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='부천지사') {
+              thirdJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='서인천지사') {
+              fourthJisaLastCountSum+=item.count_sum;
+            }
+            if(item.jojik3_name==='안산지사') {
+              fifthJisaLastCountSum+=item.count_sum;
+            }    
+            if(item.jojik3_name==='안양지사'){
+              sixthJisaLastCountSum+=item.count_sum;
+            }                      
+            if(item.jojik3_name==='인천지사'){
+              seventhJisaLastCountSum+=item.count_sum;
+            }
           }
         });
       }
 
-      jisaTvObj={
-        'sysdate':dateArray,
-        'firstJisa':[firstJisa,firstJisaCountSum],
-        'secondJisa':[secondJisa,secondJisaCountSum],
-        'thirdJisa':[thirdJisa,thirdJisaCountSum],
-        'fourthJisa':[fourthJisa,fourthJisaCountSum],
-        'fifthJisa':[fifthJisa,fifthJisaCountSum],  
-        'sixthJisa':[sixthJisa,sixthJisaCountSum],  
-        'seventhJisa':[seventhJisa,seventhJisaCountSum], 
+      jisaTvThisObj={
+        'sysdate':thisDateArray,
+        'firstJisa':[firstJisa,firstJisaThisCountSum],
+        'secondJisa':[secondJisa,secondJisaThisCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaThisCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaThisCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaThisCountSum],  
+        'sixthJisa':[sixthJisa,sixthJisaThisCountSum],  
+        'seventhJisa':[seventhJisa,seventhJisaThisCountSum], 
+      }
+
+      jisaTvLastObj={
+        'sysdate':lastDateArray,
+        'firstJisa':[firstJisa,firstJisaLastCountSum],
+        'secondJisa':[secondJisa,secondJisaLastCountSum],
+        'thirdJisa':[thirdJisa,thirdJisaLastCountSum],
+        'fourthJisa':[fourthJisa,fourthJisaLastCountSum],
+        'fifthJisa':[fifthJisa,fifthJisaLastCountSum],  
+        'sixthJisa':[sixthJisa,sixthJisaLastCountSum],  
+        'seventhJisa':[seventhJisa,seventhJisaLastCountSum], 
       }
 
 
 
       //console.log('jisaTvObj is ', jisaTvObj);
-      return jisaTvObj;
+      return {'this':jisaTvThisObj,'last':jisaTvLastObj};
     },
 
   }
 }
 </script>
-<style>
-
-</style>
