@@ -209,6 +209,36 @@
         </v-col>
       </v-row>
 
+      <!-- 전체 VOC -->
+      <v-row
+        class="mt-1"
+      >
+        <v-col
+          cols="6"
+        >
+          <v-card
+            outlined
+          >
+            <v-card-title>[TV-인터넷 VOC]</v-card-title>
+            <v-card-content>
+              <tv-internet-voc-word-cloud />
+            </v-card-content>
+          </v-card>
+        </v-col>
+        <v-col
+          cols="6"
+        >
+          <v-card
+            outlined
+          >
+            <v-card-title>[모바일 VOC]</v-card-title>
+            <v-card-content>
+              <mobile-voc-word-cloud />
+            </v-card-content>
+          </v-card>
+        </v-col>
+      </v-row>
+
 
       <!-- 테이블 -->
       <v-row
@@ -316,6 +346,9 @@ import JisaTvNetNewIncreaseTable from '@/components/tables/jisaproducttable/Jisa
 import JisaTvNetIncreaseTable from '@/components/tables/jisaproducttable/JisaTvNetIncreaseTable'
 import JisaTvHjTable from '@/components/tables/jisaproducttable/JisaTvHjTable'
 
+import TvInternetVocWordCloud from '@/components/wordcloud/tvInternetVocWordCloud'
+import MobileVocWordCloud from '@/components/wordcloud/mobileVocWordCloud';
+
 
 export default {
   name:'RSJisaTv',
@@ -328,6 +361,9 @@ export default {
     JisaTvNetNewIncreaseTable,
     JisaTvNetIncreaseTable,
     JisaTvHjTable,
+
+    TvInternetVocWordCloud,
+    MobileVocWordCloud,
   },
 
   data(){
@@ -338,6 +374,8 @@ export default {
       netHjData:'순해지',
       netIncreaseData:'순증/감',
 
+
+      //전월/금월/증감
       netNewIncreaseLastMonth:0,
       netHjLastMonth:0,
       netIncreaseLastMonth:0,
@@ -349,6 +387,11 @@ export default {
       netNewIncreaseDiff:0,
       netHjDiff:0,
       netIncreaseDiff:0,
+
+      //wordcloud
+      tvInternetVoc:this.tvInternetVoc,
+      mobileVoc:this.mobileVoc,
+
     }
   },
   methods:{
