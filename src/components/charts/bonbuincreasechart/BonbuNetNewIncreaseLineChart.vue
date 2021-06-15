@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import { Line, mixins } from 'vue-chartjs'
 import axios from 'axios';
+import {chartColor} from '@/components/charts/color.js'
 
 const bonbuNetIncreaseUrl='http://172.21.220.97/api/net/bonbu.json/?kind=start'; //kind=start순증
 
@@ -110,7 +111,7 @@ export default {
         datasets: [
           {
             label:yyy.강남고객본부.jojik[0],     // 범례
-            borderColor: '#20B2AA',
+            borderColor: chartColor.firstJisaColor,
             backgroundColor:"transparent",
             data: yyy.강남고객본부.countSum,
             fill:false,
@@ -121,7 +122,7 @@ export default {
           }, 
           {
             label:yyy['대구/경북고객본부'].jojik[0],
-            borderColor: '#5F9EA0',
+            borderColor: chartColor.secondJisaColor,
             backgroundColor:"transparent",
             data: yyy['대구/경북고객본부'].countSum,
             fill:false,
@@ -130,7 +131,7 @@ export default {
           },
           {
             label: yyy['충남/충북고객본부'].jojik[0],
-            borderColor: '#7FFFD4',
+            borderColor: chartColor.thirdJisaColor,
             backgroundColor:"transparent",
             data: yyy['충남/충북고객본부'].countSum,
             fill:false,
@@ -139,7 +140,7 @@ export default {
           },
           {
             label: yyy.서부고객본부.jojik[0],
-            borderColor: '#B0E0E6',
+            borderColor: chartColor.fourthJisaColor,
             backgroundColor:"transparent",
             data: yyy.서부고객본부.countSum,
             fill:false,
@@ -148,7 +149,7 @@ export default {
           },
           {
             label: yyy['전남/전북고객본부'].jojik[0],
-            borderColor: '#AFEEEE',
+            borderColor: chartColor.fifthJisaColor,
             backgroundColor:"transparent",
             data: yyy['전남/전북고객본부'].countSum,
             fill:false,
@@ -157,7 +158,7 @@ export default {
           },
           {
             label: yyy.북부고객본부.jojik[0],
-            borderColor: '#ADD8E6',
+            borderColor: chartColor.sixthJisaColor,
             backgroundColor:"transparent",
             data: yyy.북부고객본부.countSum,
             fill:false,
@@ -166,7 +167,7 @@ export default {
           },
           {
             label: yyy.동부고객본부.jojik[0],
-            borderColor: '#B0C4DE',
+            borderColor: chartColor.seventhJisaColor,
             backgroundColor:"transparent",
             data: yyy.동부고객본부.countSum,
             fill:false,
