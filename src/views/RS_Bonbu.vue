@@ -6,9 +6,9 @@
           <template>
             <v-select
               v-model="selectedProduct"
-              :items="['전체','TV','인터넷','무선']"
+              :items="['TV','인터넷','무선']"
               
-              label="상품전체"
+              label="상품"
               @change="changeProduct(selectedProduct)"
             >
               <template v-slot:item="{ item, attrs, on }">
@@ -266,9 +266,9 @@
           md="4"
         >
           <p class="text-h5 text-center">
-            [ 본부 순해지]
+            [ 본부 순해지 ]
           </p>
-          <jisa-tv-hj-table 
+          <bonbu-hj-table 
             ref="changeProduct5"
             :propsdata="netHjData"
             @netHjLastMonth="netHjLastMonthFunc"
@@ -284,7 +284,7 @@
           <p class="text-h5 text-center">
             [ 본부 순증/감 ]
           </p>
-          <jisa-tv-net-increase-table 
+          <bonbu-net-increase-table 
             ref="changeProduct6"
             :propsdata="netIncreaseData"
             @netIncreaseLastMonth="netIncreaseLastMonthFunc"
@@ -344,6 +344,8 @@ import BonbuNetIncreaseLineChart from '@/components/charts/bonbuincreasechart/Bo
 import BonbuNetHjLineChart from '@/components/charts/bonbuincreasechart/BonbuNetHjLineChart'
 
 import BonbuNetNewIncreaseTable from '@/components/tables/bonbuincreasetable/BonbuNetNewIncreaseTable';
+import BonbuHjTable from '@/components/tables/bonbuincreasetable/BonbuHjTable';
+import BonbuNetIncreaseTable from '@/components/tables/bonbuincreasetable/BonbuNetIncreaseTable';
 
 import TvInternetVocWordCloud from '@/components/wordcloud/tvInternetVocWordCloud';
 import MobileVocWordCloud from '@/components/wordcloud/mobileVocWordCloud';
@@ -356,6 +358,8 @@ export default {
     BonbuNetHjLineChart,
 
     BonbuNetNewIncreaseTable,
+    BonbuHjTable,
+    BonbuNetIncreaseTable,
 
     TvInternetVocWordCloud,
     MobileVocWordCloud,
@@ -363,7 +367,7 @@ export default {
 
   data(){
     return{
-      selectedProduct:'전체',
+      selectedProduct:'TV',
 
       netNewIncreaseData:'순신규',
       netHjData:'순해지',
@@ -396,8 +400,8 @@ export default {
       // this.$refs.changeBonbu2.changeBonbu(selectedBonbu);
       // this.$refs.changeBonbu3.changeBonbu(selectedBonbu);
       this.$refs.changeProduct4.changeProduct(selectedProduct);
-      // this.$refs.changeProduct5.changeProduct(selectedProduct);
-      // this.$refs.changeProduct6.changeProduct(selectedProduct);
+      this.$refs.changeProduct5.changeProduct(selectedProduct);
+      this.$refs.changeProduct6.changeProduct(selectedProduct);
     },
 
     netNewIncreaseLastMonthFunc(val){

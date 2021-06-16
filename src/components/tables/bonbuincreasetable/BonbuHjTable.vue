@@ -28,8 +28,8 @@
 <script>
 import axios from 'axios';
 
-const productUrl='http://172.21.220.97/api/net/product.json/?kind=start';
-const bonbuUrl='http://172.21.220.97/api/net/bonbu.json/?kind=start';
+const productUrl='http://172.21.220.97/api/net/product.json/?kind=end';
+const bonbuUrl='http://172.21.220.97/api/net/bonbu.json/?kind=end';
 
 const bonbuJisaObj={
   '북부고객본부':['고양지사','광진지사','광화문지사','노원지사','서대문지사'],
@@ -124,9 +124,9 @@ export default {
       let netNewIncreaseThisMonth=yyy.this[selectedProduct];
       let netNewIncreaseDiff=((netNewIncreaseThisMonth-netNewIncreaseLastMonth)/netNewIncreaseLastMonth*100).toFixed(1);
            
-      this.$emit('netNewIncreaseLastMonth',netNewIncreaseLastMonth);
-      this.$emit('netNewIncreaseThisMonth',netNewIncreaseThisMonth);
-      this.$emit('netNewIncreaseDiff',netNewIncreaseDiff);
+      this.$emit('netHjLastMonth',netNewIncreaseLastMonth);
+      this.$emit('netHjThisMonth',netNewIncreaseThisMonth);
+      this.$emit('netHjDiff',netNewIncreaseDiff);
     },
 
     getDesserts(){
