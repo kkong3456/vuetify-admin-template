@@ -28,8 +28,8 @@
 <script>
 import axios from 'axios';
 
-const productUrl='http://172.21.220.97/api/net/product.json/?kind=net';
-const bonbuUrl='http://172.21.220.97/api/net/bonbu.json/?kind=net';
+const productUrl='http://172.21.220.97/api/net/product.json/?kind=end';
+const bonbuUrl='http://172.21.220.97/api/net/bonbu.json/?kind=end';
 
 const bonbuJisaObj={
   '북부고객본부':['고양지사','광진지사','광화문지사','노원지사','서대문지사'],

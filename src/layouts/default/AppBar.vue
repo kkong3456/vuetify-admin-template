@@ -6,6 +6,7 @@
   >
     <!-- <v-app-bar-nav-icon v-on:click="$emit('drawer')">{{$route.name}}</v-app-bar-nav-icon> -->
     <v-app-bar-nav-icon @click="$emit('drawer')" />
+    
     <v-spacer />
   </v-app-bar>
 </template>

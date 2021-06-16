@@ -8,7 +8,7 @@
               v-model="selectedBonbu"
               :items="['북부고객본부','동부고객본부','강남고객본부','충남/충북고객본부','대구/경북고객본부','부산/경남고객본부','전남/전북고객본부','서부고객본부']"
               
-              label="상품"
+              label="광역본부"
               @change="changeBonbu(selectedBonbu)"
             >
               <template v-slot:item="{ item, attrs, on }">
