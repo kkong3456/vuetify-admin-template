@@ -48,8 +48,6 @@ export default {
   
   data () {
     return {
-      bonbuNetIncreaseData:null,
-      bonbuNetIncreaseValueObj:null, 
       bonbuData:null,
       productData:null, 
       totalHjUrlPage:null,         //api url page의 제일 마지막 부분 확인  
@@ -98,8 +96,8 @@ export default {
       this.productData=productData;
       //console.log('productData is ',bonbuData);
 
-      this.getDesserts();
-      this.getProductDesserts(productData,'TV');
+      this.getDesserts('북부고객본부'); //중간의 전체(테이블)본부별 순신규/해지/증감
+     
     })).catch((err)=>{
       console.log(err);
     });
@@ -110,18 +108,14 @@ export default {
   },
 
   methods: {  
-    async changeProduct(selectedProduct){
+    async changeBonbu(selectedBonbu){
       //console.log('url is ',url);
-      this.getProductDesserts(this.productData,selectedProduct);   
-    },
-
-    getProductDesserts(productData,selectedProduct){
-      const yyy=this.getBonbuNetIncreaseValue1(productData);
+      const yyy=this.getBonbuNetIncreaseValue();
 
       //상위컴포넌트에 전월/금월/증감율 데이터를 넘긴다.
       
-      let netNewIncreaseLastMonth=yyy.last[selectedProduct];
-      let netNewIncreaseThisMonth=yyy.this[selectedProduct];
+      let netNewIncreaseLastMonth=yyy.last[selectedBonbu][1];
+      let netNewIncreaseThisMonth=yyy.this[selectedBonbu][1];
       let netNewIncreaseDiff=((netNewIncreaseThisMonth-netNewIncreaseLastMonth)/netNewIncreaseLastMonth*100).toFixed(1);
            
       this.$emit('netIncreaseLastMonth',netNewIncreaseLastMonth);
@@ -129,59 +123,67 @@ export default {
       this.$emit('netIncreaseDiff',netNewIncreaseDiff);
     },
 
-    getDesserts(){
-      const yyy=this.getBonbuNetIncreaseValue();  
-      // console.log('getDesserts is ',yyy);   
+    
+    getDesserts(selectedBonbu){
+      const yyy=this.getBonbuNetIncreaseValue();   
       this.desserts=[
         {
-          name:yyy.this.firstBonbu[0],
+          name:yyy.this['북부고객본부'][0],
           startdate:yyy.this.sysdate[0].substring(2,10),
           enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
-          countSum:yyy.this.firstBonbu[1].toLocaleString(),
+          countSum:yyy.this['북부고객본부'][1].toLocaleString(),
         },
         {
-          name:yyy.this.secondBonbu[0],
+          name:yyy.this['동부고객본부'][0],
           startdate:yyy.this.sysdate[0].substring(2,10),
           enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
-          countSum:yyy.this.secondBonbu[1].toLocaleString(),
+          countSum:yyy.this['동부고객본부'][1].toLocaleString(),
         },
         {
-          name:yyy.this.thirdBonbu[0],
+          name:yyy.this['전남/전북고객본부'][0],
           startdate:yyy.this.sysdate[0].substring(2,10),
           enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
-          countSum:yyy.this.thirdBonbu[1].toLocaleString(),
+          countSum:yyy.this['전남/전북고객본부'][1].toLocaleString(),
         },
         {
-          name:yyy.this.fourthBonbu[0],
+          name:yyy.this['강남고객본부'][0],
           startdate:yyy.this.sysdate[0].substring(2,10),
           enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
-          countSum:yyy.this.fourthBonbu[1].toLocaleString(),
+          countSum:yyy.this['강남고객본부'][1].toLocaleString(),
         },
         {
-          name:yyy.this.fifthBonbu[0],
+          name:yyy.this['충남/충북고객본부'][0],
           startdate:yyy.this.sysdate[0].substring(2,10),
           enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
-          countSum:yyy.this.fifthBonbu[1].toLocaleString(),
+          countSum:yyy.this['충남/충북고객본부'][1].toLocaleString(),
         },
         {
-          name:yyy.this.sixthBonbu[0],
+          name:yyy.this['대구/경북고객본부'][0],
           startdate:yyy.this.sysdate[0].substring(2,10),
           enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
-          countSum:yyy.this.sixthBonbu[1].toLocaleString(),
+          countSum:yyy.this['대구/경북고객본부'][1].toLocaleString(),
         },
         {
-          name:yyy.this.seventhBonbu[0],
+          name:yyy.this['서부고객본부'][0],
           startdate:yyy.this.sysdate[0].substring(2,10),
           enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
-          countSum:yyy.this.seventhBonbu[1].toLocaleString(),
+          countSum:yyy.this['서부고객본부'][1].toLocaleString(),
         },
         {
-          name:yyy.this.eighthBonbu[0],
+          name:yyy.this['부산/경남고객본부'][0],
           startdate:yyy.this.sysdate[0].substring(2,10),
           enddate:yyy.this.sysdate[yyy.this.sysdate.length-1].substring(2,10),
-          countSum:yyy.this.eighthBonbu[1].toLocaleString(),
+          countSum:yyy.this['부산/경남고객본부'][1].toLocaleString(),
         }
       ];
+
+      let netNewIncreaseLastMonth=yyy.last[selectedBonbu][1];
+      let netNewIncreaseThisMonth=yyy.this[selectedBonbu][1];
+      let netNewIncreaseDiff=((netNewIncreaseThisMonth-netNewIncreaseLastMonth)/netNewIncreaseLastMonth*100).toFixed(1);
+           
+      this.$emit('netIncreaseLastMonth',netNewIncreaseLastMonth);
+      this.$emit('netIncreaseThisMonth',netNewIncreaseThisMonth);
+      this.$emit('netIncreaseDiff',netNewIncreaseDiff);
       
     } , 
 
@@ -221,7 +223,7 @@ export default {
 
      
       this.bonbuData.map((item)=>{
-        console.log('bonbuData array is',item);
+        //console.log('bonbuData array is',item);
         if(item.sysdate.substring(5,7)==='02'){
           thisDateArray.push(item.sysdate);
           if(item.jojik2_name==='북부고객본부') {
@@ -298,95 +300,31 @@ export default {
      
       bonbuThisObj={
         'sysdate':thisDateArray,
-        'firstBonbu':[firstBonbu,firstBonbuThisCountSum],
-        'secondBonbu':[secondBonbu,secondBonbuThisCountSum],
-        'thirdBonbu':[thirdBonbu,thirdBonbuThisCountSum],
-        'fourthBonbu':[fourthBonbu,fourthBonbuThisCountSum],
-        'fifthBonbu':[fifthBonbu,fifthBonbuThisCountSum],
-        'sixthBonbu':[sixthBonbu,sixthBonbuThisCountSum],
-        'seventhBonbu':[seventhBonbu,seventhBonbuThisCountSum],
-        'eighthBonbu':[eighthBonbu,eighthBonbuThisCountSum],        
+        '북부고객본부':[firstBonbu,firstBonbuThisCountSum],
+        '동부고객본부':[secondBonbu,secondBonbuThisCountSum],
+        '전남/전북고객본부':[thirdBonbu,thirdBonbuThisCountSum],
+        '강남고객본부':[fourthBonbu,fourthBonbuThisCountSum],
+        '충남/충북고객본부':[fifthBonbu,fifthBonbuThisCountSum],
+        '대구/경북고객본부':[sixthBonbu,sixthBonbuThisCountSum],
+        '서부고객본부':[seventhBonbu,seventhBonbuThisCountSum],
+        '부산/경남고객본부':[eighthBonbu,eighthBonbuThisCountSum],        
       };
 
       bonbuLastObj={
         'sysdate':lastDateArray,
-        'firstBonbu':[firstBonbu,firstBonbuLastCountSum],
-        'secondBonbu':[secondBonbu,secondBonbuLastCountSum],
-        'thirdBonbu':[thirdBonbu,thirdBonbuLastCountSum],
-        'fourthBonbu':[fourthBonbu,fourthBonbuLastCountSum],
-        'fifthBonbu':[fifthBonbu,fifthBonbuLastCountSum],
-        'sixthBonbu':[sixthBonbu,sixthBonbuLastCountSum], 
-        'seventhBonbu':[seventhBonbu,seventhBonbuLastCountSum],
-        'eighthBonbu':[eighthBonbu,eighthBonbuLastCountSum],       
+        '북부고객본부':[firstBonbu,firstBonbuLastCountSum],
+        '동부고객본부':[secondBonbu,secondBonbuLastCountSum],
+        '전남/전북고객본부':[thirdBonbu,thirdBonbuLastCountSum],
+        '강남고객본부':[fourthBonbu,fourthBonbuLastCountSum],
+        '충남/충북고객본부':[fifthBonbu,fifthBonbuLastCountSum],
+        '대구/경북고객본부':[sixthBonbu,sixthBonbuLastCountSum], 
+        '서부고객본부':[seventhBonbu,seventhBonbuLastCountSum],
+        '부산/경남고객본부':[eighthBonbu,eighthBonbuLastCountSum],       
       };
 
   
       return {'this':bonbuThisObj,'last':bonbuLastObj};
     },
-
-    getBonbuNetIncreaseValue1(productData){    //axios로 받아온 데이터를 상품별로 Obj로 만든다
-      let productThisObj={};
-      let productLastObj={};
-
-      let thisDateArray=new Array();
-      let lastDateArray=new Array();
-
-      let thisWirelessCountSum=0;
-      let thisTvCountSum=0;
-      let thisInternetCountSum=0;
-
-      let lastWirelessCountSum=0;
-      let lastTvCountSum=0;
-      let lastInternetCountSum=0;
-
-    
-      productData.map((item)=>{
-        if(item.sysdate.substring(5,7)==='02'){
-          thisDateArray.push(item.sysdate);
-          if(item.prod2==='무선'){
-            thisWirelessCountSum+=item.count_sum;
-          }
-          if(item.prod2==='미디어'){
-            thisTvCountSum+=item.count_sum;
-          }
-          if(item.prod2==='인터넷'){
-            thisInternetCountSum+=item.count_sum;
-          }
-        }
-
-        if(item.sysdate.substring(5,7)==='01'){
-          lastDateArray.push(item.sysdate);
-
-          if(item.prod2==='무선') {
-            lastWirelessCountSum+=item.count_sum;
-          }
-          if(item.prod2==='미디어') {
-            lastTvCountSum+=item.count_sum;
-          }
-          if(item.prod2==='인터넷') {
-            lastInternetCountSum+=item.count_sum;
-          }   
-        }
-      });
-      
-      productThisObj={
-        'sysdate':thisDateArray,
-        '무선':thisWirelessCountSum,
-        'TV':thisTvCountSum,
-        '인터넷':thisInternetCountSum,
-      };
-
-      productLastObj={
-        'sysdate':lastDateArray,
-        '무선':lastWirelessCountSum,
-        'TV':lastTvCountSum,
-        '인터넷':lastInternetCountSum,
-      }
-
-      return {'this':productThisObj,'last':productLastObj};
-    },
-
-
   }
 }
 </script>

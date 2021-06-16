@@ -5,11 +5,11 @@
         <v-col>
           <template>
             <v-select
-              v-model="selectedProduct"
-              :items="['TV','인터넷','무선']"
+              v-model="selectedBonbu"
+              :items="['북부고객본부','동부고객본부','강남고객본부','충남/충북고객본부','대구/경북고객본부','부산/경남고객본부','전남/전북고객본부','서부고객본부']"
               
               label="상품"
-              @change="changeProduct(selectedProduct)"
+              @change="changeBonbu(selectedBonbu)"
             >
               <template v-slot:item="{ item, attrs, on }">
                 <v-list-item
@@ -38,7 +38,7 @@
             class="text-center pa-2 font-weight-bold"
             color="blue lighten-2"
           >
-            순신규가입자수({{ selectedProduct }})
+            순신규가입자수({{ selectedBonbu }})
           </v-card>
           <div class="d-flex">
             <v-card 
@@ -97,7 +97,7 @@
             color="blue lighten-2"
             tile
           >
-            순해지가입자수({{ selectedProduct }})
+            순해지가입자수({{ selectedBonbu }})
           </v-card>
           <div class="d-flex">
             <v-card 
@@ -160,7 +160,7 @@
             color="blue lighten-2"
             tile
           >
-            순증가 가입자수({{ selectedProduct }})
+            순증가 가입자수({{ selectedBonbu }})
           </v-card>
           <div class="d-flex">
             <v-card 
@@ -253,7 +253,7 @@
             [ 본부 순신규]
           </p>
           <bonbu-net-new-increase-table 
-            ref="changeProduct4"
+            ref="changeBonbu4"
             :propsdata="netNewIncreaseData"
             @netNewIncreaseLastMonth="netNewIncreaseLastMonthFunc"
             @netNewIncreaseThisMonth="netNewIncreaseThisMonthFunc"
@@ -269,7 +269,7 @@
             [ 본부 순해지 ]
           </p>
           <bonbu-hj-table 
-            ref="changeProduct5"
+            ref="changeBonbu5"
             :propsdata="netHjData"
             @netHjLastMonth="netHjLastMonthFunc"
             @netHjThisMonth="netHjThisMonthFunc"
@@ -285,7 +285,7 @@
             [ 본부 순증/감 ]
           </p>
           <bonbu-net-increase-table 
-            ref="changeProduct6"
+            ref="changeBonbu6"
             :propsdata="netIncreaseData"
             @netIncreaseLastMonth="netIncreaseLastMonthFunc"
             @netIncreaseThisMonth="netIncreaseThisMonthFunc"
@@ -367,7 +367,8 @@ export default {
 
   data(){
     return{
-      selectedProduct:'TV',
+      //selectedProduct:'TV',
+      selectedBonbu:'북부고객본부',
 
       netNewIncreaseData:'순신규',
       netHjData:'순해지',
@@ -394,14 +395,14 @@ export default {
     }
   },
   methods:{
-    changeProduct(selectedProduct){
-      console.log(selectedProduct);
+    changeBonbu(selectedBonbu){
+      
       // this.$refs.changeBonbu1.changeBonbu(selectedBonbu);
       // this.$refs.changeBonbu2.changeBonbu(selectedBonbu);
       // this.$refs.changeBonbu3.changeBonbu(selectedBonbu);
-      this.$refs.changeProduct4.changeProduct(selectedProduct);
-      this.$refs.changeProduct5.changeProduct(selectedProduct);
-      this.$refs.changeProduct6.changeProduct(selectedProduct);
+      this.$refs.changeBonbu4.changeBonbu(selectedBonbu);
+      this.$refs.changeBonbu5.changeBonbu(selectedBonbu);
+      this.$refs.changeBonbu6.changeBonbu(selectedBonbu);
     },
 
     netNewIncreaseLastMonthFunc(val){
