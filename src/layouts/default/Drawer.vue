@@ -117,6 +117,11 @@ export default {
             to    : '/dangeroussite',
             icon  : 'mdi-plus'
           },
+          {
+            text:'1-3 해지분포(MAP)',
+            to:'/rs-locations',
+            icon:'mdi-plus',
+          },
         ]
       },
       {

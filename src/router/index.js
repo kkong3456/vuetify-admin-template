@@ -5,6 +5,7 @@ import VueRouter from 'vue-router'
 import RS_Dashboard from '@/views/RS_Dashboard'
 import RS_Scenario from '@/views/RS_Scenario'
 import RS_DangerousSite from '@/views/RS_DangerousSite'
+import RS_RsLocationsMap from '@/views/RS_RsLocationsMap'
 
 import RS_SaleVocProduct from '@/views/RS_SaleVocProduct'
 import RS_SaleVocWork from '@/views/RS_SaleVocWork'
@@ -53,6 +54,11 @@ const routes=[
         path:'/dangeroussite',
         name:'RS_DangerousSite',
         component:RS_DangerousSite
+      },
+      {
+        path:'/rs-locations',
+        name:'RS_RsLocationsMap',
+        component:RS_RsLocationsMap,
       },
 
       {
