@@ -200,6 +200,11 @@ export default {
           //   icon:'mdi-gift'
           // }
         ]
+      },
+      {
+        icon:'mdi-folder',
+        text:'4. 해지분포 MAP',
+        to:'/rs-locations',
       }
     ]
   })
