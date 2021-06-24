@@ -16,9 +16,11 @@ export default {
   methods:{
     initialize(){
       const mapOpts={
-        center:new olleh.maps.UTMK(958386.063532902,1941447.5761742294),
-        zoom:9,
-        mapTypeId:'ROADMAP'
+        // center:new olleh.maps.UTMK(958386.063532902,1941447.5761742294),
+        center:new olleh.maps.LatLng(37.57730,127.00160),
+        zoom:11,
+        //mapTypeId:'ROADMAP'
+        mapTypeId:'HYBRID',
       };
       const map=new olleh.maps.Map(document.getElementById('map_div'),mapOpts);
     },
