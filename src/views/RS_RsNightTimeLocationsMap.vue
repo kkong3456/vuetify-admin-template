@@ -112,10 +112,10 @@ export default {
         //console.log(item.ncn);
         const marker=new olleh.maps.overlay.Marker({
           position : new olleh.maps.LatLng(item.night_lat,item.night_lon),
-          title:item.night_lat.toString(),
+          title:('ncn : '+item.ncn.toString()+'</br> lat : '+item.night_lat),
         });
         clusterer.add(marker);
-      })
+      });
 
      
       clusterer.setMap(map);
