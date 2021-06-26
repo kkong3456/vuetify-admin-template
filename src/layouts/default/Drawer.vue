@@ -87,11 +87,7 @@ export default {
 
   data: () => ({
     gradient:'rgba(0,0,0,0.7),rgba(0,0,0,0.7)',
-    // items: [
-    //   { title: '1. 해지 예측 정보', icon: 'mdi-view-dashboard' ,to:'/'},
-    //   { title: '1-1. 예측 시나리오', icon: 'mdi-align-horizontal-left',to:'/scenario'},
-    //   { title: '1-2. 고 위험 사이트', icon: 'mdi-align-horizontal-left',to:'/dangeroussite'},
-    //  ],
+   
     right: null,
     links: [
       {
@@ -117,11 +113,11 @@ export default {
             to    : '/dangeroussite',
             icon  : 'mdi-plus'
           },
-          {
-            text:'1-3 해지분포(MAP)',
-            to:'/rs-locations',
-            icon:'mdi-plus',
-          },
+          // {
+          //   text:'1-3 해지분포(MAP)',
+          //   to:'/rs-locations',
+          //   icon:'mdi-plus',
+          // },
         ]
       },
       {
@@ -184,7 +180,7 @@ export default {
             text : '3-6 해지현황 표(상품별)',
             to : '/hj-table',
             icon  : 'mdi-plus'
-          }
+          },
           // {
           //   text: '로그인',
           //   to : '/authentication/sign-in',
@@ -204,7 +200,18 @@ export default {
       {
         icon:'mdi-folder',
         text:'4. 해지분포 MAP',
-        to:'/rs-locations',
+        subLinks:[
+          {
+            text:'4-1. Day Time MAP',
+            to:'/rs-daytime-locations',
+            icon:'mdi-plus',
+          },
+          {
+            text:'4-2. Night Time MAP',
+            to:'/rs-nighttime-locations',
+            icon:'mdi-plus',
+          },
+        ]
       }
     ]
   })

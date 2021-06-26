@@ -5,7 +5,8 @@ import VueRouter from 'vue-router'
 import RS_Dashboard from '@/views/RS_Dashboard'
 import RS_Scenario from '@/views/RS_Scenario'
 import RS_DangerousSite from '@/views/RS_DangerousSite'
-import RS_RsLocationsMap from '@/views/RS_RsLocationsMap'
+import RS_RsDayTimeLocationsMap from '@/views/RS_RsDayTimeLocationsMap'
+import RS_RsNightTimeLocationsMap from '@/views/RS_RsNightTimeLocationsMap'
 
 import RS_SaleVocProduct from '@/views/RS_SaleVocProduct'
 import RS_SaleVocWork from '@/views/RS_SaleVocWork'
@@ -56,9 +57,14 @@ const routes=[
         component:RS_DangerousSite
       },
       {
-        path:'/rs-locations',
-        name:'RS_RsLocationsMap',
-        component:RS_RsLocationsMap,
+        path:'/rs-daytime-locations',
+        name:'RS_RsDayTimeLocationsMap',
+        component:RS_RsDayTimeLocationsMap,
+      },
+      {
+        path:'/rs-nighttime-locations',
+        name:'RS_RsNightTimeLocationsMap',
+        component:RS_RsNightTimeLocationsMap,
       },
 
       {
