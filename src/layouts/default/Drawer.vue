@@ -45,6 +45,7 @@
           :active-class="color"
           avatar
           class="v-list-item"
+          @click="showBreadCrumb(link)"
         >
           <v-list-item-icon>
             <v-icon>{{ link.icon }}</v-icon>
@@ -59,6 +60,7 @@
           no-action
           :prepend-icon="link.icon"
           :value="false"
+          @click="showBreadCrumb(link)"
         >
           <template v-slot:activator>
             <v-list-item-title>{{ link.text }}</v-list-item-title>
@@ -68,6 +70,7 @@
             v-for="sublink in link.subLinks"
             :key="sublink.text"
             :to="sublink.to"
+            @click="showBreadCrumb(sublink)"
           >
             <v-list-item-icon class="px-2">
               <v-icon>{{ sublink.icon }}</v-icon>
@@ -81,6 +84,7 @@
 </template>
 
 <script>
+import eventBus from '@/js/eventBus';
 
 export default {
   name:'DefaultDrawer',
@@ -214,8 +218,16 @@ export default {
         ]
       }
     ]
-  })
+  }),
+
+  methods:{
+    showBreadCrumb(sublink){
+      eventBus.$emit('triggerEventBus',[sublink.text,sublink.to]);
+    }
+  }
 }
+
+
 
 </script>
 <style scoped>

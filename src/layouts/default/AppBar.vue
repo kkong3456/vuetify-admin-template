@@ -8,13 +8,27 @@
     <v-app-bar-nav-icon @click="$emit('drawer')" />
     
     <v-spacer />
+    {{ breadcrumbData }}
   </v-app-bar>
 </template>
 <script>
+import eventBus from '@/js/eventBus'
+
 export default {
   name:'DefaultBar',
+  data(){
+    return{
+      breadcrumbData:'',
+      breadcrumbUrl:'',
+    }
+  },
   
-
+  created(){
+    eventBus.$on('triggerEventBus',(value)=>{
+      this.breadcrumbData=value[0];
+      this.breadcrumbUrl=value[1];
+    });
+  }
 }
 </script>
 <style scoped>
