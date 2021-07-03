@@ -52,6 +52,15 @@ export default {
     const dongbuWonjuReq=axios.get(dongbuWonjuUrl);
     const dongbuUijungbuReq=axios.get(dongbuUijungbuUrl);
     const dongbuChuncheonReq=axios.get(dongbuChuncheonUrl);
+
+    const key="82a9120746aa758b280c9be03affbaf6fe06f203eee2043da224220bb43d8a3d5516760f&addressText=서울특별시 서초구 우면동 17";
+    
+    await axios.get(`https://gis.kt.com/search/v1.0/utilities/geocode?key=${key}`).then((res)=>{
+      console.log('우면동 연구소 위경도는 : ',res.data.residentialAddress[0].parcelAddress[0].geographicInformation.point);
+     
+    }).catch((err)=>{
+      console.log('주소에 해당하는 위/경도를 찾지 못했습니다.');
+    })
     
     await axios.all(
       [
@@ -105,14 +114,14 @@ export default {
       const map=new olleh.maps.Map(document.getElementById('map_div'),mapOpts);
 
       const clusterer=new olleh.maps.overlay.MarkerClusterer({
-        gap:100,
+        gap:80,
       });
 
       this.locationsData.forEach((item)=>{
         //console.log(item.ncn);
         const marker=new olleh.maps.overlay.Marker({
           position : new olleh.maps.LatLng(item.day_lat,item.day_lon),
-          title:('ncn : '+item.ncn.toString()+'</br> lat : '+item.night_lat),
+          title:('지사 : '+item.sj_jojik3+'</br> ncn : '+item.ncn.toString()+'</br> lat : '+item.night_lat),
         });
         clusterer.add(marker);
       })

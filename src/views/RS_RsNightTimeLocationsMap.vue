@@ -105,14 +105,14 @@ export default {
       const map=new olleh.maps.Map(document.getElementById('map_div'),mapOpts);
 
       const clusterer=new olleh.maps.overlay.MarkerClusterer({
-        gap:100,
+        gap:80,
       });
 
       this.locationsData.forEach((item)=>{
         //console.log(item.ncn);
         const marker=new olleh.maps.overlay.Marker({
           position : new olleh.maps.LatLng(item.night_lat,item.night_lon),
-          title:('ncn : '+item.ncn.toString()+'</br> lat : '+item.night_lat),
+          title:('지사 : '+item.sj_jojik3+'</br> ncn : '+item.ncn.toString()+'</br> lat : '+item.night_lat),
         });
         clusterer.add(marker);
       });
