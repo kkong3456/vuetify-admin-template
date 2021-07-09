@@ -8,6 +8,9 @@
 
 <script>
 import axios from 'axios';
+import markerImg from '@/assets/markers1.png';
+import clusterCircleImg from '@/assets/cluster_circle.png';
+
 const  bugbuGoYangUrl='http://172.21.220.97/api/map/latlon.json/?yyyymm=202101&bonbu=북부고객본부&jisa=고양지사'
 const  bugbuGwangJinUrl='http://172.21.220.97/api/map/latlon.json/?yyyymm=202101&bonbu=북부고객본부&jisa=광진지사'
 const  bugbuGwangWhaMoonUrl='http://172.21.220.97/api/map/latlon.json/?yyyymm=202101&bonbu=북부고객본부&jisa=광화문지사';
@@ -52,6 +55,15 @@ export default {
     const dongbuWonjuReq=axios.get(dongbuWonjuUrl);
     const dongbuUijungbuReq=axios.get(dongbuUijungbuUrl);
     const dongbuChuncheonReq=axios.get(dongbuChuncheonUrl);
+
+    const key="82a9120746aa758b280c9be03affbaf6fe06f203eee2043da224220bb43d8a3d5516760f&addressText=서울특별시 서초구 우면동 17";
+    
+    await axios.get(`https://gis.kt.com/search/v1.0/utilities/geocode?key=${key}`).then((res)=>{
+      // console.log('우면동 연구소 위경도는 : ',res.data.residentialAddress[0].parcelAddress[0].geographicInformation.point);
+     
+    }).catch((err)=>{
+      console.log('주소에 해당하는 위/경도를 찾지 못했습니다.');
+    })
     
     await axios.all(
       [
@@ -89,9 +101,7 @@ export default {
     
   },
 
-  // mounted(){
-  //   this.loadScript();
-  // },
+  
 
   methods:{
     initialize(){
@@ -106,19 +116,35 @@ export default {
 
       const clusterer=new olleh.maps.overlay.MarkerClusterer({
         gap:80,
+        clusterOpts:{
+          displaySize:true,
+          iconFn:function(size){
+            let px=Math.sqrt(size)*8;
+            return{
+              url:clusterCircleImg,
+              size:new olleh.maps.Size(20+px,20+px),
+              anchor:new olleh.maps.Point(10+px/2,10+px/2)
+            }
+          }
+        }
       });
 
       this.locationsData.forEach((item)=>{
         //console.log(item.ncn);
         const marker=new olleh.maps.overlay.Marker({
-          position : new olleh.maps.LatLng(item.night_lat,item.night_lon),
-          title:('지사 : '+item.sj_jojik3+'</br> ncn : '+item.ncn.toString()+'</br> lat : '+item.night_lat),
+          position : new olleh.maps.LatLng(item.day_lat,item.day_lon),
+          icon:{
+            url:markerImg
+          },
+          title:('지사 : '+item.sj_jojik3+'</br> 계약번호 : '+item.ncn.toString()),
         });
         clusterer.add(marker);
-      });
+      })
 
      
       clusterer.setMap(map);
+
+
       marker.onEvent('click',function(event,payload){
         // map.zoomIn();
         console.dir('marker is ',marker);

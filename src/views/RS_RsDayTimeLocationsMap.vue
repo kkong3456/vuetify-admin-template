@@ -8,6 +8,9 @@
 
 <script>
 import axios from 'axios';
+import markerImg from '@/assets/markers5.png';
+import clusterCircleImg from '@/assets/cluster_circle2.png';
+
 const  bugbuGoYangUrl='http://172.21.220.97/api/map/latlon.json/?yyyymm=202101&bonbu=북부고객본부&jisa=고양지사'
 const  bugbuGwangJinUrl='http://172.21.220.97/api/map/latlon.json/?yyyymm=202101&bonbu=북부고객본부&jisa=광진지사'
 const  bugbuGwangWhaMoonUrl='http://172.21.220.97/api/map/latlon.json/?yyyymm=202101&bonbu=북부고객본부&jisa=광화문지사';
@@ -53,14 +56,14 @@ export default {
     const dongbuUijungbuReq=axios.get(dongbuUijungbuUrl);
     const dongbuChuncheonReq=axios.get(dongbuChuncheonUrl);
 
-    const key="82a9120746aa758b280c9be03affbaf6fe06f203eee2043da224220bb43d8a3d5516760f&addressText=서울특별시 서초구 우면동 17";
-    
+    const key='82a9120746aa758b280c9be03affbaf6fe06f203eee2043da224220bb43d8a3d5516760f&addressText=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EC%84%9C%EC%B4%88%EA%B5%AC%20%EC%9A%B0%EB%A9%B4%EB%8F%99%2017';
+
     await axios.get(`https://gis.kt.com/search/v1.0/utilities/geocode?key=${key}`).then((res)=>{
-      console.log('우면동 연구소 위경도는 : ',res.data.residentialAddress[0].parcelAddress[0].geographicInformation.point);
-     
+      //console.log('우면동 연구소 주소는 :',res.data.residentialAddress[0].parcelAddress[0].geographicInformation.point);
     }).catch((err)=>{
-      console.log('주소에 해당하는 위/경도를 찾지 못했습니다.');
+      console.log('xxx');
     })
+
     
     await axios.all(
       [
@@ -98,10 +101,7 @@ export default {
     
   },
 
-  // mounted(){
-  //   this.loadScript();
-  // },
-
+ 
   methods:{
     initialize(){
       const mapOpts={
@@ -111,37 +111,76 @@ export default {
         mapTypeId:'ROADMAP'
         //mapTypeId:'HYBRID',
       };
+
+      var tmpl = '<div style="font-family: dotum, arial, sans-serif;font-size: 18px; font-weight: bold;margin-bottom: 5px;">#{title}</div>' +
+        '<table style="border-spacing: 2px; border: 0px"><tbody><tr>' +
+        '<td style="width: 40px; color:#767676;padding-right:12px">사이트</td>' +
+        '<td><a href="#{url}">홈페이지</a></td></tr>' +
+        '<tr><td style="color:#767676;padding-right:12px">주소</td>' +
+        '<td><span>#{addr} - #{tel}</span></td></tr>' +
+        '<tr><td style="color:#767676;padding-right:12px">소개</td>' +
+        '<td style=""><span>#{desc}</span></td></tr>' +
+        '<tr><td style="color:#767676;padding-right:12px">출처</td>' +
+        '<td><a href="http://www.visitkorea.or.kr" >visitkorea.or.kr</a></td>' +
+        '</tr></tbody></table>';
+      var data = {
+        title: '경복궁',
+        url: 'http://www.royalpalace.go.kr/html/main/main.jsp',
+        addr: '서울특별시 종로구 사직로9길 22 (필운동)',
+        tel: '(02)3700-3904',
+        desc: '경복궁은 1395년 태조 이성계에 의해서 새로운 조선왕조의 법궁으로 지어졌다. 경복궁은 동궐(창덕궁)이나 서궐(경희궁)에 비해 위치가 ...'
+      };
+
+      var info = new olleh.maps.overlay.InfoWindow({
+        position: new olleh.maps.UTMK(953823.7, 1953435.52),
+        maxWidth: 400,
+        content: olleh.maps.util.applyTemplate(tmpl, data)
+      });
+
       const map=new olleh.maps.Map(document.getElementById('map_div'),mapOpts);
 
       const clusterer=new olleh.maps.overlay.MarkerClusterer({
         gap:80,
+        clusterOpts:{
+          fontSize:18,
+          displaySize:true,
+          iconFn:function(size){
+            let px=Math.sqrt(size)*10;
+            return{
+              url:clusterCircleImg,
+              size:new olleh.maps.Size(20+px,20+px),
+              anchor:new olleh.maps.Point(10+px/2,10+px/2)
+            }
+          }
+        }
       });
 
       this.locationsData.forEach((item)=>{
         //console.log(item.ncn);
         const marker=new olleh.maps.overlay.Marker({
           position : new olleh.maps.LatLng(item.day_lat,item.day_lon),
+          icon:{
+            url:markerImg
+          },
           title:('지사 : '+item.sj_jojik3+'</br> ncn : '+item.ncn.toString()+'</br> lat : '+item.night_lat),
         });
-        clusterer.add(marker);
-      })
-
-     
-      clusterer.setMap(map);
-      // const marker=new olleh.maps.overlay.Marker({
-      //   // position:new olleh.maps.LatLng(37.57730,127.00160),
-
-      //   position:new olleh.maps.UTMK(951755.70 + Math.random() * 4000,1948215.52 + Math.random() * 3000),
-      //   animation:olleh.maps.overlay.Marker.BOUNCE,
-      //   title:'강북/강원코어센터',
-      //   map:map,
-      // });
-
-      marker.onEvent('click',function(event,payload){
-        // map.zoomIn();
-        console.dir('marker is ',marker);
         
-      });
+        clusterer.add(marker);
+
+        var info=new olleh.maps.overlay.InfoWindow({
+          position:new olleh.maps.LatLng(item.day_lat,item.day_lon),
+          maxWidth:400,
+          content:olleh.maps.util.applyTemplate(tmpl,data)
+        });
+
+       
+        marker.onEvent('click',function(event,payload){
+          
+          info.open(map,marker);
+          // info.open(map,clusterer);
+        })
+      })
+      clusterer.setMap(map);
     },
 
     loadScript(){
