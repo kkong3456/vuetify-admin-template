@@ -131,12 +131,6 @@ export default {
         desc: '경복궁은 1395년 태조 이성계에 의해서 새로운 조선왕조의 법궁으로 지어졌다. 경복궁은 동궐(창덕궁)이나 서궐(경희궁)에 비해 위치가 ...'
       };
 
-      var info = new olleh.maps.overlay.InfoWindow({
-        position: new olleh.maps.UTMK(953823.7, 1953435.52),
-        maxWidth: 400,
-        content: olleh.maps.util.applyTemplate(tmpl, data)
-      });
-
       const map=new olleh.maps.Map(document.getElementById('map_div'),mapOpts);
 
       const clusterer=new olleh.maps.overlay.MarkerClusterer({
