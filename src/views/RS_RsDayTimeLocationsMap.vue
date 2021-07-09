@@ -168,10 +168,12 @@ export default {
         });
 
        
-        marker.onEvent('click',function(event,payload){
-          
+        marker.onEvent('mouseover',function(event,payload){        
           info.open(map,marker);
-          // info.open(map,clusterer);
+        })
+
+        marker.onEvent('mouseout',function(event,payload){
+          info.close();
         })
       })
       clusterer.setMap(map);
