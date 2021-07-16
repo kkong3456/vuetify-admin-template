@@ -2,13 +2,82 @@
   <v-container fluid>
     <v-card>
       <v-row>
+        <!-- 본부별 조회(검색) -->
         <v-col>
           <template>
             <v-select
               v-model="selectedBonbu"
-              :items="['동부고객본부', '북부고객본부', '서부고객본부', '강남고객본부','충남/충북고객본부','전남/전북고객본부','부산/경남고객본부','대구/경북고객본부']"
+              :items="['북부고객본부', '동부고객본부', '서부고객본부', '강남고객본부','충남/충북고객본부','전남/전북고객본부','부산/경남고객본부','대구/경북고객본부']"
               label="광역본부"
-              @change="changeUrl(selectedBonbu)"
+              @change="changeBonbu(selectedBonbu)"
+            >
+              <template v-slot:item="{ item, attrs, on }">
+                <v-list-item
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-list-item-title
+                    :id="attrs['aria-labelledby']"
+                    v-text="item"
+                  />
+                </v-list-item>
+              </template>
+            </v-select>
+          </template>
+        </v-col>
+        <!-- 지사별 조회 -->
+        <v-col>
+          <template>
+            <v-select
+              v-model="selectedJisaArray[0]"             
+              :items="selectedJisaArray"
+              label="지사"
+              @change="changeBonbu(selectedBonbu)"
+            >
+              <template v-slot:item="{ item, attrs, on }">
+                <v-list-item
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-list-item-title
+                    :id="attrs['aria-labelledby']"
+                    v-text="item"
+                  />
+                </v-list-item>
+              </template>
+            </v-select>
+          </template>
+        </v-col>
+        <!-- 상품별 조회 -->
+        <v-col>
+          <template>
+            <v-select
+              v-model="selectedProduct"             
+              :items="selectedProductsArray"
+              label="상품"
+            >
+              <template v-slot:item="{ item, attrs, on }">
+                <v-list-item
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-list-item-title
+                    :id="attrs['aria-labelledby']"
+                    v-text="item"
+                  />
+                </v-list-item>
+              </template>
+            </v-select>
+          </template>
+        </v-col>
+        <!-- 기간별 조회 -->
+        <v-col>
+          <template>
+            <v-select
+              v-model="selectedProduct"             
+              :items="selectedProductsArray"
+              label="기간"
+              @change="selectDatePicker()"
             >
               <template v-slot:item="{ item, attrs, on }">
                 <v-list-item
@@ -369,6 +438,11 @@ export default {
   data(){
     return{
       selectedBonbu:'북부고객본부',
+      selectedJisaArray:['고양지사','광진지사','광화문지사','노원지사','서대문지사'],
+
+      selectedProduct:'인터넷/TV',
+
+      selectedProductsArray:['인터넷/TV','무선'],
 
       netNewIncreaseData:'순신규',
       netHjData:'순해지',
@@ -394,9 +468,44 @@ export default {
 
     }
   },
+
+
+  
   methods:{
-    changeUrl(selectedBonbu){
-      console.log(selectedBonbu);
+    changeBonbu(selectedBonbu){
+     
+      console.log('fire works!');
+      if(this.selectedBonbu==='북부고객본부'){
+        this.selectedJisaArray=['고양지사','광진지사','광화문지사','노원지사','서대문지사'];
+      }
+
+      if(this.selectedBonbu==='동부고객본부'){
+        this.selectedJisaArray=['강릉지사','구리지사','원주지사','의정부지사','춘천지사']; 
+      }
+
+      if(this.selectedBonbu==='강남고객본부'){
+        this.selectedJisaArray=['강남지사','분당지사','송파지사','수원지사','용인지사','평택지사']; 
+      }
+
+      if(this.selectedBonbu==='충남/충북고객본부'){
+        this.selectedJisaArray=['대전지사','서대전지사','천안지사','청주지사','충주지사','홍성지사'];
+      }
+
+      if(this.selectedBonbu==='대구/경북고객본부'){
+        this.selectedJisaArray=['구미지사','달서지사','동대구지사','서대구지사','안동지사','포항지사'];
+      }
+
+      if(this.selectedBonbu==='부산/경남고객본부'){
+        this.selectedJisaArray=['남부산지사','동부산지사','북부산지사','서부산지사','울산지사','진주지사','창원지사'];
+      }
+
+      if(this.selectedBonbu==='전남/전북고객본부'){
+        this.selectedJisaArray=['광주지사','목포지사','순천지사','익산지사','전주지사'];
+      }
+      if(this.selectedBonbu==='서부고객본부'){
+        this.selectedJisaArray=['강서지사','구로지사','부천지사','서인천지사','안산지사','안양지사','인천지사'];
+      }
+      
       this.$refs.changeBonbu1.changeBonbu(selectedBonbu);
       this.$refs.changeBonbu2.changeBonbu(selectedBonbu);
       this.$refs.changeBonbu3.changeBonbu(selectedBonbu);
