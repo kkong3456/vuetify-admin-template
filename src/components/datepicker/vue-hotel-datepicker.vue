@@ -194,7 +194,7 @@ export default {
     },
     minDate: {
       type: [String, Date],
-      default: () => new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 0, 0, 0)
+      default: () => new Date(new Date().getFullYear(), new Date().getMonth()-3, new Date().getDate(), 0, 0, 0)
     },
     maxDate: {
       type: [String, Date, Boolean],
@@ -524,6 +524,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.vhd-container{
+  border-bottom:1px solid #999999;
+}
 @mixin mobile-vhd() {
   .vhd {
     &-picker {

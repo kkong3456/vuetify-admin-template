@@ -2,6 +2,10 @@
   <v-container fluid>
     <v-card>
       <v-row>
+        <!-- 기간별 조회 -->
+        <v-col>
+          <vue-hotel-date-picker />
+        </v-col>
         <!-- 본부별 조회(검색) -->
         <v-col>
           <template>
@@ -69,32 +73,6 @@
               </template>
             </v-select>
           </template>
-        </v-col>
-        <!-- 기간별 조회 -->
-        <v-col>
-          <template>
-            <v-select
-              v-model="selectedProduct"             
-              :items="selectedProductsArray"
-              label="기간"
-              @change="selectDatePicker()"
-            >
-              <template v-slot:item="{ item, attrs, on }">
-                <v-list-item
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <v-list-item-title
-                    :id="attrs['aria-labelledby']"
-                    v-text="item"
-                  />
-                </v-list-item>
-              </template>
-            </v-select>
-          </template>
-        </v-col>
-        <v-col>
-          <vue-hotel-date-picker />
         </v-col>
       </v-row>
 
