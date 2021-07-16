@@ -93,6 +93,9 @@
             </v-select>
           </template>
         </v-col>
+        <v-col>
+          <vue-hotel-date-picker />
+        </v-col>
       </v-row>
 
       <v-row>
@@ -418,6 +421,8 @@ import JisaTvHjTable from '@/components/tables/jisaproducttable/JisaTvHjTable'
 import TvInternetVocWordCloud from '@/components/wordcloud/tvInternetVocWordCloud'
 import MobileVocWordCloud from '@/components/wordcloud/mobileVocWordCloud';
 
+import VueHotelDatePicker from '@/components/datepicker/vue-hotel-datepicker';
+
 
 export default {
   name:'RSJisaTv',
@@ -433,6 +438,8 @@ export default {
 
     TvInternetVocWordCloud,
     MobileVocWordCloud,
+
+    VueHotelDatePicker,
   },
 
   data(){
