@@ -27,6 +27,9 @@ import DefaultLayout from '@/layouts/default/index'
 import PageLayout from '@/layouts/page/index'
 import AuthenticationLayout from '@/layouts/authentication/index'
 
+import RSN_HjVoc from '@/views/RSN_HjVoc'
+import RSN_PjVoc from '@/views/RSN_PjVoc'
+
 
 
 Vue.use(VueRouter)
@@ -45,6 +48,16 @@ const routes=[
         path:'/',
         name:'RS_JisaTv',
         component:RS_JisaTv
+      },
+      {
+        path:'/rsn-hj-voc',
+        name:'RSN_HjVoc',
+        component:RSN_HjVoc,
+      },
+      {
+        path:'/rsn-pj-voc',
+        name:'RSN_PjVoc',
+        component:RSN_PjVoc,
       },
       {
         path:'/scenario',

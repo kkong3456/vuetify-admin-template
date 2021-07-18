@@ -51,7 +51,9 @@
             <v-icon>{{ link.icon }}</v-icon>
           </v-list-item-icon>
 
-          <v-list-item-title v-text="link.text" />
+          <v-list-item-title
+            v-text="link.text"
+          />
         </v-list-item>
 
         <v-list-group
@@ -104,6 +106,37 @@ export default {
       },
 
       {
+        icon: 'mdi-folder',
+        text: '추이현황 CONTENTS',
+        subLinks:[
+          {
+            text :'0. 위치기반 해지 추이',
+            to:'/rs-daytime-locations',
+            icon:'mdi-plus',
+          },
+          {
+            text:'1. 본부별 실적현황',
+            to:'',
+            icon:'mdi-plus',
+          },
+          {
+            text:'2. 지사별 실적현황',
+            to:'',
+            icon:'mdi-plus',
+          },
+          {
+            text:'3. 해지 VOC추이',
+            to:'/rsn-hj-voc',
+            icon:'mdi-plus',
+          },
+          {
+            text:'4. 품질 VOC추이',
+            to:'/rsn-pj-voc',
+            icon:'mdi-plus',
+          }
+        ],
+      },
+      {
         icon     : 'mdi-folder',
         text     : '1. 해지 예측 정보',
         subLinks : [
@@ -117,11 +150,7 @@ export default {
             to    : '/dangeroussite',
             icon  : 'mdi-plus'
           },
-          // {
-          //   text:'1-3 해지분포(MAP)',
-          //   to:'/rs-locations',
-          //   icon:'mdi-plus',
-          // },
+        
         ]
       },
       {
@@ -230,7 +259,14 @@ export default {
 
 
 </script>
-<style scoped>
+<style>
  .v-application--is-ltr .v-list--dense.v-list--nav .v-list-group--no-action > .v-list-group__items > .v-list-item {padding: 0 8px;} /* 메뉴너비  */
 /*.container{margin:0;}  본문화면이 중앙으로 치우치는 것을 방지 */
+
+/* 메뉴와 아이콘 간격 조정 */
+.v-application--is-ltr .v-list-item__action:first-child, .v-application--is-ltr .v-list-item__icon:first-child {
+    margin-right: 12px; 
+}
+
+
 </style>

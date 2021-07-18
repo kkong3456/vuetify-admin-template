@@ -271,7 +271,7 @@
           >
             <v-card-title>[TV-인터넷 VOC]</v-card-title>
             <v-card-content>
-              <tv-internet-voc-word-cloud />
+              <bonbu-tv-internet-voc-word-cloud />
             </v-card-content>
           </v-card>
         </v-col>
@@ -396,7 +396,7 @@ import JisaTvNetNewIncreaseTable from '@/components/tables/jisaproducttable/Jisa
 import JisaTvNetIncreaseTable from '@/components/tables/jisaproducttable/JisaTvNetIncreaseTable'
 import JisaTvHjTable from '@/components/tables/jisaproducttable/JisaTvHjTable'
 
-import TvInternetVocWordCloud from '@/components/wordcloud/tvInternetVocWordCloud'
+import BonbuTvInternetVocWordCloud from '@/components/wordcloud/BonbuTvInternetVocWordCloud'
 import MobileVocWordCloud from '@/components/wordcloud/mobileVocWordCloud';
 
 import VueHotelDatePicker from '@/components/datepicker/vue-hotel-datepicker';
@@ -414,7 +414,7 @@ export default {
     JisaTvNetIncreaseTable,
     JisaTvHjTable,
 
-    TvInternetVocWordCloud,
+    BonbuTvInternetVocWordCloud,
     MobileVocWordCloud,
 
     VueHotelDatePicker,
@@ -524,7 +524,6 @@ export default {
     },
 
     netIncreaseLastMonthFunc(val){
-      console.log('netIncreaseLastMonth 서부본부',val);
       this.netIncreaseLastMonth=val.toLocaleString();
     },
     netIncreaseThisMonthFunc(val){

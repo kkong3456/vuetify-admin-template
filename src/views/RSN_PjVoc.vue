@@ -2,14 +2,63 @@
   <v-container fluid>
     <v-card>
       <v-row>
+        <!-- 기간별 조회 -->
+        <v-col>
+          <vue-hotel-date-picker />
+        </v-col>
+        <!-- 본부별 조회(검색) -->
         <v-col>
           <template>
             <v-select
-              v-model="selectedProduct"
-              :items="['TV','인터넷','무선']"
-              
+              v-model="selectedBonbu"
+              :items="['북부고객본부', '동부고객본부', '서부고객본부', '강남고객본부','충남/충북고객본부','전남/전북고객본부','부산/경남고객본부','대구/경북고객본부']"
+              label="광역본부"
+              @change="changeBonbu(selectedBonbu)"
+            >
+              <template v-slot:item="{ item, attrs, on }">
+                <v-list-item
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-list-item-title
+                    :id="attrs['aria-labelledby']"
+                    v-text="item"
+                  />
+                </v-list-item>
+              </template>
+            </v-select>
+          </template>
+        </v-col>
+        <!-- 지사별 조회 -->
+        <v-col>
+          <template>
+            <v-select
+              v-model="selectedJisaArray[0]"             
+              :items="selectedJisaArray"
+              label="지사"
+              @change="changeBonbu(selectedBonbu)"
+            >
+              <template v-slot:item="{ item, attrs, on }">
+                <v-list-item
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-list-item-title
+                    :id="attrs['aria-labelledby']"
+                    v-text="item"
+                  />
+                </v-list-item>
+              </template>
+            </v-select>
+          </template>
+        </v-col>
+        <!-- 상품별 조회 -->
+        <v-col>
+          <template>
+            <v-select
+              v-model="selectedProduct"             
+              :items="selectedProductsArray"
               label="상품"
-              @change="changeProduct(selectedProduct)"
             >
               <template v-slot:item="{ item, attrs, on }">
                 <v-list-item
@@ -38,7 +87,7 @@
             class="text-center pa-2 font-weight-bold"
             color="blue lighten-2"
           >
-            순신규가입자수({{ selectedProduct }})
+            순신규가입자수({{ selectedBonbu }})
           </v-card>
           <div class="d-flex">
             <v-card 
@@ -97,7 +146,7 @@
             color="blue lighten-2"
             tile
           >
-            순해지가입자수({{ selectedProduct }})
+            순해지가입자수({{ selectedBonbu }})
           </v-card>
           <div class="d-flex">
             <v-card 
@@ -160,7 +209,7 @@
             color="blue lighten-2"
             tile
           >
-            순증가 가입자수({{ selectedProduct }})
+            순증가 가입자수({{ selectedBonbu }})
           </v-card>
           <div class="d-flex">
             <v-card 
@@ -221,7 +270,9 @@
             outlined
           >
             <v-card-title>[TV-인터넷 VOC]</v-card-title>
-            <v-card-content />
+            <v-card-content>
+              <bonbu-tv-internet-voc-word-cloud />
+            </v-card-content>
           </v-card>
         </v-col>
         <v-col
@@ -248,10 +299,10 @@
           md="4"
         >
           <p class="text-h5 text-center">
-            [ 본부 순신규]
+            [지사  TV 순신규]
           </p>
-          <product-net-new-increase-table 
-            ref="changeProduct4"
+          <jisa-tv-net-new-increase-table 
+            ref="changeBonbu4"
             :propsdata="netNewIncreaseData"
             @netNewIncreaseLastMonth="netNewIncreaseLastMonthFunc"
             @netNewIncreaseThisMonth="netNewIncreaseThisMonthFunc"
@@ -264,10 +315,10 @@
           md="4"
         >
           <p class="text-h5 text-center">
-            [ 본부 순해지 ]
+            [지사 TV 순해지]
           </p>
-          <product-hj-table 
-            ref="changeProduct5"
+          <jisa-tv-hj-table 
+            ref="changeBonbu5"
             :propsdata="netHjData"
             @netHjLastMonth="netHjLastMonthFunc"
             @netHjThisMonth="netHjThisMonthFunc"
@@ -280,10 +331,10 @@
           md="4"
         >
           <p class="text-h5 text-center">
-            [ 본부 순증/감 ]
+            [지사 TV 순증/감 추이]
           </p>
-          <product-net-increase-table 
-            ref="changeProduct6"
+          <jisa-tv-net-increase-table 
+            ref="changeBonbu6"
             :propsdata="netIncreaseData"
             @netIncreaseLastMonth="netIncreaseLastMonthFunc"
             @netIncreaseThisMonth="netIncreaseThisMonthFunc"
@@ -301,9 +352,9 @@
           md="4"
         >
           <p class="text-h5 text-center">
-            [본부 순신규]
+            [지사  TV 순신규]
           </p>
-          <product-net-new-increase-line-chart 
+          <jisa-tv-net-new-increase-line-chart 
             ref="changeBonbu1"
           />
         </v-col>
@@ -313,9 +364,9 @@
           md="4"
         >
           <p class="text-h5 text-center">
-            [본부 순해지]
+            [지사 TV 순해지]
           </p>
-          <product-hj-line-chart 
+          <jisa-tv-hj-line-chart 
             ref="changeBonbu2"
           />
         </v-col>
@@ -325,9 +376,9 @@
           md="4"
         >
           <p class="text-h5 text-center">
-            [본부 순증/감]
+            [지사 TV 순증/감]
           </p>
-          <product-net-increase-line-chart 
+          <jisa-tv-net-increase-line-chart 
             ref="changeBonbu3"
           />
         </v-col>
@@ -337,36 +388,46 @@
 </template>
 
 <script>
-import ProductNetNewIncreaseLineChart from '@/components/charts/bonbuproductchart/ProductNetNewIncreaseLineChart';
-import ProductNetIncreaseLineChart from '@/components/charts/bonbuproductchart/ProductNetIncreaseLineChart';
-import ProductHjLineChart from '@/components/charts/bonbuproductchart/ProductHjLineChart';
+import JisaTvNetNewIncreaseLineChart from '@/components/charts/jisaproductchart/JisaTvNetNewIncreaseLineChart'
+import JisaTvNetIncreaseLineChart from '@/components/charts/jisaproductchart/JisaTvNetIncreaseLineChart'
+import JisaTvHjLineChart from '@/components/charts/jisaproductchart/JisaTvHjLineChart'
 
+import JisaTvNetNewIncreaseTable from '@/components/tables/jisaproducttable/JisaTvNetNewIncreaseTable'
+import JisaTvNetIncreaseTable from '@/components/tables/jisaproducttable/JisaTvNetIncreaseTable'
+import JisaTvHjTable from '@/components/tables/jisaproducttable/JisaTvHjTable'
 
-import ProductNetNewIncreaseTable from '@/components/tables/bonbuproducttable/ProductNetNewIncreaseTable';
-import ProductHjTable from '@/components/tables/bonbuproducttable/ProductHjTable';
-import ProductNetIncreaseTable from '@/components/tables/bonbuproducttable/ProductNetIncreaseTable';
-
-
+import BonbuTvInternetVocWordCloud from '@/components/wordcloud/BonbuTvInternetVocWordCloud'
 import MobileVocWordCloud from '@/components/wordcloud/mobileVocWordCloud';
 
+import VueHotelDatePicker from '@/components/datepicker/vue-hotel-datepicker';
+
+
 export default {
-  name:'RSProduct',
+  name:'RSNPjVoc',
   components:{
-    ProductNetNewIncreaseLineChart,
-    ProductNetIncreaseLineChart,
-    ProductHjLineChart,
+    JisaTvNetNewIncreaseLineChart,
+    JisaTvNetIncreaseLineChart,
+    JisaTvHjLineChart,
+    //BonbuRadarChart,
 
-    ProductNetNewIncreaseTable,
-    ProductHjTable,
-    ProductNetIncreaseTable,
+    JisaTvNetNewIncreaseTable,
+    JisaTvNetIncreaseTable,
+    JisaTvHjTable,
 
-  
+    BonbuTvInternetVocWordCloud,
     MobileVocWordCloud,
+
+    VueHotelDatePicker,
   },
 
   data(){
     return{
-      selectedProduct:'TV',
+      selectedBonbu:'북부고객본부',
+      selectedJisaArray:['고양지사','광진지사','광화문지사','노원지사','서대문지사'],
+
+      selectedProduct:'인터넷/TV',
+
+      selectedProductsArray:['인터넷/TV','무선'],
 
       netNewIncreaseData:'순신규',
       netHjData:'순해지',
@@ -392,19 +453,53 @@ export default {
 
     }
   },
+
+
+  
   methods:{
-    changeProduct(selectedProduct){
-      console.log(selectedProduct);
-      // this.$refs.changeBonbu1.changeBonbu(selectedBonbu);
-      // this.$refs.changeBonbu2.changeBonbu(selectedBonbu);
-      // this.$refs.changeBonbu3.changeBonbu(selectedBonbu);
-      this.$refs.changeProduct4.changeProduct(selectedProduct);
-      this.$refs.changeProduct5.changeProduct(selectedProduct);
-      this.$refs.changeProduct6.changeProduct(selectedProduct);
+    changeBonbu(selectedBonbu){
+     
+      console.log('fire works!');
+      if(this.selectedBonbu==='북부고객본부'){
+        this.selectedJisaArray=['고양지사','광진지사','광화문지사','노원지사','서대문지사'];
+      }
+
+      if(this.selectedBonbu==='동부고객본부'){
+        this.selectedJisaArray=['강릉지사','구리지사','원주지사','의정부지사','춘천지사']; 
+      }
+
+      if(this.selectedBonbu==='강남고객본부'){
+        this.selectedJisaArray=['강남지사','분당지사','송파지사','수원지사','용인지사','평택지사']; 
+      }
+
+      if(this.selectedBonbu==='충남/충북고객본부'){
+        this.selectedJisaArray=['대전지사','서대전지사','천안지사','청주지사','충주지사','홍성지사'];
+      }
+
+      if(this.selectedBonbu==='대구/경북고객본부'){
+        this.selectedJisaArray=['구미지사','달서지사','동대구지사','서대구지사','안동지사','포항지사'];
+      }
+
+      if(this.selectedBonbu==='부산/경남고객본부'){
+        this.selectedJisaArray=['남부산지사','동부산지사','북부산지사','서부산지사','울산지사','진주지사','창원지사'];
+      }
+
+      if(this.selectedBonbu==='전남/전북고객본부'){
+        this.selectedJisaArray=['광주지사','목포지사','순천지사','익산지사','전주지사'];
+      }
+      if(this.selectedBonbu==='서부고객본부'){
+        this.selectedJisaArray=['강서지사','구로지사','부천지사','서인천지사','안산지사','안양지사','인천지사'];
+      }
+      
+      this.$refs.changeBonbu1.changeBonbu(selectedBonbu);
+      this.$refs.changeBonbu2.changeBonbu(selectedBonbu);
+      this.$refs.changeBonbu3.changeBonbu(selectedBonbu);
+      this.$refs.changeBonbu4.changeBonbu(selectedBonbu);
+      this.$refs.changeBonbu5.changeBonbu(selectedBonbu);
+      this.$refs.changeBonbu6.changeBonbu(selectedBonbu);
     },
 
     netNewIncreaseLastMonthFunc(val){
-      console.log('netNewIncreaseLastMonth is ',val);
       this.netNewIncreaseLastMonth=val.toLocaleString();
     },
 

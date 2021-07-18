@@ -102,7 +102,7 @@ export default {
 
   methods: {  
     async changeBonbu(bonbuName){
-      //console.log('url is ',url);
+      console.log('여긴 잘되네!!');
       await axios.get(jisaNetNewIncreaseUrl+bonbuName).then((res)=>{
         this.bonbuNetIncreaseData=res.data.results;
         
