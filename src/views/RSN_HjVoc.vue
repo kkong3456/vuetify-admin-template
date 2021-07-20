@@ -80,7 +80,28 @@
             <v-select
               v-model="selectedVocType"             
               :items="selectedVocTypeArray"
-              label="VOC유형"
+              label="유선VOC유형"
+            >
+              <template v-slot:item="{ item, attrs, on }">
+                <v-list-item
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-list-item-title
+                    :id="attrs['aria-labelledby']"
+                    v-text="item"
+                  />
+                </v-list-item>
+              </template>
+            </v-select>
+          </template>
+        </v-col>
+        <v-col>
+          <template>
+            <v-select
+              v-model="selectedVocType"             
+              :items="selectedVocTypeArray"
+              label="무선VOC유형"
             >
               <template v-slot:item="{ item, attrs, on }">
                 <v-list-item
@@ -99,6 +120,21 @@
       </v-row>
 
       <!-- 전체 cloud VOC -->
+      <v-row pa-0>
+        <v-col>
+          <div class="text-h5 text-center">
+            [TV-인터넷] 해지징후 VOC
+          </div>
+        </v-col>
+        <v-divider
+          vertical
+        />
+        <v-col>
+          <div class="text-h5 text-center">
+            [무선] 해지징후 VOC
+          </div>
+        </v-col>
+      </v-row>
       <v-row
         class="mt-1"
       >
@@ -133,15 +169,36 @@
             </v-card-content>
           </v-card>
         </v-col>
+
+        <v-divider
+          vertical
+          inset
+        />
+
         <v-col>
           <v-card
             outlined
           >
-            <v-card-title>{{ selectedJijum }}</v-card-title>
+            <v-card-title>{{ selectedBonbu }}</v-card-title>
+            <v-card-content>
+              <bonbu-tv-internet-voc-word-cloud
+                ref="changeBonbu7"
+                :propsbonbudata="selectedBonbu"
+                :propsjisadata="selectedJisa"
+                :propsjijumdata="selectedJijum"
+              />
+            </v-card-content>
+          </v-card>
+        </v-col>
+        <v-col>
+          <v-card
+            outlined
+          >
+            <v-card-title>{{ selectedJisa }}</v-card-title>
 
             <v-card-content>
-              <jijum-tv-internet-voc-word-cloud
-                ref="changeJijum7"
+              <jisa-tv-internet-voc-word-cloud
+                ref="changeJisa7"
                 :propsbonbudata="selectedBonbu"
                 :propsjisadata="selectedJisa"
                 :propsjijumdata="selectedJijum"

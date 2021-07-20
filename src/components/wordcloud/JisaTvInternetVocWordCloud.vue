@@ -4,9 +4,9 @@
     name-key="name"
     value-key="value"
     :color="Accent"
-    :show-tooltip="false"
+    :show-tooltip="true"
     :word-click="wordClickHandler"
-    :word-padding="0"
+    :word-padding="20"
   />
 </template>
 <script>

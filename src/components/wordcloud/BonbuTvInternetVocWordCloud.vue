@@ -4,9 +4,9 @@
     name-key="name"
     value-key="value"
     :color="Accent"
-    :show-tooltip="false"
+    :show-tooltip="true"
     :word-click="wordClickHandler"
-    :word-padding="0"
+    :word-padding="20"
   />
 </template>
 <script>
@@ -156,8 +156,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .v-data-table > .v-data-table__wrapper > table >thead > tr > th{
     font-size:1rem;
+}
+
+/* word cloud 툴팁  */
+div.tooltip{
+  height:100px !important;
 }
 </style>
