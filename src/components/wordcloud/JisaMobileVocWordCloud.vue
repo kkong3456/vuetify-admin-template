@@ -77,10 +77,10 @@ export default {
     onWordClick(word,text){
       alert(word[0]+':'+word[1]+'건입니다.');
     },
-    async changedJisa(selectedJisa) {
+    async changedJisa(selectedJisa,selectedBonbu) {
      
       var imsiArray=[];
-      await axios.get([`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.propsbonbudata}&begin=20210401&end=20210430&kind1=jisa&kind2=type`]).then((res)=>{
+      await axios.get([`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${selectedBonbu}&begin=20210401&end=20210430&kind1=jisa&kind2=type`]).then((res)=>{
         this.jisaVocData=res.data.results;
        
         this.jisaVocData.map((item)=>{

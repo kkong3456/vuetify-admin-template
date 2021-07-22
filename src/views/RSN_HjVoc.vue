@@ -572,9 +572,9 @@ export default {
 
   
   methods:{
-    changeJisa(selectedJisa,selectedBonbu){
+    changeJisa(selectedJisa){
       this.selectedJisa=selectedJisa;
-      this.selectedBonbu=selectedBonbu;
+      this.selectedBonbu=this.selectedBonbu;
       this.$refs.changeJisa7.changedJisa(selectedJisa,this.selectedBonbu);
       this.$refs.changeJisa8.changedJisa(selectedJisa,this.selectedBonbu);
       
