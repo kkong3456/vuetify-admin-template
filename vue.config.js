@@ -2,6 +2,9 @@
   ["error",{"props":true,"ignorePropertyModificationsFor":["options"]}]
 */
 module.exports = {
+  devServer:{
+    host:'localhost',
+  },
   transpileDependencies: [
     'vuetify'
   ],

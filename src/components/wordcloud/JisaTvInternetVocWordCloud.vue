@@ -1,17 +1,32 @@
 <template>
   <word-cloud
-    :data="tvInternetVoc"
-    name-key="name"
-    value-key="value"
-    :color="Accent"
-    :show-tooltip="true"
-    :word-click="wordClickHandler"
-    :word-padding="20"
-  />
+    style="
+      height:250px;
+      width:320px;
+    "
+    :words="tvInternetVoc"
+    :color="([,weight])=>weight>500?'IndianRed':weight>400?'HotPink':weight>300?'Gold':weight>200?'DarkKhaki':weight>150?'Orchid':weight>100?'SlateBlue':weight>50?'Lime':weight>30?'YellowGreen':weight>20?'Cyan':'0'"
+    font-family="Roboto"
+    rotation-unit="deg"
+    :rotation="([,weight])=>weight>500?'90':weight>400?'80':weight>300?'70':weight>200?'60':weight>150?'-50':weight>100?'40':weight>50?'-30':weight>30?'20':weight>200?'-10':'0'"
+    :font-size-ratio="5"
+    spacing="5"
+    font-weight="normal"
+  >
+    <template slot-scope="{text,weight,word}">
+      <div
+        :title="weight"
+        style="cursor:pointer;"
+        @click="onWordClick(word,text)"
+      >
+        {{ text }}
+      </div>
+    </template>
+  </word-cloud>
 </template>
 <script>
 import axios from 'axios';
-import WordCloud from 'vue-wordcloud';
+import WordCloud from 'vuewordcloud';
 const bonbuVocUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=북부고객본부&begin=20210401&end=20210430&kind1=jisa&kind2=type`;
 
 export default {
@@ -38,7 +53,17 @@ export default {
   async created () {
         
     await axios.get([bonbuVocUrl]).then((res)=>{
-      this.bonbuVocData=res.data.results;
+     
+      var imsiArray=[];
+      this.jisaVocData=res.data.results;
+      
+      this.jisaVocData.map((item)=>{
+        if(item.jisa==='고양지사'){
+          imsiArray.push({'basedate':item.basedate,'bonbu':item.bonbu,'count_sum':item.count_sum,'jisa':item.jisa,'voc_gubun':item.voc_gubun});
+        }
+            
+      });
+      this.jisaVocData=imsiArray;
     }).catch((err)=>{
       console.log('데이터를 가져 오지 못했습니다');
     });
@@ -50,12 +75,15 @@ export default {
     
   },
 
-  methods: {  
-    async changedJisa(selectedJisa) {
-      //console.log('selectedJisa',selectedJisa);
-      //console.log('selectedBonbu',this.propsbonbudata);
+  methods: { 
+    onWordClick(word,text){
+      alert(word[0]+':'+word[1]+'건입니다.');
+    },
+
+    async changedJisa(selectedJisa,selectedBonbu) {
+      
       var imsiArray=[];
-      await axios.get([`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.propsbonbudata}&begin=20210401&end=20210430&kind1=jisa&kind2=type`]).then((res)=>{
+      await axios.get([`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=20210401&end=20210430&kind1=jisa&kind2=type`]).then((res)=>{
         this.jisaVocData=res.data.results;
        
         this.jisaVocData.map((item)=>{
@@ -75,27 +103,15 @@ export default {
 
     getDesserts(){
       const yyy=this.getJisaVocValue();            
-      let dessertsArray=new Array();
+      let dessertArray=new Array();
     
       for(let i=0;i<yyy.name.length;i++){
-        
-        let obj={                                      //테이블에 보여주는 포맷
-          'name':yyy.name[i],
-          'value':yyy.value[i], 
-        }
-        
-        dessertsArray.push(obj);
+        dessertArray.push([yyy['name'][i],yyy['value'][i]]);
       }
      
-      this.tvInternetVoc=dessertsArray; 
-
-      console.log('tvInternVoc is ',this.tvInternetVoc);
+      this.tvInternetVoc=dessertArray; 
       
     }, 
-
-    wordClickHandler(name,value,vm){
-      console.log('');
-    },
 
     getJisaVocValue(){    
       let jisaVocDataObj={};  

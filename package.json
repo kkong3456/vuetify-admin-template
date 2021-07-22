@@ -16,6 +16,7 @@
     "vue-chartjs": "^3.5.1",
     "vue-charts": "^0.2.1",
     "vue-router": "^3.5.1",
+    "vue-wordcloud": "^1.1.1",
     "vuetify": "^2.4.0",
     "vuewordcloud": "^18.7.12"
   },

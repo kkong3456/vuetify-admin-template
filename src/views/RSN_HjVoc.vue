@@ -181,7 +181,7 @@
           >
             <v-card-title>{{ selectedBonbu }}</v-card-title>
             <v-card-content>
-              <bonbu-tv-internet-voc-word-cloud
+              <bonbu-mobile-voc-word-cloud
                 ref="changeBonbu8"
                 :propsbonbudata="selectedBonbu"
                 :propsjisadata="selectedJisa"
@@ -499,7 +499,9 @@ import JisaTvNetNewIncreaseTable from '@/components/tables/jisaproducttable/Jisa
 import JisaTvNetIncreaseTable from '@/components/tables/jisaproducttable/JisaTvNetIncreaseTable'
 import JisaTvHjTable from '@/components/tables/jisaproducttable/JisaTvHjTable'
 
+
 import BonbuTvInternetVocWordCloud from '@/components/wordcloud/BonbuTvInternetVocWordCloud'
+import BonbuMobileVocWordCloud from '@/components/wordcloud/BonbuMobileVocWordCloud'
 import JisaTvInternetVocWordCloud from '@/components/wordcloud/JisaTvInternetVocWordCloud'
 import JisaMobileVocWordCloud from '@/components/wordcloud/JisaMobileVocWordCloud';
 
@@ -520,6 +522,7 @@ export default {
     JisaTvHjTable,
 
     BonbuTvInternetVocWordCloud,
+    BonbuMobileVocWordCloud,
     JisaTvInternetVocWordCloud,
     JisaMobileVocWordCloud,
 
@@ -569,10 +572,11 @@ export default {
 
   
   methods:{
-    changeJisa(selectedJisa){
+    changeJisa(selectedJisa,selectedBonbu){
       this.selectedJisa=selectedJisa;
-      this.$refs.changeJisa7.changedJisa(selectedJisa);
-      this.$refs.changeJisa8.changedJisa(selectedJisa);
+      this.selectedBonbu=selectedBonbu;
+      this.$refs.changeJisa7.changedJisa(selectedJisa,this.selectedBonbu);
+      this.$refs.changeJisa8.changedJisa(selectedJisa,this.selectedBonbu);
       
     },
 
@@ -586,41 +590,57 @@ export default {
       if(this.selectedBonbu==='북부고객본부'){
         this.selectedJisaArray=['고양지사','광진지사','광화문지사','노원지사','서대문지사'];
         this.selectedJisa='고양지사';
+        this.$refs.changeJisa7.changedJisa(this.selectedJisa,this.selectedBonbu);  //본부를바꾸면 지사가 바뀌면서 유선 워드 클라우드 데이터 표시
+        this.$refs.changeJisa8.changedJisa(this.selectedJisa,this.selectedBonbu);  // 무선 클라우드 데이터 표시
         
       }
 
       if(this.selectedBonbu==='동부고객본부'){
         this.selectedJisaArray=['강릉지사','구리지사','원주지사','의정부지사','춘천지사']; 
         this.selectedJisa='강릉지사';
+        this.$refs.changeJisa7.changedJisa(this.selectedJisa,this.selectedBonbu);
+        this.$refs.changeJisa8.changedJisa(this.selectedJisa,this.selectedBonbu);
       }
 
       if(this.selectedBonbu==='강남고객본부'){
         this.selectedJisaArray=['강남지사','분당지사','송파지사','수원지사','용인지사','평택지사'];
         this.selectedJisa='강남지사'; 
+        this.$refs.changeJisa7.changedJisa(this.selectedJisa);
+        this.$refs.changeJisa8.changedJisa(this.selectedJisa);
       }
 
       if(this.selectedBonbu==='충남/충북고객본부'){
         this.selectedJisaArray=['대전지사','서대전지사','천안지사','청주지사','충주지사','홍성지사'];
         this.selectedJisa='대전지사';
+        this.$refs.changeJisa7.changedJisa(this.selectedJisa); 
+        this.$refs.changeJisa8.changedJisa(this.selectedJisa);
       }
 
       if(this.selectedBonbu==='대구/경북고객본부'){
         this.selectedJisaArray=['구미지사','달서지사','동대구지사','서대구지사','안동지사','포항지사'];
         this.selectedJisa='구미지사';
+        this.$refs.changeJisa7.changedJisa(this.selectedJisa);
+        this.$refs.changeJisa8.changedJisa(this.selectedJisa);
       }
 
       if(this.selectedBonbu==='부산/경남고객본부'){
         this.selectedJisaArray=['남부산지사','동부산지사','북부산지사','서부산지사','울산지사','진주지사','창원지사'];
         this.selectedJisa='남부산지사';
+        this.$refs.changeJisa7.changedJisa(this.selectedJisa);
+        this.$refs.changeJisa8.changedJisa(this.selectedJisa);
       }
 
       if(this.selectedBonbu==='전남/전북고객본부'){
         this.selectedJisaArray=['광주지사','목포지사','순천지사','익산지사','전주지사'];
         this.selectedJisa='광주지사';
+        this.$refs.changeJisa7.changedJisa(this.selectedJisa);
+        this.$refs.changeJisa8.changedJisa(this.selectedJisa);
       }
       if(this.selectedBonbu==='서부고객본부'){
         this.selectedJisaArray=['강서지사','구로지사','부천지사','서인천지사','안산지사','안양지사','인천지사'];
         this.selectedJisa='강서지사';
+        this.$refs.changeJisa7.changedJisa(this.selectedJisa);
+        this.$refs.changeJisa8.changedJisa(this.selectedJisa);
       }
 
             
