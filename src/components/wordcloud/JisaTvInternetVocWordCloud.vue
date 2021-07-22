@@ -26,8 +26,8 @@ export default {
  
   data () {
     return {
-      bonbuVocData:null,
-      bonbuVocDataObj:null,  
+      jisaVocData:null,
+      jisaVocDataObj:null,  
       tvInternetVoc:[],  
     }
   },
@@ -52,8 +52,19 @@ export default {
 
   methods: {  
     async changedJisa(selectedJisa) {
+      //console.log('selectedJisa',selectedJisa);
+      //console.log('selectedBonbu',this.propsbonbudata);
+      var imsiArray=[];
       await axios.get([`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.propsbonbudata}&begin=20210401&end=20210430&kind1=jisa&kind2=type`]).then((res)=>{
-        this.bonbuVocData=res.data.results;
+        this.jisaVocData=res.data.results;
+       
+        this.jisaVocData.map((item)=>{
+          if(item.jisa===selectedJisa){
+            imsiArray.push({'basedate':item.basedate,'bonbu':item.bonbu,'count_sum':item.count_sum,'jisa':item.jisa,'voc_gubun':item.voc_gubun});
+          }
+          //console.log('imsiArray is ',imsiArray);        
+        });
+        this.jisaVocData=imsiArray;
       }).catch((err)=>{
         console.log('데이터를 가져오지 못했습니다.');
       });
@@ -63,13 +74,11 @@ export default {
     
 
     getDesserts(){
-      const yyy=this.getBonbuVocValue();
-      console.log(this.propsjisadata+' is '+ yyy);
-            
+      const yyy=this.getJisaVocValue();            
       let dessertsArray=new Array();
     
       for(let i=0;i<yyy.name.length;i++){
-        //console.log('yyy.firstJisa.countSum',yyy.firstJisa.countSum);
+        
         let obj={                                      //테이블에 보여주는 포맷
           'name':yyy.name[i],
           'value':yyy.value[i], 
@@ -79,6 +88,8 @@ export default {
       }
      
       this.tvInternetVoc=dessertsArray; 
+
+      console.log('tvInternVoc is ',this.tvInternetVoc);
       
     }, 
 
@@ -86,7 +97,7 @@ export default {
       console.log('');
     },
 
-    getBonbuVocValue(){    
+    getJisaVocValue(){    
       let jisaVocDataObj={};  
       let vocCountSum=0;
     
@@ -109,47 +120,42 @@ export default {
       let 혜택문의건수=0;
 
       
-      this.bonbuVocData.map((item)=>{
-        console.log('현재 지사는 ',this.propsjisadata);
-        if(item.jisa===this.propsjisadata){
-                    
-          if(item.voc_gubun.replace(/ /g,"")===voc1){
-            KT업무정책불만건수+=item.count_sum;
-          }
-          if(item.voc_gubun.replace(/ /g,"")===voc2){
-            KTShop문의건수+=item.count_sum;
-          }
-          if(item.voc_gubun.replace(/ /g,"")===voc3){
-            서비스불만건수+=item.count_sum;
-          }
-          if(item.voc_gubun.replace(/ /g,"")===voc4){
-            약정문의건수+=item.count_sum;
-          }
-          if(item.voc_gubun.replace(/ /g,"")===voc5){
-            요금불만건수+=item.count_sum;
-          }
-          if((item.voc_gubun.replace(/ /g,"")===voc6) || (item.voc_gubun.replace(/ /g,"")==='할인반환금문의')){
-            위약금문의건수+=item.count_sum;
-          }
-          if(item.voc_gubun.replace(/ /g,"")===voc7){
-            품질불만건수+=item.count_sum;
-          }
-          if(item.voc_gubun.replace(/ /g,"")===voc8){
-            혜택문의건수+=item.count_sum;
-          }  
+      this.jisaVocData.map((item)=>{          
+        if(item.voc_gubun.replace(/ /g,"")===voc1){
+          KT업무정책불만건수+=item.count_sum;
+        }
+        if(item.voc_gubun.replace(/ /g,"")===voc2){
+          KTShop문의건수+=item.count_sum;
+        }
+        if(item.voc_gubun.replace(/ /g,"")===voc3){
+          서비스불만건수+=item.count_sum;
+        }
+        if(item.voc_gubun.replace(/ /g,"")===voc4){
+          약정문의건수+=item.count_sum;
+        }
+        if(item.voc_gubun.replace(/ /g,"")===voc5){
+          요금불만건수+=item.count_sum;
+        }
+        if((item.voc_gubun.replace(/ /g,"")===voc6) || (item.voc_gubun.replace(/ /g,"")==='할인반환금문의')){
+          위약금문의건수+=item.count_sum;
+        }
+        if(item.voc_gubun.replace(/ /g,"")===voc7){
+          품질불만건수+=item.count_sum;
+        }
+        if(item.voc_gubun.replace(/ /g,"")===voc8){
+          혜택문의건수+=item.count_sum;
+        }  
           
 
-          vocCountSum+=parseInt(item.count_sum);
-        }
+        vocCountSum+=parseInt(item.count_sum);
+        
       });  
 
-     
       jisaVocDataObj={
         'name':[voc1,voc2,voc3,voc4,voc5,voc6,voc7,voc8],
         'value':[KT업무정책불만건수,KTShop문의건수,서비스불만건수,약정문의건수,요금불만건수,위약금문의건수,품질불만건수,혜택문의건수],
       }
 
-      console.log('bonbuNetIncrease',jisaVocDataObj);
       return jisaVocDataObj;
     },
 

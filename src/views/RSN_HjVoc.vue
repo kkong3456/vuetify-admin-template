@@ -78,8 +78,8 @@
         <v-col>
           <template>
             <v-select
-              v-model="selectedVocType"             
-              :items="selectedVocTypeArray"
+              v-model="selectedItVocType"             
+              :items="selectedItVocTypeArray"
               label="유선VOC유형"
             >
               <template v-slot:item="{ item, attrs, on }">
@@ -99,8 +99,8 @@
         <v-col>
           <template>
             <v-select
-              v-model="selectedVocType"             
-              :items="selectedVocTypeArray"
+              v-model="selectedMobileVocType"             
+              :items="selectedMobileVocTypeArray"
               label="무선VOC유형"
             >
               <template v-slot:item="{ item, attrs, on }">
@@ -182,7 +182,7 @@
             <v-card-title>{{ selectedBonbu }}</v-card-title>
             <v-card-content>
               <bonbu-tv-internet-voc-word-cloud
-                ref="changeBonbu7"
+                ref="changeBonbu8"
                 :propsbonbudata="selectedBonbu"
                 :propsjisadata="selectedJisa"
                 :propsjijumdata="selectedJijum"
@@ -197,8 +197,8 @@
             <v-card-title>{{ selectedJisa }}</v-card-title>
 
             <v-card-content>
-              <jisa-tv-internet-voc-word-cloud
-                ref="changeJisa7"
+              <jisa-mobile-voc-word-cloud
+                ref="changeJisa8"
                 :propsbonbudata="selectedBonbu"
                 :propsjisadata="selectedJisa"
                 :propsjijumdata="selectedJijum"
@@ -501,7 +501,7 @@ import JisaTvHjTable from '@/components/tables/jisaproducttable/JisaTvHjTable'
 
 import BonbuTvInternetVocWordCloud from '@/components/wordcloud/BonbuTvInternetVocWordCloud'
 import JisaTvInternetVocWordCloud from '@/components/wordcloud/JisaTvInternetVocWordCloud'
-import MobileVocWordCloud from '@/components/wordcloud/mobileVocWordCloud';
+import JisaMobileVocWordCloud from '@/components/wordcloud/JisaMobileVocWordCloud';
 
 import VueHotelDatePicker from '@/components/datepicker/vue-hotel-datepicker';
 
@@ -521,6 +521,7 @@ export default {
 
     BonbuTvInternetVocWordCloud,
     JisaTvInternetVocWordCloud,
+    JisaMobileVocWordCloud,
 
     VueHotelDatePicker
     
@@ -535,9 +536,11 @@ export default {
       selectedJisa:'고양지사',
       selectedJijum:'CS부',
 
-      selectedVocType:'약정 문의',
-      selectedVocTypeArray:['KT 업무/정책 불만','KTShop문의','단말기 할부대금 및 잔여기간문의','서비스 불만','약정 문의','요금 불만','위약금(할인반환금)문의','품질 불만','할인반환금문의','혜택문의'],
+      selectedItVocType:'약정 문의',
+      selectedItVocTypeArray:['KT 업무/정책 불만','KTShop문의','단말기 할부대금 및 잔여기간문의','서비스 불만','약정 문의','요금 불만','위약금(할인반환금)문의','품질 불만','할인반환금문의','혜택문의'],
 
+      selectedMobileVocType:'약정 문의',
+      selectedMobileVocTypeArray:['단말기 할부대금 및 잔여기간문의','약정 문의','위약금(할인반환금)문의'],
       netNewIncreaseData:'순신규',
       netHjData:'순해지',
       netIncreaseData:'순증/감',
@@ -569,6 +572,7 @@ export default {
     changeJisa(selectedJisa){
       this.selectedJisa=selectedJisa;
       this.$refs.changeJisa7.changedJisa(selectedJisa);
+      this.$refs.changeJisa8.changedJisa(selectedJisa);
       
     },
 
@@ -621,6 +625,9 @@ export default {
 
             
       this.$refs.changeBonbu7.changedBonbu(selectedBonbu);
+      this.$refs.changeBonbu8.changedBonbu(selectedBonbu);
+
+      
       
      
       //   this.$refs.changeBonbu2.changeBonbu(selectedBonbu);
