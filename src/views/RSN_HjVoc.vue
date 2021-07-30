@@ -162,7 +162,7 @@
             <v-card-content>
               <jisa-tv-internet-voc-word-cloud
                 ref="changeJisa7"
-                :propsbonbudata="selectedBonbu"
+                :propsbonbudata="selectedBonbu"   
                 :propsjisadata="selectedJisa"
                 :propsjijumdata="selectedJijum"
               />
@@ -208,30 +208,33 @@
         </v-col>
       </v-row>
     
-      <!-- 전월비교 -->
+      <!-- 전주비교 본부-->
       <v-row>
-        <v-col
-          cols="12"
-          md="4"
-        >
+        <v-col>
           <v-card
             outlined
             tile
             class="text-center pa-2 font-weight-bold"
             color="blue lighten-2"
           >
-            순신규가입자수({{ selectedBonbu }})
+            전주대비 증감률({{ selectedBonbu }})
           </v-card>
-          <div class="d-flex">
+          <div
+            class="d-flex"
+            style="height:80px;"
+          >
             <v-card 
               outlined
               class="text-center"
-              width="33%"
+              width="50%"
             >
-              <v-card-subtitle>전월</v-card-subtitle>
-              <v-divider />
+              <v-card-subtitle
+                class="text-left py-0"
+              >
+                전주
+              </v-card-subtitle>
               <v-card-text
-                class="font-weight-bold text-md-h5 text-lg-h4"
+                class="font-weight-bold text-md-h5 text-lg-h4 py-0"
               >
                 {{ netNewIncreaseLastMonth }}
               </v-card-text>
@@ -241,60 +244,69 @@
             <v-card 
               outlined
               class="text-center"
-              width="33%"
+              width="50%"
             >
-              <v-card-subtitle>금월</v-card-subtitle>
-              <v-divider />
+              <v-card-subtitle
+                class="text-left py-0"
+              >
+                금주
+              </v-card-subtitle>
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
                 {{ netNewIncreaseThisMonth }}
               </v-card-text>
             </v-card>
-            <v-spacer />
-        
-            <v-card 
-              outlined    
-              class="text-center"
-              width="33%"
-            >
-              <v-card-subtitle>증감비율(%)</v-card-subtitle>
-              <v-divider />
-              <v-card-text
-                class="font-weight-bold text-md-h5 text-lg-h4"
-              >
-                {{ netNewIncreaseDiff }} %
-              </v-card-text>
-            </v-card>
+            <!-- <v-spacer /> -->
           </div>
+        
+          <v-card 
+            outlined    
+            class="text-center"
+            style="height:90px;"
+          >
+            <v-card-subtitle
+              class="text-left py-0"
+            >
+              증감비율(%)
+            </v-card-subtitle>
+            <v-card-text
+              class="font-weight-bold text-md-h4 text-lg-h3"
+            >
+              {{ netNewIncreaseDiff }} %
+            </v-card-text>
+          </v-card>
         </v-col>
 
-        <v-col
-          cols="12"
-          md="4"
-        >
+
+        <!-- 전주비교 지사-유선 -->
+        <v-col>
           <v-card
             outlined
+            tile
             class="text-center pa-2 font-weight-bold"
             color="blue lighten-2"
-            tile
           >
-            순해지가입자수({{ selectedBonbu }})
+            전주대비 증감률({{ selectedJisa }})
           </v-card>
-          <div class="d-flex">
+          <div
+            class="d-flex"
+            style="height:80px;"
+          >
             <v-card 
               outlined
               class="text-center"
-              width="33%"
+              width="50%"
             >
-              <v-card-subtitle>
-                전월
-              </v-card-subtitle>
-              <v-divider />
-              <v-card-text
-                class="font-weight-bold text-md-h5 text-lg-h4"
+              <v-card-subtitle
+                class="text-left py-0"
               >
-                {{ netHjLastMonth }}
+                전주
+              </v-card-subtitle>
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4 py-0"
+              >
+                {{ netNewIncreaseLastMonth }}
               </v-card-text>
             </v-card>  
             <v-spacer />
@@ -302,60 +314,73 @@
             <v-card 
               outlined
               class="text-center"
-              width="33%"
+              width="50%"
             >
-              <v-card-subtitle>
-                금월
+              <v-card-subtitle
+                class="text-left py-0"
+              >
+                금주
               </v-card-subtitle>
-              <v-divider />
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                {{ netHjThisMonth }}
+                {{ netNewIncreaseThisMonth }}
               </v-card-text>
             </v-card>
-            <v-spacer />
-        
-            <v-card 
-              outlined    
-              class="text-center"
-              width="33%"
-            >
-              <v-card-subtitle>증감비율(%)</v-card-subtitle>
-              <v-divider />
-              <v-card-text
-                class="font-weight-bold text-md-h5 text-lg-h4"
-              >
-                {{ netHjDiff }} %
-              </v-card-text>
-            </v-card>
+            <!-- <v-spacer /> -->
           </div>
+        
+          <v-card 
+            outlined    
+            class="text-center"
+            style="height:90px;"
+          >
+            <v-card-subtitle
+              class="text-left py-0"
+            >
+              증감비율(%)
+            </v-card-subtitle>
+            <v-card-text
+              class="font-weight-bold text-md-h4 text-lg-h3"
+            >
+              {{ netNewIncreaseDiff }} %
+            </v-card-text>
+          </v-card>
         </v-col>
 
-        <v-col
-          cols="12"
-          md="4"
-        >
+        <v-divider
+          vertical
+          inset
+        />
+
+        <!-- 전주비교 본부-무선 -->
+        <v-col>
           <v-card
             outlined
+            tile
             class="text-center pa-2 font-weight-bold"
             color="blue lighten-2"
-            tile
           >
-            순증가 가입자수({{ selectedBonbu }})
+            전주대비 증감률({{ selectedBonbu }})
           </v-card>
-          <div class="d-flex">
+          <div
+            class="d-flex"
+            style="height:80px;"
+          >
             <v-card 
               outlined
               class="text-center"
-              width="33%"
+              width="50%"
             >
-              <v-card-subtitle>전월</v-card-subtitle>
-              <v-divider />
-              <v-card-text
-                class="font-weight-bold text-md-h5 text-lg-h4"
+              <v-card-subtitle
+                class="text-left py-0"
               >
-                {{ netIncreaseLastMonth }}
+                전주
+              </v-card-subtitle>
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4 py-0"
+              >
+                {{ netNewIncreaseLastMonth }}
               </v-card-text>
             </v-card>  
             <v-spacer />
@@ -363,32 +388,107 @@
             <v-card 
               outlined
               class="text-center"
-              width="33%"
+              width="50%"
             >
-              <v-card-subtitle>금월</v-card-subtitle>
-              <v-divider />
+              <v-card-subtitle
+                class="text-left py-0"
+              >
+                금주
+              </v-card-subtitle>
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                {{ netIncreaseThisMonth }}
+                {{ netNewIncreaseThisMonth }}
               </v-card-text>
             </v-card>
-            <v-spacer />
-        
-            <v-card 
-              outlined    
-              class="text-center"
-              width="33%"
-            >
-              <v-card-subtitle>증감비율(%)</v-card-subtitle>
-              <v-divider />
-              <v-card-text
-                class="font-weight-bold text-md-h5 text-lg-h4"
-              >
-                {{ netIncreaseDiff }} %
-              </v-card-text>
-            </v-card>
+            <!-- <v-spacer /> -->
           </div>
+        
+          <v-card 
+            outlined    
+            class="text-center"
+            style="height:90px;"
+          >
+            <v-card-subtitle
+              class="text-left py-0"
+            >
+              증감비율(%)
+            </v-card-subtitle>
+            <v-card-text
+              class="font-weight-bold text-md-h4 text-lg-h3"
+            >
+              {{ netNewIncreaseDiff }} %
+            </v-card-text>
+          </v-card>
+        </v-col>
+
+        <!-- 전주비교 지사-무선 -->
+        <v-col>
+          <v-card
+            outlined
+            tile
+            class="text-center pa-2 font-weight-bold"
+            color="blue lighten-2"
+          >
+            전주대비 증감률({{ selectedJisa }})
+          </v-card>
+          <div
+            class="d-flex"
+            style="height:80px;"
+          >
+            <v-card 
+              outlined
+              class="text-center"
+              width="50%"
+            >
+              <v-card-subtitle
+                class="text-left py-0"
+              >
+                전주
+              </v-card-subtitle>
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4 py-0"
+              >
+                {{ netNewIncreaseLastMonth }}
+              </v-card-text>
+            </v-card>  
+            <v-spacer />
+
+            <v-card 
+              outlined
+              class="text-center"
+              width="50%"
+            >
+              <v-card-subtitle
+                class="text-left py-0"
+              >
+                금주
+              </v-card-subtitle>
+              <v-card-text
+                class="font-weight-bold text-md-h5 text-lg-h4"
+              >
+                {{ netNewIncreaseThisMonth }}
+              </v-card-text>
+            </v-card>
+            <!-- <v-spacer /> -->
+          </div>
+        
+          <v-card 
+            outlined    
+            class="text-center"
+            style="height:90px;"
+          >
+            <v-card-subtitle
+              class="text-left py-0"
+            >
+              증감비율(%)
+            </v-card-subtitle>
+            <v-card-text
+              class="font-weight-bold text-md-h4 text-lg-h3"
+            >
+              {{ netNewIncreaseDiff }} %
+            </v-card-text>
+          </v-card>
         </v-col>
       </v-row>
 
@@ -591,7 +691,7 @@ export default {
         this.selectedJisaArray=['고양지사','광진지사','광화문지사','노원지사','서대문지사'];
         this.selectedJisa='고양지사';
         this.$refs.changeJisa7.changedJisa(this.selectedJisa,this.selectedBonbu);  //본부를바꾸면 지사가 바뀌면서 유선 워드 클라우드 데이터 표시
-        this.$refs.changeJisa8.changedJisa(this.selectedJisa,this.selectedBonbu);  // 무선 클라우드 데이터 표시
+        this.$refs.changeJisa8.changedJisa(this.selectedJisa,this.selectedBonbu);  // 상동 ,무선 클라우드 데이터 표시
         
       }
 
@@ -647,14 +747,6 @@ export default {
       this.$refs.changeBonbu7.changedBonbu(selectedBonbu);
       this.$refs.changeBonbu8.changedBonbu(selectedBonbu);
 
-      
-      
-     
-      //   this.$refs.changeBonbu2.changeBonbu(selectedBonbu);
-      //   this.$refs.changeBonbu3.changeBonbu(selectedBonbu);
-    //   this.$refs.changeBonbu4.changedBonbu(selectedBonbu);
-    //   this.$refs.changeBonbu5.changeBonbu(selectedBonbu);
-    //   this.$refs.changeBonbu6.changeBonbu(selectedBonbu);
     },
 
     netNewIncreaseLastMonthFunc(val){

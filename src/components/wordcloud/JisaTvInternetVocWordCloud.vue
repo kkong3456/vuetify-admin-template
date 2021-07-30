@@ -110,7 +110,6 @@ export default {
       }
      
       this.tvInternetVoc=dessertArray; 
-      
     }, 
 
     getJisaVocValue(){    
