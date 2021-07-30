@@ -163,6 +163,8 @@
 import IconClose from '@/components/datepicker/icon/IconClose'
 import IconArrowBack from '@/components/datepicker/icon/IconArrowBack'
 import IconArrowForward from '@/components/datepicker/icon/IconArrowForward'
+import eventBus from '@/js/eventBus.js'
+
 export default {
   name: 'VueHotelDatepicker',
   components: {
@@ -186,15 +188,15 @@ export default {
     },
     startDate: {
       type: [String, Date],
-      default: undefined
+      default: new Date('2021-04-20')
     },
     endDate: {
       type: [String, Date],
-      default: undefined
+      default: new Date('2021-04-26')
     },
     minDate: {
       type: [String, Date],
-      default: () => new Date(new Date().getFullYear(), new Date().getMonth()-3, new Date().getDate(), 0, 0, 0)
+      default: () => new Date(new Date().getFullYear(), new Date().getMonth()-12, new Date().getDate(), 0, 0, 0)
     },
     maxDate: {
       type: [String, Date, Boolean],
@@ -243,7 +245,12 @@ export default {
     mobile: {
       type: String,
       default: '' // mobile or desktop
-    }
+    },
+
+    // propsbonbudata:{
+    //   type:String,
+    //   default:'',
+    // }
   },
   data () {
     return {
@@ -263,6 +270,7 @@ export default {
   computed: {},
   watch: {},
   created () {
+    
     if (this.minDate) {
       const minDateValue = typeof (this.minDate) === 'string' ? this.minDate : this.minDate.getTime()
       this.selectMinDate = new Date(minDateValue)
@@ -283,6 +291,9 @@ export default {
         const endDateValue = typeof (this.endDate) === 'string' ? this.endDate : this.endDate.getTime()
         this.selectEndDate = new Date(endDateValue)
       }
+
+      // console.log('this.selectedStartDate is ',this.startDate);
+      // console.log('tis.selectedStartDate is ', this.selectStartDate);
 
       this.updateValue()
     }
@@ -315,12 +326,17 @@ export default {
         this.updateValue()
       }
       if (this.selectStartDate && this.selectEndDate) {
+        
         const dateResult = {
           start: this.displayDateText(this.selectStartDate),
           end: this.displayDateText(this.selectEndDate)
         }
-        this.$emit('confirm', dateResult)
+        this.$emit('confirm', dateResult);
         this.active = false
+
+        //eventBus.$emit('pickedDates',dateResult);  //선택한 일자를 형제 컴포넌트인 BonbuTvInternetVocWordCloud.vue로 전달
+
+        //console.log('data result is ',dateResult.start);
       }
     },
     displayDateText (datetime) {
@@ -407,6 +423,12 @@ export default {
     },
     updateValue () {
       this.value = `${this.displayDateText(this.selectStartDate)} ${this.separator} ${this.displayDateText(this.selectEndDate)}`
+      const dateResult={
+        start:this.displayDateText(this.selectStartDate),
+        end:this.displayDateText(this.selectEndDate)
+      }
+      eventBus.$emit('pickedDates',dateResult);
+      //console.log('dateResult is ',dateResult);
     },
     disabledPreviousArrow (monthDatetime) {
       const now = new Date()

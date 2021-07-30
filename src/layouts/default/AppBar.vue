@@ -12,7 +12,7 @@
   </v-app-bar>
 </template>
 <script>
-import eventBus from '@/js/eventBus'
+import eventBus from '@/js/eventBus'  //appbar 메뉴 표시, drawer.vue 메뉴 클릭시
 
 export default {
   name:'DefaultBar',
@@ -28,6 +28,7 @@ export default {
       this.breadcrumbData=value[0];
       this.breadcrumbUrl=value[1];
     });
+  
   }
 }
 </script>

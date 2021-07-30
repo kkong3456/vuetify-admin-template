@@ -648,8 +648,7 @@ export default {
       netHjData:'순해지',
       netIncreaseData:'순증/감',
 
-
-      //전월/금월/증감
+      
       netNewIncreaseLastMonth:0,
       netHjLastMonth:0,
       netIncreaseLastMonth:0,

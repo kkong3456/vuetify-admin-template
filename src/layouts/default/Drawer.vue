@@ -251,7 +251,7 @@ export default {
 
   methods:{
     showBreadCrumb(sublink){
-      eventBus.$emit('triggerEventBus',[sublink.text,sublink.to]);
+      eventBus.$emit('triggerEventBus',[sublink.text,sublink.to]);  //drawer.vue 메뉴 클릭시 appbar에도 메뉴 표시
     }
   }
 }
