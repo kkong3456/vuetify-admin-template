@@ -67,24 +67,6 @@ export default {
 
   },
         
-  //   await axios.get([bonbuVocUrl]).then((res)=>{
-     
-  //     var imsiArray=[];
-  //     this.jisaVocData=res.data.results;
-      
-  //     this.jisaVocData.map((item)=>{
-  //       if(item.jisa==='고양지사'){
-  //         imsiArray.push({'basedate':item.basedate,'bonbu':item.bonbu,'count_sum':item.count_sum,'jisa':item.jisa,'voc_gubun':item.voc_gubun});
-  //       }
-            
-  //     });
-  //     this.jisaVocData=imsiArray;
-  //   }).catch((err)=>{
-  //     console.log('데이터를 가져 오지 못했습니다');
-  //   });
-   
-  //   this.getDesserts();
-  // },
 
   mounted(){
     
@@ -101,7 +83,7 @@ export default {
         this.jisaVocData=res.data.results;
        
         this.jisaVocData.map((item)=>{
-          console.log('item.jisa is ',item.jisa);
+         
           if(item.jisa===this.propsjisadata){           
             imsiArray.push({'basedate':item.basedate,'bonbu':item.bonbu,'count_sum':item.count_sum,'jisa':item.jisa,'voc_gubun':item.voc_gubun});
           }

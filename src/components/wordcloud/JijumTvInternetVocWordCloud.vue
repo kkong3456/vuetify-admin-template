@@ -64,12 +64,10 @@ export default {
 
     getDesserts(){
       const yyy=this.getBonbuVocValue();
-      console.log(this.propsjisadata+' is '+ yyy);
-            
+                  
       let dessertsArray=new Array();
     
       for(let i=0;i<yyy.name.length;i++){
-        //console.log('yyy.firstJisa.countSum',yyy.firstJisa.countSum);
         let obj={                                      //테이블에 보여주는 포맷
           'name':yyy.name[i],
           'value':yyy.value[i], 
@@ -110,7 +108,7 @@ export default {
 
       
       this.bonbuVocData.map((item)=>{
-        console.log('현재 지사는 ',this.propsjisadata);
+
         if(item.jisa===this.propsjijumdata){
                     
           if(item.voc_gubun.replace(/ /g,"")===voc1){
@@ -149,7 +147,6 @@ export default {
         'value':[KT업무정책불만건수,KTShop문의건수,서비스불만건수,약정문의건수,요금불만건수,위약금문의건수,품질불만건수,혜택문의건수],
       }
 
-      console.log('bonbuNetIncrease',jisaVocDataObj);
       return jijumVocDataObj;
     },
 

@@ -346,8 +346,6 @@ import BonbuHjTable from '@/components/tables/bonbuincreasetable/BonbuHjTable';
 import BonbuNetIncreaseTable from '@/components/tables/bonbuincreasetable/BonbuNetIncreaseTable';
 
 
-import MobileVocWordCloud from '@/components/wordcloud/mobileVocWordCloud';
-
 export default {
   name:'RSBonbu',
   components:{
@@ -359,8 +357,6 @@ export default {
     BonbuHjTable,
     BonbuNetIncreaseTable,
 
-   
-    MobileVocWordCloud,
   },
 
   data(){

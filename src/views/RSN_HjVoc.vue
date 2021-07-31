@@ -685,7 +685,6 @@ export default {
       
     },
     changeBonbu(selectedBonbu){
-      console.log('fire works!');
       if(this.selectedBonbu==='북부고객본부'){
         this.selectedJisaArray=['고양지사','광진지사','광화문지사','노원지사','서대문지사'];
         this.selectedJisa='고양지사';

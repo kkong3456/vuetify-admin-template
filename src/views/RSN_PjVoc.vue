@@ -282,9 +282,7 @@
             outlined
           >
             <v-card-title>[모바일 VOC]</v-card-title>
-            <v-card-content>
-              <mobile-voc-word-cloud />
-            </v-card-content>
+            <v-card-content />
           </v-card>
         </v-col>
       </v-row>
@@ -397,7 +395,7 @@ import JisaTvNetIncreaseTable from '@/components/tables/jisaproducttable/JisaTvN
 import JisaTvHjTable from '@/components/tables/jisaproducttable/JisaTvHjTable'
 
 import BonbuTvInternetVocWordCloud from '@/components/wordcloud/BonbuTvInternetVocWordCloud'
-import MobileVocWordCloud from '@/components/wordcloud/mobileVocWordCloud';
+
 
 import VueHotelDatePicker from '@/components/datepicker/vue-hotel-datepicker';
 
@@ -415,7 +413,7 @@ export default {
     JisaTvHjTable,
 
     BonbuTvInternetVocWordCloud,
-    MobileVocWordCloud,
+    
 
     VueHotelDatePicker,
   },

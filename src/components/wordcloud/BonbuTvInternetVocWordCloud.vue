@@ -96,7 +96,7 @@ export default {
     async changedBonbu(selectedBonbu) {
       await axios.get([`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`]).then((res)=>{
         this.bonbuVocData=res.data.results;
-        console.log('시작 일자는',this.selectedStartDate);
+        
       }).catch((err)=>{
         console.log('데이터를 가져오지 못했습니다.');
       });

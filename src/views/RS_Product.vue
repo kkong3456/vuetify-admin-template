@@ -346,9 +346,6 @@ import ProductNetNewIncreaseTable from '@/components/tables/bonbuproducttable/Pr
 import ProductHjTable from '@/components/tables/bonbuproducttable/ProductHjTable';
 import ProductNetIncreaseTable from '@/components/tables/bonbuproducttable/ProductNetIncreaseTable';
 
-
-import MobileVocWordCloud from '@/components/wordcloud/mobileVocWordCloud';
-
 export default {
   name:'RSProduct',
   components:{
@@ -359,9 +356,6 @@ export default {
     ProductNetNewIncreaseTable,
     ProductHjTable,
     ProductNetIncreaseTable,
-
-  
-    MobileVocWordCloud,
   },
 
   data(){
