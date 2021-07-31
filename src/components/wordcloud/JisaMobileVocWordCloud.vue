@@ -27,6 +27,8 @@
 <script>
 import axios from 'axios';
 import WordCloud from 'vuewordcloud';
+import eventBus from '@/js/eventBus';
+
 const bonbuVocUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=북부고객본부&begin=20210401&end=20210430&kind1=jisa&kind2=type`;
 
 export default {
@@ -44,30 +46,45 @@ export default {
       jisaVocData:null,
       jisaVocDataObj:null,  
       mobileVoc:new Array(),
+
+      selectedStartDate:'20210420',
+      selectedEndDate:'20210426',
     }
   },
   computed:{},//computed
 
   async created () {
-        
-    await axios.get([bonbuVocUrl]).then((res)=>{
+
+    eventBus.$on('pickedDates',(dateResult)=>{  //RSN_HjVoc.vue에서 기간 선택시 그 자식 컨포넌트인 vue-hotel-datepicker.vue에서 시작일자와 종료일자를 받아옴
+      this.selectedStartDate=dateResult.start;
+      this.selectedStartDate=this.selectedStartDate.replace(/\//gi,"");
+      this.selectedEndDate=dateResult.end;
+      this.selectedEndDate=this.selectedEndDate.replace(/\//gi,"");   
      
-      var imsiArray=[];
-      this.jisaVocData=res.data.results;
-      
-      this.jisaVocData.map((item)=>{
-        if(item.jisa==='고양지사'){
-          imsiArray.push({'basedate':item.basedate,'bonbu':item.bonbu,'count_sum':item.count_sum,'jisa':item.jisa,'voc_gubun':item.voc_gubun});
-        }
-            
-      });
-      this.jisaVocData=imsiArray;
-    }).catch((err)=>{
-      console.log('데이터를 가져 오지 못했습니다');
-    });
-   
-    this.getDesserts();
+      this.changeDate();
+    }); 
+    this.changeDate();
+
   },
+        
+  //   await axios.get([bonbuVocUrl]).then((res)=>{
+     
+  //     var imsiArray=[];
+  //     this.jisaVocData=res.data.results;
+      
+  //     this.jisaVocData.map((item)=>{
+  //       if(item.jisa==='고양지사'){
+  //         imsiArray.push({'basedate':item.basedate,'bonbu':item.bonbu,'count_sum':item.count_sum,'jisa':item.jisa,'voc_gubun':item.voc_gubun});
+  //       }
+            
+  //     });
+  //     this.jisaVocData=imsiArray;
+  //   }).catch((err)=>{
+  //     console.log('데이터를 가져 오지 못했습니다');
+  //   });
+   
+  //   this.getDesserts();
+  // },
 
   mounted(){
     
@@ -77,10 +94,32 @@ export default {
     onWordClick(word,text){
       alert(word[0]+':'+word[1]+'건입니다.');
     },
+
+    async changeDate(){
+      var imsiArray=[];
+      await axios.get([`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.propsbonbudata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`]).then((res)=>{
+        this.jisaVocData=res.data.results;
+       
+        this.jisaVocData.map((item)=>{
+          console.log('item.jisa is ',item.jisa);
+          if(item.jisa===this.propsjisadata){           
+            imsiArray.push({'basedate':item.basedate,'bonbu':item.bonbu,'count_sum':item.count_sum,'jisa':item.jisa,'voc_gubun':item.voc_gubun});
+          }
+        });
+        this.jisaVocData=imsiArray;
+      }).catch((err)=>{
+        console.log('xxx데이터를 가져 오지 못했습니다');
+      });
+  
+      this.getDesserts();
+    },
+
+
+    
     async changedJisa(selectedJisa,selectedBonbu) {
      
       var imsiArray=[];
-      await axios.get([`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${selectedBonbu}&begin=20210401&end=20210430&kind1=jisa&kind2=type`]).then((res)=>{
+      await axios.get([`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`]).then((res)=>{
         this.jisaVocData=res.data.results;
        
         this.jisaVocData.map((item)=>{

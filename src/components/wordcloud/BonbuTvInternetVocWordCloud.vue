@@ -67,11 +67,9 @@ export default {
       this.selectedStartDate=this.selectedStartDate.replace(/\//gi,"");
       this.selectedEndDate=dateResult.end;
       this.selectedEndDate=this.selectedEndDate.replace(/\//gi,"");   
-      console.log('xxxx is  ',this.selectedStartDate);
+     
       this.changeDate();
-    });
-        
-   
+    }); 
     this.changeDate();
   },
 

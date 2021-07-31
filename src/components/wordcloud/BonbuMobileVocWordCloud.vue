@@ -28,6 +28,8 @@
 //  :rotation="([,weight])=>weight>500?'90':weight>400?'80':weight>300?'70':weight>200?'60':weight>150?'-50':weight>100?'40':weight>50?'-30':weight>30?'20':weight>200?'-10':'0'"
 import axios from 'axios';
 import WordCloud from 'vuewordcloud';
+import eventBus from '@/js/eventBus';
+
 const bonbuVocUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=북부고객본부&begin=20210401&end=20210430&kind1=jisa&kind2=type`;
 
 export default {
@@ -45,19 +47,24 @@ export default {
       bonbuVocData:null,
       bonbuVocDataObj:null,  
       mobileVoc:new Array(),
+
+      selectedStartDate:'20210420',
+      selectedEndDate:'20210426',
     }
   },
   computed:{},//computed
 
   async created () {
-        
-    await axios.get([bonbuVocUrl]).then((res)=>{
-      this.bonbuVocData=res.data.results;
-    }).catch((err)=>{
-      console.log('데이터를 가져 오지 못했습니다');
+
+    eventBus.$on('pickedDates',(dateResult)=>{  //RSN_HjVoc.vue에서 기간 선택시 그 자식 컨포넌트인 vue-hotel-datepicker.vue에서 시작일자와 종료일자를 받아옴
+      this.selectedStartDate=dateResult.start;
+      this.selectedStartDate=this.selectedStartDate.replace(/\//gi,"");
+      this.selectedEndDate=dateResult.end;
+      this.selectedEndDate=this.selectedEndDate.replace(/\//gi,"");   
+      console.log('xxxx is  ',this.selectedStartDate);
+      this.changeDate();
     });
-   
-    this.getDesserts();
+    this.changeDate();
   },
 
   mounted(){
@@ -68,8 +75,19 @@ export default {
     onWordClick(word,text){
       alert(word[0]+':'+word[1]+'건입니다.');
     },
+
+    async changeDate(){
+      await axios.get([`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.propsbonbudata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`]).then((res)=>{
+        this.bonbuVocData=res.data.results;
+      }).catch((err)=>{
+        console.log('데이터를 가져 오지 못했습니다');
+      });
+    
+      this.getDesserts();
+    },
+
     async changedBonbu(selectedBonbu) {
-      await axios.get([`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${selectedBonbu}&begin=20210401&end=20210430&kind1=jisa&kind2=type`]).then((res)=>{
+      await axios.get([`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.selectedStartDate}&begin=20210401&end=${this.selectedEndDate}&kind1=jisa&kind2=type`]).then((res)=>{
         this.bonbuVocData=res.data.results;
       }).catch((err)=>{
         console.log('데이터를 가져오지 못했습니다.');
