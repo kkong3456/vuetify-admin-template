@@ -29,7 +29,7 @@ import axios from 'axios';
 import WordCloud from 'vuewordcloud';
 import eventBus from '@/js/eventBus';
 
-const bonbuVocUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=북부고객본부&begin=20210401&end=20210430&kind1=jisa&kind2=type`;
+
 
 // :rotation="([,weight])=>weight>500?'90':weight>400?'80':weight>300?'70':weight>200?'60':weight>150?'-50':weight>100?'40':weight>50?'-30':weight>30?'20':weight>200?'-10':'0'"
 export default {
@@ -50,6 +50,9 @@ export default {
 
       selectedStartDate:'20210420',
       selectedEndDate:'20210426',
+
+      lastWeekStartDate:'20210413',
+      lastWeekEndDate:'20210419',
     }
   },
   computed:{
@@ -62,7 +65,16 @@ export default {
 
   async created () {
 
-    eventBus.$on('pickedDates',(dateResult)=>{  //RSN_HjVoc.vue에서 기간 선택시 그 자식 컨포넌트인 vue-hotel-datepicker.vue에서 시작일자와 종료일자를 받아옴
+    eventBus.$on('pickedDates',(dateResult,lastweekstart,lastweekend)=>{  //RSN_HjVoc.vue에서 기간 선택시 그 자식 컨포넌트인 vue-hotel-datepicker.vue에서 시작일자와 종료일자를 받아옴
+      
+      console.log('dateResult',dateResult);
+      console.log('lastweekstart',lastweekstart);
+      console.log('lastweekend',lastweekend);
+      this.lastWeekStartDate=lastweekstart;
+      this.lastWeekEndDate=lastweekend;
+      this.lastWeekStartDate=this.lastWeekStartDate.replace(/\//gi,"");
+      this.lastWeekEndDate=this.lastWeekEndDate.replace(/\//gi,"");
+
       this.selectedStartDate=dateResult.start;
       this.selectedStartDate=this.selectedStartDate.replace(/\//gi,"");
       this.selectedEndDate=dateResult.end;
@@ -84,12 +96,23 @@ export default {
     },
 
     async changeDate(){
-      await axios.get([`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.propsbonbudata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`]).then((res)=>{
-        this.bonbuVocData=res.data.results;
-      }).catch((err)=>{
-        console.log('데이터를 가져 오지 못했습니다');
+      const thisDateUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.propsbonbudata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
+      const lastDateUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.propsbonbudata}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
+      
+      await axios.all(
+        [
+          axios.get(thisDateUrl),
+          axios.get(lastDateUrl),
+        ]
+      ).then(axios.spread((res1,res2)=>{
+        this.bonbuVocData=res1.data.results;
+        this.lastWeekBonbuVocData=res2.data.results;
+        
+      })).catch((err)=>{
+        console.log('금주 일자 데이터를 가져 오지 못했습니다');
       });
-    
+
+      
       this.getDesserts();
     },
 
@@ -112,8 +135,21 @@ export default {
         dessertArray.push([yyy['name'][i],yyy['value'][i]]);
       }
      
+      //워드클라우드 그림
       this.tvInternetVoc=dessertArray; 
+      
+      //금주 해지VOC총 건수 전달
+      // this.$emit('xxxxx',yyy['vocCountSum']);
+      this.pushVocData(yyy);
+      
     }, 
+
+    pushVocData(yyy){
+      this.$emit('bonbuVocItThisSum',yyy['vocCountSum']);
+      this.$emit('bonbuVocItLastSum',yyy['lastVocCountSum']);
+    },
+
+  
 
     wordClickHandler(name,value,vm){
       console.log('');
@@ -122,6 +158,7 @@ export default {
     getBonbuVocValue(){    
       let bonbuVocDataObj={};  
       let vocCountSum=0;
+      let lastVocCountSum=0;
     
       const voc1='KT업무/정책불만';
       const voc2='KTShop문의';
@@ -174,12 +211,49 @@ export default {
 
           vocCountSum+=parseInt(item.count_sum);
         }
+        // console.log('vocCountSum is ',vocCountSum);
       });  
 
+      this.lastWeekBonbuVocData.map((item)=>{
+        // console.log('this.propsbonbudata',this.propsbonbudata);
+        if(item.bonbu===this.propsbonbudata){
+                    
+          if(item.voc_gubun.replace(/ /g,"")===voc1){
+            KT업무정책불만건수+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===voc2){
+            KTShop문의건수+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===voc3){
+            서비스불만건수+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===voc4){
+            약정문의건수+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===voc5){
+            요금불만건수+=item.count_sum;
+          }
+          if((item.voc_gubun.replace(/ /g,"")===voc6) || (item.voc_gubun.replace(/ /g,"")==='할인반환금문의')){
+            위약금문의건수+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===voc7){
+            품질불만건수+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===voc8){
+            혜택문의건수+=item.count_sum;
+          }  
+          
+
+          lastVocCountSum+=parseInt(item.count_sum);
+        }
+        // console.log('vocCountSum is ',vocCountSum);
+      });  
      
       bonbuVocDataObj={
         'name':[voc1,voc2,voc3,voc4,voc5,voc6,voc7,voc8],
         'value':[KT업무정책불만건수,KTShop문의건수,서비스불만건수,약정문의건수,요금불만건수,위약금문의건수,품질불만건수,혜택문의건수],
+        'vocCountsum':vocCountSum,
+        'lastVocCountSum':lastVocCountSum,
       }
 
       //console.log('bonbuNetIncrease',bonbuNetIncreaseValueObj);

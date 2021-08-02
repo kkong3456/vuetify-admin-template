@@ -258,8 +258,13 @@ export default {
       active: false,
       startMonthDate: undefined,
       endMonthDate: undefined,
+
+      lastWeekStart:undefined,
+      lastWeekEnd:undefined,
+      
       selectStartDate: undefined,
       selectEndDate: undefined,
+          
       selectMinDate: undefined,
       selectMaxDate: undefined,
       startMonthAry: [],
@@ -337,6 +342,16 @@ export default {
         //eventBus.$emit('pickedDates',dateResult);  //선택한 일자를 형제 컴포넌트인 BonbuTvInternetVocWordCloud.vue로 전달
 
         //console.log('data result is ',dateResult.start);
+
+
+        //지난주, 금주 일자 전달
+        this.lastWeekStart=new Date(this.selectStartDate.setDate(this.selectStartDate.getDate()-7));
+        this.lastWeekEnd=new Date(this.selectEndDate.setDate(this.selectEndDate.getDate()-7));
+
+        this.lastWeekStart=this.displayDateText(this.lastWeekStart);
+        this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
+
+        eventBus.$emit('pickedDates',dateResult,this.lastWeekStart,this.lastWeekEnd);
       }
     },
     displayDateText (datetime) {
@@ -425,10 +440,11 @@ export default {
       this.value = `${this.displayDateText(this.selectStartDate)} ${this.separator} ${this.displayDateText(this.selectEndDate)}`
       const dateResult={
         start:this.displayDateText(this.selectStartDate),
-        end:this.displayDateText(this.selectEndDate)
+        end:this.displayDateText(this.selectEndDate),
       }
-      eventBus.$emit('pickedDates',dateResult);
-      //console.log('dateResult is ',dateResult);
+
+     
+      //console.log('dateResult is ',new Date(this.selectStartDate.setDate(this.selectStartDate.getDate()-7)));
     },
     disabledPreviousArrow (monthDatetime) {
       const now = new Date()

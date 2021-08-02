@@ -137,8 +137,7 @@ export default {
       }); 
 
       // console.log('이지사의 실적은',[단말기할부대금건수,무선약정문의건수,위약금문의건수]);
-   
-          
+      
       bonbuVocDataObj={
         'name':[mvoc1,mvoc2,mvoc3],
         'value':[단말기할부대금건수,무선약정문의건수,위약금문의건수],

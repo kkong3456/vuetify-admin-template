@@ -84,7 +84,6 @@ export default {
         this.jisaVocData=res.data.results;
        
         this.jisaVocData.map((item)=>{
-          console.log('item.jisa is ',item.jisa);
           if(item.jisa===this.propsjisadata){           
             imsiArray.push({'basedate':item.basedate,'bonbu':item.bonbu,'count_sum':item.count_sum,'jisa':item.jisa,'voc_gubun':item.voc_gubun});
           }

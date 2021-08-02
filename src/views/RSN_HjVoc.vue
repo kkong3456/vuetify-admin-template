@@ -149,6 +149,9 @@
                 :propsbonbudata="selectedBonbu"
                 :propsjisadata="selectedJisa"
                 :propsjijumdata="selectedJijum"
+                @bonbuVocItThisSum="bonbuVocItThisSumFunc"
+                @bonbuVocItLastSum="bonbuVocItLastSumFunc"
+                @bonbuVocItSumDiff="bonbuVocItSumDiffFunc"
               />
             </v-card-content>
           </v-card>
@@ -236,7 +239,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4 py-0"
               >
-                {{ netNewIncreaseLastMonth }}
+                {{ bonbuVocItLastSum }}
               </v-card-text>
             </v-card>  
             <v-spacer />
@@ -254,7 +257,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                {{ netNewIncreaseThisMonth }}
+                {{ bonbuVocItThisSum }}
               </v-card-text>
             </v-card>
             <!-- <v-spacer /> -->
@@ -273,7 +276,7 @@
             <v-card-text
               class="font-weight-bold text-md-h4 text-lg-h3"
             >
-              {{ netNewIncreaseDiff }} %
+              {{ bonbuVocItThisSumDiff }} %
             </v-card-text>
           </v-card>
         </v-col>
@@ -306,7 +309,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4 py-0"
               >
-                {{ netNewIncreaseLastMonth }}
+                {{ jisaVocItLastSum }}
               </v-card-text>
             </v-card>  
             <v-spacer />
@@ -324,7 +327,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                {{ netNewIncreaseThisMonth }}
+                {{ jisaVocItThisSum }}
               </v-card-text>
             </v-card>
             <!-- <v-spacer /> -->
@@ -343,7 +346,7 @@
             <v-card-text
               class="font-weight-bold text-md-h4 text-lg-h3"
             >
-              {{ netNewIncreaseDiff }} %
+              {{ jisaVocItSumDiff }} %
             </v-card-text>
           </v-card>
         </v-col>
@@ -380,7 +383,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4 py-0"
               >
-                {{ netNewIncreaseLastMonth }}
+                {{ bobuVocMobileLastSum }}
               </v-card-text>
             </v-card>  
             <v-spacer />
@@ -398,7 +401,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                {{ netNewIncreaseThisMonth }}
+                {{ bobuVocMobileThisSum }}
               </v-card-text>
             </v-card>
             <!-- <v-spacer /> -->
@@ -417,7 +420,7 @@
             <v-card-text
               class="font-weight-bold text-md-h4 text-lg-h3"
             >
-              {{ netNewIncreaseDiff }} %
+              {{ bonbuVocMobileSumDiff }} %
             </v-card-text>
           </v-card>
         </v-col>
@@ -449,7 +452,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4 py-0"
               >
-                {{ netNewIncreaseLastMonth }}
+                {{ jisaVocMobileLastSum }}
               </v-card-text>
             </v-card>  
             <v-spacer />
@@ -467,7 +470,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                {{ netNewIncreaseThisMonth }}
+                {{ jisaVocMobileThisSum }}
               </v-card-text>
             </v-card>
             <!-- <v-spacer /> -->
@@ -486,7 +489,7 @@
             <v-card-text
               class="font-weight-bold text-md-h4 text-lg-h3"
             >
-              {{ netNewIncreaseDiff }} %
+              {{ jisaVocMobileSumDiff }} %
             </v-card-text>
           </v-card>
         </v-col>
@@ -506,10 +509,6 @@
           </p>
           <jisa-tv-net-new-increase-table 
             ref="changeBonbu4"
-            :propsdata="netNewIncreaseData"
-            @netNewIncreaseLastMonth="netNewIncreaseLastMonthFunc"
-            @netNewIncreaseThisMonth="netNewIncreaseThisMonthFunc"
-            @netNewIncreaseDiff="netNewIncreaseDiffFunc"
           />
         </v-col>
     
@@ -522,10 +521,6 @@
           </p>
           <jisa-tv-hj-table 
             ref="changeBonbu5"
-            :propsdata="netHjData"
-            @netHjLastMonth="netHjLastMonthFunc"
-            @netHjThisMonth="netHjThisMonthFunc"
-            @netHjDiff="netHjDiffFunc"
           />
         </v-col>
    
@@ -538,10 +533,6 @@
           </p>
           <jisa-tv-net-increase-table 
             ref="changeBonbu6"
-            :propsdata="netIncreaseData"
-            @netIncreaseLastMonth="netIncreaseLastMonthFunc"
-            @netIncreaseThisMonth="netIncreaseThisMonthFunc"
-            @netIncreaseDiff="netIncreaseDiffFunc"
           />
         </v-col>
       </v-row>   
@@ -644,23 +635,25 @@ export default {
 
       selectedMobileVocType:'약정 문의',
       selectedMobileVocTypeArray:['단말기 할부대금 및 잔여기간문의','약정 문의','위약금(할인반환금)문의'],
-      netNewIncreaseData:'순신규',
-      netHjData:'순해지',
-      netIncreaseData:'순증/감',
-
       
-      netNewIncreaseLastMonth:0,
-      netHjLastMonth:0,
-      netIncreaseLastMonth:0,
 
-      netNewIncreaseThisMonth:0,
-      netHjThisMonth:0,
-      netIncreaseThisMonth:0,
 
-      netNewIncreaseDiff:0,
-      netHjDiff:0,
-      netIncreaseDiff:0,
+      bonbuVocItThisSum:0,
+      bonbuVocItLastSum:0,
+      bonbuVocItSumDiff:0,
 
+      bonbuVocMobileThisSum:0,
+      bonbuVocMobileLastSum:0,
+      bonbuVocMobileSumDiff:0,
+
+      jisaVocItThisSum:0,
+      jisaVocItLastSum:0,
+      jisaVocItSumDiff:0,
+
+      jisaVocMobileThisSum:0,
+      jisaVocMobileLastSum:0,
+      jisaVocMobileSumDiff:0,
+      
       //wordcloud
       tvInternetVoc:this.tvInternetVoc,
       mobileVoc:this.mobileVoc,
@@ -668,8 +661,6 @@ export default {
     }
   },
 
-
-  
   methods:{
     changeJisa(selectedJisa){
       this.selectedJisa=selectedJisa;
@@ -747,39 +738,20 @@ export default {
 
     },
 
-    netNewIncreaseLastMonthFunc(val){
-      this.netNewIncreaseLastMonth=val.toLocaleString();
+    
+    bonbuVocItThisSumFunc(val){
+      console.log('val',val);
+      // this.bonbuVocItThisSum=val.toLocaleString();
+      this.bonbuVocItThisSum=val.toLocaleString(); 
+    },
+    bonbuVocItLastSumFunc(val){     
+      this.bonbuVocItLastSum=val.toLocaleString(); 
+    },
+    bonbuVocItSumDiffFunc(val){     
+      this.bonbuVocItSumDiff=val.toLocaleString(); 
     },
 
-    netNewIncreaseThisMonthFunc(val){
-      this.netNewIncreaseThisMonth=val.toLocaleString();
-    },
-
-    netNewIncreaseDiffFunc(val){
-      this.netNewIncreaseDiff=val.toLocaleString();
-    },
-
-    netHjLastMonthFunc(val){
-      this.netHjLastMonth=val.toLocaleString();
-    },
-
-    netHjThisMonthFunc(val){
-      this.netHjThisMonth=val.toLocaleString();
-    },
-
-    netHjDiffFunc(val){
-      this.netHjDiff=val.toLocaleString();
-    },
-
-    netIncreaseLastMonthFunc(val){
-      this.netIncreaseLastMonth=val.toLocaleString();
-    },
-    netIncreaseThisMonthFunc(val){
-      this.netIncreaseThisMonth=val.toLocaleString();
-    },
-    netIncreaseDiffFunc(val){
-      this.netIncreaseDiff=val.toLocaleString();
-    }
+    
   }
 
 }
