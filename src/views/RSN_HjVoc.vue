@@ -738,10 +738,8 @@ export default {
 
     },
 
-    
-    bonbuVocItThisSumFunc(val){
-      console.log('val',val);
-      // this.bonbuVocItThisSum=val.toLocaleString();
+  
+    bonbuVocItThisSumFunc(val){     
       this.bonbuVocItThisSum=val.toLocaleString(); 
     },
     bonbuVocItLastSumFunc(val){     

@@ -57,28 +57,28 @@ export default {
   },
   computed:{
     
-  },//computed
-
-  mounted(){
-   
   },
 
   async created () {
 
-    eventBus.$on('pickedDates',(dateResult,lastweekstart,lastweekend)=>{  //RSN_HjVoc.vue에서 기간 선택시 그 자식 컨포넌트인 vue-hotel-datepicker.vue에서 시작일자와 종료일자를 받아옴
+    eventBus.$on('pickedDates',(dateResult)=>{  //RSN_HjVoc.vue에서 기간 선택시 그 자식 컨포넌트인 vue-hotel-datepicker.vue에서 시작일자와 종료일자를 받아옴
       
-      console.log('dateResult',dateResult);
-      console.log('lastweekstart',lastweekstart);
-      console.log('lastweekend',lastweekend);
-      this.lastWeekStartDate=lastweekstart;
-      this.lastWeekEndDate=lastweekend;
-      this.lastWeekStartDate=this.lastWeekStartDate.replace(/\//gi,"");
-      this.lastWeekEndDate=this.lastWeekEndDate.replace(/\//gi,"");
+      console.log('dateResult',dateResult.start.replace(/\//gi,','));
 
-      this.selectedStartDate=dateResult.start;
-      this.selectedStartDate=this.selectedStartDate.replace(/\//gi,"");
-      this.selectedEndDate=dateResult.end;
-      this.selectedEndDate=this.selectedEndDate.replace(/\//gi,"");   
+      const imsiThisStart=dateResult.start.replace(/\//gi,',');
+      const imsiThisEnd=dateResult.end.replace(/\//gi,',');
+
+      this.lastWeekStart=new Date(imsiThisStart);
+      this.lastWeekStart.setDate(this.lastWeekStart.getDate()-7);
+      this.lastWeekStart=this.displayDateText(this.lastWeekStart);
+      this.lastWeekStartDate=this.lastWeekStart.replace(/\//gi,"");
+
+      this.lastWeekEnd=new Date(imsiThisEnd);
+      this.lastWeekEnd.setDate(this.lastWeekEnd.getDate()-7);
+      this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
+      this.lastWeekEndDate=this.lastWeekStart.replace(/\//gi,"");
+
+      //console.log('this.lastWeekStart', this.lastWeekStart);
      
       this.changeDate();
     }); 
@@ -90,9 +90,25 @@ export default {
   },
 
   methods: { 
+
+    
     
     onWordClick(word,text){
       alert(word[0]+':'+word[1]+'건입니다.');
+    },
+
+    displayDateText (datetime) {
+      console.log('datetime',datetime);
+      if (datetime) {
+        datetime = typeof (datetime) === 'string' ? new Date(datetime) : datetime
+        const yyyy = datetime.getFullYear()
+        const mm = datetime.getMonth() + 1 > 9 ? datetime.getMonth() + 1 : `0${datetime.getMonth() + 1}`
+        const dd = datetime.getDate() > 9 ? datetime.getDate() : `0${datetime.getDate()}`
+        const displayStr = (this.format || 'YYYY/MM/DD').replace('YYYY', yyyy).replace('MM', mm).replace('DD', dd)
+        return displayStr
+      } else {
+        return undefined
+      }
     },
 
     async changeDate(){
@@ -128,6 +144,7 @@ export default {
 
     getDesserts(){
       const yyy=this.getBonbuVocValue();
+      console.log('xxxxx is ',yyy);
             
       let dessertArray=new Array();
     
@@ -139,12 +156,14 @@ export default {
       this.tvInternetVoc=dessertArray; 
       
       //금주 해지VOC총 건수 전달
-      // this.$emit('xxxxx',yyy['vocCountSum']);
       this.pushVocData(yyy);
       
     }, 
 
+    //RSN_HjVoc.vue에 VoC건수를 제공
     pushVocData(yyy){
+      console.log('yyyy',yyy['vocCountSum']);
+      console.log('last yyyy',yyy['lastVocCountSum']);
       this.$emit('bonbuVocItThisSum',yyy['vocCountSum']);
       this.$emit('bonbuVocItLastSum',yyy['lastVocCountSum']);
     },
@@ -159,6 +178,7 @@ export default {
       let bonbuVocDataObj={};  
       let vocCountSum=0;
       let lastVocCountSum=0;
+     
     
       const voc1='KT업무/정책불만';
       const voc2='KTShop문의';
@@ -208,12 +228,11 @@ export default {
             혜택문의건수+=item.count_sum;
           }  
           
-
-          vocCountSum+=parseInt(item.count_sum);
+          vocCountSum+=item.count_sum;
         }
-        // console.log('vocCountSum is ',vocCountSum);
-      });  
-
+        
+      });
+      
       this.lastWeekBonbuVocData.map((item)=>{
         // console.log('this.propsbonbudata',this.propsbonbudata);
         if(item.bonbu===this.propsbonbudata){
@@ -243,20 +262,19 @@ export default {
             혜택문의건수+=item.count_sum;
           }  
           
-
-          lastVocCountSum+=parseInt(item.count_sum);
+          lastVocCountSum+=item.count_sum;
         }
-        // console.log('vocCountSum is ',vocCountSum);
-      });  
-     
+        
+      });    
+       
       bonbuVocDataObj={
         'name':[voc1,voc2,voc3,voc4,voc5,voc6,voc7,voc8],
         'value':[KT업무정책불만건수,KTShop문의건수,서비스불만건수,약정문의건수,요금불만건수,위약금문의건수,품질불만건수,혜택문의건수],
-        'vocCountsum':vocCountSum,
+        'vocCountSum':vocCountSum,
         'lastVocCountSum':lastVocCountSum,
       }
 
-      //console.log('bonbuNetIncrease',bonbuNetIncreaseValueObj);
+      // console.log('bonbuNetIncrease',bonbuVocDataObj['vocCountsum']);
       return bonbuVocDataObj;
     },
 

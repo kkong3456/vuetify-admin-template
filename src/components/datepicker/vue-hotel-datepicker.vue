@@ -259,9 +259,9 @@ export default {
       startMonthDate: undefined,
       endMonthDate: undefined,
 
-      lastWeekStart:undefined,
-      lastWeekEnd:undefined,
-      
+      // lastWeekStart:undefined,
+      // lastWeekEnd:undefined,
+           
       selectStartDate: undefined,
       selectEndDate: undefined,
           
@@ -297,9 +297,6 @@ export default {
         this.selectEndDate = new Date(endDateValue)
       }
 
-      // console.log('this.selectedStartDate is ',this.startDate);
-      // console.log('tis.selectedStartDate is ', this.selectStartDate);
-
       this.updateValue()
     }
     this.updateCalendar() // after setting
@@ -323,6 +320,7 @@ export default {
       this.selectEndDate = undefined
       this.value = ''
       this.$emit('reset')
+      // this.updateCalendar();
     },
     confirm () {
       if (this.selectStartDate && !this.selectEndDate) {
@@ -339,21 +337,24 @@ export default {
         this.$emit('confirm', dateResult);
         this.active = false
 
-        //eventBus.$emit('pickedDates',dateResult);  //선택한 일자를 형제 컴포넌트인 BonbuTvInternetVocWordCloud.vue로 전달
+        eventBus.$emit('pickedDates',dateResult);  //선택한 일자를 형제 컴포넌트인 BonbuTvInternetVocWordCloud.vue로 전달
 
         //console.log('data result is ',dateResult.start);
-
-
-        //지난주, 금주 일자 전달
-        this.lastWeekStart=new Date(this.selectStartDate.setDate(this.selectStartDate.getDate()-7));
-        this.lastWeekEnd=new Date(this.selectEndDate.setDate(this.selectEndDate.getDate()-7));
-
-        this.lastWeekStart=this.displayDateText(this.lastWeekStart);
-        this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
-
-        eventBus.$emit('pickedDates',dateResult,this.lastWeekStart,this.lastWeekEnd);
+        
       }
     },
+    pushDate(dateResult){
+      //지난주, 금주 일자 전달 
+     
+      // this.lastWeekStart=new Date(this.selectStartDate.setDate(this.selectStartDate.getDate()-7));
+      // this.lastWeekEnd=new Date(this.selectEndDate.setDate(this.selectEndDate.getDate()-7));
+
+      // this.lastWeekStart=this.displayDateText(this.lastWeekStart);
+      // this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
+
+      eventBus.$emit('pickedDates',dateResult);
+    },
+
     displayDateText (datetime) {
       if (datetime) {
         datetime = typeof (datetime) === 'string' ? new Date(datetime) : datetime
@@ -379,6 +380,7 @@ export default {
         let day = countTime.getDay()
         let date = countTime.getDate()
         let month = countTime.getMonth()
+       
         // check next month
         if (month !== calculateMonth) {
           nextMonth = true
