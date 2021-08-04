@@ -45,6 +45,7 @@ export default {
   data () {
     return {
       bonbuVocData:null,
+      lastWeekBonbuVocData:null,
       bonbuVocDataObj:null,  
       tvInternetVoc:[],  
 
@@ -61,10 +62,7 @@ export default {
 
   async created () {
 
-    eventBus.$on('pickedDates',(dateResult)=>{  //RSN_HjVoc.vue에서 기간 선택시 그 자식 컨포넌트인 vue-hotel-datepicker.vue에서 시작일자와 종료일자를 받아옴
-      
-      console.log('dateResult',dateResult.start.replace(/\//gi,','));
-
+    eventBus.$on('pickedDates',(dateResult)=>{  //RSN_HjVoc.vue에서 기간 선택시 그 자식 컨포넌트인 vue-hotel-datepicker.vue에서 시작일자와 종료일자를 받아옴  
       const imsiThisStart=dateResult.start.replace(/\//gi,',');
       const imsiThisEnd=dateResult.end.replace(/\//gi,',');
 
@@ -90,15 +88,11 @@ export default {
   },
 
   methods: { 
-
-    
-    
     onWordClick(word,text){
       alert(word[0]+':'+word[1]+'건입니다.');
     },
 
     displayDateText (datetime) {
-      console.log('datetime',datetime);
       if (datetime) {
         datetime = typeof (datetime) === 'string' ? new Date(datetime) : datetime
         const yyyy = datetime.getFullYear()
@@ -127,25 +121,32 @@ export default {
       })).catch((err)=>{
         console.log('금주 일자 데이터를 가져 오지 못했습니다');
       });
-
       
       this.getDesserts();
     },
 
     async changedBonbu(selectedBonbu) {
-      await axios.get([`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`]).then((res)=>{
-        this.bonbuVocData=res.data.results;
+      const thisDateUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
+      const lastDateUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`
+      
+      await axios.all(
+        [
+          axios.get(thisDateUrl),
+          axios.get(lastDateUrl),
+        ]
+      ).then(axios.spread((res1,res2)=>{
+        this.bonbuVocData=res1.data.results;
+        this.lastWeekBonbuVocData=res2.data.results;
         
-      }).catch((err)=>{
-        console.log('데이터를 가져오지 못했습니다.');
-      });
+      })).catch((err)=>{
+        console.log(' 데이터를 가져 오지 못했습니다.');
+      })
       this.getDesserts();
     },
 
     getDesserts(){
       const yyy=this.getBonbuVocValue();
-      console.log('xxxxx is ',yyy);
-            
+  
       let dessertArray=new Array();
     
       for(let i=0;i<yyy.name.length;i++){
@@ -162,8 +163,6 @@ export default {
 
     //RSN_HjVoc.vue에 VoC건수를 제공
     pushVocData(yyy){
-      console.log('yyyy',yyy['vocCountSum']);
-      console.log('last yyyy',yyy['lastVocCountSum']);
       this.$emit('bonbuVocItThisSum',yyy['vocCountSum']);
       this.$emit('bonbuVocItLastSum',yyy['lastVocCountSum']);
     },
@@ -198,11 +197,18 @@ export default {
       let 품질불만건수=0;
       let 혜택문의건수=0;
 
+      let KT업무정책불만건수2=0;
+      let KTShop문의건수2=0;
+      let 서비스불만건수2=0;
+      let 약정문의건수2=0;
+      let 요금불만건수2=0;
+      let 위약금문의건수2=0;
+      let 품질불만건수2=0;
+      let 혜택문의건수2=0;
       
       this.bonbuVocData.map((item)=>{
         // console.log('this.propsbonbudata',this.propsbonbudata);
-        if(item.bonbu===this.propsbonbudata){
-                    
+        if(item.bonbu===this.propsbonbudata){                   
           if(item.voc_gubun.replace(/ /g,"")===voc1){
             KT업무정책불만건수+=item.count_sum;
           }
@@ -227,41 +233,39 @@ export default {
           if(item.voc_gubun.replace(/ /g,"")===voc8){
             혜택문의건수+=item.count_sum;
           }  
-          
-          vocCountSum+=item.count_sum;
-        }
-        
+ 
+          vocCountSum+=item.count_sum;      
+        }       
       });
-      
+
       this.lastWeekBonbuVocData.map((item)=>{
         // console.log('this.propsbonbudata',this.propsbonbudata);
         if(item.bonbu===this.propsbonbudata){
                     
           if(item.voc_gubun.replace(/ /g,"")===voc1){
-            KT업무정책불만건수+=item.count_sum;
+            KT업무정책불만건수2+=item.count_sum;
           }
           if(item.voc_gubun.replace(/ /g,"")===voc2){
-            KTShop문의건수+=item.count_sum;
+            KTShop문의건수2+=item.count_sum;
           }
           if(item.voc_gubun.replace(/ /g,"")===voc3){
-            서비스불만건수+=item.count_sum;
+            서비스불만건수2+=item.count_sum;
           }
           if(item.voc_gubun.replace(/ /g,"")===voc4){
-            약정문의건수+=item.count_sum;
+            약정문의건수2+=item.count_sum;
           }
           if(item.voc_gubun.replace(/ /g,"")===voc5){
-            요금불만건수+=item.count_sum;
+            요금불만건수2+=item.count_sum;
           }
           if((item.voc_gubun.replace(/ /g,"")===voc6) || (item.voc_gubun.replace(/ /g,"")==='할인반환금문의')){
-            위약금문의건수+=item.count_sum;
+            위약금문의건수2+=item.count_sum;
           }
           if(item.voc_gubun.replace(/ /g,"")===voc7){
-            품질불만건수+=item.count_sum;
+            품질불만건수2+=item.count_sum;
           }
           if(item.voc_gubun.replace(/ /g,"")===voc8){
-            혜택문의건수+=item.count_sum;
+            혜택문의건수2+=item.count_sum;
           }  
-          
           lastVocCountSum+=item.count_sum;
         }
         

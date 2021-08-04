@@ -168,6 +168,9 @@
                 :propsbonbudata="selectedBonbu"   
                 :propsjisadata="selectedJisa"
                 :propsjijumdata="selectedJijum"
+                @jisaVocItThisSum="jisaVocItThisSumFunc"
+                @jisaVocItLastSum="jisaVocItLastSumFunc"
+                @jisaVocItSumDiff="jisaVocItSumDiffFunc"
               />
             </v-card-content>
           </v-card>
@@ -189,6 +192,9 @@
                 :propsbonbudata="selectedBonbu"
                 :propsjisadata="selectedJisa"
                 :propsjijumdata="selectedJijum"
+                @bonbuVocMobileThisSum="bonbuVocMobileThisSumFunc"
+                @bonbuVocMobileLastSum="bonbuVocMobileLastSumFunc"
+                @bonbuVocMobileSumDiff="bonbuVocMobileSumDiffFunc"
               />
             </v-card-content>
           </v-card>
@@ -205,6 +211,9 @@
                 :propsbonbudata="selectedBonbu"
                 :propsjisadata="selectedJisa"
                 :propsjijumdata="selectedJijum"
+                @jisaVocMobileThisSum="jisaVocMobileThisSumFunc"
+                @jisaVocMobileLastSum="jisaVocMobileLastSumFunc"
+                @jisaVocMobileSumDiff="jisaVocMobileSumDiffFunc"
               />
             </v-card-content>
           </v-card>
@@ -383,7 +392,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4 py-0"
               >
-                {{ bobuVocMobileLastSum }}
+                {{ bonbuVocMobileLastSum }}
               </v-card-text>
             </v-card>  
             <v-spacer />
@@ -401,7 +410,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                {{ bobuVocMobileThisSum }}
+                {{ bonbuVocMobileThisSum }}
               </v-card-text>
             </v-card>
             <!-- <v-spacer /> -->
@@ -748,6 +757,43 @@ export default {
     bonbuVocItSumDiffFunc(val){     
       this.bonbuVocItSumDiff=val.toLocaleString(); 
     },
+
+    jisaVocItThisSumFunc(val){
+      this.jisaVocItThisSum=val.toLocaleString();
+    },
+    jisaVocItLastSumFunc(val){
+      this.jisaVocItLastSum=val.toLocaleString();
+    },
+
+    jisaVocItSumDiffFunc(val){
+      this.jisaVocItSumDiff=val.toLocaleString();
+    },
+
+    bonbuVocMobileThisSumFunc(val){
+      this.bonbuVocMobileThisSum=val.toLocaleString();
+    },
+
+    bonbuVocMobileLastSumFunc(val){
+      this.bonbuVocMobileLastSum=val.toLocaleString();
+    },
+
+    bonbuVocMobileDiffFunc(val){
+      this.bonbuVocMobileSumDiff=val.toLocalString();
+    },
+
+    jisaVocMobileThisSumFunc(val){
+      this.jisaVocMobileThisSum=val.toLocaleString();
+    },
+
+    jisaVocMobileLastSumFunc(val){
+      this.jisaVocMobileLastSum=val.toLocaleString();
+    },
+
+    jisaVocMobileSumFunc(val){
+      this.jisaVocMobileSum=val.toLocaleString();
+    },
+  
+
 
     
   }

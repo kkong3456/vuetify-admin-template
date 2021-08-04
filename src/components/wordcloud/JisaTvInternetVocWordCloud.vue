@@ -49,6 +49,9 @@ export default {
       
       selectedStartDate:'20210420',
       selectedEndDate:'20210426',
+
+      lastWeekStartDate:'20210413',
+      lastWeekEndDate:'20210419',
     }
   },
   computed:{
@@ -57,11 +60,21 @@ export default {
 
   async created () {
 
-    eventBus.$on('pickedDates',(dateResult)=>{  //RSN_HjVoc.vue에서 기간 선택시 그 자식 컨포넌트인 vue-hotel-datepicker.vue에서 시작일자와 종료일자를 받아옴
-      this.selectedStartDate=dateResult.start;
-      this.selectedStartDate=this.selectedStartDate.replace(/\//gi,"");
-      this.selectedEndDate=dateResult.end;
-      this.selectedEndDate=this.selectedEndDate.replace(/\//gi,"");   
+    eventBus.$on('pickedDates',(dateResult)=>{  //RSN_HjVoc.vue에서 기간 선택시 그 자식 컨포넌트인 vue-hotel-datepicker.vue에서 시작일자와 종료일자를 받아옴  
+      const imsiThisStart=dateResult.start.replace(/\//gi,',');
+      const imsiThisEnd=dateResult.end.replace(/\//gi,',');
+
+      this.lastWeekStart=new Date(imsiThisStart);
+      this.lastWeekStart.setDate(this.lastWeekStart.getDate()-7);
+      this.lastWeekStart=this.displayDateText(this.lastWeekStart);
+      this.lastWeekStartDate=this.lastWeekStart.replace(/\//gi,"");
+
+      this.lastWeekEnd=new Date(imsiThisEnd);
+      this.lastWeekEnd.setDate(this.lastWeekEnd.getDate()-7);
+      this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
+      this.lastWeekEndDate=this.lastWeekStart.replace(/\//gi,"");
+
+      //console.log('this.lastWeekStart', this.lastWeekStart);
      
       this.changeDate();
     }); 
@@ -78,59 +91,85 @@ export default {
       alert(word[0]+':'+word[1]+'건입니다.');
     },
 
+    displayDateText (datetime) {
+      if (datetime) {
+        datetime = typeof (datetime) === 'string' ? new Date(datetime) : datetime
+        const yyyy = datetime.getFullYear()
+        const mm = datetime.getMonth() + 1 > 9 ? datetime.getMonth() + 1 : `0${datetime.getMonth() + 1}`
+        const dd = datetime.getDate() > 9 ? datetime.getDate() : `0${datetime.getDate()}`
+        const displayStr = (this.format || 'YYYY/MM/DD').replace('YYYY', yyyy).replace('MM', mm).replace('DD', dd)
+        return displayStr
+      } else {
+        return undefined
+      }
+    },
+
     async changeDate(){
-      var imsiArray=[];
-      await axios.get([`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.propsbonbudata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`]).then((res)=>{
-        this.jisaVocData=res.data.results;
-       
-        this.jisaVocData.map((item)=>{
-          if(item.jisa===this.propsjisadata){           
-            imsiArray.push({'basedate':item.basedate,'bonbu':item.bonbu,'count_sum':item.count_sum,'jisa':item.jisa,'voc_gubun':item.voc_gubun});
-          }
-        });
-        this.jisaVocData=imsiArray;
-      }).catch((err)=>{
-        console.log('xxx데이터를 가져 오지 못했습니다');
+      const thisDateUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.propsbonbudata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
+      const lastDateUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.propsbonbudata}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
+      
+      await axios.all(
+        [
+          axios.get(thisDateUrl),
+          axios.get(lastDateUrl),
+        ]
+      ).then(axios.spread((res1,res2)=>{
+        this.jisaVocData=res1.data.results;
+        this.lastWeekJisaVocData=res2.data.results;
+               
+      })).catch((err)=>{
+        console.log('금주 일자 데이터를 가져 오지 못했습니다');
       });
-  
+      
       this.getDesserts();
     },
 
     async changedJisa(selectedJisa,selectedBonbu) {
-      
-      var imsiArray=[];
-      await axios.get([`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`]).then((res)=>{
-        this.jisaVocData=res.data.results;
-       
-        this.jisaVocData.map((item)=>{
-          if(item.jisa===selectedJisa){
-            imsiArray.push({'basedate':item.basedate,'bonbu':item.bonbu,'count_sum':item.count_sum,'jisa':item.jisa,'voc_gubun':item.voc_gubun});
-          }
-          //console.log('imsiArray is ',imsiArray);        
-        });
-        this.jisaVocData=imsiArray;
-      }).catch((err)=>{
-        console.log('데이터를 가져오지 못했습니다.');
+      const thisDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
+      const lastDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`
+    
+      await axios.all(
+        [
+          axios.get(thisDataUrl),
+          axios.get(lastDataUrl),
+        ]
+      ).then(axios.spread((res1,res2)=>{
+        this.jisaVocData=res1.data.results;
+        this.lastWeekJisaVocData=res2.data.results;
+
+      })).catch((err)=>{
+        console.log('데이터를 가져 오지 못했습니다.');
       });
+        
       this.getDesserts();
     },
 
     
 
     getDesserts(){
-      const yyy=this.getJisaVocValue();            
+      const yyy=this.getJisaVocValue();   
+       
       let dessertArray=new Array();
     
       for(let i=0;i<yyy.name.length;i++){
         dessertArray.push([yyy['name'][i],yyy['value'][i]]);
       }
      
-      this.tvInternetVoc=dessertArray; 
+      //워드 클라우드 그림
+      this.tvInternetVoc=dessertArray;
+      //금주 해지 VOC 총건수 전달 
+      this.pushVocData(yyy);
     }, 
+
+    pushVocData(yyy){
+      this.$emit('jisaVocItThisSum',yyy['vocCountSum']);
+      this.$emit('jisaVocItLastSum',yyy['lastVocCountSum'])
+    },
 
     getJisaVocValue(){    
       let jisaVocDataObj={};  
       let vocCountSum=0;
+      let lastVocCountSum=0;
     
       const voc1='KT업무/정책불만';
       const voc2='KTShop문의';
@@ -150,41 +189,80 @@ export default {
       let 품질불만건수=0;
       let 혜택문의건수=0;
 
-      
-      this.jisaVocData.map((item)=>{          
-        if(item.voc_gubun.replace(/ /g,"")===voc1){
-          KT업무정책불만건수+=item.count_sum;
-        }
-        if(item.voc_gubun.replace(/ /g,"")===voc2){
-          KTShop문의건수+=item.count_sum;
-        }
-        if(item.voc_gubun.replace(/ /g,"")===voc3){
-          서비스불만건수+=item.count_sum;
-        }
-        if(item.voc_gubun.replace(/ /g,"")===voc4){
-          약정문의건수+=item.count_sum;
-        }
-        if(item.voc_gubun.replace(/ /g,"")===voc5){
-          요금불만건수+=item.count_sum;
-        }
-        if((item.voc_gubun.replace(/ /g,"")===voc6) || (item.voc_gubun.replace(/ /g,"")==='할인반환금문의')){
-          위약금문의건수+=item.count_sum;
-        }
-        if(item.voc_gubun.replace(/ /g,"")===voc7){
-          품질불만건수+=item.count_sum;
-        }
-        if(item.voc_gubun.replace(/ /g,"")===voc8){
-          혜택문의건수+=item.count_sum;
-        }  
-          
+      let KT업무정책불만건수2=0;
+      let KTShop문의건수2=0;
+      let 서비스불만건수2=0;
+      let 약정문의건수2=0;
+      let 요금불만건수2=0;
+      let 위약금문의건수2=0;
+      let 품질불만건수2=0;
+      let 혜택문의건수2=0;
 
-        vocCountSum+=parseInt(item.count_sum);
-        
+      this.jisaVocData.map((item)=>{ 
+        if(item.jisa===this.propsjisadata){
+          if(item.voc_gubun.replace(/ /g,"")===voc1){
+            KT업무정책불만건수+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===voc2){
+            KTShop문의건수+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===voc3){
+            서비스불만건수+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===voc4){
+            약정문의건수+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===voc5){
+            요금불만건수+=item.count_sum;
+          }
+          if((item.voc_gubun.replace(/ /g,"")===voc6) || (item.voc_gubun.replace(/ /g,"")==='할인반환금문의')){
+            위약금문의건수+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===voc7){
+            품질불만건수+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===voc8){
+            혜택문의건수+=item.count_sum;
+          }  
+          vocCountSum+=item.count_sum;
+        }          
+      });  
+
+      this.lastWeekJisaVocData.map((item)=>{  
+        if(item.jisa===this.propsjisadata){
+          if(item.voc_gubun.replace(/ /g,"")===voc1){
+            KT업무정책불만건수2+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===voc2){
+            KTShop문의건수2+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===voc3){
+            서비스불만건수2+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===voc4){
+            약정문의건수2+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===voc5){
+            요금불만건수2+=item.count_sum;
+          }
+          if((item.voc_gubun.replace(/ /g,"")===voc6) || (item.voc_gubun.replace(/ /g,"")==='할인반환금문의')){
+            위약금문의건수2+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===voc7){
+            품질불만건수2+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===voc8){
+            혜택문의건수2+=item.count_sum;
+          }  
+          lastVocCountSum+=item.count_sum;
+        }        
       });  
 
       jisaVocDataObj={
         'name':[voc1,voc2,voc3,voc4,voc5,voc6,voc7,voc8],
         'value':[KT업무정책불만건수,KTShop문의건수,서비스불만건수,약정문의건수,요금불만건수,위약금문의건수,품질불만건수,혜택문의건수],
+        'vocCountSum':vocCountSum,
+        'lastVocCountSum':lastVocCountSum,
       }
 
       return jisaVocDataObj;
