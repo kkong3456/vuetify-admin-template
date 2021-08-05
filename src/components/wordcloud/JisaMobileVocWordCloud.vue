@@ -106,8 +106,8 @@ export default {
     },
 
     async changeDate(){
-      const thisDateUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.propsbonbudata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
-      const lastDateUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.propsbonbudata}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
+      const thisDateUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.propsbonbudata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
+      const lastDateUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.propsbonbudata}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
       
       await axios.all(
         [
@@ -129,8 +129,8 @@ export default {
     
     async changedJisa(selectedJisa,selectedBonbu) {
      
-      const thisDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
-      const lastDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`
+      const thisDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
+      const lastDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`
     
       await axios.all(
         [
@@ -150,8 +150,7 @@ export default {
 
     getDesserts(){
       const yyy=this.getJisaVocValue();
-      console.log('무선지사',yyy);
-     
+      
       let dessertArray=new Array();
 
       for(let i=0;i<yyy.name.length;i++){
@@ -165,8 +164,10 @@ export default {
     }, 
 
     pushVocData(yyy){
+      let xxx=(yyy['vocCountSum']-yyy['lastVocCountSum'])/yyy['lastVocCountSum']*100
       this.$emit('jisaVocMobileThisSum',yyy['vocCountSum']);
       this.$emit('jisaVocMobileLastSum',yyy['lastVocCountSum']);
+      this.$emit('jisaVocMobileSumDiff',xxx.toPrecision(3));
     },    
 
     getJisaVocValue(){    
@@ -188,33 +189,34 @@ export default {
       
       
       this.jisaVocData.map((item)=>{ 
-              
-        if(item.voc_gubun.replace(/ /g,"")===mvoc1){
-          단말기할부대금건수+=item.count_sum;
+        if(item.jisa===this.propsjisadata){
+          if(item.voc_gubun.replace(/ /g,"")===mvoc1){
+            단말기할부대금건수+=item.count_sum;
          
-        }
-        if(item.voc_gubun.replace(/ /g,"")===mvoc2){
-          무선약정문의건수+=item.count_sum;
-        }
-        if(item.voc_gubun.replace(/ /g,"")===mvoc3){
-          위약금문의건수+=item.count_sum;
-        }
-        vocCountSum+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===mvoc2){
+            무선약정문의건수+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===mvoc3){
+            위약금문의건수+=item.count_sum;
+          }
+          vocCountSum+=item.count_sum;
+        }  
       }); 
 
-      this.jisaVocData.map((item)=>{ 
-              
-        if(item.voc_gubun.replace(/ /g,"")===mvoc1){
-          단말기할부대금건수2+=item.count_sum;
-         
+      this.lastWeekJisaVocData.map((item)=>{ 
+        if(item.jisa===this.propsjisadata){
+          if(item.voc_gubun.replace(/ /g,"")===mvoc1){
+            단말기할부대금건수2+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===mvoc2){
+            무선약정문의건수2+=item.count_sum;
+          }
+          if(item.voc_gubun.replace(/ /g,"")===mvoc3){
+            위약금문의건수2+=item.count_sum;
+          }
+          lastVocCountSum+=item.count_sum;
         }
-        if(item.voc_gubun.replace(/ /g,"")===mvoc2){
-          무선약정문의건수2+=item.count_sum;
-        }
-        if(item.voc_gubun.replace(/ /g,"")===mvoc3){
-          위약금문의건수2+=item.count_sum;
-        }
-        lastVocCountSum+=item.count_sum;
       }); 
       // console.log('이지사의 실적은',[단말기할부대금건수,무선약정문의건수,위약금문의건수]);
    
@@ -226,7 +228,6 @@ export default {
         'lastVocCountSum':lastVocCountSum,
         
       }
-
       return jisaVocDataObj;
     },
 

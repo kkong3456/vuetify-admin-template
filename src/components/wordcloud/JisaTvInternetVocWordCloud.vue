@@ -162,8 +162,10 @@ export default {
     }, 
 
     pushVocData(yyy){
+      let xxx=(yyy['vocCountSum']-yyy['lastVocCountSum'])/yyy['lastVocCountSum']*100
       this.$emit('jisaVocItThisSum',yyy['vocCountSum']);
       this.$emit('jisaVocItLastSum',yyy['lastVocCountSum'])
+      this.$emit('jisaVocItSumDiff',xxx.toPrecision(3));
     },
 
     getJisaVocValue(){    

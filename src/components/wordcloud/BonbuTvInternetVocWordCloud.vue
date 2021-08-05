@@ -163,8 +163,10 @@ export default {
 
     //RSN_HjVoc.vue에 VoC건수를 제공
     pushVocData(yyy){
+      let xxx=(yyy['vocCountSum']-yyy['lastVocCountSum'])/yyy['lastVocCountSum']*100;
       this.$emit('bonbuVocItThisSum',yyy['vocCountSum']);
       this.$emit('bonbuVocItLastSum',yyy['lastVocCountSum']);
+      this.$emit('bonbuVocItSumDiff',xxx.toPrecision(3));
     },
 
   

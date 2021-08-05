@@ -167,8 +167,11 @@ export default {
     }, 
 
     pushVocData(yyy){
+      let xxx=(yyy['vocCountSum']-yyy['lastVocCountSum'])/yyy['lastVocCountSum']*100;
+      console.log('xxxxxxx are ',xxx);
       this.$emit('bonbuVocMobileThisSum',yyy['vocCountSum']);
       this.$emit('bonbuVocMobileLastSum',yyy['lastVocCountSum']);
+      this.$emit('bonbuVocMobileSumDiff',xxx.toPrecision(3));
     },
 
     getBonbuVocValue(){    

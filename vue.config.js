@@ -3,7 +3,10 @@
 */
 module.exports = {
   devServer:{
-    host:'localhost',
+    // host:'localhost',
+    host:'0.0.0.0',
+    hot:true,
+    disableHostCheck:true,
   },
   transpileDependencies: [
     'vuetify'

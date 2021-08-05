@@ -138,7 +138,11 @@
       <v-row
         class="mt-1"
       >
-        <v-col>
+        <v-col
+          cols="12"
+          md="6"
+          lg="3"
+        >
           <v-card
             outlined
           >
@@ -156,7 +160,11 @@
             </v-card-content>
           </v-card>
         </v-col>
-        <v-col>
+        <v-col
+          cols="12"
+          md="6"
+          lg="3"
+        >
           <v-card
             outlined
           >
@@ -181,7 +189,11 @@
           inset
         />
 
-        <v-col>
+        <v-col
+          cols="12"
+          md="6"
+          lg="3"
+        >
           <v-card
             outlined
           >
@@ -199,7 +211,11 @@
             </v-card-content>
           </v-card>
         </v-col>
-        <v-col>
+        <v-col
+          cols="12"
+          md="6"
+          lg="3"
+        >
           <v-card
             outlined
           >
@@ -285,7 +301,7 @@
             <v-card-text
               class="font-weight-bold text-md-h4 text-lg-h3"
             >
-              {{ bonbuVocItThisSumDiff }} %
+              {{ bonbuVocItSumDiff }} %
             </v-card-text>
           </v-card>
         </v-col>
@@ -666,7 +682,6 @@ export default {
       //wordcloud
       tvInternetVoc:this.tvInternetVoc,
       mobileVoc:this.mobileVoc,
-
     }
   },
 
@@ -777,8 +792,8 @@ export default {
       this.bonbuVocMobileLastSum=val.toLocaleString();
     },
 
-    bonbuVocMobileDiffFunc(val){
-      this.bonbuVocMobileSumDiff=val.toLocalString();
+    bonbuVocMobileSumDiffFunc(val){
+      this.bonbuVocMobileSumDiff=val.toLocaleString();
     },
 
     jisaVocMobileThisSumFunc(val){
@@ -789,8 +804,8 @@ export default {
       this.jisaVocMobileLastSum=val.toLocaleString();
     },
 
-    jisaVocMobileSumFunc(val){
-      this.jisaVocMobileSum=val.toLocaleString();
+    jisaVocMobileSumDiffFunc(val){
+      this.jisaVocMobileSumDiff=val.toLocaleString();
     },
   
 
