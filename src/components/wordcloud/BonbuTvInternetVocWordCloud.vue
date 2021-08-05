@@ -66,25 +66,35 @@ export default {
       const imsiThisStart=dateResult.start.replace(/\//gi,',');
       const imsiThisEnd=dateResult.end.replace(/\//gi,',');
 
+      this.selectedStartDate=displayDateText(imsiThisStart);  //현재 선택
+      this.selectedEndDate=displayDateText(imsiThisEnd);
+
+      let imsiStartDate=new Date(this.selectedStartDate);
+      let imsiEndDate=new Date(this.selectedEndDate);
+
+      // let diffDate=(imsiEndDate-imsiStartDate)/(1000*60*60*24);  //햔제 선택한 기간 차이를 구해서 아래 1주일전 동일한 기간으로 조회
+
+      // console.log('diffDate is ',diffDate);
+      
       this.lastWeekStart=new Date(imsiThisStart);
-      this.lastWeekStart.setDate(this.lastWeekStart.getDate()-7);
+      this.lastWeekStart.setDate(this.lastWeekStart.getDate() - 7);
       this.lastWeekStart=this.displayDateText(this.lastWeekStart);
-      this.lastWeekStartDate=this.lastWeekStart.replace(/\//gi,"");
+      this.lastWeekStartDate=this.lastWeekStart.replace(/\//gi,"");  //현재 선택 1주일전
 
       this.lastWeekEnd=new Date(imsiThisEnd);
-      this.lastWeekEnd.setDate(this.lastWeekEnd.getDate()-7);
+      this.lastWeekEnd.setDate(this.lastWeekEnd.getDate()- 7);
       this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
-      this.lastWeekEndDate=this.lastWeekStart.replace(/\//gi,"");
+      this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
 
-      //console.log('this.lastWeekStart', this.lastWeekStart);
+      console.log('this.lastWeekStartDate', this.lastWeekStartDate);
+      console.log('this.lastWeekEndDate',this.lastWeekEndDate);
      
       this.changeDate();
     }); 
     this.changeDate();
   },
 
-  mounted(){
-    
+  mounted(){  
   },
 
   methods: { 
@@ -109,6 +119,8 @@ export default {
       const thisDateUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.propsbonbudata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
       const lastDateUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.propsbonbudata}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
       
+      console.log('금주 일자 선택',this.propsbonbudata,this.selectedStartDate,this.selectedEndDate);
+      console.log('전주 일자 선택',this.propsbonbudata,this.lastWeekStartDate,this.lastWeekEndDate);
       await axios.all(
         [
           axios.get(thisDateUrl),

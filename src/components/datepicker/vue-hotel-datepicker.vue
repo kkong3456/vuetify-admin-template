@@ -337,7 +337,7 @@ export default {
         this.$emit('confirm', dateResult);
         this.active = false
 
-        eventBus.$emit('pickedDates',dateResult);  //선택한 일자를 형제 컴포넌트인 BonbuTvInternetVocWordCloud.vue로 전달
+        eventBus.$emit('pickedDates',dateResult);  //선택한 일자를 형제 컴포넌트인 BonbuTvInternetVocWordCloud.vue 등으로 로 전달
 
         //console.log('data result is ',dateResult.start);
         
