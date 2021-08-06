@@ -66,16 +66,9 @@ export default {
       const imsiThisStart=dateResult.start.replace(/\//gi,',');
       const imsiThisEnd=dateResult.end.replace(/\//gi,',');
 
-      this.selectedStartDate=displayDateText(imsiThisStart);  //현재 선택
-      this.selectedEndDate=displayDateText(imsiThisEnd);
+      this.selectedStartDate=dateResult.start.replace(/\//gi,'')  //현재 선택
+      this.selectedEndDate=dateResult.end.replace(/\//gi,'')
 
-      let imsiStartDate=new Date(this.selectedStartDate);
-      let imsiEndDate=new Date(this.selectedEndDate);
-
-      // let diffDate=(imsiEndDate-imsiStartDate)/(1000*60*60*24);  //햔제 선택한 기간 차이를 구해서 아래 1주일전 동일한 기간으로 조회
-
-      // console.log('diffDate is ',diffDate);
-      
       this.lastWeekStart=new Date(imsiThisStart);
       this.lastWeekStart.setDate(this.lastWeekStart.getDate() - 7);
       this.lastWeekStart=this.displayDateText(this.lastWeekStart);
@@ -86,8 +79,8 @@ export default {
       this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
       this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
 
-      console.log('this.lastWeekStartDate', this.lastWeekStartDate);
-      console.log('this.lastWeekEndDate',this.lastWeekEndDate);
+      // console.log('this.lastWeekStartDate', this.lastWeekStartDate);
+      // console.log('this.lastWeekEndDate',this.lastWeekEndDate);
      
       this.changeDate();
     }); 

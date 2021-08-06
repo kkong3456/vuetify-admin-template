@@ -343,18 +343,7 @@ export default {
         
       }
     },
-    pushDate(dateResult){
-      //지난주, 금주 일자 전달 
-     
-      // this.lastWeekStart=new Date(this.selectStartDate.setDate(this.selectStartDate.getDate()-7));
-      // this.lastWeekEnd=new Date(this.selectEndDate.setDate(this.selectEndDate.getDate()-7));
-
-      // this.lastWeekStart=this.displayDateText(this.lastWeekStart);
-      // this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
-
-      eventBus.$emit('pickedDates',dateResult);
-    },
-
+   
     displayDateText (datetime) {
       if (datetime) {
         datetime = typeof (datetime) === 'string' ? new Date(datetime) : datetime

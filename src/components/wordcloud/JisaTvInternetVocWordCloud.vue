@@ -64,18 +64,18 @@ export default {
       const imsiThisStart=dateResult.start.replace(/\//gi,',');
       const imsiThisEnd=dateResult.end.replace(/\//gi,',');
 
+      this.selectedStartDate=dateResult.start.replace(/\//gi,'')  //현재 선택
+      this.selectedEndDate=dateResult.end.replace(/\//gi,'')
+
       this.lastWeekStart=new Date(imsiThisStart);
-      this.lastWeekStart.setDate(this.lastWeekStart.getDate()-7);
+      this.lastWeekStart.setDate(this.lastWeekStart.getDate() - 7);
       this.lastWeekStart=this.displayDateText(this.lastWeekStart);
-      this.lastWeekStartDate=this.lastWeekStart.replace(/\//gi,"");
+      this.lastWeekStartDate=this.lastWeekStart.replace(/\//gi,"");  //현재 선택 1주일전
 
       this.lastWeekEnd=new Date(imsiThisEnd);
-      this.lastWeekEnd.setDate(this.lastWeekEnd.getDate()-7);
+      this.lastWeekEnd.setDate(this.lastWeekEnd.getDate()- 7);
       this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
-      this.lastWeekEndDate=this.lastWeekStart.replace(/\//gi,"");
-
-      //console.log('this.lastWeekStart', this.lastWeekStart);
-     
+      this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
       this.changeDate();
     }); 
     this.changeDate();
