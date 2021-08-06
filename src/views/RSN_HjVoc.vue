@@ -634,7 +634,7 @@ export default {
     JisaTvHjLineChart,
     //BonbuRadarChart,
 
-    // JisaTvNetNewIncreaseTable,
+    JisaTvNetNewIncreaseTable,
     JisaTvNetIncreaseTable,
     JisaTvHjTable,
 

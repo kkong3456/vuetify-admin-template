@@ -131,8 +131,9 @@ export default {
 
     async changedBonbu(selectedBonbu) {
 
-      const thisDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.propsbonbudata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
-      const lastDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.propsbonbudata}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
+      // selectedBonbu 대신 this.propsbonbudata를 사용하면 오류가 난다??
+      const thisDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
+      const lastDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
 
       await axios.all(
         [
@@ -142,16 +143,11 @@ export default {
       ).then(axios.spread((res1,res2)=>{
         this.bonbuVocData=res1.data.results;
         this.lastWeekBonbuVocData=res2.data.results;
+      })).catch((err)=>{
+        console.log('본부 모바일 VOC데이터를 가져오지 못했습니다');
+      });
 
-        console.log('this.bonbuVocData',this.bonbuVocData);
-        console.log('lastWeek',this.lastWeekBonbuVocData);
-      }));
-
-      // await axios.get([`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.selectedStartDate}&begin=20210401&end=${this.selectedEndDate}&kind1=jisa&kind2=type`]).then((res)=>{
-      //   this.bonbuVocData=res.data.results;
-      // }).catch((err)=>{
-      //   console.log('데이터를 가져오지 못했습니다.');
-      // });
+     
       this.getDesserts();
     },
 
