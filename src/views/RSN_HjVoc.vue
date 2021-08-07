@@ -530,12 +530,14 @@
           cols="12"
           md="4"
         >
-          <p class="text-h5 text-center">
-            [지사  TV 순신규]
+          <p class="text-h6 text-center">
+            [{{ selectedBonbu }}] VOC누적현황 
           </p>
-          <jisa-tv-net-new-increase-table 
+          <jisa-it-voc-table />
+
+          <!-- <jisa-tv-net-new-increase-table 
             ref="changeBonbu4"
-          />
+          /> -->
         </v-col>
     
         <v-col
@@ -622,6 +624,8 @@ import BonbuMobileVocWordCloud from '@/components/wordcloud/BonbuMobileVocWordCl
 import JisaTvInternetVocWordCloud from '@/components/wordcloud/JisaTvInternetVocWordCloud'
 import JisaMobileVocWordCloud from '@/components/wordcloud/JisaMobileVocWordCloud';
 
+import JisaItVocTable from '@/components/tables/voctable/jisaItVocTable';
+
 import VueHotelDatePicker from '@/components/datepicker/vue-hotel-datepicker';
 
 
@@ -634,9 +638,11 @@ export default {
     JisaTvHjLineChart,
     //BonbuRadarChart,
 
-    JisaTvNetNewIncreaseTable,
+    // JisaTvNetNewIncreaseTable,
     JisaTvNetIncreaseTable,
     JisaTvHjTable,
+
+    JisaItVocTable,
 
     BonbuTvInternetVocWordCloud,
     BonbuMobileVocWordCloud,
