@@ -1,32 +1,9 @@
 <template>
-  <word-cloud
-    style="
-      height:250px;
-      width:320px;
-    "
-    :words="tvInternetVoc"
-    :color="([,weight])=>weight>500?'IndianRed':weight>400?'HotPink':weight>300?'Gold':weight>200?'DarkKhaki':weight>150?'Orchid':weight>100?'SlateBlue':weight>50?'Lime':weight>30?'YellowGreen':weight>20?'Cyan':'0'"
-    font-family="Roboto"
-    rotation-unit="deg"
-    
-    :font-size-ratio="5"
-    spacing="5"
-    font-weight="normal"
-  >
-    <template slot-scope="{text,weight,word}">
-      <div
-        :title="weight"
-        style="cursor:pointer;"
-        @click="onWordClick(word,text)"
-      >
-        {{ text }}
-      </div>
-    </template>
-  </word-cloud>
+  <div />
 </template>
 <script>
 import axios from 'axios';
-import WordCloud from 'vuewordcloud';
+
 import eventBus from '@/js/eventBus';
 
 
@@ -34,10 +11,10 @@ import eventBus from '@/js/eventBus';
 // :rotation="([,weight])=>weight>500?'90':weight>400?'80':weight>300?'70':weight>200?'60':weight>150?'-50':weight>100?'40':weight>50?'-30':weight>30?'20':weight>200?'-10':'0'"
 export default {
 
-  name:'BonbuTvInternetVocWordCloud',
+  name:'JisaItVocBar',
 
   components:{
-    WordCloud,
+   
   },
 
   props:['propsbonbudata','propsjisadata'],
@@ -51,9 +28,6 @@ export default {
 
       selectedStartDate:'20210420',
       selectedEndDate:'20210426',
-
-      lastWeekStartDate:'20210413',
-      lastWeekEndDate:'20210419',
     }
   },
   computed:{
@@ -69,15 +43,15 @@ export default {
       this.selectedStartDate=dateResult.start.replace(/\//gi,'')  //현재 선택
       this.selectedEndDate=dateResult.end.replace(/\//gi,'')
 
-      this.lastWeekStart=new Date(imsiThisStart);
-      this.lastWeekStart.setDate(this.lastWeekStart.getDate() - 7);
-      this.lastWeekStart=this.displayDateText(this.lastWeekStart);
-      this.lastWeekStartDate=this.lastWeekStart.replace(/\//gi,"");  //현재 선택 1주일전
+      // this.lastWeekStart=new Date(imsiThisStart);
+      // this.lastWeekStart.setDate(this.lastWeekStart.getDate() - 7);
+      // this.lastWeekStart=this.displayDateText(this.lastWeekStart);
+      // this.lastWeekStartDate=this.lastWeekStart.replace(/\//gi,"");  //현재 선택 1주일전
 
-      this.lastWeekEnd=new Date(imsiThisEnd);
-      this.lastWeekEnd.setDate(this.lastWeekEnd.getDate()- 7);
-      this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
-      this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
+      // this.lastWeekEnd=new Date(imsiThisEnd);
+      // this.lastWeekEnd.setDate(this.lastWeekEnd.getDate()- 7);
+      // this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
+      // this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
 
       // console.log('this.lastWeekStartDate', this.lastWeekStartDate);
       // console.log('this.lastWeekEndDate',this.lastWeekEndDate);

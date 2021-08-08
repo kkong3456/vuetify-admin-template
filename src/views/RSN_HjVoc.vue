@@ -531,38 +531,37 @@
           md="4"
         >
           <p class="text-h6 text-center">
-            [{{ selectedBonbu }}] VOC누적현황 
+            [{{ selectedBonbu }} - VOC누적현황]<br>
+            <span class="text-h6 text-center">
+              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
+              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
+            </span>
           </p>
-          <jisa-it-voc-table />
-
-          <!-- <jisa-tv-net-new-increase-table 
-            ref="changeBonbu4"
-          /> -->
+          <jisa-m-it-voc-table 
+            ref="changeBonbu9"
+          />
         </v-col>
     
         <v-col
           cols="12"
           md="4"
         >
-          <p class="text-h5 text-center">
-            [지사 TV 순해지]
+          <p class="text-h6 text-center">
+            [{{ selectedJisa }} - VOC 유형]<br>
+            <span
+              class="text-center text-h6"
+            >
+              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
+              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
+            </span>
           </p>
-          <jisa-tv-hj-table 
-            ref="changeBonbu5"
-          />
+          <jisa-it-voc-bar />
         </v-col>
-   
+
         <v-col
           cols="12"
           md="4"
-        >
-          <p class="text-h5 text-center">
-            [지사 TV 순증/감 추이]
-          </p>
-          <jisa-tv-net-increase-table 
-            ref="changeBonbu6"
-          />
-        </v-col>
+        />
       </v-row>   
     
       <!-- 그래프-->
@@ -610,13 +609,15 @@
 </template>
 
 <script>
+import eventBus from '@/js/eventBus.js'
+
 import JisaTvNetNewIncreaseLineChart from '@/components/charts/jisaproductchart/JisaTvNetNewIncreaseLineChart'
 import JisaTvNetIncreaseLineChart from '@/components/charts/jisaproductchart/JisaTvNetIncreaseLineChart'
 import JisaTvHjLineChart from '@/components/charts/jisaproductchart/JisaTvHjLineChart'
 
-import JisaTvNetNewIncreaseTable from '@/components/tables/jisaproducttable/JisaTvNetNewIncreaseTable'
-import JisaTvNetIncreaseTable from '@/components/tables/jisaproducttable/JisaTvNetIncreaseTable'
-import JisaTvHjTable from '@/components/tables/jisaproducttable/JisaTvHjTable'
+// import JisaTvNetNewIncreaseTable from '@/components/tables/jisaproducttable/JisaTvNetNewIncreaseTable'
+// import JisaTvNetIncreaseTable from '@/components/tables/jisaproducttable/JisaTvNetIncreaseTable'
+// import JisaTvHjTable from '@/components/tables/jisaproducttable/JisaTvHjTable'
 
 
 import BonbuTvInternetVocWordCloud from '@/components/wordcloud/BonbuTvInternetVocWordCloud'
@@ -624,7 +625,9 @@ import BonbuMobileVocWordCloud from '@/components/wordcloud/BonbuMobileVocWordCl
 import JisaTvInternetVocWordCloud from '@/components/wordcloud/JisaTvInternetVocWordCloud'
 import JisaMobileVocWordCloud from '@/components/wordcloud/JisaMobileVocWordCloud';
 
-import JisaItVocTable from '@/components/tables/voctable/jisaItVocTable';
+import JisaItVocBar from '@/components/bars/vocbars/jisaItVocBar';
+
+import JisaMItVocTable from '@/components/tables/voctable/jisaMItVocTable';
 
 import VueHotelDatePicker from '@/components/datepicker/vue-hotel-datepicker';
 
@@ -639,17 +642,19 @@ export default {
     //BonbuRadarChart,
 
     // JisaTvNetNewIncreaseTable,
-    JisaTvNetIncreaseTable,
-    JisaTvHjTable,
+    // JisaTvNetIncreaseTable,
+    // JisaTvHjTable,
 
-    JisaItVocTable,
+    JisaMItVocTable,
 
     BonbuTvInternetVocWordCloud,
     BonbuMobileVocWordCloud,
     JisaTvInternetVocWordCloud,
     JisaMobileVocWordCloud,
 
-    VueHotelDatePicker
+    JisaItVocBar,
+
+    VueHotelDatePicker,
     
   },
 
@@ -668,6 +673,8 @@ export default {
       selectedMobileVocType:'약정 문의',
       selectedMobileVocTypeArray:['단말기 할부대금 및 잔여기간문의','약정 문의','위약금(할인반환금)문의'],
       
+      selectedStartDate:'20210420',
+      selectedEndDate:'20210426',
 
 
       bonbuVocItThisSum:0,
@@ -678,8 +685,8 @@ export default {
       bonbuVocMobileLastSum:0,
       bonbuVocMobileSumDiff:0,
 
-      jisaVocItThisSum:0,
-      jisaVocItLastSum:0,
+      jisaVocItThisSum:0,  //금주 Voc건수
+      jisaVocItLastSum:0,  //전주 VOC건수
       jisaVocItSumDiff:0,
 
       jisaVocMobileThisSum:0,
@@ -690,6 +697,27 @@ export default {
       tvInternetVoc:this.tvInternetVoc,
       mobileVoc:this.mobileVoc,
     }
+  },
+
+  async created(){
+    eventBus.$on('pickedDates',(dateResult)=>{  //RSN_HjVoc.vue에서 기간 선택시 그 자식 컨포넌트인 vue-hotel-datepicker.vue에서 시작일자와 종료일자를 받아옴  
+      // const imsiThisStart=dateResult.start.replace(/\//gi,',');
+      // const imsiThisEnd=dateResult.end.replace(/\//gi,',');
+
+      this.selectedStartDate=dateResult.start.replace(/\//gi,'')  //현재 선택
+      this.selectedEndDate=dateResult.end.replace(/\//gi,'')
+      console.log('selectedstartDate',this.selectedStartDate,this.selectedEndDate);
+
+      // this.lastWeekStart=new Date(imsiThisStart);
+      // this.lastWeekStart.setDate(this.lastWeekStart.getDate() - 7);
+      // this.lastWeekStart=this.displayDateText(this.lastWeekStart);
+      // this.lastWeekStartDate=this.lastWeekStart.replace(/\//gi,"");  //현재 선택 1주일전
+
+      // this.lastWeekEnd=new Date(imsiThisEnd);
+      // this.lastWeekEnd.setDate(this.lastWeekEnd.getDate()- 7);
+      // this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
+      // this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
+    })
   },
 
   methods:{
@@ -766,6 +794,7 @@ export default {
             
       this.$refs.changeBonbu7.changedBonbu(selectedBonbu);
       this.$refs.changeBonbu8.changedBonbu(selectedBonbu);
+      this.$refs.changeBonbu9.changedBonbu(selectedBonbu);
 
     },
 

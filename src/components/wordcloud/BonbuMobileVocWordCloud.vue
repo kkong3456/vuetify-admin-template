@@ -79,8 +79,6 @@ export default {
       this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
       this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
 
-      console.log('금주 시작은 ',this.selectedStartDate);
-      console.log('금주 마지막은' ,this.selectedEndDate);
      
       this.changeDate();
     }); 
@@ -114,8 +112,6 @@ export default {
       const thisDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.propsbonbudata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
       const lastDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.propsbonbudata}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
 
-      console.log(thisDataUrl);
-      console.log(lastDataUrl);
       await axios.all(
         [
           axios.get(thisDataUrl),
