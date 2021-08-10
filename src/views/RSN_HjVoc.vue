@@ -538,7 +538,7 @@
             </span>
           </p>
           <jisa-m-it-voc-table 
-            ref="changeBonbu9"
+            ref="changeJisa"
           />
         </v-col>
     
@@ -555,7 +555,9 @@
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
           </p>
-          <jisa-it-voc-bar />
+          <jisa-it-voc-bar 
+            ref="changeJisa9"
+          />
         </v-col>
 
         <v-col
@@ -726,6 +728,7 @@ export default {
       this.selectedBonbu=this.selectedBonbu;
       this.$refs.changeJisa7.changedJisa(selectedJisa,this.selectedBonbu);
       this.$refs.changeJisa8.changedJisa(selectedJisa,this.selectedBonbu);
+      this.$refs.changeJisa9.changedJisa(selectedJisa,this.selectedBonbu);
       
     },
 
@@ -795,6 +798,7 @@ export default {
       this.$refs.changeBonbu7.changedBonbu(selectedBonbu);
       this.$refs.changeBonbu8.changedBonbu(selectedBonbu);
       this.$refs.changeBonbu9.changedBonbu(selectedBonbu);
+      
 
     },
 
