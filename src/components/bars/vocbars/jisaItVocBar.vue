@@ -102,6 +102,8 @@ export default {
       this.lastWeekEnd.setDate(this.lastWeekEnd.getDate()- 7);
       this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
       this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
+
+      this.changeDate();
       
     }); 
     this.changeDate();
@@ -131,7 +133,7 @@ export default {
       const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
       const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
     
-      
+      console.log('막대바는 ',this.selectedStartDate,this.selectedEndDate);
       await axios.all(
         [
           axios.get(bonbuVocDataUrl),

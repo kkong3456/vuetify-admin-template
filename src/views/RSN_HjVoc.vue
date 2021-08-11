@@ -745,7 +745,7 @@ export default {
       this.selectedBonbu=this.selectedBonbu;
       this.$refs.changeJisa7.changedJisa(selectedJisa,this.selectedBonbu);  //it word cloud
       this.$refs.changeJisa8.changedJisa(selectedJisa,this.selectedBonbu);
-      this.$refs.changeJisa9.changedJisa(selectedJisa,this.selectedBonbu);
+      this.$refs.changeJisa9.changedJisa(selectedJisa,this.selectedBonbu);  //it bar graph
       this.$refs.changeJisa10.changedJisa(selectedJisa,this.selectedBonbu);
       
     },

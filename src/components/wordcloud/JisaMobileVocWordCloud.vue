@@ -110,6 +110,7 @@ export default {
       const thisDateUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.propsbonbudata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
       const lastDateUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.propsbonbudata}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
       
+      console.log('워드클라우드는 ',this.selectedStartDate,this.selectedEndDate);
       await axios.all(
         [
           axios.get(thisDateUrl),

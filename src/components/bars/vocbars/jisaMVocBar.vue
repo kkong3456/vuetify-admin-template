@@ -103,6 +103,7 @@ export default {
       this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
       this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
       
+      this.changeDate();
     }); 
     this.changeDate();
     this.renderChart(this.dataCollection,this.options);
