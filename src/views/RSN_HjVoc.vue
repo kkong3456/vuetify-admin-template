@@ -547,7 +547,7 @@
           md="4"
         >
           <p class="text-h6 text-center">
-            [{{ selectedJisa }} - VOC 유형]<br>
+            [{{ selectedJisa }} - VOC 유형 - 유선]<br>
             <span
               class="text-center text-h6"
             >
@@ -557,13 +557,28 @@
           </p>
           <jisa-it-voc-bar 
             ref="changeJisa9"
+            height="300px;"
           />
         </v-col>
 
         <v-col
           cols="12"
           md="4"
-        />
+        >
+          <p class="text-h6 text-center">
+            [{{ selectedJisa }} - VOC 유형 - 무선]<br>
+            <span
+              class="text-center text-h6"
+            >
+              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
+              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
+            </span>
+          </p>
+          <jisa-m-voc-bar 
+            ref="changeJisa10"
+            height="300px;"
+          />
+        </v-col>
       </v-row>   
     
       <!-- 그래프-->
@@ -628,8 +643,9 @@ import JisaTvInternetVocWordCloud from '@/components/wordcloud/JisaTvInternetVoc
 import JisaMobileVocWordCloud from '@/components/wordcloud/JisaMobileVocWordCloud';
 
 import JisaItVocBar from '@/components/bars/vocbars/jisaItVocBar';
-
+import JisaMVocBar from '@/components/bars/vocbars/jisaMVocBar';
 import JisaMItVocTable from '@/components/tables/voctable/jisaMItVocTable';
+
 
 import VueHotelDatePicker from '@/components/datepicker/vue-hotel-datepicker';
 
@@ -655,6 +671,7 @@ export default {
     JisaMobileVocWordCloud,
 
     JisaItVocBar,
+    JisaMVocBar,
 
     VueHotelDatePicker,
     
@@ -729,6 +746,7 @@ export default {
       this.$refs.changeJisa7.changedJisa(selectedJisa,this.selectedBonbu);
       this.$refs.changeJisa8.changedJisa(selectedJisa,this.selectedBonbu);
       this.$refs.changeJisa9.changedJisa(selectedJisa,this.selectedBonbu);
+      this.$refs.changeJisa10.changedJisa(selectedJisa,this.selectedBonbu);
       
     },
 

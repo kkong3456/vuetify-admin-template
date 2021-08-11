@@ -128,8 +128,8 @@ export default {
     },
 
     async changeDate(){
-      const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
-      const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
+      const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
+      const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
     
       console.log('lastBonbuVocDateUrl',lastBonbuVocDataUrl);
       await axios.all(
@@ -153,12 +153,16 @@ export default {
 
 
     async changedJisa(selectedJisa,selectedBonbu) {
-      const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
-      const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
+      const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
+      const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
      
       await axios.all([bonbuVocDataUrl,lastBonbuVocDataUrl]).then(axios.spread((res1,res2)=>{
         this.bonbuVocData=res1.data.results;
         this.lastWeekBonbuVocData=res2.data.results;
+
+        //console.log('this.lastWeekBonbuVocData is ' , this.lastWeekBonbuVocData);
+        
+        
       })).catch((err)=>{
         console.log('xxxx금주 일자 데이터를 가져 오지 못했습니다');
       });
@@ -185,11 +189,11 @@ export default {
         labels:kkk.name,
         datasets:[
           {
-            label:yyy.jisa+'[유선-전주]',          
+            label:yyy.jisa+'[무선-전주]',          
             data:kkk.lastValue,
           },
           {
-            label:yyy.jisa+'[유선-금주]',
+            label:yyy.jisa+'[무선-금주]',
             backgroundColor:['#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082'],
             data:kkk.value,
           },
@@ -203,103 +207,55 @@ export default {
       let bonbuVocDataObj={};  
       // let vocCountSum=0;
         
-      const voc1='KT업무/정책불만';
-      const voc2='KTShop문의';
-      const voc3='서비스불만';
-      const voc4='약정문의';
-      const voc5='요금불만';
-      const voc6='위약금(할인반환금)문의';
-      const voc7='품질불만';
-      const voc8='혜택문의';
+      const mvoc1='단말기할부대금및잔여기간문의';
+      const mvoc2='약정문의';
+      const mvoc3='위약금(할인반환금)문의';
 
-      let KT업무정책불만건수=0;
-      let KTShop문의건수=0;
-      let 서비스불만건수=0;
-      let 약정문의건수=0;
-      let 요금불만건수=0;
+      let 단말기할부대금건수=0;
+      let 무선약정문의건수=0;
       let 위약금문의건수=0;
-      let 품질불만건수=0;
-      let 혜택문의건수=0;
 
-      let KT업무정책불만건수2=0;
-      let KTShop문의건수2=0;
-      let 서비스불만건수2=0;
-      let 약정문의건수2=0;
-      let 요금불만건수2=0;
+      let 단말기할부대금건수2=0;
+      let 무선약정문의건수2=0;
       let 위약금문의건수2=0;
-      let 품질불만건수2=0;
-      let 혜택문의건수2=0;
       
-      this.bonbuVocData.map((item)=>{
-        // console.log('this.propsbonbudata',this.propsbonbudata);
-        //console.log('this.bonbuVocData is xxxx ',item);
-        if(item.jisa===this.selectedJisa){                   
-          if(item.voc_gubun.replace(/ /g,"")===voc1){
-            KT업무정책불만건수+=item.count_sum;
+      this.bonbuVocData.map((item)=>{ 
+        if(item.jisa===this.selectedJisa){
+          if(item.voc_gubun.replace(/ /g,"")===mvoc1){
+            단말기할부대금건수+=item.count_sum;
+         
           }
-          if(item.voc_gubun.replace(/ /g,"")===voc2){
-            KTShop문의건수+=item.count_sum;
+          if(item.voc_gubun.replace(/ /g,"")===mvoc2){
+            무선약정문의건수+=item.count_sum;
           }
-          if(item.voc_gubun.replace(/ /g,"")===voc3){
-            서비스불만건수+=item.count_sum;
-          }
-          if(item.voc_gubun.replace(/ /g,"")===voc4){
-            약정문의건수+=item.count_sum;
-          }
-          if(item.voc_gubun.replace(/ /g,"")===voc5){
-            요금불만건수+=item.count_sum;
-          }
-          if((item.voc_gubun.replace(/ /g,"")===voc6) || (item.voc_gubun.replace(/ /g,"")==='할인반환금문의')){
+          if(item.voc_gubun.replace(/ /g,"")===mvoc3){
             위약금문의건수+=item.count_sum;
           }
-          if(item.voc_gubun.replace(/ /g,"")===voc7){
-            품질불만건수+=item.count_sum;
-          }
-          if(item.voc_gubun.replace(/ /g,"")===voc8){
-            혜택문의건수+=item.count_sum;
-          }  
-          // vocCountSum+=item.count_sum;      
-        }       
-      });
+          
+        }  
+      }); 
 
-      this.lastWeekBonbuVocData.map((item)=>{
-        // console.log('this.propsbonbudata',this.propsbonbudata);
+      this.lastWeekBonbuVocData.map((item)=>{ 
         if(item.jisa===this.selectedJisa){
-                    
-          if(item.voc_gubun.replace(/ /g,"")===voc1){
-            KT업무정책불만건수2+=item.count_sum;
+          if(item.voc_gubun.replace(/ /g,"")===mvoc1){
+            단말기할부대금건수2+=item.count_sum;
           }
-          if(item.voc_gubun.replace(/ /g,"")===voc2){
-            KTShop문의건수2+=item.count_sum;
+          if(item.voc_gubun.replace(/ /g,"")===mvoc2){
+            무선약정문의건수2+=item.count_sum;
           }
-          if(item.voc_gubun.replace(/ /g,"")===voc3){
-            서비스불만건수2+=item.count_sum;
-          }
-          if(item.voc_gubun.replace(/ /g,"")===voc4){
-            약정문의건수2+=item.count_sum;
-          }
-          if(item.voc_gubun.replace(/ /g,"")===voc5){
-            요금불만건수2+=item.count_sum;
-          }
-          if((item.voc_gubun.replace(/ /g,"")===voc6) || (item.voc_gubun.replace(/ /g,"")==='할인반환금문의')){
+          if(item.voc_gubun.replace(/ /g,"")===mvoc3){
             위약금문의건수2+=item.count_sum;
           }
-          if(item.voc_gubun.replace(/ /g,"")===voc7){
-            품질불만건수2+=item.count_sum;
-          }
-          if(item.voc_gubun.replace(/ /g,"")===voc8){
-            혜택문의건수2+=item.count_sum;
-          }  
+          
         }
-        
-      });    
+      }); 
 
       //console.log('엄부정책',혜택문의건수);
        
       bonbuVocDataObj={
-        'name':[voc1,voc2,voc3,voc4,voc5,voc6,voc7,voc8],
-        'value':[KT업무정책불만건수,KTShop문의건수,서비스불만건수,약정문의건수,요금불만건수,위약금문의건수,품질불만건수,혜택문의건수],
-        'lastValue':[KT업무정책불만건수2,KTShop문의건수2,서비스불만건수2,약정문의건수2,요금불만건수2,위약금문의건수2,품질불만건수2,혜택문의건수2],
+        'name':[mvoc1,mvoc2,mvoc3],
+        'value':[단말기할부대금건수,무선약정문의건수,위약금문의건수],
+        'lastValue':[단말기할부대금건수2,무선약정문의건수2,위약금문의건수2],
         'jisa':this.selectedJisa,
       }
 
