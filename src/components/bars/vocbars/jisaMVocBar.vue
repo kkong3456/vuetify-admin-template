@@ -131,7 +131,6 @@ export default {
       const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
       const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
     
-      console.log('lastBonbuVocDateUrl',lastBonbuVocDataUrl);
       await axios.all(
         [
           axios.get(bonbuVocDataUrl),
@@ -153,18 +152,25 @@ export default {
 
 
     async changedJisa(selectedJisa,selectedBonbu) {
-      const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
-      const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
+      const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
+      const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
      
-      await axios.all([bonbuVocDataUrl,lastBonbuVocDataUrl]).then(axios.spread((res1,res2)=>{
+      this.selectedJisa=selectedJisa;  //지사 선택시 전역적으로 알려준다
+      this.selectedBonbu=selectedBonbu;
+      console.log('abcdefg');
+
+      await axios.all(
+        [
+          axios.get(bonbuVocDataUrl),
+          axios.get(lastBonbuVocDataUrl),
+        ]
+      ).then(axios.spread((res1,res2)=>{
         this.bonbuVocData=res1.data.results;
         this.lastWeekBonbuVocData=res2.data.results;
-
-        //console.log('this.lastWeekBonbuVocData is ' , this.lastWeekBonbuVocData);
         
         
       })).catch((err)=>{
-        console.log('xxxx금주 일자 데이터를 가져 오지 못했습니다');
+        console.log('금주 일자 데이터를 가져 오지 못했습니다');
       });
       
       this.fillData()

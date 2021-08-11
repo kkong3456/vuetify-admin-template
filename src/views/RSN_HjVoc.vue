@@ -743,7 +743,7 @@ export default {
     changeJisa(selectedJisa){
       this.selectedJisa=selectedJisa;
       this.selectedBonbu=this.selectedBonbu;
-      this.$refs.changeJisa7.changedJisa(selectedJisa,this.selectedBonbu);
+      this.$refs.changeJisa7.changedJisa(selectedJisa,this.selectedBonbu);  //it word cloud
       this.$refs.changeJisa8.changedJisa(selectedJisa,this.selectedBonbu);
       this.$refs.changeJisa9.changedJisa(selectedJisa,this.selectedBonbu);
       this.$refs.changeJisa10.changedJisa(selectedJisa,this.selectedBonbu);
@@ -761,6 +761,8 @@ export default {
         this.selectedJisa='고양지사';
         this.$refs.changeJisa7.changedJisa(this.selectedJisa,this.selectedBonbu);  //본부를바꾸면 지사가 바뀌면서 유선 워드 클라우드 데이터 표시
         this.$refs.changeJisa8.changedJisa(this.selectedJisa,this.selectedBonbu);  // 상동 ,무선 클라우드 데이터 표시
+        this.$refs.changeJisa9.changedJisa(this.selectedJisa,this.selectedBonbu);
+        this.$refs.changeJisa10.changedJisa(this.selectedJisa,this.selectedBonbu);
         
       }
 
@@ -769,6 +771,8 @@ export default {
         this.selectedJisa='강릉지사';
         this.$refs.changeJisa7.changedJisa(this.selectedJisa,this.selectedBonbu);
         this.$refs.changeJisa8.changedJisa(this.selectedJisa,this.selectedBonbu);
+        this.$refs.changeJisa9.changedJisa(this.selectedJisa,this.selectedBonbu);
+        this.$refs.changeJisa10.changedJisa(this.selectedJisa,this.selectedBonbu);
       }
 
       if(this.selectedBonbu==='강남고객본부'){
@@ -776,6 +780,8 @@ export default {
         this.selectedJisa='강남지사'; 
         this.$refs.changeJisa7.changedJisa(this.selectedJisa);
         this.$refs.changeJisa8.changedJisa(this.selectedJisa);
+        this.$refs.changeJisa9.changedJisa(this.selectedJisa,this.selectedBonbu);
+        this.$refs.changeJisa10.changedJisa(this.selectedJisa,this.selectedBonbu);
       }
 
       if(this.selectedBonbu==='충남/충북고객본부'){
@@ -783,6 +789,8 @@ export default {
         this.selectedJisa='대전지사';
         this.$refs.changeJisa7.changedJisa(this.selectedJisa); 
         this.$refs.changeJisa8.changedJisa(this.selectedJisa);
+        this.$refs.changeJisa9.changedJisa(this.selectedJisa,this.selectedBonbu);
+        this.$refs.changeJisa10.changedJisa(this.selectedJisa,this.selectedBonbu);
       }
 
       if(this.selectedBonbu==='대구/경북고객본부'){
@@ -790,6 +798,8 @@ export default {
         this.selectedJisa='구미지사';
         this.$refs.changeJisa7.changedJisa(this.selectedJisa);
         this.$refs.changeJisa8.changedJisa(this.selectedJisa);
+        this.$refs.changeJisa9.changedJisa(this.selectedJisa,this.selectedBonbu);
+        this.$refs.changeJisa10.changedJisa(this.selectedJisa,this.selectedBonbu);
       }
 
       if(this.selectedBonbu==='부산/경남고객본부'){
@@ -797,6 +807,8 @@ export default {
         this.selectedJisa='남부산지사';
         this.$refs.changeJisa7.changedJisa(this.selectedJisa);
         this.$refs.changeJisa8.changedJisa(this.selectedJisa);
+        this.$refs.changeJisa9.changedJisa(this.selectedJisa,this.selectedBonbu);
+        this.$refs.changeJisa10.changedJisa(this.selectedJisa,this.selectedBonbu);
       }
 
       if(this.selectedBonbu==='전남/전북고객본부'){
@@ -804,18 +816,22 @@ export default {
         this.selectedJisa='광주지사';
         this.$refs.changeJisa7.changedJisa(this.selectedJisa);
         this.$refs.changeJisa8.changedJisa(this.selectedJisa);
+        this.$refs.changeJisa9.changedJisa(this.selectedJisa,this.selectedBonbu);
+        this.$refs.changeJisa10.changedJisa(this.selectedJisa,this.selectedBonbu);
       }
       if(this.selectedBonbu==='서부고객본부'){
         this.selectedJisaArray=['강서지사','구로지사','부천지사','서인천지사','안산지사','안양지사','인천지사'];
         this.selectedJisa='강서지사';
         this.$refs.changeJisa7.changedJisa(this.selectedJisa);
         this.$refs.changeJisa8.changedJisa(this.selectedJisa);
+        this.$refs.changeJisa9.changedJisa(this.selectedJisa,this.selectedBonbu);
+        this.$refs.changeJisa10.changedJisa(this.selectedJisa,this.selectedBonbu);
       }
 
             
       this.$refs.changeBonbu7.changedBonbu(selectedBonbu);
       this.$refs.changeBonbu8.changedBonbu(selectedBonbu);
-      this.$refs.changeBonbu9.changedBonbu(selectedBonbu);
+      // this.$refs.changeBonbu9.changedBonbu(selectedBonbu);
       
 
     },
