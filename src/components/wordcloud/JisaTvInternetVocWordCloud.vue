@@ -29,8 +29,6 @@ import axios from 'axios';
 import WordCloud from 'vuewordcloud';
 import eventBus from '@/js/eventBus';
 
-const bonbuVocUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=북부고객본부&begin=20210401&end=20210430&kind1=jisa&kind2=type`;
-
 export default {
 
   name:'JisaTvInternetVocWordCloud',

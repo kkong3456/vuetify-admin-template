@@ -538,7 +538,7 @@
             </span>
           </p>
           <jisa-m-it-voc-table 
-            ref="changeJisa"
+            ref="changeBonbu9"
           />
         </v-col>
     
@@ -590,9 +590,9 @@
           md="4"
         >
           <p class="text-h5 text-center">
-            [지사  TV 순신규]
+            [본부 일별 VOC추이-유선]
           </p>
-          <jisa-tv-net-new-increase-line-chart 
+          <jisa-rit-voc-chart 
             ref="changeBonbu1"
           />
         </v-col>
@@ -645,6 +645,7 @@ import JisaMobileVocWordCloud from '@/components/wordcloud/JisaMobileVocWordClou
 import JisaItVocBar from '@/components/bars/vocbars/jisaItVocBar';
 import JisaMVocBar from '@/components/bars/vocbars/jisaMVocBar';
 import JisaMItVocTable from '@/components/tables/voctable/jisaMItVocTable';
+import JisaRitVocChart from '@/components/charts/vocchart/jisaRitVocChart.vue';
 
 
 import VueHotelDatePicker from '@/components/datepicker/vue-hotel-datepicker';
@@ -654,7 +655,7 @@ import VueHotelDatePicker from '@/components/datepicker/vue-hotel-datepicker';
 export default {
   name:'RSNHjVoc',
   components:{
-    JisaTvNetNewIncreaseLineChart,
+    //JisaTvNetNewIncreaseLineChart,
     JisaTvNetIncreaseLineChart,
     JisaTvHjLineChart,
     //BonbuRadarChart,
@@ -672,6 +673,8 @@ export default {
 
     JisaItVocBar,
     JisaMVocBar,
+
+    JisaRitVocChart,
 
     VueHotelDatePicker,
     
@@ -831,7 +834,7 @@ export default {
             
       this.$refs.changeBonbu7.changedBonbu(selectedBonbu);
       this.$refs.changeBonbu8.changedBonbu(selectedBonbu);
-      // this.$refs.changeBonbu9.changedBonbu(selectedBonbu);
+      this.$refs.changeBonbu9.changedBonbu(selectedBonbu); //voc 테이블 컴포넌터
       
 
     },

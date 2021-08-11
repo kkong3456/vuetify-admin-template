@@ -2,8 +2,7 @@
 import Vue from 'vue'
 import { Line, mixins} from 'vue-chartjs'
 import axios from 'axios';
-
-const jisaVocUrl='http://172.21.220.97/api/voc/rit.json/?&kind=jisa&bonbu='
+import eventBus from '@/js/eventBus';
 
 const { reactiveProp } = mixins
 
@@ -80,56 +79,133 @@ export default {
   //props: ['options'],
 
 
-  name:'JisaTvNetNewIncreaseLineChart',
+  name:'JisaRitVocChart',
   extends: Line,
   mixins: [reactiveProp],
 
 
   data(){
     return {
+      
+      bonbuVocData:null,
+      lastWeekBonbuVocData:null,
+      bonbuVocDataObj:null,
+      
+      selectedStartDate:'20210420',
+      selectedEndDate:'20210426',
+
+      lastWeekStartDate:'20210413',
+      lastWeekEndDate:'20210419',
+
+      selectedBonbu:'북부고객본부',
+      selectedJisa:'고양지사',
+
       dataCollection:null,
-      bonbuNetIncreaseData:null,
-      bonbuNetIncreaseValueObj:null,
       options:options,
     }
   },
  
   async created () {
-    await axios.get(jisaVocUrl+'북부고객본부').then((res)=>{
-      this.bonbuNetIncreaseData=res.data.results;
-      //console.log(this.bonbuNetIncreaseData);
+    eventBus.$on('pickedDates',(dateResult)=>{  //RSN_HjVoc.vue에서 기간 선택시 그 자식 컨포넌트인 vue-hotel-datepicker.vue에서 시작일자와 종료일자를 받아옴  
+      const imsiThisStart=dateResult.start.replace(/\//gi,',');
+      const imsiThisEnd=dateResult.end.replace(/\//gi,',');
+
+      this.selectedStartDate=dateResult.start.replace(/\//gi,'')  //현재 선택
+      this.selectedEndDate=dateResult.end.replace(/\//gi,'')
+
+      this.lastWeekStart=new Date(imsiThisStart);
+      this.lastWeekStart.setDate(this.lastWeekStart.getDate() - 7);
+      this.lastWeekStart=this.displayDateText(this.lastWeekStart);
+      this.lastWeekStartDate=this.lastWeekStart.replace(/\//gi,"");  //현재 선택 1주일전
+
+      this.lastWeekEnd=new Date(imsiThisEnd);
+      this.lastWeekEnd.setDate(this.lastWeekEnd.getDate()- 7);
+      this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
+      this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
+
+      this.changeDate();
       
-      this.fillData('북부고객본부');
-      this.renderChart(this.dataCollection,this.options);
-    }).catch((err)=>{
-      console.log('데이터를 가져오지 못했습니다.',err);
-    })
+    }); 
+    this.changeDate();
+    this.renderChart(this.dataCollection,this.options)
   },
 
   methods: {
-    async changeBonbu(bonbuName){
-
-      //console.log('url is ',url);
-      await axios.get(jisaVocUrl+bonbuName).then((res)=>{
-        this.bonbuNetIncreaseData=res.data.results;
-        
-        this.fillData(bonbuName);
-        this.renderChart(this.dataCollection,this.options);
-      }).catch((err)=>{
-        console.log('데이터를 가져오지 못했습니다.',err);
-      })
+    displayDateText (datetime) {
+      if (datetime) {
+        datetime = typeof (datetime) === 'string' ? new Date(datetime) : datetime
+        const yyyy = datetime.getFullYear()
+        const mm = datetime.getMonth() + 1 > 9 ? datetime.getMonth() + 1 : `0${datetime.getMonth() + 1}`
+        const dd = datetime.getDate() > 9 ? datetime.getDate() : `0${datetime.getDate()}`
+        const displayStr = (this.format || 'YYYY/MM/DD').replace('YYYY', yyyy).replace('MM', mm).replace('DD', dd)
+        return displayStr
+      } else {
+        return undefined
+      }
     },
 
-    fillData (bonbuName) {
-      const yyy=this.getBonbuNetIncreaseValue(bonbuName);
+    async changeDate(){
+      const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
+      const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
+    
      
-      if(bonbuName==='북부고객본부' || bonbuName==='동부고객본부' || bonbuName==='전남/전북고객본부'){
+      await axios.all(
+        [
+          axios.get(bonbuVocDataUrl),
+          axios.get(lastBonbuVocDataUrl),
+        ]
+      ).then(axios.spread((res1,res2)=>{
+        this.bonbuVocData=res1.data.results;
+        this.lastWeekBonbuVocData=res2.data.results;
+        
+        
+      })).catch((err)=>{
+        console.log('금주 일자 데이터를 가져 오지 못했습니다');
+      });
+      
+      this.fillData(this.selectedBonbu)
+      this.renderChart(this.dataCollection,this.options);
+    },
+
+
+    async changeBonbu(selectedBonbu){
+
+      const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
+      const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
+    
+      //this.selectedJisa=selectedJisa;  //지사 선택시 전역적으로 알려준다
+      this.selectedBonbu=selectedBonbu;
+
+      await axios.all(
+        [
+          axios.get(bonbuVocDataUrl),
+          axios.get(lastBonbuVocDataUrl),
+        ]
+      ).then(axios.spread((res1,res2)=>{
+        this.bonbuVocData=res1.data.results;
+        this.lastWeekBonbuVocData=res2.data.results;
+        
+        
+      })).catch((err)=>{
+        console.log('금주 일자 데이터를 가져 오지 못했습니다');
+      });
+      
+      this.fillData(selectedBonbu)
+      this.renderChart(this.dataCollection,this.options);
+    },
+
+    fillData (selectedBonbu) {
+      const yyy=this.getBonbuVocValue(selectedBonbu);
+     
+      console.log('yyyy is ', yyy);
+      
+      if(selectedBonbu==='북부고객본부' || selectedBonbu==='동부고객본부' || selectedBonbu==='전남/전북고객본부'){
       
         this.dataCollection = {
-          labels:yyy.firstJisa.sysdate.map((day)=>day.substring(5,10)),
+          labels:yyy.firstJisa.basedate.map((day)=>day.substring(5,10)),
           datasets: [
             {
-              label:yyy.firstJisa.jojik[0],     // 범례
+              label:yyy.firstJisa,     // 범례
               borderColor: '#6697F8',
              
               //backgroundColor:"#6697F8",
@@ -142,7 +218,7 @@ export default {
 
             },
             {
-              label:yyy.secondJisa.jojik[0],
+              label:yyy.secondJisa,
               borderColor: '#5CE082',
               //backgroundColor:"rgba(92,224,130,.1)",
               data: yyy.secondJisa.countSum,
@@ -151,7 +227,7 @@ export default {
               pointHoverBorderColor:'#ff0000',
             },
             {
-              label: yyy.thirdJisa.jojik[0],
+              label: yyy.thirdJisa,
               borderColor: '#F7E872',
               //backgroundColor:"rgba(0,179,0,.1)",
               data: yyy.thirdJisa.countSum,
@@ -161,7 +237,7 @@ export default {
             },
 
             {
-              label: yyy.fourthJisa.jojik[0],
+              label: yyy.fourthJisa,
               borderColor: '#E0815C',
               backgroundColor:"transparent",
               data: yyy.fourthJisa.countSum,
@@ -171,7 +247,7 @@ export default {
             },
 
             {
-              label: yyy.fifthJisa.jojik[0],
+              label: yyy.fifthJisa,
               borderColor: '#C641FF',
               backgroundColor:"transparent",
               data: yyy.fifthJisa.countSum,
@@ -329,165 +405,127 @@ export default {
     },  //fillData()
 
 
-    getBonbuNetIncreaseValue(url){    //본부별 순익(y축)
-      let bonbuNetIncreaseValueObj={};
+    getBonbuVocValue(selectedBonbu){    
+      let bonbuVocDataObj={};
+
       let firstJisaObj={};
-      let secondJisaObj={}
-      let thirdJisaObj={}
-      let fourthJisaObj={}
-      let fifthJisaObj={}
-      let sixthJisaObj={}
-      let seventhJisaObj={}
-      //console.log('url is ',url);
+      let secondJisaObj={};
+      let thirdJisaObj={};
+      let fourthJisaObj={};
+      let fifthJisaObj={};
+      let sixthJisaObj={};
+      let seventhJisaObj={};
+      // console.log('url is xxxx ',bonbuJisaObj[selectedBonbu]);
 
-      const firstSysdateArray=new Array();
-      const firstjojik2Array=new Array();
-      const firstjojik3Array=new Array();
-      const firstProductArray=new Array();
+      const firstJisa=bonbuJisaObj[selectedBonbu][0];
+      const secondJisa=bonbuJisaObj[selectedBonbu][1];
+      const thirdJisa=bonbuJisaObj[selectedBonbu][2];
+      const fourthJisa=bonbuJisaObj[selectedBonbu][3];
+      const fifthJisa=bonbuJisaObj[selectedBonbu][4];
+      const sixthJisa=bonbuJisaObj[selectedBonbu][5];
+      const seventhJisa=bonbuJisaObj[selectedBonbu][6];
+
       const firstCountSumArray=new Array();
+      const firstBaseDateArray=new Array();
 
-      const secondSysdateArray=new Array();
-      const secondjojik2Array=new Array();
-      const secondjojik3Array=new Array();
-      const secondProductArray=new Array();
       const secondCountSumArray=new Array();
+      const secondBaseDateArray=new Array();
 
-
-      const thirdSysdateArray=new Array();
-      const thirdjojik2Array=new Array();
-      const thirdjojik3Array=new Array();
-      const thirdProductArray=new Array();
       const thirdCountSumArray=new Array();
+      const thirdBaseDateArray=new Array();
 
-      const fourthSysdateArray=new Array();
-      const fourthjojik2Array=new Array();
-      const fourthjojik3Array=new Array();
-      const fourthProductArray=new Array();
       const fourthCountSumArray=new Array();
+      const fourthBaseDateArray=new Array();
 
-      const fifthSysdateArray=new Array();
-      const fifthjojik2Array=new Array();
-      const fifthjojik3Array=new Array();
-      const fifthProductArray=new Array();
       const fifthCountSumArray=new Array();
+      const fifthBaseDateArray=new Array();
 
-
-      const sixthSysdateArray=new Array();
-      const sixthjojik2Array=new Array();
-      const sixthjojik3Array=new Array();
-      const sixthProductArray=new Array();
       const sixthCountSumArray=new Array();
+      const sixthBaseDateArray=new Array();
 
-      const seventhSysdateArray=new Array();
-      const seventhjojik2Array=new Array();
-      const seventhjojik3Array=new Array();
-      const seventhProductArray=new Array();
       const seventhCountSumArray=new Array();
-
+      const seventhBaseDateArray=new Array();
       
 
-      this.bonbuNetIncreaseData.map((item)=>{
-        //console.log('item is ',item);
-
-        if(item.sy_jojik3===bonbuJisaObj[url][0]){
-          firstSysdateArray.push(item.voc_rcv_date);
-          firstjojik3Array.push(item.sy_jojik3);
-          //firstProductArray.push(item.prod2);
+      this.bonbuVocData.map((item)=>{
+      
+        if(item.jisa===bonbuJisaObj[selectedBonbu][0]){
           firstCountSumArray.push(item.count_sum);
+          firstBaseDateArray.push(item.basedate);
         }
 
-        if(item.sy_jojik3===bonbuJisaObj[url][1]){
-          secondSysdateArray.push(item.voc_rcv_date);
-          secondjojik3Array.push(item.sy_jojik3);
-          //secondProductArray.push(item.prod2);
+        if(item.jisa===bonbuJisaObj[selectedBonbu][1]){
           secondCountSumArray.push(item.count_sum);
+          secondBaseDateArray.push(item.basedate);
         }
 
-        if(item.sy_jojik3===bonbuJisaObj[url][2]){
-          thirdSysdateArray.push(item.voc_rcv_date);
-          thirdjojik3Array.push(item.sy_jojik3);
-          //thirdProductArray.push(item.prod2);
+        if(item.jisa===bonbuJisaObj[selectedBonbu][2]){
           thirdCountSumArray.push(item.count_sum);
+          thirdBaseDateArray.push(item.basedate);
         }
-        if(item.sy_jojik3===bonbuJisaObj[url][3]){
-          fourthSysdateArray.push(item.voc_rcv_date);
-          fourthjojik3Array.push(item.sy_jojik3);
-          //fourthProductArray.push(item.prod2);
+
+        if(item.jisa===bonbuJisaObj[selectedBonbu][3]){
           fourthCountSumArray.push(item.count_sum);
+          fourthBaseDateArray.push(item.basedate);
         }
-
-
-        if(item.sy_jojik3===bonbuJisaObj[url][4]){
-          fifthSysdateArray.push(item.voc_rcv_date);
-          fifthjojik3Array.push(item.sy_jojik3);
-          //fifthProductArray.push(item.prod2);
+        if(item.jisa===bonbuJisaObj[selectedBonbu][4]){
           fifthCountSumArray.push(item.count_sum);
+          fifthBaseDateArray.push(item.basedate);
         }
-
-        if(item.sy_jojik3===bonbuJisaObj[url][5]){
-          sixthSysdateArray.push(item.voc_rcv_date);
-          sixthjojik3Array.push(item.sy_jojik3);
-          //sixthProductArray.push(item.prod2);
+        if(item.jisa===bonbuJisaObj[selectedBonbu][5]){
           sixthCountSumArray.push(item.count_sum);
+          sixthBaseDateArray.push(item.basedate);
         }
 
-        if(item.sy_jojik3===bonbuJisaObj[url][6]){
-          seventhSysdateArray.push(item.voc_rcv_date);
-          seventhjojik3Array.push(item.sy_jojik3);
-          //seventhProductArray.push(item.prod2);
+        if(item.jisa===bonbuJisaObj[selectedBonbu][6]){
           seventhCountSumArray.push(item.count_sum);
+          seventhBaseDateArray.push(item.basedate);
         }
+
       });
          
       firstJisaObj={
-        'sysdate': firstSysdateArray,
-        'jojik': firstjojik3Array,
-        //'product': firstProductArray,
+        'jisa': firstJisa,
+        'basedate':firstBaseDateArray,
         'countSum': firstCountSumArray,
       }
 
       secondJisaObj={
-        'sysdate': secondSysdateArray,
-        'jojik':secondjojik3Array,
-        // 'product': secondProductArray,
+        'jisa':secondJisa,
+        'basedate':secondBaseDateArray,
         'countSum': secondCountSumArray,
       }
 
       thirdJisaObj={
-        'sysdate': thirdSysdateArray,
-        'jojik':thirdjojik3Array,
-        // 'product': thirdProductArray,
+        'jisa': thirdJisa,
+        'basedate':thirdBaseDateArray,
         'countSum': thirdCountSumArray,
       }
       fourthJisaObj={
-        'sysdate': fourthSysdateArray,
-        'jojik': fourthjojik3Array,
-        //  'product': fourthProductArray,
+        'jisa': fourthJisa,
+        'basedate':fourthBaseDateArray,
         'countSum': fourthCountSumArray,
       }
 
       fifthJisaObj={
-        'sysdate': fifthSysdateArray,
-        'jojik':fifthjojik3Array,
-        //  'product': fifthProductArray,
+        'jisa':fifthJisa,
+        'basedate':fifthBaseDateArray,
         'countSum': fifthCountSumArray,
       }
 
       sixthJisaObj={
-        'sysdate': sixthSysdateArray,
-        'jojik': sixthjojik3Array,
-        //  'product': sixthProductArray,
+        'jisa': sixthJisa,
+        'basedate':sixthBaseDateArray,
         'countSum': sixthCountSumArray,
       }
     
       seventhJisaObj={
-        'sysdate': seventhSysdateArray,
-        'jojik': seventhjojik3Array,
-        //  'product': seventhProductArray,
+        'jisa': seventhJisa,
+        'basedate':seventhBaseDateArray,
         'countSum': seventhCountSumArray,
       }
     
-      bonbuNetIncreaseValueObj={
+      bonbuVocDataObj={
         'firstJisa': firstJisaObj,
         'secondJisa': secondJisaObj,
         'thirdJisa': thirdJisaObj,
@@ -496,7 +534,7 @@ export default {
         'sixthJisa':sixthJisaObj,
         'seventhJisa':seventhJisaObj,
       }
-      return bonbuNetIncreaseValueObj;
+      return bonbuVocDataObj;
     },
   }  //methods
 } //export default end
