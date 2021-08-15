@@ -4,6 +4,7 @@ import { Line, mixins} from 'vue-chartjs'
 import axios from 'axios';
 import eventBus from '@/js/eventBus';
 
+
 const { reactiveProp } = mixins
 
 const bonbuJisaObj={
@@ -92,10 +93,13 @@ export default {
       bonbuVocDataObj:null,
       
       selectedStartDate:'20210420',
+
       selectedEndDate:'20210426',
 
       lastWeekStartDate:'20210413',
       lastWeekEndDate:'20210419',
+      imsiThisStart:'2021,04,13',
+      imsiThisEnd:'2021,04,19',
 
       selectedBonbu:'북부고객본부',
       selectedJisa:'고양지사',
@@ -156,7 +160,11 @@ export default {
         ]
       ).then(axios.spread((res1,res2)=>{
         this.bonbuVocData=res1.data.results;
+        console.log('xxxxxx,this',this.bonbuVocData);
         this.lastWeekBonbuVocData=res2.data.results;
+
+        var resultArr=[];
+        for(var i=0;i<)
         
         
       })).catch((err)=>{
@@ -197,7 +205,7 @@ export default {
     fillData (selectedBonbu) {
       const yyy=this.getBonbuVocValue(selectedBonbu);
      
-      console.log('yyyy is ', yyy);
+      //console.log('yyyy is ', yyy);
       
       if(selectedBonbu==='북부고객본부' || selectedBonbu==='동부고객본부' || selectedBonbu==='전남/전북고객본부'){
       
@@ -258,150 +266,150 @@ export default {
           ]
         }
       }
-      if(bonbuName==='강남고객본부' || bonbuName==='충남/충북고객본부' || bonbuName==='대구/경북고객본부'){
+      // if(selectedBonbu==='강남고객본부' || selectedBonbu==='충남/충북고객본부' || bonbuName==='대구/경북고객본부'){
        
-        this.dataCollection = {
-          labels:yyy.firstJisa.sysdate.map((day)=>day.substring(5,10)),
-          datasets: [
-            {
-              label:yyy.firstJisa.jojik[0],     // 범례
-              borderColor: '#6697F8',
-              backgroundColor:"transparent",
-              data: yyy.firstJisa.countSum,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-              // hoverBorderWith:20,
+      //   this.dataCollection = {
+      //     labels:yyy.firstJisa.sysdate.map((day)=>day.substring(5,10)),
+      //     datasets: [
+      //       {
+      //         label:yyy.firstJisa.jojik[0],     // 범례
+      //         borderColor: '#6697F8',
+      //         backgroundColor:"transparent",
+      //         data: yyy.firstJisa.countSum,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //         // hoverBorderWith:20,
 
-            },
-            {
-              label:yyy.secondJisa.jojik[0],
-              borderColor: '#5CE082',
-              backgroundColor:"transparent",
-              data: yyy.secondJisa.countSum,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
-            {
-              label: yyy.thirdJisa.jojik[0],
-              borderColor: '#F7E872',
-              backgroundColor:"transparent",
-              data: yyy.thirdJisa.countSum,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
+      //       },
+      //       {
+      //         label:yyy.secondJisa.jojik[0],
+      //         borderColor: '#5CE082',
+      //         backgroundColor:"transparent",
+      //         data: yyy.secondJisa.countSum,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
+      //       {
+      //         label: yyy.thirdJisa.jojik[0],
+      //         borderColor: '#F7E872',
+      //         backgroundColor:"transparent",
+      //         data: yyy.thirdJisa.countSum,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
 
-            {
-              label: yyy.fourthJisa.jojik[0],
-              borderColor: '#E0815C',
-              backgroundColor:"transparent",
-              data: yyy.fourthJisa.countSum,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
+      //       {
+      //         label: yyy.fourthJisa.jojik[0],
+      //         borderColor: '#E0815C',
+      //         backgroundColor:"transparent",
+      //         data: yyy.fourthJisa.countSum,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
 
-            {
-              label: yyy.fifthJisa.jojik[0],
-              borderColor: '#C641FF',
-              backgroundColor:"transparent",
-              data: yyy.fifthJisa.countSum,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
+      //       {
+      //         label: yyy.fifthJisa.jojik[0],
+      //         borderColor: '#C641FF',
+      //         backgroundColor:"transparent",
+      //         data: yyy.fifthJisa.countSum,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
 
-            {
-              label: yyy.sixthJisa.jojik[0],
-              borderColor: '#FF33CC',
-              backgroundColor:"transparent",
-              data: yyy.sixthJisa.countSum,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
-          ]
-        };  //dataCollection
-      }
+      //       {
+      //         label: yyy.sixthJisa.jojik[0],
+      //         borderColor: '#FF33CC',
+      //         backgroundColor:"transparent",
+      //         data: yyy.sixthJisa.countSum,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
+      //     ]
+      //   };  //dataCollection
+      // }
 
-      if(bonbuName==='서부고객본부' || bonbuName==='부산/경남고객본부' ){
-        this.dataCollection = {
-          labels:yyy.firstJisa.sysdate.map((day)=>day.substring(5,10)),
-          datasets: [
-            {
-              label:yyy.firstJisa.jojik[0],     // 범례
-              borderColor: '#6697F8',
-              backgroundColor:"transparent",
-              data: yyy.firstJisa.countSum?yyy.firstJisa.countSum:0,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-              // hoverBorderWith:20,
+      // if(selectedBonbu==='서부고객본부' || selectedBonbu==='부산/경남고객본부' ){
+      //   this.dataCollection = {
+      //     labels:yyy.firstJisa.sysdate.map((day)=>day.substring(5,10)),
+      //     datasets: [
+      //       {
+      //         label:yyy.firstJisa.jojik[0],     // 범례
+      //         borderColor: '#6697F8',
+      //         backgroundColor:"transparent",
+      //         data: yyy.firstJisa.countSum?yyy.firstJisa.countSum:0,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //         // hoverBorderWith:20,
 
-            },
-            {
-              label:yyy.secondJisa.jojik[0],
-              borderColor: '#5CE082',
-              backgroundColor:"transparent",
-              data: yyy.secondJisa.countSum?yyy.secondJisa.countSum:0,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
-            {
-              label: yyy.thirdJisa.jojik[0],
-              borderColor: '#F7E872',
-              backgroundColor:"transparent",
-              data: yyy.thirdJisa.countSum?yyy.thirdJisa.countSum:0,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
+      //       },
+      //       {
+      //         label:yyy.secondJisa.jojik[0],
+      //         borderColor: '#5CE082',
+      //         backgroundColor:"transparent",
+      //         data: yyy.secondJisa.countSum?yyy.secondJisa.countSum:0,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
+      //       {
+      //         label: yyy.thirdJisa.jojik[0],
+      //         borderColor: '#F7E872',
+      //         backgroundColor:"transparent",
+      //         data: yyy.thirdJisa.countSum?yyy.thirdJisa.countSum:0,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
 
-            {
-              label: yyy.fourthJisa.jojik[0],
-              borderColor: '#E0815C',
-              backgroundColor:"transparent",
-              data: yyy.fourthJisa.countSum?yyy.fourthJisa.countSum:0,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
+      //       {
+      //         label: yyy.fourthJisa.jojik[0],
+      //         borderColor: '#E0815C',
+      //         backgroundColor:"transparent",
+      //         data: yyy.fourthJisa.countSum?yyy.fourthJisa.countSum:0,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
 
-            {
-              label: yyy.fifthJisa.jojik[0],
-              borderColor: '#C641FF',
-              backgroundColor:"transparent",
-              data: yyy.fifthJisa.countSum?yyy.fifthJisa.countSum:0,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
+      //       {
+      //         label: yyy.fifthJisa.jojik[0],
+      //         borderColor: '#C641FF',
+      //         backgroundColor:"transparent",
+      //         data: yyy.fifthJisa.countSum?yyy.fifthJisa.countSum:0,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
 
-            {
-              label: yyy.sixthJisa.jojik[0],
-              borderColor: '#ff33cc',
-              backgroundColor:"transparent",
-              data: yyy.sixthJisa.countSum?yyy.sixthJisa.countSum:0,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
-            {
-              label: yyy.seventhJisa.jojik[0],
-              borderColor: '#ffbb33',
-              backgroundColor:"transparent",
-              data: yyy.seventhJisa.countSum?yyy.seventhJisa.countSum:0,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
+      //       {
+      //         label: yyy.sixthJisa.jojik[0],
+      //         borderColor: '#ff33cc',
+      //         backgroundColor:"transparent",
+      //         data: yyy.sixthJisa.countSum?yyy.sixthJisa.countSum:0,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
+      //       {
+      //         label: yyy.seventhJisa.jojik[0],
+      //         borderColor: '#ffbb33',
+      //         backgroundColor:"transparent",
+      //         data: yyy.seventhJisa.countSum?yyy.seventhJisa.countSum:0,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
          
-          ]
-        };  //dataCollection
-      }
+      //     ]
+      //   };  //dataCollection
+      // }
     },  //fillData()
 
 
@@ -416,6 +424,8 @@ export default {
       let sixthJisaObj={};
       let seventhJisaObj={};
       // console.log('url is xxxx ',bonbuJisaObj[selectedBonbu]);
+
+      let imsiDate;
 
       const firstJisa=bonbuJisaObj[selectedBonbu][0];
       const secondJisa=bonbuJisaObj[selectedBonbu][1];
@@ -446,14 +456,15 @@ export default {
       const seventhCountSumArray=new Array();
       const seventhBaseDateArray=new Array();
       
-
+      let vocSum=0;
       this.bonbuVocData.map((item)=>{
       
         if(item.jisa===bonbuJisaObj[selectedBonbu][0]){
-          firstCountSumArray.push(item.count_sum);
-          firstBaseDateArray.push(item.basedate);
+          var resultArr=[];
+          //console.log('item',item);
+          
         }
-
+      
         if(item.jisa===bonbuJisaObj[selectedBonbu][1]){
           secondCountSumArray.push(item.count_sum);
           secondBaseDateArray.push(item.basedate);
@@ -483,7 +494,18 @@ export default {
         }
 
       });
-         
+
+      
+      
+      
+      // const map=firstBaseDateArray.reduce((m,v)=>m.set(v,(m.get(v)||0)+1),new Map),
+      //   values=[...map.keys()],
+      //   counts=[...map.values()];
+
+      // console.log('...values',...values);
+      // console.log('...counts',...counts);
+
+     
       firstJisaObj={
         'jisa': firstJisa,
         'basedate':firstBaseDateArray,
