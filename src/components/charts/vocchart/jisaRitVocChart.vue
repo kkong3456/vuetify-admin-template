@@ -92,9 +92,12 @@ export default {
       lastWeekBonbuVocData:null,
       bonbuVocDataObj:null,
       
+     
       selectedStartDate:'20210420',
-
       selectedEndDate:'20210426',
+
+      selectedStartNewDate:new Date('2021-04-20'),
+      selectedEndNewDate:new Date('2021-04-26'),
 
       lastWeekStartDate:'20210413',
       lastWeekEndDate:'20210419',
@@ -116,6 +119,8 @@ export default {
 
       this.selectedStartDate=dateResult.start.replace(/\//gi,'')  //현재 선택
       this.selectedEndDate=dateResult.end.replace(/\//gi,'')
+
+      console.log('dateResult.start',dateResult.start);
 
       this.lastWeekStart=new Date(imsiThisStart);
       this.lastWeekStart.setDate(this.lastWeekStart.getDate() - 7);
@@ -147,26 +152,36 @@ export default {
         return undefined
       }
     },
+    displayDateText2 (datetime) {
+      if (datetime) {
+        datetime = typeof (datetime) === 'string' ? new Date(datetime) : datetime
+        const yyyy = datetime.getFullYear()
+        const mm = datetime.getMonth() + 1 > 9 ? datetime.getMonth() + 1 : `0${datetime.getMonth() + 1}`
+        const dd = datetime.getDate() > 9 ? datetime.getDate() : `0${datetime.getDate()}`
+        const displayStr = (this.format || 'YYYY-MM-DD').replace('YYYY', yyyy).replace('MM', mm).replace('DD', dd)
+        return displayStr
+      } else {
+        return undefined
+      }
+    },
 
     async changeDate(){
       const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
-      const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
+      // const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
     
-     
+
       await axios.all(
         [
           axios.get(bonbuVocDataUrl),
-          axios.get(lastBonbuVocDataUrl),
+          // axios.get(lastBonbuVocDataUrl),
         ]
       ).then(axios.spread((res1,res2)=>{
-        this.bonbuVocData=res1.data.results;
-        console.log('xxxxxx,this',this.bonbuVocData);
-        this.lastWeekBonbuVocData=res2.data.results;
 
-        var resultArr=[];
-        for(var i=0;i<)
-        
-        
+        this.bonbuVocData=res1.data.results;
+
+       
+
+               
       })).catch((err)=>{
         console.log('금주 일자 데이터를 가져 오지 못했습니다');
       });
@@ -179,7 +194,7 @@ export default {
     async changeBonbu(selectedBonbu){
 
       const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
-      const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
+      // const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
     
       //this.selectedJisa=selectedJisa;  //지사 선택시 전역적으로 알려준다
       this.selectedBonbu=selectedBonbu;
@@ -187,11 +202,11 @@ export default {
       await axios.all(
         [
           axios.get(bonbuVocDataUrl),
-          axios.get(lastBonbuVocDataUrl),
+          // axios.get(lastBonbuVocDataUrl),
         ]
       ).then(axios.spread((res1,res2)=>{
         this.bonbuVocData=res1.data.results;
-        this.lastWeekBonbuVocData=res2.data.results;
+        // this.lastWeekBonbuVocData=res2.data.results;
         
         
       })).catch((err)=>{
@@ -205,64 +220,64 @@ export default {
     fillData (selectedBonbu) {
       const yyy=this.getBonbuVocValue(selectedBonbu);
      
-      //console.log('yyyy is ', yyy);
+      console.log('yyyy is ', yyy);
       
       if(selectedBonbu==='북부고객본부' || selectedBonbu==='동부고객본부' || selectedBonbu==='전남/전북고객본부'){
       
         this.dataCollection = {
-          labels:yyy.firstJisa.basedate.map((day)=>day.substring(5,10)),
+          labels:yyy.basedate.map((day)=>day[0].substring(5,10)),
           datasets: [
             {
-              label:yyy.firstJisa,     // 범례
+              label:yyy.jisa,     // 범례
               borderColor: '#6697F8',
              
               //backgroundColor:"#6697F8",
               //backgroundColor:'rgba(56,56,155,0.3)',
-              data: yyy.firstJisa.countSum,
+              data: yyy.vocSum,
               fill:false,
               tension:.3,
               pointHoverBorderColor:'#ff0000',
               //borderWidth:1,
 
             },
-            {
-              label:yyy.secondJisa,
-              borderColor: '#5CE082',
-              //backgroundColor:"rgba(92,224,130,.1)",
-              data: yyy.secondJisa.countSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-            },
-            {
-              label: yyy.thirdJisa,
-              borderColor: '#F7E872',
-              //backgroundColor:"rgba(0,179,0,.1)",
-              data: yyy.thirdJisa.countSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-            },
+            // {
+            //   label:yyy.secondJisa,
+            //   borderColor: '#5CE082',
+            //   //backgroundColor:"rgba(92,224,130,.1)",
+            //   data: yyy.secondJisa.countSum,
+            //   fill:false,
+            //   tension:.3,
+            //   pointHoverBorderColor:'#ff0000',
+            // },
+            // {
+            //   label: yyy.thirdJisa,
+            //   borderColor: '#F7E872',
+            //   //backgroundColor:"rgba(0,179,0,.1)",
+            //   data: yyy.thirdJisa.countSum,
+            //   fill:false,
+            //   tension:.3,
+            //   pointHoverBorderColor:'#ff0000',
+            // },
 
-            {
-              label: yyy.fourthJisa,
-              borderColor: '#E0815C',
-              backgroundColor:"transparent",
-              data: yyy.fourthJisa.countSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-            },
+            // {
+            //   label: yyy.fourthJisa,
+            //   borderColor: '#E0815C',
+            //   backgroundColor:"transparent",
+            //   data: yyy.fourthJisa.countSum,
+            //   fill:false,
+            //   tension:.3,
+            //   pointHoverBorderColor:'#ff0000',
+            // },
 
-            {
-              label: yyy.fifthJisa,
-              borderColor: '#C641FF',
-              backgroundColor:"transparent",
-              data: yyy.fifthJisa.countSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-            },
+            // {
+            //   label: yyy.fifthJisa,
+            //   borderColor: '#C641FF',
+            //   backgroundColor:"transparent",
+            //   data: yyy.fifthJisa.countSum,
+            //   fill:false,
+            //   tension:.3,
+            //   pointHoverBorderColor:'#ff0000',
+            // },
           ]
         }
       }
@@ -416,6 +431,17 @@ export default {
     getBonbuVocValue(selectedBonbu){    
       let bonbuVocDataObj={};
 
+      const voc1='KT업무/정책불만';
+      const voc2='KTShop문의';
+      const voc3='서비스불만';
+      const voc4='약정문의';
+      const voc5='요금불만';
+      const voc6='위약금(할인반환금)문의';
+      const voc7='품질불만';
+      const voc8='혜택문의';
+
+      
+
       let firstJisaObj={};
       let secondJisaObj={};
       let thirdJisaObj={};
@@ -425,7 +451,7 @@ export default {
       let seventhJisaObj={};
       // console.log('url is xxxx ',bonbuJisaObj[selectedBonbu]);
 
-      let imsiDate;
+
 
       const firstJisa=bonbuJisaObj[selectedBonbu][0];
       const secondJisa=bonbuJisaObj[selectedBonbu][1];
@@ -435,131 +461,144 @@ export default {
       const sixthJisa=bonbuJisaObj[selectedBonbu][5];
       const seventhJisa=bonbuJisaObj[selectedBonbu][6];
 
-      const firstCountSumArray=new Array();
-      const firstBaseDateArray=new Array();
+      let firstJisaDatePlusCntArray=[];
 
-      const secondCountSumArray=new Array();
-      const secondBaseDateArray=new Array();
-
-      const thirdCountSumArray=new Array();
-      const thirdBaseDateArray=new Array();
-
-      const fourthCountSumArray=new Array();
-      const fourthBaseDateArray=new Array();
-
-      const fifthCountSumArray=new Array();
-      const fifthBaseDateArray=new Array();
-
-      const sixthCountSumArray=new Array();
-      const sixthBaseDateArray=new Array();
-
-      const seventhCountSumArray=new Array();
-      const seventhBaseDateArray=new Array();
+      const firstJisaVocSumArray=[];
+      const firstJisaBaseDateArray=[];
+      const firstJisaVoc1Array=[];
+      const firstJisaVoc2Array=[];
+      const firstJisaVoc3Array=[];
+      const firstJisaVoc4Array=[];
+      const firstJisaVoc5Array=[];
+      const firstJisaVoc6Array=[];
+      const firstJisaVoc7Array=[];
+      const firstJisaVoc8Array=[];
       
+
+      let secondJisaVoc2Array=[];
+      let secondJisaBaseDateArray=[];
+
+      let thirdJisaVoc3Array=[];
+      let thirdJisaBaseDateArray=[];
+
+      let fourthJisaVoc4Array=[];
+      let fourthJisaBaseDateArray=[];
+
+      let fifthJisaVoc5Array=[];
+      let fifthJisaBaseDateArray=[];
+
+      let sixthJisaVoc6Array=[];
+      let sixthJisaBaseDateArray=[];
+
+      let seventhJisaVoc7Array=[];
+      let seventhJisaBaseDateArray=[];
+       
       let vocSum=0;
-      this.bonbuVocData.map((item)=>{
-      
-        if(item.jisa===bonbuJisaObj[selectedBonbu][0]){
-          var resultArr=[];
-          //console.log('item',item);
-          
-        }
-      
-        if(item.jisa===bonbuJisaObj[selectedBonbu][1]){
-          secondCountSumArray.push(item.count_sum);
-          secondBaseDateArray.push(item.basedate);
-        }
 
-        if(item.jisa===bonbuJisaObj[selectedBonbu][2]){
-          thirdCountSumArray.push(item.count_sum);
-          thirdBaseDateArray.push(item.basedate);
+    
+      this.bonbuVocData.map((item,index)=>{
+        if(item.voc_gubun.replace(/ /g,'')===voc1){
+          if(firstJisa===item.jisa){
+            firstJisaVoc1Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
         }
-
-        if(item.jisa===bonbuJisaObj[selectedBonbu][3]){
-          fourthCountSumArray.push(item.count_sum);
-          fourthBaseDateArray.push(item.basedate);
-        }
-        if(item.jisa===bonbuJisaObj[selectedBonbu][4]){
-          fifthCountSumArray.push(item.count_sum);
-          fifthBaseDateArray.push(item.basedate);
-        }
-        if(item.jisa===bonbuJisaObj[selectedBonbu][5]){
-          sixthCountSumArray.push(item.count_sum);
-          sixthBaseDateArray.push(item.basedate);
-        }
-
-        if(item.jisa===bonbuJisaObj[selectedBonbu][6]){
-          seventhCountSumArray.push(item.count_sum);
-          seventhBaseDateArray.push(item.basedate);
-        }
-
-      });
-
-      
-      
-      
-      // const map=firstBaseDateArray.reduce((m,v)=>m.set(v,(m.get(v)||0)+1),new Map),
-      //   values=[...map.keys()],
-      //   counts=[...map.values()];
-
-      // console.log('...values',...values);
-      // console.log('...counts',...counts);
 
      
+        if(item.voc_gubun.replace(/ /g,'')===voc2){
+          if(firstJisa===item.jisa){
+            firstJisaVoc2Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+        }
+
+      
+        if(item.voc_gubun.replace(/ /g,'')===voc3){
+          if(firstJisa===item.jisa){
+            firstJisaVoc3Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+        }
+
+      
+        if(item.voc_gubun.replace(/ /g,'')===voc4){
+          if(firstJisa===item.jisa){
+            firstJisaVoc4Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+        }
+
+        
+        if(item.voc_gubun.replace(/ /g,'')===voc5){
+          if(firstJisa===item.jisa){
+            firstJisaVoc5Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+        }
+
+      
+        if((item.voc_gubun.replace(/ /g,'')===voc6) || (item.voc_gubun.replace(/ /g,'')==='할인반환금문의')){
+          if(firstJisa===item.jisa){
+            firstJisaVoc6Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+        }
+       
+        if(item.voc_gubun.replace(/ /g,'')===voc7){
+          if(firstJisa===item.jisa){
+            firstJisaVoc7Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+        }
+
+       
+        if(item.voc_gubun.replace(/ /g,'')===voc8){
+          if(firstJisa===item.jisa){
+            firstJisaVoc8Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+        }   
+     
+      });
+
+      //일자별로 voc 카운트 객체 만들기
+      firstJisaDatePlusCntArray=Object.values([...firstJisaVoc1Array,...firstJisaVoc2Array,...firstJisaVoc3Array,...firstJisaVoc4Array,...firstJisaVoc5Array,...firstJisaVoc6Array,...firstJisaVoc7Array,...firstJisaVoc8Array].reduce((acc,{date,cnt})=>{
+      
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
+       
+        return acc;
+      },{}));
+
+      console.log('일자별 합계는',firstJisaDatePlusCntArray); //[{date:'2021-04-00',cnt:184},{},{}..]
+
+      //일자별로 오름차순으로 정렬하기
+
+      const compare=(key)=>(a,b)=>{
+        return a[key]>a[key]?1:a[key]<b[key]?-1:0;
+      };
+
+      firstJisaDatePlusCntArray=firstJisaDatePlusCntArray.sort(compare('date'));
+
+
+      
+
+      let firstJisaDayArray=[];
+      let firstJisaDayVocArray=[];
+
+      for(let i=0;i<firstJisaDatePlusCntArray.length;i++){
+        firstJisaDayArray.push(firstJisaDatePlusCntArray[i].date);
+        firstJisaDayVocArray.push(firstJisaDatePlusCntArray[i].cnt);
+               
+      }
+     
+
+
+    
+    
       firstJisaObj={
-        'jisa': firstJisa,
-        'basedate':firstBaseDateArray,
-        'countSum': firstCountSumArray,
+        'jisa':firstJisa,
+        'basedate':firstJisaDayArray,
+        'vocSum':firstJisaDayVocArray,
       }
-
-      secondJisaObj={
-        'jisa':secondJisa,
-        'basedate':secondBaseDateArray,
-        'countSum': secondCountSumArray,
-      }
-
-      thirdJisaObj={
-        'jisa': thirdJisa,
-        'basedate':thirdBaseDateArray,
-        'countSum': thirdCountSumArray,
-      }
-      fourthJisaObj={
-        'jisa': fourthJisa,
-        'basedate':fourthBaseDateArray,
-        'countSum': fourthCountSumArray,
-      }
-
-      fifthJisaObj={
-        'jisa':fifthJisa,
-        'basedate':fifthBaseDateArray,
-        'countSum': fifthCountSumArray,
-      }
-
-      sixthJisaObj={
-        'jisa': sixthJisa,
-        'basedate':sixthBaseDateArray,
-        'countSum': sixthCountSumArray,
-      }
+      return firstJisaObj;
+    }
+  }
+}      
     
-      seventhJisaObj={
-        'jisa': seventhJisa,
-        'basedate':seventhBaseDateArray,
-        'countSum': seventhCountSumArray,
-      }
-    
-      bonbuVocDataObj={
-        'firstJisa': firstJisaObj,
-        'secondJisa': secondJisaObj,
-        'thirdJisa': thirdJisaObj,
-        'fourthJisa':fourthJisaObj,
-        'fifthJisa':fifthJisaObj,
-        'sixthJisa':sixthJisaObj,
-        'seventhJisa':seventhJisaObj,
-      }
-      return bonbuVocDataObj;
-    },
-  }  //methods
-} //export default end
+
 </script>
 <style scoped>
 
