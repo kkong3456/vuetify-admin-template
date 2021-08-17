@@ -120,8 +120,6 @@ export default {
       this.selectedStartDate=dateResult.start.replace(/\//gi,'')  //현재 선택
       this.selectedEndDate=dateResult.end.replace(/\//gi,'')
 
-      console.log('dateResult.start',dateResult.start);
-
       this.lastWeekStart=new Date(imsiThisStart);
       this.lastWeekStart.setDate(this.lastWeekStart.getDate() - 7);
       this.lastWeekStart=this.displayDateText(this.lastWeekStart);
@@ -219,8 +217,6 @@ export default {
 
     fillData (selectedBonbu) {
       const yyy=this.getBonbuVocValue(selectedBonbu);
-     
-      console.log('yyyy is ', yyy[0].basedate);
       
       if(selectedBonbu==='북부고객본부' || selectedBonbu==='동부고객본부' || selectedBonbu==='전남/전북고객본부'){
       
@@ -259,25 +255,25 @@ export default {
               pointHoverBorderColor:'#ff0000',
             },
 
-            // {
-            //   label: yyy.fourthJisa,
-            //   borderColor: '#E0815C',
-            //   backgroundColor:"transparent",
-            //   data: yyy.fourthJisa.countSum,
-            //   fill:false,
-            //   tension:.3,
-            //   pointHoverBorderColor:'#ff0000',
-            // },
+            {
+              label: yyy[3].jisa,
+              borderColor: '#E0815C',
+              backgroundColor:"transparent",
+              data: yyy[3].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+            },
 
-            // {
-            //   label: yyy.fifthJisa,
-            //   borderColor: '#C641FF',
-            //   backgroundColor:"transparent",
-            //   data: yyy.fifthJisa.countSum,
-            //   fill:false,
-            //   tension:.3,
-            //   pointHoverBorderColor:'#ff0000',
-            // },
+            {
+              label: yyy[4].jisa,
+              borderColor: '#C641FF',
+              backgroundColor:"transparent",
+              data: yyy[4].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+            },
           ]
         }
       }
@@ -449,10 +445,7 @@ export default {
       let fifthJisaObj={};
       let sixthJisaObj={};
       let seventhJisaObj={};
-      // console.log('url is xxxx ',bonbuJisaObj[selectedBonbu]);
-
-
-
+     
       const firstJisa=bonbuJisaObj[selectedBonbu][0];
       const secondJisa=bonbuJisaObj[selectedBonbu][1];
       const thirdJisa=bonbuJisaObj[selectedBonbu][2];
@@ -464,6 +457,10 @@ export default {
       let firstJisaDatePlusCntArray=[];  //일자와 Voc건수를 가지고있다.
       let secondJisaDatePlusCntArray=[];
       let thirdJisaDatePlusCntArray=[];
+      let fourthJisaDatePlusCntArray=[];
+      let fifthJisaDatePlusCntArray=[];
+      let sixthJisaDatePlusCntArray=[];
+      let seventhJisaDatePlusCntArray=[];
 
      
       const firstJisaVoc1Array=[];
@@ -493,6 +490,42 @@ export default {
       const thirdJisaVoc7Array=[];
       const thirdJisaVoc8Array=[];
 
+      const fourthJisaVoc1Array=[];
+      const fourthJisaVoc2Array=[];
+      const fourthJisaVoc3Array=[];
+      const fourthJisaVoc4Array=[];
+      const fourthJisaVoc5Array=[];
+      const fourthJisaVoc6Array=[];
+      const fourthJisaVoc7Array=[];
+      const fourthJisaVoc8Array=[];
+
+      const fifthJisaVoc1Array=[];
+      const fifthJisaVoc2Array=[];
+      const fifthJisaVoc3Array=[];
+      const fifthJisaVoc4Array=[];
+      const fifthJisaVoc5Array=[];
+      const fifthJisaVoc6Array=[];
+      const fifthJisaVoc7Array=[];
+      const fifthJisaVoc8Array=[];
+
+      const sixthJisaVoc1Array=[];
+      const sixthJisaVoc2Array=[];
+      const sixthJisaVoc3Array=[];
+      const sixthJisaVoc4Array=[];
+      const sixthJisaVoc5Array=[];
+      const sixthJisaVoc6Array=[];
+      const sixthJisaVoc7Array=[];
+      const sixthJisaVoc8Array=[];
+
+      const seventhJisaVoc1Array=[];
+      const seventhJisaVoc2Array=[];
+      const seventhJisaVoc3Array=[];
+      const seventhJisaVoc4Array=[];
+      const seventhJisaVoc5Array=[];
+      const seventhJisaVoc6Array=[];
+      const seventhJisaVoc7Array=[];
+      const seventhJisaVoc8Array=[];
+
         
       this.bonbuVocData.map((item,index)=>{
         if(item.voc_gubun.replace(/ /g,'')===voc1){
@@ -505,6 +538,22 @@ export default {
 
           if(thirdJisa===item.jisa){
             thirdJisaVoc1Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(fourthJisa===item.jisa){
+            fourthJisaVoc1Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(fifthJisa===item.jisa){
+            fifthJisaVoc1Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(sixthJisa===item.jisa){
+            sixthJisaVoc1Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(seventhJisa===item.jisa){
+            sevethJisaJisaVoc1Array.push({'date':item.basedate,'cnt':item.count_sum});
           }
         }
 
@@ -520,6 +569,23 @@ export default {
           if(thirdJisa===item.jisa){
             thirdJisaVoc2Array.push({'date':item.basedate,'cnt':item.count_sum});
           }
+
+          if(fourthJisa===item.jisa){
+            fourthJisaVoc2Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(fifthJisa===item.jisa){
+            fifthJisaVoc2Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(sixthJisa===item.jisa){
+            sixthJisaVoc2Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(seventhJisa===item.jisa){
+            sevethJisaJisaVoc2Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+         
         }
 
       
@@ -534,6 +600,22 @@ export default {
           if(thirdJisa===item.jisa){
             thirdJisaVoc3Array.push({'date':item.basedate,'cnt':item.count_sum});
           }
+
+          if(fourthJisa===item.jisa){
+            fourthJisaVoc3Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(fifthJisa===item.jisa){
+            fifthJisaVoc3Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(sixthJisa===item.jisa){
+            sixthJisaVoc3Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(seventhJisa===item.jisa){
+            sevethJisaJisaVoc3Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
         }
 
       
@@ -547,6 +629,22 @@ export default {
           }
           if(thirdJisa===item.jisa){
             thirdJisaVoc4Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(fourthJisa===item.jisa){
+            fourthJisaVoc4Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(fifthJisa===item.jisa){
+            fifthJisaVoc4Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(sixthJisa===item.jisa){
+            sixthJisaVoc4Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(seventhJisa===item.jisa){
+            seventhJisaVoc4Array.push({'date':item.basedate,'cnt':item.count_sum});
           }
         }
 
@@ -563,6 +661,22 @@ export default {
           if(thirdJisa===item.jisa){
             thirdJisaVoc5Array.push({'date':item.basedate,'cnt':item.count_sum});
           }
+
+          if(fourthJisa===item.jisa){
+            fourthJisaVoc5Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(fifthJisa===item.jisa){
+            fifthJisaVoc5Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(sixthJisa===item.jisa){
+            sixthJisaVoc5Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(seventhJisa===item.jisa){
+            seventhJisaVoc5Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
         }
 
       
@@ -578,6 +692,21 @@ export default {
           if(thirdJisa===item.jisa){
             thirdJisaVoc6Array.push({'date':item.basedate,'cnt':item.count_sum});
           }
+          if(fourthJisa===item.jisa){
+            fourthJisaVoc6Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(fifthJisa===item.jisa){
+            fifthJisaVoc6Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(sixthJisa===item.jisa){
+            sixthJisaVoc6Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(seventhJisa===item.jisa){
+            seventhJisaVoc6Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
         }
        
         if(item.voc_gubun.replace(/ /g,'')===voc7){
@@ -590,6 +719,22 @@ export default {
 
           if(thirdJisa===item.jisa){
             thirdJisaVoc7Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(fourthJisa===item.jisa){
+            fourthJisaVoc7Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(fifthJisa===item.jisa){
+            fifthJisaVoc7Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(sixthJisa===item.jisa){
+            sixthJisaVoc7Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(seventhJisa===item.jisa){
+            seventhJisaVoc7Array.push({'date':item.basedate,'cnt':item.count_sum});
           }
         }
 
@@ -605,6 +750,22 @@ export default {
 
           if(thirdJisa===item.jisa){
             thirdJisaVoc8Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(fourthJisa===item.jisa){
+            fourthJisaVoc8Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(fifthJisa===item.jisa){
+            fifthJisaVoc8Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(sixthJisa===item.jisa){
+            sixthJisaVoc8Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(seventhJisa===item.jisa){
+            seventhJisaVoc8Array.push({'date':item.basedate,'cnt':item.count_sum});
           }
         }   
       });
@@ -635,8 +796,37 @@ export default {
         return acc;
       },{}));
 
+      fourthJisaDatePlusCntArray=Object.values([...fourthJisaVoc1Array,...fourthJisaVoc2Array,...fourthJisaVoc3Array,...fourthJisaVoc4Array,...fourthJisaVoc5Array,...fourthJisaVoc6Array,...fourthJisaVoc7Array,...fourthJisaVoc8Array].reduce((acc,{date,cnt})=>{
+      
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
+       
+        return acc;
+      },{}));
 
-      console.log('일자별 합계는',firstJisaDatePlusCntArray); //[{date:'2021-04-00',cnt:184},{},{}..]
+      fifthJisaDatePlusCntArray=Object.values([...fifthJisaVoc1Array,...fifthJisaVoc2Array,...fifthJisaVoc3Array,...fifthJisaVoc4Array,...fifthJisaVoc5Array,...fifthJisaVoc6Array,...fifthJisaVoc7Array,...fifthJisaVoc8Array].reduce((acc,{date,cnt})=>{
+      
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
+       
+        return acc;
+      },{}));
+
+      sixthJisaDatePlusCntArray=Object.values([...sixthJisaVoc1Array,...sixthJisaVoc2Array,...sixthJisaVoc3Array,...sixthJisaVoc4Array,...sixthJisaVoc5Array,...sixthJisaVoc6Array,...sixthJisaVoc7Array,...fifthJisaVoc8Array].reduce((acc,{date,cnt})=>{
+      
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
+       
+        return acc;
+      },{}));
+
+      seventhJisaDatePlusCntArray=Object.values([...seventhJisaVoc1Array,...seventhJisaVoc2Array,...seventhJisaVoc3Array,...seventhJisaVoc4Array,...seventhJisaVoc5Array,...seventhJisaVoc6Array,...seventhJisaVoc7Array,...seventhJisaVoc8Array].reduce((acc,{date,cnt})=>{
+      
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
+       
+        return acc;
+      },{}));
 
       //객체를 일자별로 오름차순으로 정렬하기
       const compare=(key)=>(a,b)=>{
@@ -646,6 +836,10 @@ export default {
       firstJisaDatePlusCntArray=firstJisaDatePlusCntArray.sort(compare('date'));
       secondJisaDatePlusCntArray=secondJisaDatePlusCntArray.sort(compare('date'));
       thirdJisaDatePlusCntArray=thirdJisaDatePlusCntArray.sort(compare('date'));
+      fourthJisaDatePlusCntArray=fourthJisaDatePlusCntArray.sort(compare('date'));
+      fifthJisaDatePlusCntArray=fifthJisaDatePlusCntArray.sort(compare('date'));
+      sixthJisaDatePlusCntArray=sixthJisaDatePlusCntArray.sort(compare('date'));
+      seventhJisaDatePlusCntArray=seventhJisaDatePlusCntArray.sort(compare('date'));
 
 
       
@@ -658,6 +852,18 @@ export default {
 
       let thirdJisaDayArray=[];
       let thirdJisaDayVocArray=[];
+
+      let fourthJisaDayArray=[];
+      let fourthJisaDayVocArray=[];
+
+      let fifthJisaDayArray=[];
+      let fifthJisaDayVocArray=[];
+
+      let sixthJisaDayArray=[];
+      let sixthJisaDayVocArray=[];
+
+      let seventhJisaDayArray=[];
+      let seventhJisaDayVocArray=[];
 
      
       for(let i=0;i<firstJisaDatePlusCntArray.length;i++){
@@ -673,6 +879,26 @@ export default {
       for(let i=0;i<thirdJisaDatePlusCntArray.length;i++){
         thirdJisaDayArray.push(thirdJisaDatePlusCntArray[i].date);
         thirdJisaDayVocArray.push(thirdJisaDatePlusCntArray[i].cnt);          
+      }
+
+      for(let i=0;i<fourthJisaDatePlusCntArray.length;i++){
+        fourthJisaDayArray.push(fourthJisaDatePlusCntArray[i].date);
+        fourthJisaDayVocArray.push(fourthJisaDatePlusCntArray[i].cnt);          
+      }
+
+      for(let i=0;i<fifthJisaDatePlusCntArray.length;i++){
+        fifthJisaDayArray.push(fifthJisaDatePlusCntArray[i].date);
+        fifthJisaDayVocArray.push(fifthJisaDatePlusCntArray[i].cnt);          
+      }
+
+      for(let i=0;i<sixthJisaDatePlusCntArray.length;i++){
+        sixthJisaDayArray.push(sixthJisaDatePlusCntArray[i].date);
+        sixthJisaDayVocArray.push(sixthJisaDatePlusCntArray[i].cnt);          
+      }
+
+      for(let i=0;i<seventhJisaDatePlusCntArray.length;i++){
+        seventhJisaDayArray.push(seventhJisaDatePlusCntArray[i].date);
+        seventhJisaDayVocArray.push(seventhJisaDatePlusCntArray[i].cnt);          
       }
 
 
@@ -695,7 +921,30 @@ export default {
         'vocSum':thirdJisaDayVocArray,
       }
 
-      bonbuVocDataArray=[firstJisaObj,secondJisaObj,thirdJisaObj];
+       
+      fourthJisaObj={
+        'jisa':fourthJisa,
+        'basedate':fourthJisaDayArray,
+        'vocSum':fourthJisaDayVocArray,
+      }
+      fifthJisaObj={
+        'jisa':fifthJisa,
+        'basedate':fifthJisaDayArray,
+        'vocSum':fifthJisaDayVocArray,
+      }
+
+      sixthJisaObj={
+        'jisa':sixthJisa,
+        'basedate':sixthJisaDayArray,
+        'vocSum':sixthJisaDayVocArray,
+      }
+      
+      seventhJisaObj={
+        'jisa':seventhJisa,
+        'basedate':seventhJisaDayArray,
+        'vocSum':seventhJisaDayVocArray,
+      }
+      bonbuVocDataArray=[firstJisaObj,secondJisaObj,thirdJisaObj,fourthJisaObj,fifthJisaObj,sixthJisaObj,seventhJisaObj];
       
       return bonbuVocDataArray;
     }
