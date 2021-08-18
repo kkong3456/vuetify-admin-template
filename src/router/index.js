@@ -13,7 +13,7 @@ import RS_SaleVocWork from '@/views/RS_SaleVocWork'
 import RS_NetworkVocProduct from '@/views/RS_NetworkVocProduct'
 import RS_NetworkVocWork from'@/views/RS_NetworkVocWork'
 
-import RS_Bonbu from '@/views/RS_Bonbu'
+// import RS_Bonbu from '@/views/RS_Bonbu'
 import RS_Product from '@/views/RS_Product'
 import RS_JisaTv from '@/views/RS_JisaTv'
 import RS_JisaWireless from '@/views/RS_JisaWireless'
@@ -103,11 +103,11 @@ const routes=[
         component:RS_NetworkVocWork,
       },
 
-      {
-        path:'/bonbu',
-        name:'RS_Bonbu',
-        component:RS_Bonbu
-      },
+      // {
+      //   path:'/bonbu',
+      //   name:'RS_Bonbu',
+      //   component:RS_Bonbu
+      // },
 
       {
         path:'/product',

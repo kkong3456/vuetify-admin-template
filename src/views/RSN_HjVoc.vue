@@ -587,37 +587,48 @@
       >
         <v-col
           cols="12"
-          md="4"
+          md="3"
         >
           <p class="text-h5 text-center">
-            [본부 일별 VOC추이-유선]
+            [유선-총 VOC 추이]
           </p>
           <jisa-rit-voc-chart 
-            ref="changeBonbu1"
+            ref="changeBonbu10"
           />
         </v-col>
     
         <v-col
           cols="12"
-          md="4"
+          md="3"
         >
           <p class="text-h5 text-center">
-            [지사 TV 순해지]
+            [유선-혜택문의 VOC추이]
           </p>
-          <jisa-tv-hj-line-chart 
-            ref="changeBonbu2"
+          <jisa-rit-voc-type1-chart
+            ref="changeBonbu11"
           />
         </v-col>
    
         <v-col
           cols="12"
-          md="4"
+          md="3"
         >
           <p class="text-h5 text-center">
-            [지사 TV 순증/감]
+            [유선-약정문의 VOC 추이]
           </p>
-          <jisa-tv-net-increase-line-chart 
-            ref="changeBonbu3"
+          <jisa-rit-voc-type2-chart 
+            ref="changeBonbu12"
+          />
+        </v-col>
+        <v-col
+          cols="12"
+          md="3"
+        >
+          <p class="text-h5 text-center">
+            [유선-위약금문의 VOC추이]
+          </p>
+          <jisa-rit-voc-type3-chart
+            ref="changeBonbu13"
           />
         </v-col>
       </v-row>
@@ -630,7 +641,7 @@ import eventBus from '@/js/eventBus.js'
 
 import JisaTvNetNewIncreaseLineChart from '@/components/charts/jisaproductchart/JisaTvNetNewIncreaseLineChart'
 import JisaTvNetIncreaseLineChart from '@/components/charts/jisaproductchart/JisaTvNetIncreaseLineChart'
-import JisaTvHjLineChart from '@/components/charts/jisaproductchart/JisaTvHjLineChart'
+// import JisaTvHjLineChart from '@/components/charts/jisaproductchart/JisaTvHjLineChart'
 
 // import JisaTvNetNewIncreaseTable from '@/components/tables/jisaproducttable/JisaTvNetNewIncreaseTable'
 // import JisaTvNetIncreaseTable from '@/components/tables/jisaproducttable/JisaTvNetIncreaseTable'
@@ -645,7 +656,11 @@ import JisaMobileVocWordCloud from '@/components/wordcloud/JisaMobileVocWordClou
 import JisaItVocBar from '@/components/bars/vocbars/jisaItVocBar';
 import JisaMVocBar from '@/components/bars/vocbars/jisaMVocBar';
 import JisaMItVocTable from '@/components/tables/voctable/jisaMItVocTable';
+
 import JisaRitVocChart from '@/components/charts/vocchart/jisaRitVocChart.vue';
+import JisaRitVocType1Chart from '@/components/charts/vocchart/jisaRitVocType1Chart';
+import JisaRitVocType2Chart from '@/components/charts/vocchart/jisaRitVocType2Chart';
+import JisaRitVocType3Chart from '@/components/charts/vocchart/jisaRitVocType3Chart';
 
 
 import VueHotelDatePicker from '@/components/datepicker/vue-hotel-datepicker';
@@ -656,8 +671,8 @@ export default {
   name:'RSNHjVoc',
   components:{
     //JisaTvNetNewIncreaseLineChart,
-    JisaTvNetIncreaseLineChart,
-    JisaTvHjLineChart,
+    // JisaTvNetIncreaseLineChart,
+    // JisaTvHjLineChart,
     //BonbuRadarChart,
 
     // JisaTvNetNewIncreaseTable,
@@ -675,6 +690,9 @@ export default {
     JisaMVocBar,
 
     JisaRitVocChart,
+    JisaRitVocType1Chart,
+    JisaRitVocType2Chart,
+    JisaRitVocType3Chart,
 
     VueHotelDatePicker,
     
@@ -835,6 +853,9 @@ export default {
       this.$refs.changeBonbu7.changedBonbu(selectedBonbu);
       this.$refs.changeBonbu8.changedBonbu(selectedBonbu);
       this.$refs.changeBonbu9.changedBonbu(selectedBonbu); //voc 테이블 컴포넌터
+      this.$refs.changeBonbu10.changeBonbu(selectedBonbu); // 본부 VOC추이(지사별)
+      this.$refs.changeBonbu11.changeBonbu(selectedBonbu); // 유선VOC- 혜택문의 추이
+      this.$refs.changeBonbu12.changeBonbu(selectedBonbu); //유선VOC - 약정문의 추이
       
 
     },
@@ -884,9 +905,6 @@ export default {
     jisaVocMobileSumDiffFunc(val){
       this.jisaVocMobileSumDiff=val.toLocaleString();
     },
-  
-
-
     
   }
 
