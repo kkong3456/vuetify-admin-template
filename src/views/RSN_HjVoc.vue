@@ -849,13 +849,14 @@ export default {
         this.$refs.changeJisa10.changedJisa(this.selectedJisa,this.selectedBonbu);
       }
 
-            
+      // 본부가 바뀌면 각 컴포넌트의 changeBonbu 함수를 실행시켜 데이터를 바꾼다.   
       this.$refs.changeBonbu7.changedBonbu(selectedBonbu);
       this.$refs.changeBonbu8.changedBonbu(selectedBonbu);
       this.$refs.changeBonbu9.changedBonbu(selectedBonbu); //voc 테이블 컴포넌터
       this.$refs.changeBonbu10.changeBonbu(selectedBonbu); // 본부 VOC추이(지사별)
       this.$refs.changeBonbu11.changeBonbu(selectedBonbu); // 유선VOC- 혜택문의 추이
       this.$refs.changeBonbu12.changeBonbu(selectedBonbu); //유선VOC - 약정문의 추이
+      this.$refs.changeBonbu13.changeBonbu(selectedBonbu);  //유선Voc - 위약금 문의 추이
       
 
     },

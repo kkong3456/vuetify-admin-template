@@ -123,15 +123,15 @@ export default {
       this.selectedEndNewDate=dateResult.end.replace(/\//gi,'-');
       
 
-      this.lastWeekStart=new Date(imsiThisStart);
-      this.lastWeekStart.setDate(this.lastWeekStart.getDate() - 7);
-      this.lastWeekStart=this.displayDateText(this.lastWeekStart);
-      this.lastWeekStartDate=this.lastWeekStart.replace(/\//gi,"");  //현재 선택 1주일전
+      // this.lastWeekStart=new Date(imsiThisStart);
+      // this.lastWeekStart.setDate(this.lastWeekStart.getDate() - 7);
+      // this.lastWeekStart=this.displayDateText(this.lastWeekStart);
+      // this.lastWeekStartDate=this.lastWeekStart.replace(/\//gi,"");  //현재 선택 1주일전
 
-      this.lastWeekEnd=new Date(imsiThisEnd);
-      this.lastWeekEnd.setDate(this.lastWeekEnd.getDate()- 7);
-      this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
-      this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
+      // this.lastWeekEnd=new Date(imsiThisEnd);
+      // this.lastWeekEnd.setDate(this.lastWeekEnd.getDate()- 7);
+      // this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
+      // this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
 
       this.changeDate();
       
@@ -202,11 +202,10 @@ export default {
 
 
     async changeBonbu(selectedBonbu){
+      console.log('위약금 ',selectedBonbu);
 
       const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
-      // const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
-    
-      //this.selectedJisa=selectedJisa;  //지사 선택시 전역적으로 알려준다
+      
       this.selectedBonbu=selectedBonbu;
 
       await axios.all(
@@ -229,7 +228,6 @@ export default {
 
     fillData (selectedBonbu) {
       const yyy=this.getBonbuVocValue(selectedBonbu);
-      console.log('abcdefg',yyy);
       
       if(selectedBonbu==='북부고객본부' || selectedBonbu==='동부고객본부' || selectedBonbu==='전남/전북고객본부'){
       
@@ -343,26 +341,23 @@ export default {
  
       let dateKeyArray=[];
       
-      this.selectedStartNewDate=new Date(this.selectedStartNewDate);
-      this.selectedEndNewDate=new Date(this.selectedEndNewDate);
-   
-      const dateDiffCnt=Math.ceil((this.selectedEndNewDate.getTime()-this.selectedStartNewDate.getTime())/(1000*3600*24));
+      this.selectedStartNewDate=new Date(this.selectedStartDate.substring(0,4)+'-'+this.selectedStartDate.substring(4,6)+'-'+this.selectedStartDate.substring(6,8));
 
+      this.selectedEndNewDate=new Date(this.selectedEndDate.substring(0,4)+'-'+this.selectedEndDate.substring(4,6)+'-'+this.selectedEndDate.substring(6,8));
+      
+      const dateDiffCnt=Math.ceil((this.selectedEndNewDate.getTime()-this.selectedStartNewDate.getTime())/(1000*3600*24));
+      console.log('this.selectedStartNewDate is ',this.selectedStartNewDate);
+      console.log('this.selectedEndDate is ',this.selectedEndNewDate);
+      console.log('dateDffCnt is ',dateDiffCnt);
       this.selectedStartNewDate=new Date(this.selectedStartNewDate.setDate(this.selectedStartNewDate.getDate()-1));
       
-      for (let date=0;date<=dateDiffCnt;date++){
-        // console.log('dddd',new Date(this.selectedStartNewDate.getTime()*date*1000*3600*24));
-        dateKeyArray.push(new Date(this.selectedStartNewDate.setDate(this.selectedStartNewDate.getDate()+1)));
+      for (let date=0;date<=dateDiffCnt;date++){  //시작일과 종료일 차이수 만큼 일자를 배열로 생성 '2021-04-01'
+        dateKeyArray.push(this.displayDateText2(new Date(this.selectedStartNewDate.setDate(this.selectedStartNewDate.getDate()+1))));  //조회 날자를 배열로 만들고 형식을 '2021-04-01' 형식으로 변경
       }
 
-      console.log('dateKeyArray is ',dateKeyArray);
-        
       this.bonbuVocData.map((item,index)=>{
 
-        
-
-             
-        if(item.voc_gubun.replace(/ /g,'')===voc6 || item.voc_gubun.replace(/ /g,'')==='할인반환금문의'){
+        if(item.voc_gubun.replace(/ /g,'')===voc6 || item.voc_gubun.replace(/ /g,'')==='할인반환금문의'){  //item.basedate='2021-04-01' 형식
           
           if(firstJisa===item.jisa){
             firstJisaVoc6Array.push({'date':item.basedate,'cnt':item.count_sum});
@@ -395,6 +390,8 @@ export default {
         }   
       });
 
+      const diffDateArray=(a,b)=>a.filter(x=>!b.includes(x));  // 두 배열에서 중복을 제거하고 남은 요소를 다시 배열로.
+
       //일자별로 voc 카운트 객체 만들기
       firstJisaDatePlusCntArray=Object.values([...firstJisaVoc6Array].reduce((acc,{date,cnt})=>{
       
@@ -404,6 +401,15 @@ export default {
         return acc;
       },{}));
 
+      let firstImsiArray=[];   
+      for (let i=0;i<firstJisaDatePlusCntArray.length;i++){
+        firstImsiArray.push(firstJisaDatePlusCntArray[i].date);
+      }
+      firstImsiArray=diffDateArray(dateKeyArray,firstImsiArray);
+      for(let i=0;i<firstImsiArray.length;i++){                               //voc발생건수가 0인 날자도 포함하여 그래프 데이터로 사용.
+        firstJisaDatePlusCntArray.push({'date':firstImsiArray[i],'cnt':0});
+      }
+
       secondJisaDatePlusCntArray=Object.values([...secondJisaVoc6Array].reduce((acc,{date,cnt})=>{
       
         if(acc[date]) acc[date].cnt+=parseInt(cnt);
@@ -411,6 +417,15 @@ export default {
        
         return acc;
       },{}));
+
+      let secondImsiArray=[];
+      for(let i=0;i<secondJisaDatePlusCntArray.length;i++){
+        secondImsiArray.push(secondJisaDatePlusCntArray[i].date);
+      }
+      secondImsiArray=diffDateArray(dateKeyArray,secondImsiArray);
+      for(let i=0;i<secondImsiArray.length;i++){
+        secondJisaDatePlusCntArray.push({'date':secondImsiArray[i],'cnt':0});
+      }
 
 
       thirdJisaDatePlusCntArray=Object.values([...thirdJisaVoc6Array].reduce((acc,{date,cnt})=>{
@@ -421,6 +436,16 @@ export default {
         return acc;
       },{}));
 
+      let thirdImsiArray=[];
+      for(let i=0;i<thirdJisaDatePlusCntArray.length;i++){
+        thirdImsiArray.push(thirdJisaDatePlusCntArray[i].date);
+      }
+      thirdImsiArray=diffDateArray(dateKeyArray,thirdImsiArray);
+      for(let i=0;i<thirdImsiArray.length;i++){
+        thirdJisaDatePlusCntArray.push({'date':thirdImsiArray[i],'cnt':0});
+      }
+
+
       fourthJisaDatePlusCntArray=Object.values([...fourthJisaVoc6Array].reduce((acc,{date,cnt})=>{
       
         if(acc[date]) acc[date].cnt+=parseInt(cnt);
@@ -428,6 +453,15 @@ export default {
        
         return acc;
       },{}));
+
+      let fourthImsiArray=[];
+      for(let i=0;i<fourthJisaDatePlusCntArray.length;i++){
+        fourthImsiArray.push(fourthJisaDatePlusCntArray[i].date);
+      }
+      fourthImsiArray=diffDateArray(dateKeyArray,fourthImsiArray);
+      for(let i=0;i<thirdImsiArray.length;i++){
+        fourthJisaDatePlusCntArray.push({'date':fourthImsiArray[i],'cnt':0});
+      }
 
       fifthJisaDatePlusCntArray=Object.values([...fifthJisaVoc6Array].reduce((acc,{date,cnt})=>{
       
@@ -437,6 +471,15 @@ export default {
         return acc;
       },{}));
 
+      let fifthImsiArray=[];
+      for(let i=0;i<fifthJisaDatePlusCntArray.length;i++){
+        fifthImsiArray.push(fifthJisaDatePlusCntArray[i].date);
+      }
+      fifthImsiArray=diffDateArray(dateKeyArray,fifthImsiArray);
+      for(let i=0;i<fifthImsiArray.length;i++){
+        fifthJisaDatePlusCntArray.push({'date':fifthImsiArray[i],'cnt':0});
+      }
+
       sixthJisaDatePlusCntArray=Object.values([...sixthJisaVoc6Array].reduce((acc,{date,cnt})=>{
       
         if(acc[date]) acc[date].cnt+=parseInt(cnt);
@@ -445,6 +488,15 @@ export default {
         return acc;
       },{}));
 
+      let sixthImsiArray=[];
+      for(let i=0;i<sixthJisaDatePlusCntArray.length;i++){
+        sixthImsiArray.push(sixthJisaDatePlusCntArray[i].date);
+      }
+      sixthImsiArray=diffDateArray(dateKeyArray,sixthImsiArray);
+      for(let i=0;i<sixthImsiArray.length;i++){
+        sixthJisaDatePlusCntArray.push({'date':sixthImsiArray[i],'cnt':0});
+      }
+
       seventhJisaDatePlusCntArray=Object.values([...seventhJisaVoc6Array].reduce((acc,{date,cnt})=>{
       
         if(acc[date]) acc[date].cnt+=parseInt(cnt);
@@ -452,6 +504,15 @@ export default {
        
         return acc;
       },{}));
+
+      let seventhImsiArray=[];
+      for(let i=0;i<seventhJisaDatePlusCntArray.length;i++){
+        seventhImsiArray.push(seventhJisaDatePlusCntArray[i].date);
+      }
+      seventhImsiArray=diffDateArray(dateKeyArray,seventhImsiArray);
+      for(let i=0;i<seventhImsiArray.length;i++){
+        seventhJisaDatePlusCntArray.push({'date':seventhImsiArray[i],'cnt':0});
+      }
 
 
       //객체를 일자별로 오름차순으로 정렬하기
