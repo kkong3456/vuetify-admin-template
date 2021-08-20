@@ -562,9 +562,7 @@ export default {
         if(item.voc_gubun.replace(/ /g,'')===voc1){
           if(firstJisa===item.jisa){
             firstJisaVoc1Array.push({'date':item.basedate,'cnt':item.count_sum});
-            console.log('firstJisaVoc1Array',this.displayTextDate(item.basedate));
-            // this.lastWeekStart.setDate(this.lastWeekStart.getDate() - 7);
-           
+                    
           }
           if(secondJisa===item.jisa){
             secondJisaVoc1Array.push({'date':item.basedate,'cnt':item.count_sum});

@@ -158,7 +158,7 @@ export default {
      
       this.selectedJisa=selectedJisa;  //지사 선택시 전역적으로 알려준다
       this.selectedBonbu=selectedBonbu;
-      console.log('abcdefg');
+      
 
       await axios.all(
         [

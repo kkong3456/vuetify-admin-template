@@ -180,7 +180,7 @@ export default {
     },
 
     async changeDate(){
-      const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
+      const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
       // const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
     
       await axios.all(
@@ -203,9 +203,10 @@ export default {
 
     async changeBonbu(selectedBonbu){
 
-      const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
+      const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
       
       this.selectedBonbu=selectedBonbu;
+      console.log('dkdkdkd본부는',selectedBonbu);
 
       await axios.all(
         [
@@ -221,7 +222,7 @@ export default {
         console.log('금주 일자 데이터를 가져 오지 못했습니다');
       });
       
-      this.fillData(selectedBonbu)
+      this.fillData(this.selectedBonbu)
       this.renderChart(this.dataCollection,this.options);
     },
 
@@ -293,17 +294,9 @@ export default {
     getBonbuVocValue(selectedBonbu){    
       let bonbuVocDataArray=[];
 
-      // const voc1='KT업무/정책불만';
-      // const voc2='KTShop문의';
-      // const voc3='서비스불만';
-      // const voc4='약정문의';
-      // const voc5='요금불만';
-      const voc6='위약금(할인반환금)문의';
-      // const voc7='품질불만';
-      //const voc8='혜택문의';
-
-      
-
+  
+      const mvoc3='위약금(할인반환금)문의';
+    
       let firstJisaObj={};
       let secondJisaObj={};
       let thirdJisaObj={};
@@ -351,7 +344,7 @@ export default {
 
       this.bonbuVocData.map((item,index)=>{
 
-        if(item.voc_gubun.replace(/ /g,'')===voc6 || item.voc_gubun.replace(/ /g,'')==='할인반환금문의'){  //item.basedate='2021-04-01' 형식
+        if(item.voc_gubun.replace(/ /g,'')===mvoc3){  //item.basedate='2021-04-01' 형식
           
           if(firstJisa===item.jisa){
             firstJisaVoc6Array.push({'date':item.basedate,'cnt':item.count_sum});

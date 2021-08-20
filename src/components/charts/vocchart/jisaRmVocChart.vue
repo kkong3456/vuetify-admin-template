@@ -1,9 +1,9 @@
 <script>
 import Vue from 'vue'
-import { Line, mixins } from 'vue-chartjs'
+import { Line, mixins} from 'vue-chartjs'
 import axios from 'axios';
+import eventBus from '@/js/eventBus';
 
-const jisaVocUrl='http://172.21.220.97/api/voc/rm.json/?&kind=jisa&bonbu='
 
 const { reactiveProp } = mixins
 
@@ -24,9 +24,9 @@ const options={      //chart options prop를 사용하지 않는 하위컴포넌
   responsive:true,
   maintainAspectRatio:false,//차트 width,ehgith  자동 크기조절
   hoverBorderWidth:5,
-  borderWidth:1,
   legend:{
     display:true,
+    // onClick:null,
   },
   plugins:{
     legend:{
@@ -80,424 +80,800 @@ export default {
   //props: ['options'],
 
 
-  name:'JisaTvNetNewIncreaseLineChart',
+  name:'JisaRitVocChart',
   extends: Line,
   mixins: [reactiveProp],
 
 
   data(){
     return {
+      
+      bonbuVocData:null,
+      lastWeekBonbuVocData:null,
+      bonbuVocDataObj:null,
+      
+     
+      selectedStartDate:'20210420',
+      selectedEndDate:'20210426',
+
+      selectedStartNewDate:new Date('2021-04-20'),
+      selectedEndNewDate:new Date('2021-04-26'),
+
+      lastWeekStartDate:'20210413',
+      lastWeekEndDate:'20210419',
+      imsiThisStart:'2021,04,13',
+      imsiThisEnd:'2021,04,19',
+
+      selectedBonbu:'북부고객본부',
+      selectedJisa:'고양지사',
+
       dataCollection:null,
-      bonbuNetIncreaseData:null,
-      bonbuNetIncreaseValueObj:null,
       options:options,
     }
   },
  
   async created () {
-    await axios.get(jisaVocUrl+'북부고객본부').then((res)=>{
-      this.bonbuNetIncreaseData=res.data.results;
-      //console.log(this.bonbuNetIncreaseData);
+    eventBus.$on('pickedDates',(dateResult)=>{  //RSN_HjVoc.vue에서 기간 선택시 그 자식 컨포넌트인 vue-hotel-datepicker.vue에서 시작일자와 종료일자를 받아옴  
+      const imsiThisStart=dateResult.start.replace(/\//gi,',');
+      const imsiThisEnd=dateResult.end.replace(/\//gi,',');
+
+      this.selectedStartDate=dateResult.start.replace(/\//gi,'')  //현재 선택
+      this.selectedEndDate=dateResult.end.replace(/\//gi,'')
+
+      this.lastWeekStart=new Date(imsiThisStart);
+      this.lastWeekStart.setDate(this.lastWeekStart.getDate() - 7);
+      this.lastWeekStart=this.displayDateText(this.lastWeekStart);
+      this.lastWeekStartDate=this.lastWeekStart.replace(/\//gi,"");  //현재 선택 1주일전
+
+      this.lastWeekEnd=new Date(imsiThisEnd);
+      this.lastWeekEnd.setDate(this.lastWeekEnd.getDate()- 7);
+      this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
+      this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
+
+      this.changeDate();
       
-      this.fillData('북부고객본부');
-      this.renderChart(this.dataCollection,this.options);
-    }).catch((err)=>{
-      console.log('데이터를 가져오지 못했습니다.',err);
-    })
+    }); 
+    this.changeDate();
+    this.renderChart(this.dataCollection,this.options)
   },
 
   methods: {
-    async changeBonbu(bonbuName){
-
-      //console.log('url is ',url);
-      await axios.get(jisaVocUrl+bonbuName).then((res)=>{
-        this.bonbuNetIncreaseData=res.data.results;
-        
-        this.fillData(bonbuName);
-        this.renderChart(this.dataCollection,this.options);
-      }).catch((err)=>{
-        console.log('데이터를 가져오지 못했습니다.',err);
-      })
+    displayDateText (datetime) {
+      if (datetime) {
+        datetime = typeof (datetime) === 'string' ? new Date(datetime) : datetime
+        const yyyy = datetime.getFullYear()
+        const mm = datetime.getMonth() + 1 > 9 ? datetime.getMonth() + 1 : `0${datetime.getMonth() + 1}`
+        const dd = datetime.getDate() > 9 ? datetime.getDate() : `0${datetime.getDate()}`
+        const displayStr = (this.format || 'YYYY/MM/DD').replace('YYYY', yyyy).replace('MM', mm).replace('DD', dd)
+        return displayStr
+      } else {
+        return undefined
+      }
+    },
+    displayDateText2 (datetime) {
+      if (datetime) {
+        datetime = typeof (datetime) === 'string' ? new Date(datetime) : datetime
+        const yyyy = datetime.getFullYear()
+        const mm = datetime.getMonth() + 1 > 9 ? datetime.getMonth() + 1 : `0${datetime.getMonth() + 1}`
+        const dd = datetime.getDate() > 9 ? datetime.getDate() : `0${datetime.getDate()}`
+        const displayStr = (this.format || 'YYYY-MM-DD').replace('YYYY', yyyy).replace('MM', mm).replace('DD', dd)
+        return displayStr
+      } else {
+        return undefined
+      }
     },
 
-    fillData (bonbuName) {
-      const yyy=this.getBonbuNetIncreaseValue(bonbuName);
-     
-      if(bonbuName==='북부고객본부' || bonbuName==='동부고객본부' || bonbuName==='전남/전북고객본부'){
+    displayTextDate (dateText) {
+      if (dateText) {
+        const dateTime = typeof (dateText) === 'string' ? new Date(dateText) : dateText
+        // const yyyy = datetime.getFullYear()
+        // const mm = datetime.getMonth() + 1 > 9 ? datetime.getMonth() + 1 : `0${datetime.getMonth() + 1}`
+        // const dd = datetime.getDate() > 9 ? datetime.getDate() : `0${datetime.getDate()}`
+        // const displayStr = (this.format || 'YYYY-MM-DD').replace('YYYY', yyyy).replace('MM', mm).replace('DD', dd)
+        return dateTime;
+      } else {
+        return undefined
+      }
+    },
+
+    async changeDate(){
+      const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
+      // const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
+    
+      await axios.all(
+        [
+          axios.get(bonbuVocDataUrl),
+          // axios.get(lastBonbuVocDataUrl),
+        ]
+      ).then(axios.spread((res1,res2)=>{
+
+        this.bonbuVocData=res1.data.results;
+               
+      })).catch((err)=>{
+        console.log('금주 일자 데이터를 가져 오지 못했습니다');
+      });
+      
+      this.fillData(this.selectedBonbu)
+      this.renderChart(this.dataCollection,this.options);
+    },
+
+
+    async changeBonbu(selectedBonbu){
+
+      const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
+      // const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
+    
+      //this.selectedJisa=selectedJisa;  //지사 선택시 전역적으로 알려준다
+      this.selectedBonbu=selectedBonbu;
+
+      await axios.all(
+        [
+          axios.get(bonbuVocDataUrl),
+          // axios.get(lastBonbuVocDataUrl),
+        ]
+      ).then(axios.spread((res1,res2)=>{
+        this.bonbuVocData=res1.data.results;
+        // this.lastWeekBonbuVocData=res2.data.results;
+        
+        
+      })).catch((err)=>{
+        console.log('금주 일자 데이터를 가져 오지 못했습니다');
+      });
+      
+      this.fillData(selectedBonbu)
+      this.renderChart(this.dataCollection,this.options);
+    },
+
+    fillData (selectedBonbu) {
+      const yyy=this.getBonbuVocValue(selectedBonbu);
+      
+      if(selectedBonbu==='북부고객본부' || selectedBonbu==='동부고객본부' || selectedBonbu==='전남/전북고객본부'){
       
         this.dataCollection = {
-          labels:yyy.firstJisa.sysdate.map((day)=>day.substring(5,10)),
+          labels:yyy[2].basedate.map((day)=>day.substring(5,10)),
           datasets: [
             {
-              label:yyy.firstJisa.jojik[0],     // 범례
+              label:yyy[0].jisa,     // 범례
               borderColor: '#6697F8',
-              backgroundColor:"#transparent",
-              data: yyy.firstJisa.countSum,
+             
+              //backgroundColor:"#6697F8",
+              //backgroundColor:'rgba(56,56,155,0.3)',
+              data: yyy[0].vocSum,
               fill:false,
-              tension:.5,
+              tension:.3,
               pointHoverBorderColor:'#ff0000',
-              // hoverBorderWith:20,
+              //borderWidth:1,
 
             },
             {
-              label:yyy.secondJisa.jojik[0],
+              label:yyy[1].jisa,
               borderColor: '#5CE082',
-              backgroundColor:"transparent",
-              data: yyy.secondJisa.countSum,
+              //backgroundColor:"rgba(92,224,130,.1)",
+              data: yyy[1].vocSum,
               fill:false,
-              tension:.5,
+              tension:.3,
               pointHoverBorderColor:'#ff0000',
             },
             {
-              label: yyy.thirdJisa.jojik[0],
+              label: yyy[2].jisa,
               borderColor: '#F7E872',
-              backgroundColor:"transparent",
-              data: yyy.thirdJisa.countSum,
+              //backgroundColor:"rgba(0,179,0,.1)",
+              data: yyy[2].vocSum,
               fill:false,
-              tension:.5,
+              tension:.3,
               pointHoverBorderColor:'#ff0000',
             },
 
             {
-              label: yyy.fourthJisa.jojik[0],
+              label: yyy[3].jisa,
               borderColor: '#E0815C',
               backgroundColor:"transparent",
-              data: yyy.fourthJisa.countSum,
+              data: yyy[3].vocSum,
               fill:false,
-              tension:.5,
+              tension:.3,
               pointHoverBorderColor:'#ff0000',
             },
 
             {
-              label: yyy.fifthJisa.jojik[0],
+              label: yyy[4].jisa,
               borderColor: '#C641FF',
               backgroundColor:"transparent",
-              data: yyy.fifthJisa.countSum,
+              data: yyy[4].vocSum,
               fill:false,
-              tension:.5,
+              tension:.3,
               pointHoverBorderColor:'#ff0000',
             },
+
+            // {
+            //   label: yyy[5].jisa,
+            //   borderColor: '#C6aEFF',
+            //   backgroundColor:"transparent",
+            //   data: yyy[5].vocSum,
+            //   fill:false,
+            //   tension:.3,
+            //   pointHoverBorderColor:'#ff0000',
+            // },
           ]
         }
       }
-      if(bonbuName==='강남고객본부' || bonbuName==='충남/충북고객본부' || bonbuName==='대구/경북고객본부'){
-    
-        this.dataCollection = {
-          labels:yyy.firstJisa.sysdate.map((day)=>day.substring(5,10)),
-          datasets: [
-            {
-              label:yyy.firstJisa.jojik[0],     // 범례
-              borderColor: '#6697F8',
-              backgroundColor:"transparent",
-              data: yyy.firstJisa.countSum,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-              // hoverBorderWith:20,
+      // if(selectedBonbu==='강남고객본부' || selectedBonbu==='충남/충북고객본부' || bonbuName==='대구/경북고객본부'){
+       
+      //   this.dataCollection = {
+      //     labels:yyy.firstJisa.sysdate.map((day)=>day.substring(5,10)),
+      //     datasets: [
+      //       {
+      //         label:yyy.firstJisa.jojik[0],     // 범례
+      //         borderColor: '#6697F8',
+      //         backgroundColor:"transparent",
+      //         data: yyy.firstJisa.countSum,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //         // hoverBorderWith:20,
 
-            },
-            {
-              label:yyy.secondJisa.jojik[0],
-              borderColor: '#5CE082',
-              backgroundColor:"transparent",
-              data: yyy.secondJisa.countSum,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
-            {
-              label: yyy.thirdJisa.jojik[0],
-              borderColor: '#F7E872',
-              backgroundColor:"transparent",
-              data: yyy.thirdJisa.countSum,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
+      //       },
+      //       {
+      //         label:yyy.secondJisa.jojik[0],
+      //         borderColor: '#5CE082',
+      //         backgroundColor:"transparent",
+      //         data: yyy.secondJisa.countSum,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
+      //       {
+      //         label: yyy.thirdJisa.jojik[0],
+      //         borderColor: '#F7E872',
+      //         backgroundColor:"transparent",
+      //         data: yyy.thirdJisa.countSum,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
 
-            {
-              label: yyy.fourthJisa.jojik[0],
-              borderColor: '#E0815C',
-              backgroundColor:"transparent",
-              data: yyy.fourthJisa.countSum,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
+      //       {
+      //         label: yyy.fourthJisa.jojik[0],
+      //         borderColor: '#E0815C',
+      //         backgroundColor:"transparent",
+      //         data: yyy.fourthJisa.countSum,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
 
-            {
-              label: yyy.fifthJisa.jojik[0],
-              borderColor: '#C641FF',
-              backgroundColor:"transparent",
-              data: yyy.fifthJisa.countSum,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
+      //       {
+      //         label: yyy.fifthJisa.jojik[0],
+      //         borderColor: '#C641FF',
+      //         backgroundColor:"transparent",
+      //         data: yyy.fifthJisa.countSum,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
 
-            {
-              label: yyy.sixthJisa.jojik[0],
-              borderColor: '#FF33CC',
-              backgroundColor:"transparent",
-              data: yyy.sixthJisa.countSum,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
-          ]
-        };  //dataCollection
-      }
+      //       {
+      //         label: yyy.sixthJisa.jojik[0],
+      //         borderColor: '#FF33CC',
+      //         backgroundColor:"transparent",
+      //         data: yyy.sixthJisa.countSum,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
+      //     ]
+      //   };  //dataCollection
+      // }
 
-      if(bonbuName==='서부고객본부' || bonbuName==='부산/경남고객본부' ){
-        this.dataCollection = {
-          labels:yyy.firstJisa.sysdate.map((day)=>day.substring(5,10)),
-          datasets: [
-            {
-              label:yyy.firstJisa.jojik[0],     // 범례
-              borderColor: '#6697F8',
-              backgroundColor:"transparent",
-              data: yyy.firstJisa.countSum?yyy.firstJisa.countSum:0,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-              // hoverBorderWith:20,
+      // if(selectedBonbu==='서부고객본부' || selectedBonbu==='부산/경남고객본부' ){
+      //   this.dataCollection = {
+      //     labels:yyy.firstJisa.sysdate.map((day)=>day.substring(5,10)),
+      //     datasets: [
+      //       {
+      //         label:yyy.firstJisa.jojik[0],     // 범례
+      //         borderColor: '#6697F8',
+      //         backgroundColor:"transparent",
+      //         data: yyy.firstJisa.countSum?yyy.firstJisa.countSum:0,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //         // hoverBorderWith:20,
 
-            },
-            {
-              label:yyy.secondJisa.jojik[0],
-              borderColor: '#5CE082',
-              backgroundColor:"transparent",
-              data: yyy.secondJisa.countSum?yyy.secondJisa.countSum:0,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
-            {
-              label: yyy.thirdJisa.jojik[0],
-              borderColor: '#F7E872',
-              backgroundColor:"transparent",
-              data: yyy.thirdJisa.countSum?yyy.thirdJisa.countSum:0,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
+      //       },
+      //       {
+      //         label:yyy.secondJisa.jojik[0],
+      //         borderColor: '#5CE082',
+      //         backgroundColor:"transparent",
+      //         data: yyy.secondJisa.countSum?yyy.secondJisa.countSum:0,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
+      //       {
+      //         label: yyy.thirdJisa.jojik[0],
+      //         borderColor: '#F7E872',
+      //         backgroundColor:"transparent",
+      //         data: yyy.thirdJisa.countSum?yyy.thirdJisa.countSum:0,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
 
-            {
-              label: yyy.fourthJisa.jojik[0],
-              borderColor: '#E0815C',
-              backgroundColor:"transparent",
-              data: yyy.fourthJisa.countSum?yyy.fourthJisa.countSum:0,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
+      //       {
+      //         label: yyy.fourthJisa.jojik[0],
+      //         borderColor: '#E0815C',
+      //         backgroundColor:"transparent",
+      //         data: yyy.fourthJisa.countSum?yyy.fourthJisa.countSum:0,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
 
-            {
-              label: yyy.fifthJisa.jojik[0],
-              borderColor: '#C641FF',
-              backgroundColor:"transparent",
-              data: yyy.fifthJisa.countSum?yyy.fifthJisa.countSum:0,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
+      //       {
+      //         label: yyy.fifthJisa.jojik[0],
+      //         borderColor: '#C641FF',
+      //         backgroundColor:"transparent",
+      //         data: yyy.fifthJisa.countSum?yyy.fifthJisa.countSum:0,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
 
-            {
-              label: yyy.sixthJisa.jojik[0],
-              borderColor: '#FF33CC',
-              backgroundColor:"transparent",
-              data: yyy.sixthJisa.countSum?yyy.sixthJisa.countSum:0,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
-            {
-              label: yyy.seventhJisa.jojik[0],
-              borderColor: '#FFBB33',
-              backgroundColor:"transparent",
-              data: yyy.seventhJisa.countSum?yyy.seventhJisa.countSum:0,
-              fill:false,
-              // tension:.5,
-              pointHoverBorderColor:'#ff0000',
-            },
+      //       {
+      //         label: yyy.sixthJisa.jojik[0],
+      //         borderColor: '#ff33cc',
+      //         backgroundColor:"transparent",
+      //         data: yyy.sixthJisa.countSum?yyy.sixthJisa.countSum:0,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
+      //       {
+      //         label: yyy.seventhJisa.jojik[0],
+      //         borderColor: '#ffbb33',
+      //         backgroundColor:"transparent",
+      //         data: yyy.seventhJisa.countSum?yyy.seventhJisa.countSum:0,
+      //         fill:false,
+      //         // tension:.5,
+      //         pointHoverBorderColor:'#ff0000',
+      //       },
          
-          ]
-        };  //dataCollection
-      }
+      //     ]
+      //   };  //dataCollection
+      // }
     },  //fillData()
 
 
-    getBonbuNetIncreaseValue(url){    //본부별 순익(y축)
-      let bonbuNetIncreaseValueObj={};
-      let firstJisaObj={};
-      let secondJisaObj={}
-      let thirdJisaObj={}
-      let fourthJisaObj={}
-      let fifthJisaObj={}
-      let sixthJisaObj={}
-      let seventhJisaObj={}
-      //console.log('url is ',url);
+    getBonbuVocValue(selectedBonbu){    
+      let bonbuVocDataArray=[];
 
-      const firstSysdateArray=new Array();
-      const firstjojik2Array=new Array();
-      const firstjojik3Array=new Array();
-      const firstProductArray=new Array();
-      const firstCountSumArray=new Array();
-
-      const secondSysdateArray=new Array();
-      const secondjojik2Array=new Array();
-      const secondjojik3Array=new Array();
-      const secondProductArray=new Array();
-      const secondCountSumArray=new Array();
-
-
-      const thirdSysdateArray=new Array();
-      const thirdjojik2Array=new Array();
-      const thirdjojik3Array=new Array();
-      const thirdProductArray=new Array();
-      const thirdCountSumArray=new Array();
-
-      const fourthSysdateArray=new Array();
-      const fourthjojik2Array=new Array();
-      const fourthjojik3Array=new Array();
-      const fourthProductArray=new Array();
-      const fourthCountSumArray=new Array();
-
-      const fifthSysdateArray=new Array();
-      const fifthjojik2Array=new Array();
-      const fifthjojik3Array=new Array();
-      const fifthProductArray=new Array();
-      const fifthCountSumArray=new Array();
-
-
-      const sixthSysdateArray=new Array();
-      const sixthjojik2Array=new Array();
-      const sixthjojik3Array=new Array();
-      const sixthProductArray=new Array();
-      const sixthCountSumArray=new Array();
-
-      const seventhSysdateArray=new Array();
-      const seventhjojik2Array=new Array();
-      const seventhjojik3Array=new Array();
-      const seventhProductArray=new Array();
-      const seventhCountSumArray=new Array();
+      const mvoc1='단말기할부대금및잔여기간문의';
+      const mvoc2='약정문의';
+      const mvoc3='위약금(할인반환금)문의';
 
       
 
-      this.bonbuNetIncreaseData.map((item)=>{
-        //console.log('item is ',item);
+      let firstJisaObj={};
+      let secondJisaObj={};
+      let thirdJisaObj={};
+      let fourthJisaObj={};
+      let fifthJisaObj={};
+      let sixthJisaObj={};
+      let seventhJisaObj={};
+     
+      const firstJisa=bonbuJisaObj[selectedBonbu][0];
+      const secondJisa=bonbuJisaObj[selectedBonbu][1];
+      const thirdJisa=bonbuJisaObj[selectedBonbu][2];
+      const fourthJisa=bonbuJisaObj[selectedBonbu][3];
+      const fifthJisa=bonbuJisaObj[selectedBonbu][4];
+      const sixthJisa=bonbuJisaObj[selectedBonbu][5];
+      const seventhJisa=bonbuJisaObj[selectedBonbu][6];
 
-        if(item.sy_jojik3===bonbuJisaObj[url][0]){
-          firstSysdateArray.push(item.basedate);
-          firstjojik3Array.push(item.sy_jojik3);
-          //firstProductArray.push(item.prod2);
-          firstCountSumArray.push(item.count_sum);
-        }
+      let firstJisaDatePlusCntArray=[];  //일자와 Voc건수를 가지고있다.
+      let secondJisaDatePlusCntArray=[];
+      let thirdJisaDatePlusCntArray=[];
+      let fourthJisaDatePlusCntArray=[];
+      let fifthJisaDatePlusCntArray=[];
+      let sixthJisaDatePlusCntArray=[];
+      let seventhJisaDatePlusCntArray=[];
 
-        if(item.sy_jojik3===bonbuJisaObj[url][1]){
-          secondSysdateArray.push(item.basedate);
-          secondjojik3Array.push(item.sy_jojik3);
-          //secondProductArray.push(item.prod2);
-          secondCountSumArray.push(item.count_sum);
-        }
+     
+      const firstJisaVoc1Array=[];
+      const firstJisaVoc2Array=[];
+      const firstJisaVoc3Array=[];
 
-        if(item.sy_jojik3===bonbuJisaObj[url][2]){
-          thirdSysdateArray.push(item.basedate);
-          thirdjojik3Array.push(item.sy_jojik3);
-          //thirdProductArray.push(item.prod2);
-          thirdCountSumArray.push(item.count_sum);
-        }
-        if(item.sy_jojik3===bonbuJisaObj[url][3]){
-          fourthSysdateArray.push(item.basedate);
-          fourthjojik3Array.push(item.sy_jojik3);
-          //fourthProductArray.push(item.prod2);
-          fourthCountSumArray.push(item.count_sum);
-        }
+      const secondJisaVoc1Array=[];
+      const secondJisaVoc2Array=[];
+      const secondJisaVoc3Array=[];
 
 
-        if(item.sy_jojik3===bonbuJisaObj[url][4]){
-          fifthSysdateArray.push(item.basedate);
-          fifthjojik3Array.push(item.sy_jojik3);
-          //fifthProductArray.push(item.prod2);
-          fifthCountSumArray.push(item.count_sum);
-        }
+      const thirdJisaVoc1Array=[];
+      const thirdJisaVoc2Array=[];
+      const thirdJisaVoc3Array=[];
 
-        if(item.sy_jojik3===bonbuJisaObj[url][5]){
-          sixthSysdateArray.push(item.basedate);
-          sixthjojik3Array.push(item.sy_jojik3);
-          //sixthProductArray.push(item.prod2);
-          sixthCountSumArray.push(item.count_sum);
-        }
 
-        if(item.sy_jojik3===bonbuJisaObj[url][6]){
-          seventhSysdateArray.push(item.basedate);
-          seventhjojik3Array.push(item.sy_jojik3);
-          //seventhProductArray.push(item.prod2);
-          seventhCountSumArray.push(item.count_sum);
-        }
-      });
-         
-      firstJisaObj={
-        'sysdate': firstSysdateArray,
-        'jojik': firstjojik3Array,
-        //'product': firstProductArray,
-        'countSum': firstCountSumArray,
+      const fourthJisaVoc1Array=[];
+      const fourthJisaVoc2Array=[];
+      const fourthJisaVoc3Array=[];
+ 
+
+      const fifthJisaVoc1Array=[];
+      const fifthJisaVoc2Array=[];
+      const fifthJisaVoc3Array=[];
+    
+
+      const sixthJisaVoc1Array=[];
+      const sixthJisaVoc2Array=[];
+      const sixthJisaVoc3Array=[];
+ 
+
+      const seventhJisaVoc1Array=[];
+      const seventhJisaVoc2Array=[];
+      const seventhJisaVoc3Array=[];
+  
+
+      let dateKeyArray=[];
+
+      this.selectedStartNewDate=new Date(this.selectedStartDate.substring(0,4)+'-'+this.selectedStartDate.substring(4,6)+'-'+this.selectedStartDate.substring(6,8));
+      this.selectedEndNewDate=new Date(this.selectedEndDate.substring(0,4)+'-'+this.selectedEndDate.substring(4,6)+'-'+this.selectedEndDate.substring(6,8)); 
+      const dateDiffCnt=Math.ceil((this.selectedEndNewDate.getTime()-this.selectedStartNewDate.getTime())/(1000*3600*24)); 
+      this.selectedStartNewDate=new Date(this.selectedStartNewDate.setDate(this.selectedStartNewDate.getDate()-1));
+      
+      for (let date=0;date<=dateDiffCnt;date++){  //시작일과 종료일 차이수 만큼 일자를 배열로 생성 '2021-04-01'
+        dateKeyArray.push(this.displayDateText2(new Date(this.selectedStartNewDate.setDate(this.selectedStartNewDate.getDate()+1))));  //조회 날자를 배열로 만들고 형식을 '2021-04-01' 형식으로 변경
       }
 
+        
+      this.bonbuVocData.map((item,index)=>{
+       
+        if(item.voc_gubun.replace(/ /g,'')===mvoc1){
+          if(firstJisa===item.jisa){
+            firstJisaVoc1Array.push({'date':item.basedate,'cnt':item.count_sum});
+           
+          }
+          if(secondJisa===item.jisa){
+            secondJisaVoc1Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(thirdJisa===item.jisa){
+            thirdJisaVoc1Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(fourthJisa===item.jisa){
+            fourthJisaVoc1Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(fifthJisa===item.jisa){
+            fifthJisaVoc1Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(sixthJisa===item.jisa){
+            sixthJisaVoc1Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(seventhJisa===item.jisa){
+            sevethJisaJisaVoc1Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+        }
+
+     
+        if(item.voc_gubun.replace(/ /g,'')===mvoc2){
+          if(firstJisa===item.jisa){
+            firstJisaVoc2Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+          if(secondJisa===item.jisa){
+            secondJisaVoc2Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(thirdJisa===item.jisa){
+            thirdJisaVoc2Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(fourthJisa===item.jisa){
+            fourthJisaVoc2Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(fifthJisa===item.jisa){
+            fifthJisaVoc2Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(sixthJisa===item.jisa){
+            sixthJisaVoc2Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(seventhJisa===item.jisa){
+            sevethJisaJisaVoc2Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+         
+        }
+
+      
+        if(item.voc_gubun.replace(/ /g,'')===mvoc3){
+          if(firstJisa===item.jisa){
+            firstJisaVoc3Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(secondJisa===item.jisa){
+            secondJisaVoc3Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+          if(thirdJisa===item.jisa){
+            thirdJisaVoc3Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(fourthJisa===item.jisa){
+            fourthJisaVoc3Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(fifthJisa===item.jisa){
+            fifthJisaVoc3Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(sixthJisa===item.jisa){
+            sixthJisaVoc3Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
+          if(seventhJisa===item.jisa){
+            sevethJisaJisaVoc3Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+        }
+
+      
+       
+      });
+
+      const diffDateArray=(a,b)=>a.filter(x=>!b.includes(x));  // 두 배열에서 중복을 제거하고 남은 요소를 다시 배열로.
+
+      //일자별로 voc 카운트 객체 만들기
+      firstJisaDatePlusCntArray=Object.values([...firstJisaVoc1Array,...firstJisaVoc2Array,...firstJisaVoc3Array].reduce((acc,{date,cnt})=>{
+      
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
+       
+        return acc;
+      },{}));
+
+      let firstImsiArray=[];   
+      for (let i=0;i<firstJisaDatePlusCntArray.length;i++){
+        firstImsiArray.push(firstJisaDatePlusCntArray[i].date);
+      }
+      firstImsiArray=diffDateArray(dateKeyArray,firstImsiArray);
+      for(let i=0;i<firstImsiArray.length;i++){                               //voc발생건수가 0인 날자도 포함하여 그래프 데이터로 사용.
+        firstJisaDatePlusCntArray.push({'date':firstImsiArray[i],'cnt':0});
+      }
+
+
+      secondJisaDatePlusCntArray=Object.values([...secondJisaVoc1Array,...secondJisaVoc2Array,...secondJisaVoc3Array].reduce((acc,{date,cnt})=>{
+      
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
+       
+        return acc;
+      },{}));
+
+      let secondImsiArray=[];
+      for(let i=0;i<secondJisaDatePlusCntArray.length;i++){
+        secondImsiArray.push(secondJisaDatePlusCntArray[i].date);
+      }
+      secondImsiArray=diffDateArray(dateKeyArray,secondImsiArray);
+      for(let i=0;i<secondImsiArray.length;i++){
+        secondJisaDatePlusCntArray.push({'date':secondImsiArray[i],'cnt':0});
+      }
+
+
+
+      thirdJisaDatePlusCntArray=Object.values([...thirdJisaVoc1Array,...thirdJisaVoc2Array,...thirdJisaVoc3Array].reduce((acc,{date,cnt})=>{
+      
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
+       
+        return acc;
+      },{}));
+
+      let thirdImsiArray=[];
+      for(let i=0;i<thirdJisaDatePlusCntArray.length;i++){
+        thirdImsiArray.push(thirdJisaDatePlusCntArray[i].date);
+      }
+      thirdImsiArray=diffDateArray(dateKeyArray,thirdImsiArray);
+      for(let i=0;i<thirdImsiArray.length;i++){
+        thirdJisaDatePlusCntArray.push({'date':thirdImsiArray[i],'cnt':0});
+      }
+
+
+      fourthJisaDatePlusCntArray=Object.values([...fourthJisaVoc1Array,...fourthJisaVoc2Array,...fourthJisaVoc3Array].reduce((acc,{date,cnt})=>{
+      
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
+       
+        return acc;
+      },{}));
+
+      let fourthImsiArray=[];
+      for(let i=0;i<fourthJisaDatePlusCntArray.length;i++){
+        fourthImsiArray.push(fourthJisaDatePlusCntArray[i].date);
+      }
+      fourthImsiArray=diffDateArray(dateKeyArray,fourthImsiArray);
+      for(let i=0;i<thirdImsiArray.length;i++){
+        fourthJisaDatePlusCntArray.push({'date':fourthImsiArray[i],'cnt':0});
+      }
+
+      fifthJisaDatePlusCntArray=Object.values([...fifthJisaVoc1Array,...fifthJisaVoc2Array,...fifthJisaVoc3Array].reduce((acc,{date,cnt})=>{
+      
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
+       
+        return acc;
+      },{}));
+
+      let fifthImsiArray=[];
+      for(let i=0;i<fifthJisaDatePlusCntArray.length;i++){
+        fifthImsiArray.push(fifthJisaDatePlusCntArray[i].date);
+      }
+      fifthImsiArray=diffDateArray(dateKeyArray,fifthImsiArray);
+      for(let i=0;i<fifthImsiArray.length;i++){
+        fifthJisaDatePlusCntArray.push({'date':fifthImsiArray[i],'cnt':0});
+      }
+
+      sixthJisaDatePlusCntArray=Object.values([...sixthJisaVoc1Array,...sixthJisaVoc2Array,...sixthJisaVoc3Array].reduce((acc,{date,cnt})=>{
+      
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
+       
+        return acc;
+      },{}));
+
+      let sixthImsiArray=[];
+      for(let i=0;i<sixthJisaDatePlusCntArray.length;i++){
+        sixthImsiArray.push(sixthJisaDatePlusCntArray[i].date);
+      }
+      sixthImsiArray=diffDateArray(dateKeyArray,sixthImsiArray);
+      for(let i=0;i<sixthImsiArray.length;i++){
+        sixthJisaDatePlusCntArray.push({'date':sixthImsiArray[i],'cnt':0});
+      }
+
+      seventhJisaDatePlusCntArray=Object.values([...seventhJisaVoc1Array,...seventhJisaVoc2Array,...seventhJisaVoc3Array].reduce((acc,{date,cnt})=>{
+      
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
+       
+        return acc;
+      },{}));
+
+      let seventhImsiArray=[];
+      for(let i=0;i<seventhJisaDatePlusCntArray.length;i++){
+        seventhImsiArray.push(seventhJisaDatePlusCntArray[i].date);
+      }
+      seventhImsiArray=diffDateArray(dateKeyArray,seventhImsiArray);
+      for(let i=0;i<seventhImsiArray.length;i++){
+        seventhJisaDatePlusCntArray.push({'date':seventhImsiArray[i],'cnt':0});
+      }
+
+      //객체를 일자별로 오름차순으로 정렬하기
+      const compare=(key)=>(a,b)=>{
+        return a[key]>a[key]?1:a[key]<b[key]?-1:0;
+      };
+
+      firstJisaDatePlusCntArray=firstJisaDatePlusCntArray.sort(compare('date'));
+      secondJisaDatePlusCntArray=secondJisaDatePlusCntArray.sort(compare('date'));
+      thirdJisaDatePlusCntArray=thirdJisaDatePlusCntArray.sort(compare('date'));
+      fourthJisaDatePlusCntArray=fourthJisaDatePlusCntArray.sort(compare('date'));
+      fifthJisaDatePlusCntArray=fifthJisaDatePlusCntArray.sort(compare('date'));
+      sixthJisaDatePlusCntArray=sixthJisaDatePlusCntArray.sort(compare('date'));
+      seventhJisaDatePlusCntArray=seventhJisaDatePlusCntArray.sort(compare('date'));
+
+
+      
+      //일자와 VOC합으로 일어진 객체를 별도 분리
+      let firstJisaDayArray=[];
+      let firstJisaDayVocArray=[];
+
+      let secondJisaDayArray=[];
+      let secondJisaDayVocArray=[];
+
+      let thirdJisaDayArray=[];
+      let thirdJisaDayVocArray=[];
+
+      let fourthJisaDayArray=[];
+      let fourthJisaDayVocArray=[];
+
+      let fifthJisaDayArray=[];
+      let fifthJisaDayVocArray=[];
+
+      let sixthJisaDayArray=[];
+      let sixthJisaDayVocArray=[];
+
+      let seventhJisaDayArray=[];
+      let seventhJisaDayVocArray=[];
+
+     
+      for(let i=0;i<firstJisaDatePlusCntArray.length;i++){
+       
+        firstJisaDayArray.push(firstJisaDatePlusCntArray[i].date);
+        firstJisaDayVocArray.push(firstJisaDatePlusCntArray[i].cnt);       
+      }
+      
+      for(let i=0;i<secondJisaDatePlusCntArray.length;i++){
+       
+        secondJisaDayArray.push(secondJisaDatePlusCntArray[i].date);
+        secondJisaDayVocArray.push(secondJisaDatePlusCntArray[i].cnt);          
+      }
+
+      for(let i=0;i<thirdJisaDatePlusCntArray.length;i++){
+       
+        thirdJisaDayArray.push(thirdJisaDatePlusCntArray[i].date);
+        thirdJisaDayVocArray.push(thirdJisaDatePlusCntArray[i].cnt);          
+      }
+
+      for(let i=0;i<fourthJisaDatePlusCntArray.length;i++){
+       
+        fourthJisaDayArray.push(fourthJisaDatePlusCntArray[i].date);
+        fourthJisaDayVocArray.push(fourthJisaDatePlusCntArray[i].cnt);          
+      }
+
+      for(let i=0;i<fifthJisaDatePlusCntArray.length;i++){
+       
+        fifthJisaDayArray.push(fifthJisaDatePlusCntArray[i].date);
+        fifthJisaDayVocArray.push(fifthJisaDatePlusCntArray[i].cnt);          
+      }
+
+      for(let i=0;i<sixthJisaDatePlusCntArray.length;i++){
+       
+        sixthJisaDayArray.push(sixthJisaDatePlusCntArray[i].date);
+        sixthJisaDayVocArray.push(sixthJisaDatePlusCntArray[i].cnt);          
+      }
+
+      for(let i=0;i<seventhJisaDatePlusCntArray.length;i++){
+       
+        seventhJisaDayArray.push(seventhJisaDatePlusCntArray[i].date);
+        seventhJisaDayVocArray.push(seventhJisaDatePlusCntArray[i].cnt);          
+      }
+    
+      firstJisaObj={
+        'jisa':firstJisa,
+        'basedate':firstJisaDayArray,
+        'vocSum':firstJisaDayVocArray,
+      }
       secondJisaObj={
-        'sysdate': secondSysdateArray,
-        'jojik':secondjojik3Array,
-        // 'product': secondProductArray,
-        'countSum': secondCountSumArray,
+        'jisa':secondJisa,
+        'basedate':secondJisaDayArray,
+        'vocSum':secondJisaDayVocArray,
       }
 
       thirdJisaObj={
-        'sysdate': thirdSysdateArray,
-        'jojik':thirdjojik3Array,
-        // 'product': thirdProductArray,
-        'countSum': thirdCountSumArray,
-      }
-      fourthJisaObj={
-        'sysdate': fourthSysdateArray,
-        'jojik': fourthjojik3Array,
-        //  'product': fourthProductArray,
-        'countSum': fourthCountSumArray,
+        'jisa':thirdJisa,
+        'basedate':thirdJisaDayArray,
+        'vocSum':thirdJisaDayVocArray,
       }
 
+       
+      fourthJisaObj={
+        'jisa':fourthJisa,
+        'basedate':fourthJisaDayArray,
+        'vocSum':fourthJisaDayVocArray,
+      }
       fifthJisaObj={
-        'sysdate': fifthSysdateArray,
-        'jojik':fifthjojik3Array,
-        //  'product': fifthProductArray,
-        'countSum': fifthCountSumArray,
+        'jisa':fifthJisa,
+        'basedate':fifthJisaDayArray,
+        'vocSum':fifthJisaDayVocArray,
       }
 
       sixthJisaObj={
-        'sysdate': sixthSysdateArray,
-        'jojik': sixthjojik3Array,
-        //  'product': sixthProductArray,
-        'countSum': sixthCountSumArray,
+        'jisa':sixthJisa,
+        'basedate':sixthJisaDayArray,
+        'vocSum':sixthJisaDayVocArray,
       }
-    
+      
       seventhJisaObj={
-        'sysdate': seventhSysdateArray,
-        'jojik': seventhjojik3Array,
-        //  'product': seventhProductArray,
-        'countSum': seventhCountSumArray,
+        'jisa':seventhJisa,
+        'basedate':seventhJisaDayArray,
+        'vocSum':seventhJisaDayVocArray,
       }
+      bonbuVocDataArray=[firstJisaObj,secondJisaObj,thirdJisaObj,fourthJisaObj,fifthJisaObj,sixthJisaObj,seventhJisaObj];
+      
+      return bonbuVocDataArray;
+    }
+  }
+}      
     
-      bonbuNetIncreaseValueObj={
-        'firstJisa': firstJisaObj,
-        'secondJisa': secondJisaObj,
-        'thirdJisa': thirdJisaObj,
-        'fourthJisa':fourthJisaObj,
-        'fifthJisa':fifthJisaObj,
-        'sixthJisa':sixthJisaObj,
-        'seventhJisa':seventhJisaObj,
-      }
-      return bonbuNetIncreaseValueObj;
-    },
-  }  //methods
-} //export default end
+
 </script>
 <style scoped>
 

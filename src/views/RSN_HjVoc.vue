@@ -632,6 +632,56 @@
           />
         </v-col>
       </v-row>
+      <v-row
+        class="mt-5"
+      >
+        <v-col
+          cols="12"
+          md="3"
+        >
+          <p class="text-h5 text-center">
+            [무선-총 VOC 추이]
+          </p>
+          <jisa-rm-voc-chart 
+            ref="changeBonbu14"
+          />
+        </v-col>
+    
+        <v-col
+          cols="12"
+          md="3"
+        >
+          <p class="text-h6 text-center">
+            [무선-단말기할부대금 및 잔여기간 문의 VOC추이]
+          </p>
+          <!-- <jisa-rm-type1-voc-chart
+            ref="changeBonbu15"
+          /> -->
+        </v-col>
+   
+        <v-col
+          cols="12"
+          md="3"
+        >
+          <p class="text-h5 text-center">
+            [무선-약정문의 VOC 추이]
+          </p>
+          <jisa-rm-voc-type2-chart 
+            ref="changeBonbu16"
+          />
+        </v-col>
+        <v-col
+          cols="12"
+          md="3"
+        >
+          <p class="text-h5 text-center">
+            [무선-위약금문의 VOC추이]
+          </p>
+          <jisa-rm-voc-type3-chart
+            ref="changeBonbu17"
+          />
+        </v-col>
+      </v-row>
     </v-card>
   </v-container>
 </template>
@@ -661,6 +711,10 @@ import JisaRitVocChart from '@/components/charts/vocchart/jisaRitVocChart.vue';
 import JisaRitVocType1Chart from '@/components/charts/vocchart/jisaRitVocType1Chart';
 import JisaRitVocType2Chart from '@/components/charts/vocchart/jisaRitVocType2Chart';
 import JisaRitVocType3Chart from '@/components/charts/vocchart/jisaRitVocType3Chart';
+
+import JisaRmVocChart from '@/components/charts/vocchart/jisaRmVocChart';
+import JisaRmVocType2Chart from '@/components/charts/vocchart/jisaRmVocType2Chart';
+import JisaRmVocType3Chart from '@/components/charts/vocchart/jisaRmVocType3Chart';
 
 
 import VueHotelDatePicker from '@/components/datepicker/vue-hotel-datepicker';
@@ -694,6 +748,10 @@ export default {
     JisaRitVocType2Chart,
     JisaRitVocType3Chart,
 
+    JisaRmVocChart,
+    JisaRmVocType2Chart,
+    JisaRmVocType3Chart,
+    
     VueHotelDatePicker,
     
   },
@@ -758,6 +816,7 @@ export default {
       // this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
       // this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
     })
+
   },
 
   methods:{
@@ -853,12 +912,15 @@ export default {
       this.$refs.changeBonbu7.changedBonbu(selectedBonbu);
       this.$refs.changeBonbu8.changedBonbu(selectedBonbu);
       this.$refs.changeBonbu9.changedBonbu(selectedBonbu); //voc 테이블 컴포넌터
-      this.$refs.changeBonbu10.changeBonbu(selectedBonbu); // 본부 VOC추이(지사별)
+      this.$refs.changeBonbu10.changeBonbu(selectedBonbu); // 유선 VOC추이(지사별)
       this.$refs.changeBonbu11.changeBonbu(selectedBonbu); // 유선VOC- 혜택문의 추이
       this.$refs.changeBonbu12.changeBonbu(selectedBonbu); //유선VOC - 약정문의 추이
       this.$refs.changeBonbu13.changeBonbu(selectedBonbu);  //유선Voc - 위약금 문의 추이
-      
 
+      this.$refs.changeBonbu14.changeBonbu(selectedBonbu); // 무선 VOC추이(지사별)
+      this.$refs.changeBonbu15.changeBonbu(selectedBonbu); // 무선VOC- 혜택문의 추이
+      this.$refs.changeBonbu16.changeBonbu(selectedBonbu); //무선VOC - 약정문의 추이
+      this.$refs.changeBonbu17.changeBonbu(selectedBonbu);  //무선Voc - 위약금 문의 추이
     },
 
   
