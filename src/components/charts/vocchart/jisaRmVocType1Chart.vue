@@ -5,7 +5,7 @@ import axios from 'axios';
 import eventBus from '@/js/eventBus';
 
 
-const { reactiveProp } = mixins
+// const { reactiveProp } = mixins
 
 const bonbuJisaObj={
   '북부고객본부':['고양지사','광진지사','광화문지사','노원지사','서대문지사'],
@@ -82,7 +82,7 @@ export default {
 
   name:'JisaRitVocChart',
   extends: Line,
-  mixins: [reactiveProp],
+  // mixins: [reactiveProp],
 
 
   data(){
@@ -166,6 +166,7 @@ export default {
     async changeDate(){
       const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${this.selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
       // const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${this.selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
+    
     
       await axios.all(
         [

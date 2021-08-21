@@ -1,3 +1,4 @@
+
 <template>
   <v-container fluid>
     <v-card>
@@ -557,7 +558,7 @@
           </p>
           <jisa-it-voc-bar 
             ref="changeJisa9"
-            height="300px;"
+            :height="300"
           />
         </v-col>
 
@@ -576,7 +577,7 @@
           </p>
           <jisa-m-voc-bar 
             ref="changeJisa10"
-            height="300px;"
+            :height="300"
           />
         </v-col>
       </v-row>   
@@ -686,11 +687,12 @@
   </v-container>
 </template>
 
+
 <script>
 import eventBus from '@/js/eventBus.js'
 
-import JisaTvNetNewIncreaseLineChart from '@/components/charts/jisaproductchart/JisaTvNetNewIncreaseLineChart'
-import JisaTvNetIncreaseLineChart from '@/components/charts/jisaproductchart/JisaTvNetIncreaseLineChart'
+// import JisaTvNetNewIncreaseLineChart from '@/components/charts/jisaproductchart/JisaTvNetNewIncreaseLineChart'
+// import JisaTvNetIncreaseLineChart from '@/components/charts/jisaproductchart/JisaTvNetIncreaseLineChart'
 // import JisaTvHjLineChart from '@/components/charts/jisaproductchart/JisaTvHjLineChart'
 
 // import JisaTvNetNewIncreaseTable from '@/components/tables/jisaproducttable/JisaTvNetNewIncreaseTable'
@@ -705,6 +707,7 @@ import JisaMobileVocWordCloud from '@/components/wordcloud/JisaMobileVocWordClou
 
 import JisaItVocBar from '@/components/bars/vocbars/jisaItVocBar';
 import JisaMVocBar from '@/components/bars/vocbars/jisaMVocBar';
+
 import JisaMItVocTable from '@/components/tables/voctable/jisaMItVocTable';
 
 import JisaRitVocChart from '@/components/charts/vocchart/jisaRitVocChart.vue';

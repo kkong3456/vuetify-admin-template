@@ -188,11 +188,13 @@ export default {
     },
     startDate: {
       type: [String, Date],
-      default: new Date('2021-04-20')
+      // default: new Date('2021-04-20')
+      default:'2021-04-20',
     },
     endDate: {
       type: [String, Date],
-      default: new Date('2021-04-26')
+      // default: new Date('2021-04-26')
+      default:'2021-04-26',
     },
     minDate: {
       type: [String, Date],

@@ -10,7 +10,7 @@
     rotation-unit="deg"
    
     :font-size-ratio="5"
-    spacing="5"
+    :spacing="5"
     font-weight="normal"
   >
     <template slot-scope="{text,weight,word}">

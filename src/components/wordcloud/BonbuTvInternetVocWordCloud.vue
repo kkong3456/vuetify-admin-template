@@ -10,7 +10,7 @@
     rotation-unit="deg"
     
     :font-size-ratio="5"
-    spacing="5"
+    :spacing="5"
     font-weight="normal"
   >
     <template slot-scope="{text,weight,word}">
@@ -40,7 +40,18 @@ export default {
     WordCloud,
   },
 
-  props:['propsbonbudata','propsjisadata'],
+  props:{
+    propsbonbudata:{
+      type:String,
+      default:null,
+    },
+    propsjisadata:{
+      type:String,
+      default:null,
+    },
+    
+  },
+  // ['propsbonbudata','propsjisadata'],
  
   data () {
     return {
@@ -117,6 +128,7 @@ export default {
         [
           axios.get(thisDateUrl),
           axios.get(lastDateUrl),
+      
         ]
       ).then(axios.spread((res1,res2)=>{
         this.bonbuVocData=res1.data.results;

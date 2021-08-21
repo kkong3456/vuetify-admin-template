@@ -5,7 +5,7 @@ import axios from 'axios';
 import eventBus from '@/js/eventBus';
 
 
-const { reactiveProp } = mixins
+// const { reactiveProp } = mixins
 
 const bonbuJisaObj={
   '북부고객본부':['고양지사','광진지사','광화문지사','노원지사','서대문지사'],
@@ -82,7 +82,7 @@ export default {
 
   name:'JisaRitVocChart',
   extends: Line,
-  mixins: [reactiveProp],
+  // mixins: [reactiveProp],
 
 
   data(){

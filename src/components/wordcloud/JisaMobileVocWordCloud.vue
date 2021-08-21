@@ -10,7 +10,7 @@
     rotation-unit="deg"
     :rotation="([,weight])=>weight>500?'90':weight>400?'80':weight>300?'70':weight>200?'60':weight>150?'-50':weight>100?'40':weight>50?'-30':weight>30?'20':weight>200?'-10':'0'"
     :font-size-ratio="5"
-    spacing="5"
+    :spacing="5"
     font-weight="normal"
   >
     <template slot-scope="{text,weight,word}">
