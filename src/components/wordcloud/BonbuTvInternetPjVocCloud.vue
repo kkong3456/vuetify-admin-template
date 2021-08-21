@@ -161,7 +161,7 @@ export default {
 
     getDesserts(){
       const yyy=this.getBonbuVocValue();
-      console.log('yyy is',yyy);
+      console.log('yyy is xxx',yyy);
   
       let dessertArray=new Array();
     
@@ -643,6 +643,21 @@ export default {
         
       });    
       // Top 10만 선정
+      let etcCnt=0;
+
+      // etcCnt=parseInt(vocCountArray[10].vocCnt)+parseInt(vocCountArray[11].vocCnt)+parseInt(vocCountArray[12].vocCnt)+parseInt(vocCountArray[13].vocCnt)+parseInt(vocCountArray[14].vocCnt)+parseInt(vocCountArray[15].vocCnt)
+      // +parseInt(vocCountArray[16].vocCnt+parseInt(vocCountArray[17].vocCnt)+parseInt(vocCountArray[18].vocCnt)+parseInt(vocCountArray[19].vocCnt)+parseInt(vocCountArray[20].vocCnt)+parseInt(vocCountArray[21].vocCnt);
+      // +vocCountArray[22].vocCnt+vocCountArray[23].vocCnt+vocCountArray[24].vocCnt+vocCountArray[25].vocCnt+vocCountArray[26].vocCnt+vocCountArray[27].vocCnt
+      // +vocCountArray[28].vocCnt+vocCountArray[29].vocCnt+vocCountArray[30].vocCnt+vocCountArray[31].vocCnt+vocCountArray[32].vocCnt+vocCountArray[33].vocCnt
+      // +vocCountArray[34].vocCnt+vocCountArray[35].vocCnt+vocCountArray[36].vocCnt+vocCountArray[37].vocCnt+vocCountArray[38].vocCnt+vocCountArray[39].vocCnt`;
+
+      etcCnt=vocCountArray[10].vocCnt+vocCountArray[11].vocCnt+vocCountArray[12].vocCnt+vocCountArray[13].vocCnt+vocCountArray[14].vocCnt+vocCountArray[15].vocCnt+vocCountArray[16].vocCnt+vocCountArray[17].vocCnt
+            +vocCountArray[18].vocCnt+vocCountArray[19].vocCnt+vocCountArray[20].vocCnt+vocCountArray[21].vocCnt+vocCountArray[22].vocCnt+vocCountArray[23].vocCnt+vocCountArray[24].vocCnt+vocCountArray[25].vocCnt
+            +vocCountArray[26].vocCnt+vocCountArray[27].vocCnt+vocCountArray[28].vocCnt+vocCountArray[29].vocCnt+vocCountArray[30].vocCnt+vocCountArray[31].vocCnt+vocCountArray[32].vocCnt+vocCountArray[33].vocCnt
+
+      console.log('vocCountArray 18',vocCountArray[33]);
+
+
       bonbuVocDataObj={
         'name':
           [
@@ -655,7 +670,8 @@ export default {
             vocCountArray[6].voc,
             vocCountArray[7].voc,
             vocCountArray[8].voc,
-            vocCountArray[9].voc,               
+            vocCountArray[9].voc,   
+            '기타',            
           ],
         'value':
           [
@@ -669,6 +685,8 @@ export default {
             vocCountArray[7].vocCnt,
             vocCountArray[8].vocCnt,
             vocCountArray[9].vocCnt,
+            etcCnt,
+            
           ],
         'vocCountSum':vocCountSum,
         'lastVocCountSum':lastVocCountSum,

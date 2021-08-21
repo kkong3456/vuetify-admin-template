@@ -119,7 +119,7 @@ export default {
       const thisDateUrl=`http://172.21.220.97/api/voc.json/?table=qm&bonbu=${this.propsbonbudata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
       const lastDateUrl=`http://172.21.220.97/api/voc.json/?table=qm&bonbu=${this.propsbonbudata}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
       
-      console.log('워드클라우드는 ',this.selectedStartDate,this.selectedEndDate);
+     
       await axios.all(
         [
           axios.get(thisDateUrl),
@@ -161,8 +161,6 @@ export default {
 
     getDesserts(){
       const yyy=this.getJisaVocValue();
-
-      console.log('jisa mobile yyy is ',yyy);
       
       let dessertArray=new Array();
 
@@ -329,7 +327,7 @@ export default {
         return b.vocCnt-a.vocCnt;      //vocCnt기준 내림차순 정렬
       });
 
-      console.log('지사 모바일 톱 10',vocCountArray);
+     
 
       this.lastWeekJisaVocData.map((item)=>{ 
         if(item.jisa===this.propsjisadata){
