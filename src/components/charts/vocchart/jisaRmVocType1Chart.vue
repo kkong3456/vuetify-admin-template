@@ -77,11 +77,13 @@ const options={      //chart options prop를 사용하지 않는 하위컴포넌
 } //end options
 
 export default {
+  //props: ['options'],
 
 
-  name:'JisaRitVocType3Chart',
+  name:'JisaRitVocChart',
   extends: Line,
   mixins: [reactiveProp],
+
 
   data(){
     return {
@@ -117,26 +119,21 @@ export default {
 
       this.selectedStartDate=dateResult.start.replace(/\//gi,'')  //현재 선택
       this.selectedEndDate=dateResult.end.replace(/\//gi,'')
-      this.selectedStartNewDate=dateResult.start.replace(/\//gi,'-')
-      this.selectedEndNewDate=dateResult.end.replace(/\//gi,'-');
-      
 
-      // this.lastWeekStart=new Date(imsiThisStart);
-      // this.lastWeekStart.setDate(this.lastWeekStart.getDate() - 7);
-      // this.lastWeekStart=this.displayDateText(this.lastWeekStart);
-      // this.lastWeekStartDate=this.lastWeekStart.replace(/\//gi,"");  //현재 선택 1주일전
+      this.lastWeekStart=new Date(imsiThisStart);
+      this.lastWeekStart.setDate(this.lastWeekStart.getDate() - 7);
+      this.lastWeekStart=this.displayDateText(this.lastWeekStart);
+      this.lastWeekStartDate=this.lastWeekStart.replace(/\//gi,"");  //현재 선택 1주일전
 
-      // this.lastWeekEnd=new Date(imsiThisEnd);
-      // this.lastWeekEnd.setDate(this.lastWeekEnd.getDate()- 7);
-      // this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
-      // this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
+      this.lastWeekEnd=new Date(imsiThisEnd);
+      this.lastWeekEnd.setDate(this.lastWeekEnd.getDate()- 7);
+      this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
+      this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
 
       this.changeDate();
       
     }); 
-
     this.changeDate();
-    
     this.renderChart(this.dataCollection,this.options)
   },
 
@@ -161,19 +158,6 @@ export default {
         const dd = datetime.getDate() > 9 ? datetime.getDate() : `0${datetime.getDate()}`
         const displayStr = (this.format || 'YYYY-MM-DD').replace('YYYY', yyyy).replace('MM', mm).replace('DD', dd)
         return displayStr
-      } else {
-        return undefined
-      }
-    },
-
-    displayTextDate (dateText) {
-      if (dateText) {
-        const dateTime = typeof (dateText) === 'string' ? new Date(dateText) : dateText
-        // const yyyy = datetime.getFullYear()
-        // const mm = datetime.getMonth() + 1 > 9 ? datetime.getMonth() + 1 : `0${datetime.getMonth() + 1}`
-        // const dd = datetime.getDate() > 9 ? datetime.getDate() : `0${datetime.getDate()}`
-        // const displayStr = (this.format || 'YYYY-MM-DD').replace('YYYY', yyyy).replace('MM', mm).replace('DD', dd)
-        return dateTime;
       } else {
         return undefined
       }
@@ -204,9 +188,10 @@ export default {
     async changeBonbu(selectedBonbu){
 
       const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rm&bonbu=${selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
-      
+      // const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=rit&bonbu=${selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
+    
+      //this.selectedJisa=selectedJisa;  //지사 선택시 전역적으로 알려준다
       this.selectedBonbu=selectedBonbu;
-      console.log('dkdkdkd본부는',selectedBonbu);
 
       await axios.all(
         [
@@ -222,7 +207,7 @@ export default {
         console.log('금주 일자 데이터를 가져 오지 못했습니다');
       });
       
-      this.fillData(this.selectedBonbu)
+      this.fillData(selectedBonbu)
       this.renderChart(this.dataCollection,this.options);
     },
 
@@ -294,9 +279,17 @@ export default {
     getBonbuVocValue(selectedBonbu){    
       let bonbuVocDataArray=[];
 
-  
-      const mvoc3='위약금(할인반환금)문의';
-    
+      // const voc1='KT업무/정책불만';
+      // const voc2='KTShop문의';
+      // const voc3='서비스불만';
+      // const voc4='약정문의';
+      // const voc5='요금불만';
+      // const voc6='위약금(할인반환금)문의';
+      // const voc7='품질불만';
+      const mvoc1='단말기할부대금및잔여기간문의';
+
+      
+
       let firstJisaObj={};
       let secondJisaObj={};
       let thirdJisaObj={};
@@ -322,16 +315,16 @@ export default {
       let seventhJisaDatePlusCntArray=[];
 
     
-      const firstJisaVoc6Array=[];
-      const secondJisaVoc6Array=[];
-      const thirdJisaVoc6Array=[];
-      const fourthJisaVoc6Array=[];
-      const fifthJisaVoc6Array=[];
-      const sixthJisaVoc6Array=[];
-      const seventhJisaVoc6Array=[];
+      const firstJisaVoc8Array=[];
+      const secondJisaVoc8Array=[];
+      const thirdJisaVoc8Array=[];
+      const fourthJisaVoc8Array=[];
+      const fifthJisaVoc8Array=[];
+      const sixthJisaVoc8Array=[];
+      const seventhJisaVoc8Array=[];
 
       let dateKeyArray=[];
-      
+
       this.selectedStartNewDate=new Date(this.selectedStartDate.substring(0,4)+'-'+this.selectedStartDate.substring(4,6)+'-'+this.selectedStartDate.substring(6,8));
       this.selectedEndNewDate=new Date(this.selectedEndDate.substring(0,4)+'-'+this.selectedEndDate.substring(4,6)+'-'+this.selectedEndDate.substring(6,8)); 
       const dateDiffCnt=Math.ceil((this.selectedEndNewDate.getTime()-this.selectedStartNewDate.getTime())/(1000*3600*24)); 
@@ -341,36 +334,36 @@ export default {
         dateKeyArray.push(this.displayDateText2(new Date(this.selectedStartNewDate.setDate(this.selectedStartNewDate.getDate()+1))));  //조회 날자를 배열로 만들고 형식을 '2021-04-01' 형식으로 변경
       }
 
-      this.bonbuVocData.map((item,index)=>{
-
-        if(item.voc_gubun.replace(/ /g,'')===mvoc3){  //item.basedate='2021-04-01' 형식
-          
-          if(firstJisa===item.jisa){
-            firstJisaVoc6Array.push({'date':item.basedate,'cnt':item.count_sum});
-          }
         
+      this.bonbuVocData.map((item,index)=>{
+             
+        if(item.voc_gubun.replace(/ /g,'')===mvoc1){
+          if(firstJisa===item.jisa){
+            firstJisaVoc8Array.push({'date':item.basedate,'cnt':item.count_sum});
+          }
+
           if(secondJisa===item.jisa){
-            secondJisaVoc6Array.push({'date':item.basedate,'cnt':item.count_sum});
+            secondJisaVoc8Array.push({'date':item.basedate,'cnt':item.count_sum});
           }
 
           if(thirdJisa===item.jisa){
-            thirdJisaVoc6Array.push({'date':item.basedate,'cnt':item.count_sum});
+            thirdJisaVoc8Array.push({'date':item.basedate,'cnt':item.count_sum});
           }
 
           if(fourthJisa===item.jisa){
-            fourthJisaVoc6Array.push({'date':item.basedate,'cnt':item.count_sum});
+            fourthJisaVoc8Array.push({'date':item.basedate,'cnt':item.count_sum});
           }
 
           if(fifthJisa===item.jisa){
-            fifthJisaVoc6Array.push({'date':item.basedate,'cnt':item.count_sum});
+            fifthJisaVoc8Array.push({'date':item.basedate,'cnt':item.count_sum});
           }
 
           if(sixthJisa===item.jisa){
-            sixthJisaVoc6Array.push({'date':item.basedate,'cnt':item.count_sum});
+            sixthJisaVoc8Array.push({'date':item.basedate,'cnt':item.count_sum});
           }
 
           if(seventhJisa===item.jisa){
-            seventhJisaVoc6Array.push({'date':item.basedate,'cnt':item.count_sum});
+            seventhJisaVoc8Array.push({'date':item.basedate,'cnt':item.count_sum});
           }
         }   
       });
@@ -378,7 +371,7 @@ export default {
       const diffDateArray=(a,b)=>a.filter(x=>!b.includes(x));  // 두 배열에서 중복을 제거하고 남은 요소를 다시 배열로.
 
       //일자별로 voc 카운트 객체 만들기
-      firstJisaDatePlusCntArray=Object.values([...firstJisaVoc6Array].reduce((acc,{date,cnt})=>{
+      firstJisaDatePlusCntArray=Object.values([...firstJisaVoc8Array].reduce((acc,{date,cnt})=>{
       
         if(acc[date]) acc[date].cnt+=parseInt(cnt);
         else acc[date]={date,cnt:parseInt(cnt)};
@@ -395,7 +388,7 @@ export default {
         firstJisaDatePlusCntArray.push({'date':firstImsiArray[i],'cnt':0});
       }
 
-      secondJisaDatePlusCntArray=Object.values([...secondJisaVoc6Array].reduce((acc,{date,cnt})=>{
+      secondJisaDatePlusCntArray=Object.values([...secondJisaVoc8Array].reduce((acc,{date,cnt})=>{
       
         if(acc[date]) acc[date].cnt+=parseInt(cnt);
         else acc[date]={date,cnt:parseInt(cnt)};
@@ -413,7 +406,8 @@ export default {
       }
 
 
-      thirdJisaDatePlusCntArray=Object.values([...thirdJisaVoc6Array].reduce((acc,{date,cnt})=>{
+
+      thirdJisaDatePlusCntArray=Object.values([...thirdJisaVoc8Array].reduce((acc,{date,cnt})=>{
       
         if(acc[date]) acc[date].cnt+=parseInt(cnt);
         else acc[date]={date,cnt:parseInt(cnt)};
@@ -431,7 +425,7 @@ export default {
       }
 
 
-      fourthJisaDatePlusCntArray=Object.values([...fourthJisaVoc6Array].reduce((acc,{date,cnt})=>{
+      fourthJisaDatePlusCntArray=Object.values([...fourthJisaVoc8Array].reduce((acc,{date,cnt})=>{
       
         if(acc[date]) acc[date].cnt+=parseInt(cnt);
         else acc[date]={date,cnt:parseInt(cnt)};
@@ -448,7 +442,8 @@ export default {
         fourthJisaDatePlusCntArray.push({'date':fourthImsiArray[i],'cnt':0});
       }
 
-      fifthJisaDatePlusCntArray=Object.values([...fifthJisaVoc6Array].reduce((acc,{date,cnt})=>{
+
+      fifthJisaDatePlusCntArray=Object.values([...fifthJisaVoc8Array].reduce((acc,{date,cnt})=>{
       
         if(acc[date]) acc[date].cnt+=parseInt(cnt);
         else acc[date]={date,cnt:parseInt(cnt)};
@@ -465,7 +460,8 @@ export default {
         fifthJisaDatePlusCntArray.push({'date':fifthImsiArray[i],'cnt':0});
       }
 
-      sixthJisaDatePlusCntArray=Object.values([...sixthJisaVoc6Array].reduce((acc,{date,cnt})=>{
+
+      sixthJisaDatePlusCntArray=Object.values([...sixthJisaVoc8Array].reduce((acc,{date,cnt})=>{
       
         if(acc[date]) acc[date].cnt+=parseInt(cnt);
         else acc[date]={date,cnt:parseInt(cnt)};
@@ -482,7 +478,7 @@ export default {
         sixthJisaDatePlusCntArray.push({'date':sixthImsiArray[i],'cnt':0});
       }
 
-      seventhJisaDatePlusCntArray=Object.values([...seventhJisaVoc6Array].reduce((acc,{date,cnt})=>{
+      seventhJisaDatePlusCntArray=Object.values([...seventhJisaVoc8Array].reduce((acc,{date,cnt})=>{
       
         if(acc[date]) acc[date].cnt+=parseInt(cnt);
         else acc[date]={date,cnt:parseInt(cnt)};
@@ -512,6 +508,8 @@ export default {
       fifthJisaDatePlusCntArray=fifthJisaDatePlusCntArray.sort(compare('date'));
       sixthJisaDatePlusCntArray=sixthJisaDatePlusCntArray.sort(compare('date'));
       seventhJisaDatePlusCntArray=seventhJisaDatePlusCntArray.sort(compare('date'));
+
+
       
       //일자와 VOC합으로 일어진 객체를 별도 분리
       let firstJisaDayArray=[];
@@ -571,6 +569,9 @@ export default {
         seventhJisaDayVocArray.push(seventhJisaDatePlusCntArray[i].cnt);          
       }
 
+
+    
+    
       firstJisaObj={
         'jisa':firstJisa,
         'basedate':firstJisaDayArray,
@@ -612,7 +613,7 @@ export default {
         'vocSum':seventhJisaDayVocArray,
       }
 
-      
+     
       bonbuVocDataArray=[firstJisaObj,secondJisaObj,thirdJisaObj,fourthJisaObj,fifthJisaObj,sixthJisaObj,seventhJisaObj];
       
       return bonbuVocDataArray;

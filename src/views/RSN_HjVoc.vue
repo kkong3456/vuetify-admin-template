@@ -654,9 +654,9 @@
           <p class="text-h6 text-center">
             [무선-단말기할부대금 및 잔여기간 문의 VOC추이]
           </p>
-          <!-- <jisa-rm-type1-voc-chart
+          <jisa-rm-voc-type1-chart
             ref="changeBonbu15"
-          /> -->
+          />
         </v-col>
    
         <v-col
@@ -713,6 +713,7 @@ import JisaRitVocType2Chart from '@/components/charts/vocchart/jisaRitVocType2Ch
 import JisaRitVocType3Chart from '@/components/charts/vocchart/jisaRitVocType3Chart';
 
 import JisaRmVocChart from '@/components/charts/vocchart/jisaRmVocChart';
+import JisaRmVocType1Chart from '@/components/charts/vocchart/jisaRmVocType1Chart';
 import JisaRmVocType2Chart from '@/components/charts/vocchart/jisaRmVocType2Chart';
 import JisaRmVocType3Chart from '@/components/charts/vocchart/jisaRmVocType3Chart';
 
@@ -749,6 +750,7 @@ export default {
     JisaRitVocType3Chart,
 
     JisaRmVocChart,
+    JisaRmVocType1Chart,
     JisaRmVocType2Chart,
     JisaRmVocType3Chart,
     
