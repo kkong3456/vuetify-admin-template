@@ -47,7 +47,16 @@ export default {
   
   },
 
-  props:['propsbonbudata','propsjisadata'],
+  props:{
+    'propsbonbudata':{
+      type:String,
+      default:undefined,
+    },
+    'propsjisadata':{
+      type:String,
+      default:undefined,
+    }
+  },
  
   data () {
     return {
@@ -130,9 +139,7 @@ export default {
   },
 
   methods: { 
-    onWordClick(word,text){
-      alert(word[0]+':'+word[1]+'건입니다.');
-    },
+   
 
     displayDateText (datetime) {
       if (datetime) {
@@ -193,11 +200,9 @@ export default {
       this.getDesserts();
     },
 
-    
-
     getDesserts(){
       const yyy=this.getJisaVocValue(); 
-      console.log('xxxx',yyy.it.firstJisa); 
+     
       // const selectedStartDate=this.selectedStartDate.substring(2,4)+'-'+this.selectedStartDate.substring(4,6)+'-'+this.selectedStartDate.substring(6,8);
       // const selectedEndDate=this.selectedEndDate.substring(2,4)+'-'+this.selectedEndDate.substring(4,6)+'-'+this.selectedEndDate.substring(6,8)
 

@@ -1,57 +1,73 @@
-<template>
-  <word-cloud
-    style="
-      height:250px;
-      width:320px;
-    "
-    :words="tvInternetVoc"
-    :color="([,weight])=>weight>500?'IndianRed':weight>400?'HotPink':weight>300?'Gold':weight>200?'DarkKhaki':weight>150?'Orchid':weight>100?'SlateBlue':weight>50?'Lime':weight>30?'YellowGreen':weight>20?'Cyan':'0'"
-    font-family="Roboto"
-    rotation-unit="deg"
-    
-    :font-size-ratio="5"
-    :spacing="5"
-    font-weight="normal"
-  >
-    <template slot-scope="{text,weight,word}">
-      <div
-        :title="weight"
-        style="cursor:pointer;"
-        @click="onWordClick(word,text)"
-      >
-        {{ text }}
-      </div>
-    </template>
-  </word-cloud>
-</template>
+
 <script>
 import axios from 'axios';
-import WordCloud from 'vuewordcloud';
+
+import {Bar} from 'vue-chartjs';
+
 import eventBus from '@/js/eventBus';
 
 
+const bonbuJisaObj={
+  '북부고객본부':['고양지사','광진지사','광화문지사','노원지사','서대문지사'],
+  '동부고객본부':['강릉지사','구리지사','원주지사','의정부지사','춘천지사'],
+  '강남고객본부':['강남지사','분당지사','송파지사','수원지사','용인지사','평택지사'],
+  '충남/충북고객본부':['대전지사','서대전지사','천안지사','청주지사','충주지사','홍성지사'],
+  '대구/경북고객본부':['구미지사','달서지사','동대구지사','서대구지사','안동지사','포항지사'],
+  '부산/경남고객본부':['남부산지사','동부산지사','북부산지사','서부산지사','울산지사','진주지사','창원지사'],
+  '전남/전북고객본부':['광주지사','목포지사','순천지사','익산지사','전주지사'],
+  '서부고객본부':['강서지사','구로지사','부천지사','서인천지사','안산지사','안양지사','인천지사']
+}
 
-// :rotation="([,weight])=>weight>500?'90':weight>400?'80':weight>300?'70':weight>200?'60':weight>150?'-50':weight>100?'40':weight>50?'-30':weight>30?'20':weight>200?'-10':'0'"
-export default {
 
-  name:'BonbuTvInternetVocWordCloud',
-
-  components:{
-    WordCloud,
+const options={
+  responsive:true,
+  maintainAspectRatio:true,
+  interaction:{
+    interset:false,
   },
+  scales:{
+    yAxes:[
+      {
+        ticks:{
+          beginAtZero:true
+        },
+        gridLines:{
+          display:true,
+        },    
+      }
+    ],
+    xAxes:[
+      {
+        gridLines:{
+          display:false,
+        },
+      },
 
-  props:{
-    propsbonbudata:{
-      type:String,
-      default:null,
-    },
-    propsjisadata:{
-      type:String,
-      default:null,
+    ],
+  },
+  plugins:{
+    legend:{
+      display:true,
     },
     
+  }
+};
+
+export default {
+  name:'JisaItVocBar',
+  extends:Bar,
+ 
+
+  props:{
+    'propsbonbudata':{
+      type:String,
+      default:undefined,
+    },
+    'propsjisadata':{
+      type:String,
+      default:undefined,
+    }
   },
-  // ['propsbonbudata','propsjisadata'],
  
   data () {
     return {
@@ -65,6 +81,12 @@ export default {
 
       lastWeekStartDate:'20210413',
       lastWeekEndDate:'20210419',
+
+      selectedBonbu:'북부고객본부',
+      selectedJisa:'고양지사',
+
+      dataCollection:null,
+      options:options,
     }
   },
   computed:{
@@ -90,22 +112,19 @@ export default {
       this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
       this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
 
-      // console.log('this.lastWeekStartDate', this.lastWeekStartDate);
-      // console.log('this.lastWeekEndDate',this.lastWeekEndDate);
-     
       this.changeDate();
+      
     }); 
     this.changeDate();
+    this.renderChart(this.dataCollection,this.options);
   },
 
-  mounted(){  
-  },
+  mounted(){ 
+
+  }, 
 
   methods: { 
-    onWordClick(word,text){
-      alert(word[0]+':'+word[1]+'건입니다.');
-    },
-
+    
     displayDateText (datetime) {
       if (datetime) {
         datetime = typeof (datetime) === 'string' ? new Date(datetime) : datetime
@@ -120,78 +139,89 @@ export default {
     },
 
     async changeDate(){
-      const thisDateUrl=`http://172.21.220.97/api/voc.json/?table=qit&bonbu=${this.propsbonbudata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
-      const lastDateUrl=`http://172.21.220.97/api/voc.json/?table=qit&bonbu=${this.propsbonbudata}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
-      
-     
-      await axios.all(
-        [
-          axios.get(thisDateUrl),
-          axios.get(lastDateUrl),
-      
-        ]
-      ).then(axios.spread((res1,res2)=>{
-        this.bonbuVocData=res1.data.results;
-        this.lastWeekBonbuVocData=res2.data.results;
-      })).catch((err)=>{
-        console.log('금주 일자 데이터를 가져 오지 못했습니다');
-      });
-      
-      this.getDesserts();
-    },
-
-    async changedBonbu(selectedBonbu) {
-      const thisDateUrl=`http://172.21.220.97/api/voc.json/?table=qit&bonbu=${selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
-      const lastDateUrl=`http://172.21.220.97/api/voc.json/?table=qit&bonbu=${selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`
+      const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=qit&bonbu=${this.selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
+      const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=qit&bonbu=${this.selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
+    
       
       await axios.all(
         [
-          axios.get(thisDateUrl),
-          axios.get(lastDateUrl),
+          axios.get(bonbuVocDataUrl),
+          axios.get(lastBonbuVocDataUrl),
         ]
       ).then(axios.spread((res1,res2)=>{
         this.bonbuVocData=res1.data.results;
         this.lastWeekBonbuVocData=res2.data.results;
         
+        
       })).catch((err)=>{
-        console.log(' 데이터를 가져 오지 못했습니다.');
-      })
-      this.getDesserts();
+        console.log('금주 일자 데이터를 가져 오지 못했습니다');
+      });
+      
+      this.fillData()
+      this.renderChart(this.dataCollection,this.options);
     },
 
-    getDesserts(){
-      const yyy=this.getBonbuVocValue();
-      console.log('yyy is xxx',yyy);
-  
-      let dessertArray=new Array();
+
+
+    async changedJisa(selectedJisa,selectedBonbu) {
+      
+      const bonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=qit&bonbu=${selectedBonbu}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&kind1=jisa&kind2=type`;
+      const lastBonbuVocDataUrl=`http://172.21.220.97/api/voc.json/?table=qit&bonbu=${selectedBonbu}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&kind1=jisa&kind2=type`;
     
+      this.selectedJisa=selectedJisa;  //지사 선택시 전역적으로 알려준다
+      this.selectedBonbu=selectedBonbu;
+
+      await axios.all(
+        [
+          axios.get(bonbuVocDataUrl),
+          axios.get(lastBonbuVocDataUrl),
+        ]
+      ).then(axios.spread((res1,res2)=>{
+        this.bonbuVocData=res1.data.results;
+        this.lastWeekBonbuVocData=res2.data.results;
+        
+        
+      })).catch((err)=>{
+        console.log('금주 일자 데이터를 가져 오지 못했습니다');
+      });
+      
+      this.fillData()
+      this.renderChart(this.dataCollection,this.options);
+    },
+
+    fillData(){
+      const yyy=this.getBonbuVocValue();
+      
+      const kkk={'name':[],'value':[], 'lastValue':[]}
+      
       for(let i=0;i<yyy.name.length;i++){
-        dessertArray.push([yyy['name'][i],yyy['value'][i]]);
+        if(yyy.value[i]>=5 && yyy.lastValue[i]>=5){
+          kkk.name.push(yyy.name[i]);
+          kkk.value.push(yyy.value[i]);
+          kkk.lastValue.push(yyy.lastValue[i]);
+        }
       }
-     
-      //워드클라우드 그림
-      this.tvInternetVoc=dessertArray; 
-      
-      //금주 해지VOC총 건수 전달
-      this.pushVocData(yyy);
-      
-    }, 
-
-    //RSN_PjVoc.vue에 VoC건수를 제공
-    pushVocData(yyy){
-      let xxx=(yyy['vocCountSum']-yyy['lastVocCountSum'])/yyy['lastVocCountSum']*100;
-      this.$emit('bonbuVocItThisSum',yyy['vocCountSum']);
-      this.$emit('bonbuVocItLastSum',yyy['lastVocCountSum']);
-      this.$emit('bonbuVocItSumDiff',xxx.toPrecision(3));
+   
+      this.dataCollection={
+        //labels:yyy.name,
+        labels:kkk.name,
+        datasets:[
+          {
+            label:yyy.jisa+'[유선-전주]',          
+            data:kkk.lastValue,
+          },
+          {
+            label:yyy.jisa+'[유선-금주]',
+            backgroundColor:['#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082'],
+            data:kkk.value,
+          },
+       
+        ] 
+      }   
+    
     },
-
-  
-
-    wordClickHandler(name,value,vm){
-      console.log('');
-    },
-
     getBonbuVocValue(){    
+    
       let bonbuVocDataObj={};  
       let vocCountSum=0;
       let lastVocCountSum=0;
@@ -236,6 +266,7 @@ export default {
       const voc37='특이고장';
       const voc38='화질이상';
       const voc39='기타';
+
 
       let voc1Cnt=0;
       let voc2Cnt=0;
@@ -317,10 +348,10 @@ export default {
       let voc38Cnt2=0;
       let voc39Cnt2=0;
       
-      
       this.bonbuVocData.map((item)=>{
         // console.log('this.propsbonbudata',this.propsbonbudata);
-        if(item.bonbu===this.propsbonbudata){                   
+        //console.log('this.bonbuVocData is xxxx ',item);
+        if(item.jisa===this.selectedJisa){                   
           if(item.voc_gubun.replace(/ /g,"")===voc1){
             voc1Cnt+=item.count_sum;
           }
@@ -457,66 +488,15 @@ export default {
           if(item.voc_gubun.replace(/ /g,"")===voc38){
             voc38Cnt+=item.count_sum;
           }  
-          // if(item.voc_gubun){
-          //   voc39Cnt+=item.count_sum;
-          // }  
- 
-          vocCountSum+=item.count_sum;      
+           
         }       
       });
-      
-      let vocCountArray=[];
 
-      //Voc발생건수를 내림차순으로 정리하여 위에서 부터 10개만 리턴하려고 한다.
-      vocCountArray.push(
-        {'voc':voc1,'vocCnt':voc1Cnt},
-        {'voc':voc2,'vocCnt':voc2Cnt},
-        {'voc':voc3,'vocCnt':voc3Cnt},
-        {'voc':voc4,'vocCnt':voc4Cnt},
-        {'voc':voc5,'vocCnt':voc5Cnt},
-        {'voc':voc6,'vocCnt':voc6Cnt},
-        {'voc':voc7,'vocCnt':voc7Cnt},
-        {'voc':voc8,'vocCnt':voc8Cnt},
-        {'voc':voc9,'vocCnt':voc9Cnt},
-        {'voc':voc10,'vocCnt':voc10Cnt},
-        {'voc':voc11,'vocCnt':voc11Cnt},
-        {'voc':voc12,'vocCnt':voc12Cnt},
-        {'voc':voc13,'vocCnt':voc13Cnt},
-        {'voc':voc14,'vocCnt':voc14Cnt},
-        {'voc':voc15,'vocCnt':voc15Cnt},
-        {'voc':voc16,'vocCnt':voc16Cnt},
-        {'voc':voc17,'vocCnt':voc17Cnt},
-        {'voc':voc18,'vocCnt':voc18Cnt},
-        {'voc':voc19,'vocCnt':voc19Cnt},
-        {'voc':voc20,'vocCnt':voc20Cnt},
-        {'voc':voc21,'vocCnt':voc21Cnt},
-        {'voc':voc22,'vocCnt':voc22Cnt},
-        {'voc':voc23,'vocCnt':voc23Cnt},
-        {'voc':voc24,'vocCnt':voc24Cnt},
-        {'voc':voc25,'vocCnt':voc25Cnt},
-        {'voc':voc26,'vocCnt':voc26Cnt},
-        {'voc':voc27,'vocCnt':voc27Cnt},
-        {'voc':voc28,'vocCnt':voc28Cnt},
-        {'voc':voc29,'vocCnt':voc29Cnt},
-        {'voc':voc30,'vocCnt':voc30Cnt},
-        {'voc':voc31,'vocCnt':voc31Cnt},
-        {'voc':voc32,'vocCnt':voc32Cnt},
-        {'voc':voc33,'vocCnt':voc33Cnt},
-        {'voc':voc34,'vocCnt':voc34Cnt},
-        {'voc':voc35,'vocCnt':voc35Cnt},
-        {'voc':voc36,'vocCnt':voc36Cnt},
-        {'voc':voc37,'vocCnt':voc37Cnt},
-        {'voc':voc38,'vocCnt':voc38Cnt},
-        {'voc':voc39,'vocCnt':voc39Cnt},        
-      );
-      vocCountArray.sort((a,b)=>{
-        return b.vocCnt-a.vocCnt;      //vocCnt기준 내림차순 정렬
-      });
+    
 
-   
       this.lastWeekBonbuVocData.map((item)=>{
         // console.log('this.propsbonbudata',this.propsbonbudata);
-        if(item.bonbu===this.propsbonbudata){
+        if(item.jisa===this.selectedJisa){
                     
           if(item.voc_gubun.replace(/ /g,"")===voc1){
             voc1Cnt2+=item.count_sum;
@@ -637,21 +617,76 @@ export default {
           }  
           if(item.voc_gubun.replace(/ /g,"")===voc39){
             voc39Cnt2+=item.count_sum;
-          }  
-          lastVocCountSum+=item.count_sum;
+          }
         }
         
-      });    
+      });  
+
+
+      let vocCountArray=[];
+
+      //Voc발생건수를 내림차순으로 정리하여 위에서 부터 10개만 리턴하려고 한다.
+      vocCountArray.push(
+        {'voc':voc1,'vocCnt':voc1Cnt,'lastVocCnt':voc1Cnt2},
+        {'voc':voc2,'vocCnt':voc2Cnt,'lastVocCnt':voc2Cnt2},
+        {'voc':voc3,'vocCnt':voc3Cnt,'lastVocCnt':voc3Cnt2},
+        {'voc':voc4,'vocCnt':voc4Cnt,'lastVocCnt':voc4Cnt2},
+        {'voc':voc5,'vocCnt':voc5Cnt,'lastVocCnt':voc5Cnt2},
+        {'voc':voc6,'vocCnt':voc6Cnt,'lastVocCnt':voc6Cnt2},
+        {'voc':voc7,'vocCnt':voc7Cnt,'lastVocCnt':voc7Cnt2},
+        {'voc':voc8,'vocCnt':voc8Cnt,'lastVocCnt':voc8Cnt2},
+        {'voc':voc9,'vocCnt':voc9Cnt,'lastVocCnt':voc9Cnt2},
+        {'voc':voc10,'vocCnt':voc10Cnt,'lastVocCnt':voc10Cnt2},
+        {'voc':voc11,'vocCnt':voc11Cnt,'lastVocCnt':voc11Cnt2},
+        {'voc':voc12,'vocCnt':voc12Cnt,'lastVocCnt':voc12Cnt2},
+        {'voc':voc13,'vocCnt':voc13Cnt,'lastVocCnt':voc13Cnt2},
+        {'voc':voc14,'vocCnt':voc14Cnt,'lastVocCnt':voc14Cnt2},
+        {'voc':voc15,'vocCnt':voc15Cnt,'lastVocCnt':voc15Cnt2},
+        {'voc':voc16,'vocCnt':voc16Cnt,'lastVocCnt':voc16Cnt2},
+        {'voc':voc17,'vocCnt':voc17Cnt,'lastVocCnt':voc17Cnt2},
+        {'voc':voc18,'vocCnt':voc18Cnt,'lastVocCnt':voc18Cnt2},
+        {'voc':voc19,'vocCnt':voc19Cnt,'lastVocCnt':voc19Cnt2},
+        {'voc':voc20,'vocCnt':voc20Cnt,'lastVocCnt':voc20Cnt2},
+        {'voc':voc21,'vocCnt':voc21Cnt,'lastVocCnt':voc21Cnt2},
+        {'voc':voc22,'vocCnt':voc22Cnt,'lastVocCnt':voc22Cnt2},
+        {'voc':voc23,'vocCnt':voc23Cnt,'lastVocCnt':voc23Cnt2},
+        {'voc':voc24,'vocCnt':voc24Cnt,'lastVocCnt':voc24Cnt2},
+        {'voc':voc25,'vocCnt':voc25Cnt,'lastVocCnt':voc25Cnt2},
+        {'voc':voc26,'vocCnt':voc26Cnt,'lastVocCnt':voc26Cnt2},
+        {'voc':voc27,'vocCnt':voc27Cnt,'lastVocCnt':voc27Cnt2},
+        {'voc':voc28,'vocCnt':voc28Cnt,'lastVocCnt':voc28Cnt2},
+        {'voc':voc29,'vocCnt':voc29Cnt,'lastVocCnt':voc29Cnt2},
+        {'voc':voc30,'vocCnt':voc30Cnt,'lastVocCnt':voc30Cnt2},
+        {'voc':voc31,'vocCnt':voc31Cnt,'lastVocCnt':voc31Cnt2},
+        {'voc':voc32,'vocCnt':voc32Cnt,'lastVocCnt':voc32Cnt2},
+        {'voc':voc33,'vocCnt':voc33Cnt,'lastVocCnt':voc33Cnt2},
+        {'voc':voc34,'vocCnt':voc34Cnt,'lastVocCnt':voc34Cnt2},
+        {'voc':voc35,'vocCnt':voc35Cnt,'lastVocCnt':voc35Cnt2},
+        {'voc':voc36,'vocCnt':voc36Cnt,'lastVocCnt':voc36Cnt2},
+        {'voc':voc37,'vocCnt':voc37Cnt,'lastVocCnt':voc37Cnt2},
+        {'voc':voc38,'vocCnt':voc38Cnt,'lastVocCnt':voc38Cnt2},
+        {'voc':voc39,'vocCnt':voc39Cnt,'lastVocCnt':voc39Cnt2},        
+      );
+      vocCountArray.sort((a,b)=>{
+        return b.vocCnt-a.vocCnt;      //vocCnt기준 내림차순 정렬
+      });
+
+      
       // Top 10만 선정
-      let etcCnt=0;
+      let etcCnt=0;  //Top 0 이하 합계
+      let lastEtcCnt=0;
 
       etcCnt=vocCountArray[10].vocCnt+vocCountArray[11].vocCnt+vocCountArray[12].vocCnt+vocCountArray[13].vocCnt+vocCountArray[14].vocCnt+vocCountArray[15].vocCnt+vocCountArray[16].vocCnt+vocCountArray[17].vocCnt
             +vocCountArray[18].vocCnt+vocCountArray[19].vocCnt+vocCountArray[20].vocCnt+vocCountArray[21].vocCnt+vocCountArray[22].vocCnt+vocCountArray[23].vocCnt+vocCountArray[24].vocCnt+vocCountArray[25].vocCnt
             +vocCountArray[26].vocCnt+vocCountArray[27].vocCnt+vocCountArray[28].vocCnt+vocCountArray[29].vocCnt+vocCountArray[30].vocCnt+vocCountArray[31].vocCnt+vocCountArray[32].vocCnt+vocCountArray[33].vocCnt
 
-     
 
+      lastEtcCnt=vocCountArray[10].lastVocCnt+vocCountArray[11].lastVocCnt+vocCountArray[12].lastVocCnt+vocCountArray[13].lastVocCnt+vocCountArray[14].lastVocCnt+vocCountArray[15].lastVocCnt+vocCountArray[16].lastVocCnt+vocCountArray[17].lastVocCnt
+            +vocCountArray[18].lastVocCnt+vocCountArray[19].lastVocCnt+vocCountArray[20].lastVocCnt+vocCountArray[21].lastVocCnt+vocCountArray[22].lastVocCnt+vocCountArray[23].lastVocCnt+vocCountArray[24].lastVocCnt+vocCountArray[25].lastVocCnt
+            +vocCountArray[26].lastVocCnt+vocCountArray[27].lastVocCnt+vocCountArray[28].lastVocCnt+vocCountArray[29].lastVocCnt+vocCountArray[30].lastVocCnt+vocCountArray[31].lastVocCnt+vocCountArray[32].lastVocCnt+vocCountArray[33].lastVocCnt
 
+      //console.log('vocCountArray 18',vocCountArray);
+       
       bonbuVocDataObj={
         'name':
           [
@@ -682,8 +717,21 @@ export default {
             etcCnt,
             
           ],
-        'vocCountSum':vocCountSum,
-        'lastVocCountSum':lastVocCountSum,
+        'lastValue':
+          [
+            vocCountArray[0].lastVocCnt,
+            vocCountArray[1].lastVocCnt,
+            vocCountArray[2].lastVocCnt,
+            vocCountArray[3].lastVocCnt,
+            vocCountArray[4].lastVocCnt,
+            vocCountArray[5].lastVocCnt,
+            vocCountArray[6].lastVocCnt,
+            vocCountArray[7].lastVocCnt,
+            vocCountArray[8].lastVocCnt,
+            vocCountArray[9].lastVocCnt,
+            lastEtcCnt,
+          ],
+        'jisa': this.selectedJisa,
       }
       return bonbuVocDataObj;
     },

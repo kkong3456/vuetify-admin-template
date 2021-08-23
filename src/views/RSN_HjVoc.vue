@@ -538,7 +538,7 @@
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
           </p>
-          <jisa-m-it-voc-table 
+          <jisa-m-it-hj-voc-table 
             ref="changeBonbu9"
           />
         </v-col>
@@ -556,7 +556,7 @@
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
           </p>
-          <jisa-it-voc-bar 
+          <jisa-it-hj-voc-bar 
             ref="changeJisa9"
             :height="300"
           />
@@ -575,7 +575,7 @@
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
           </p>
-          <jisa-m-voc-bar 
+          <jisa-m-hj-voc-bar 
             ref="changeJisa10"
             :height="300"
           />
@@ -705,10 +705,10 @@ import BonbuMobileVocWordCloud from '@/components/wordcloud/BonbuMobileVocWordCl
 import JisaTvInternetVocWordCloud from '@/components/wordcloud/JisaTvInternetVocWordCloud'
 import JisaMobileVocWordCloud from '@/components/wordcloud/JisaMobileVocWordCloud';
 
-import JisaItVocBar from '@/components/bars/vocbars/jisaItVocBar';
-import JisaMVocBar from '@/components/bars/vocbars/jisaMVocBar';
+import JisaItHjVocBar from '@/components/bars/vocbars/jisaItHjVocBar';
+import JisaMHjVocBar from '@/components/bars/vocbars/jisaMHjVocBar';
 
-import JisaMItVocTable from '@/components/tables/voctable/jisaMItVocTable';
+import JisaMItHjVocTable from '@/components/tables/voctable/jisaMItHjVocTable';
 
 import JisaRitVocChart from '@/components/charts/vocchart/jisaRitVocChart.vue';
 import JisaRitVocType1Chart from '@/components/charts/vocchart/jisaRitVocType1Chart';
@@ -737,15 +737,15 @@ export default {
     // JisaTvNetIncreaseTable,
     // JisaTvHjTable,
 
-    JisaMItVocTable,
+    JisaMItHjVocTable,
 
     BonbuTvInternetVocWordCloud,
     BonbuMobileVocWordCloud,
     JisaTvInternetVocWordCloud,
     JisaMobileVocWordCloud,
 
-    JisaItVocBar,
-    JisaMVocBar,
+    JisaItHjVocBar,
+    JisaMHjVocBar,
 
     JisaRitVocChart,
     JisaRitVocType1Chart,

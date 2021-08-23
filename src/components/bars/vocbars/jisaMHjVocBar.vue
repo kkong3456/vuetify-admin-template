@@ -58,7 +58,16 @@ export default {
   extends:Bar,
  
 
-  props:['propsbonbudata','propsjisadata'],
+  props:{
+    'propsbonbudata':{
+      type:String,
+      default:undefined,
+    },
+    'propsjisadata':{
+      type:String,
+      default:undefined,
+    }
+  },
  
   data () {
     return {

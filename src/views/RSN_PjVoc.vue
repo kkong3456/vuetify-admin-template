@@ -529,7 +529,9 @@
       >
         <v-col
           cols="12"
-          md="4"
+          lg="4"
+          xl="4"
+          sm="12"
         >
           <p class="text-h6 text-center">
             [{{ selectedBonbu }} - VOC누적현황]<br>
@@ -538,14 +540,17 @@
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
           </p>
-          <jisa-m-it-voc-table 
+          <jisa-m-it-pj-voc-table 
             ref="changeBonbu9"
           />
         </v-col>
-    
+
+        <!-- 막대그래프 -->
         <v-col
           cols="12"
-          md="4"
+          lg="8"
+          xl="8"
+          sm="12"
         >
           <p class="text-h6 text-center">
             [{{ selectedJisa }} - VOC 유형 - 유선]<br>
@@ -556,15 +561,16 @@
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
           </p>
-          <jisa-it-voc-bar 
+          <jisa-it-pj-voc-bar 
             ref="changeJisa9"
-            :height="300"
+            :height="170"
           />
         </v-col>
+      </v-row>
 
+      <v-row>
         <v-col
           cols="12"
-          md="4"
         >
           <p class="text-h6 text-center">
             [{{ selectedJisa }} - VOC 유형 - 무선]<br>
@@ -575,9 +581,9 @@
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
           </p>
-          <jisa-m-voc-bar 
+          <jisa-m-pj-voc-bar 
             ref="changeJisa10"
-            :height="300"
+            :height="100"
           />
         </v-col>
       </v-row>   
@@ -705,10 +711,10 @@ import BonbuMobilePjVocCloud from '@/components/wordcloud/BonbuMobilePjVocCloud'
 import JisaTvInternetPjVocCloud from '@/components/wordcloud/JisaTvInternetPjVocCloud'
 import JisaMobilePjVocCloud from '@/components/wordcloud/JisaMobilePjVocCloud';
 
-import JisaItVocBar from '@/components/bars/vocbars/jisaItVocBar';
-import JisaMVocBar from '@/components/bars/vocbars/jisaMVocBar';
+import JisaItPjVocBar from '@/components/bars/vocbars/jisaItPjVocBar';
+import JisaMPjVocBar from '@/components/bars/vocbars/jisaMPjVocBar';
 
-import JisaMItVocTable from '@/components/tables/voctable/jisaMItVocTable';
+import JisaMItPjVocTable from '@/components/tables/voctable/jisaMItPjVocTable';
 
 import JisaRitVocChart from '@/components/charts/vocchart/jisaRitVocChart.vue';
 import JisaRitVocType1Chart from '@/components/charts/vocchart/jisaRitVocType1Chart';
@@ -737,15 +743,15 @@ export default {
     // JisaTvNetIncreaseTable,
     // JisaTvHjTable,
 
-    JisaMItVocTable,
+    JisaMItPjVocTable,
 
     BonbuTvInternetPjVocCloud,
     BonbuMobilePjVocCloud,
     JisaTvInternetPjVocCloud,
     JisaMobilePjVocCloud,
 
-    JisaItVocBar,
-    JisaMVocBar,
+    JisaItPjVocBar,
+    JisaMPjVocBar,
 
     JisaRitVocChart,
     JisaRitVocType1Chart,
