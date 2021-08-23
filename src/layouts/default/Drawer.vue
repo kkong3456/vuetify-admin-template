@@ -137,115 +137,53 @@ export default {
         ],
       },
       {
-        icon     : 'mdi-folder',
-        text     : '1. 해지 예측 정보',
-        subLinks : [
+        icon:'mdi-folder',
+        text:'예측현황CONTENTS',
+        subLinks:[
           {
-            text : '1-1 예측 시나리오',
-            to    : '/scenario',
-            icon  : 'mdi-plus'
+            text:'0. 해지예측',
+            to:'/hj-prediction',
+            icon:'mdi-plus',
           },
           {
-            text : '1-2 고 위험 사이트',
-            to    : '/dangeroussite',
-            icon  : 'mdi-plus'
-          },
-        
-        ]
-      },
-      {
-        icon     : 'mdi-folder',
-        text     : '2. 해지 징후 VOC',
-        subLinks : [
-          {
-            text : '2-1  영업VOC - 상품별',
-            to    : '/sale-voc-product',
-            icon  : 'mdi-plus'
+            text:'1.본부별 실적예측',
+            to:'/bonbu-prediction',
+            icon:'mdi-plus',
           },
           {
-            text:'2-2 영업VOC - 업무유형별',
-            to :'/sale-voc-work',
-            icon:'mdi-plus'
-          },
-         
-          {
-            text : '2-3 품질VOC - 상품별',
-            to    : '/network-voc-product',
-            icon  : 'mdi-plus'
+            text:'2.지사별 실적예측',
+            to:'/jisa-prediction',
+            icon:'mdi-plus',
           },
           {
-            text:'2-4 품질VOC - 업무유형별',
-            to : '/network-voc-work',
-            icon:'mdi-plus'
+            text:'3.해지VOC예측',
+            to:'/hjvoc-prediction',
+            icon:'mdi-plus',
+          },
+          {
+            text:'4.품질VOC예측',
+            to:'/pjvoc-prediction',
+            icon:'mdi-plus',
           }
         ]
       },
-      {
-        icon     : 'mdi-folder',
-        text     : '3. 실적/지표 관리',
-        subLinks : [
-          {
-            text : '3-1 본부별 추이',
-            to    : '/bonbu',
-            icon  : 'mdi-plus'
-          },
-          {
-            text : '3-2 상품별 추이',
-            to    : '/product',
-            icon  : 'mdi-plus'
-          },
-          {
-            text : '3-3 지사별 추이(TV)',
-            to    : '/jisa-tv',
-            icon  : 'mdi-plus'
-          },
-          {
-            text : '3-4 지사별 추이(무선)',
-            to    : '/jisa-wireless',
-            icon  : 'mdi-plus'
-          },
-          {
-            text : '3-5 지사별 추이(인터넷)',
-            to    : '/jisa-internet',
-            icon  : 'mdi-plus'
-          },
-          {
-            text : '3-6 해지현황 표(상품별)',
-            to : '/hj-table',
-            icon  : 'mdi-plus'
-          },
-          // {
-          //   text: '로그인',
-          //   to : '/authentication/sign-in',
-          //   icon :'mdi-login'
-          // },
-          // {
-          //   text:'회원가입',
-          //   to:'/authentication/sign-up',
-          //   icon:'mdi-account-group'
-          // },{
-          //   text:'상품리스트',
-          //   to:'/page/product-list',
-          //   icon:'mdi-gift'
-          // }
-        ]
-      },
-      {
-        icon:'mdi-folder',
-        text:'4. 해지분포 MAP',
-        subLinks:[
-          {
-            text:'4-1. Day Time MAP',
-            to:'/rs-daytime-locations',
-            icon:'mdi-plus',
-          },
-          {
-            text:'4-2. Night Time MAP',
-            to:'/rs-nighttime-locations',
-            icon:'mdi-plus',
-          },
-        ]
-      }
+      
+      // {
+      //   icon:'mdi-folder',
+      //   text:'4. 해지분포 MAP',
+      //   subLinks:[
+      //     {
+      //       text:'4-1. Day Time MAP',
+      //       to:'/rs-daytime-locations',
+      //       icon:'mdi-plus',
+      //     },
+      //     {
+      //       text:'4-2. Night Time MAP',
+      //       to:'/rs-nighttime-locations',
+      //       icon:'mdi-plus',
+      //     },
+      //   ]
+      // }
     ]
   }),
 
@@ -263,10 +201,17 @@ export default {
  .v-application--is-ltr .v-list--dense.v-list--nav .v-list-group--no-action > .v-list-group__items > .v-list-item {padding: 0 8px;} /* 메뉴너비  */
 /*.container{margin:0;}  본문화면이 중앙으로 치우치는 것을 방지 */
 
-/* 메뉴와 아이콘 간격 조정 */
-.v-application--is-ltr .v-list-item__action:first-child, .v-application--is-ltr .v-list-item__icon:first-child {
-    margin-right: 12px; 
+
+/* 메뉴와 아이콘 간격조정 */
+.v-list-item--dense .v-list-item__icon, .v-list--dense .v-list-item .v-list-item__icon {
+  
+    margin-right: 20px !important;
 }
 
+
+/* 서브메뉴의 위치 조정 */
+.v-application--is-ltr .v-list--dense.v-list--nav .v-list-group--no-action > .v-list-group__items > .v-list-item {
+    padding-left: 22px !important;
+}
 
 </style>
