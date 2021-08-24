@@ -596,10 +596,10 @@
           cols="12"
           md="3"
         >
-          <p class="text-h5 text-center">
+          <p class="text-h6 text-center">
             [유선-총 VOC 추이]
           </p>
-          <jisa-rit-voc-chart 
+          <jisa-qit-voc-chart 
             ref="changeBonbu10"
           />
         </v-col>
@@ -608,8 +608,8 @@
           cols="12"
           md="3"
         >
-          <p class="text-h5 text-center">
-            [유선-혜택문의 VOC추이]
+          <p class="text-h6 text-center">
+            [유선-접속불가]
           </p>
           <jisa-rit-voc-type1-chart
             ref="changeBonbu11"
@@ -620,8 +620,8 @@
           cols="12"
           md="3"
         >
-          <p class="text-h5 text-center">
-            [유선-약정문의 VOC 추이]
+          <p class="text-h6 text-center">
+            [유선-수신불량]
           </p>
           <jisa-rit-voc-type2-chart 
             ref="changeBonbu12"
@@ -631,8 +631,8 @@
           cols="12"
           md="3"
         >
-          <p class="text-h5 text-center">
-            [유선-위약금문의 VOC추이]
+          <p class="text-h6 text-center">
+            [유선-접속지연/끊김]
           </p>
           <jisa-rit-voc-type3-chart
             ref="changeBonbu13"
@@ -646,8 +646,8 @@
           cols="12"
           md="3"
         >
-          <p class="text-h5 text-center">
-            [무선-총 VOC 추이]
+          <p class="text-h6 text-center">
+            [유선-AS보류(유료화)]
           </p>
           <jisa-rm-voc-chart 
             ref="changeBonbu14"
@@ -659,7 +659,7 @@
           md="3"
         >
           <p class="text-h6 text-center">
-            [무선-단말기할부대금 및 잔여기간 문의 VOC추이]
+            [유선-STB(작동)이상]
           </p>
           <jisa-rm-voc-type1-chart
             ref="changeBonbu15"
@@ -670,8 +670,8 @@
           cols="12"
           md="3"
         >
-          <p class="text-h5 text-center">
-            [무선-약정문의 VOC 추이]
+          <p class="text-h6 text-center">
+            [유선-화질이상]
           </p>
           <jisa-rm-voc-type2-chart 
             ref="changeBonbu16"
@@ -681,8 +681,8 @@
           cols="12"
           md="3"
         >
-          <p class="text-h5 text-center">
-            [무선-위약금문의 VOC추이]
+          <p class="text-h6 text-center">
+            [유선-네트워크오류]
           </p>
           <jisa-rm-voc-type3-chart
             ref="changeBonbu17"
@@ -716,7 +716,7 @@ import JisaMPjVocBar from '@/components/bars/vocbars/jisaMPjVocBar';
 
 import JisaMItPjVocTable from '@/components/tables/voctable/jisaMItPjVocTable';
 
-import JisaRitVocChart from '@/components/charts/vocchart/jisaRitVocChart.vue';
+import JisaQitVocChart from '@/components/charts/vocchart/jisaQitVocChart.vue';
 import JisaRitVocType1Chart from '@/components/charts/vocchart/jisaRitVocType1Chart';
 import JisaRitVocType2Chart from '@/components/charts/vocchart/jisaRitVocType2Chart';
 import JisaRitVocType3Chart from '@/components/charts/vocchart/jisaRitVocType3Chart';
@@ -725,6 +725,8 @@ import JisaRmVocChart from '@/components/charts/vocchart/jisaRmVocChart';
 import JisaRmVocType1Chart from '@/components/charts/vocchart/jisaRmVocType1Chart';
 import JisaRmVocType2Chart from '@/components/charts/vocchart/jisaRmVocType2Chart';
 import JisaRmVocType3Chart from '@/components/charts/vocchart/jisaRmVocType3Chart';
+
+
 
 
 import VueHotelDatePicker from '@/components/datepicker/vue-hotel-datepicker';
@@ -753,10 +755,12 @@ export default {
     JisaItPjVocBar,
     JisaMPjVocBar,
 
-    JisaRitVocChart,
+    JisaQitVocChart,
     JisaRitVocType1Chart,
     JisaRitVocType2Chart,
     JisaRitVocType3Chart,
+
+    
 
     JisaRmVocChart,
     JisaRmVocType1Chart,
