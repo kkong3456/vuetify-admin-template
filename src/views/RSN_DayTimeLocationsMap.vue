@@ -36,7 +36,7 @@ const bonbuJisaObj={
 }
 
 export default {
-  name:'RsRsLocationMap',
+  name:'RsnDayTimeLocationsMap',
   data(){
     return{
       locationsData:new Array(),

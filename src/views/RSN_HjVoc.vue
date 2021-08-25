@@ -603,7 +603,7 @@
           md="3"
         >
           <p class="text-h5 text-center">
-            [유선-혜택문의 VOC추이]
+            [유선-혜택문의]
           </p>
           <jisa-rit-voc-type1-chart
             ref="changeBonbu11"
@@ -615,7 +615,7 @@
           md="3"
         >
           <p class="text-h5 text-center">
-            [유선-약정문의 VOC 추이]
+            [유선-약정문의]
           </p>
           <jisa-rit-voc-type2-chart 
             ref="changeBonbu12"
@@ -626,7 +626,7 @@
           md="3"
         >
           <p class="text-h5 text-center">
-            [유선-위약금문의 VOC추이]
+            [유선-위약금문의]
           </p>
           <jisa-rit-voc-type3-chart
             ref="changeBonbu13"
@@ -653,7 +653,7 @@
           md="3"
         >
           <p class="text-h6 text-center">
-            [무선-단말기할부대금 및 잔여기간 문의 VOC추이]
+            [무선-단말기할부대금 및 잔여기간 문의]
           </p>
           <jisa-rm-voc-type1-chart
             ref="changeBonbu15"
@@ -665,7 +665,7 @@
           md="3"
         >
           <p class="text-h5 text-center">
-            [무선-약정문의 VOC 추이]
+            [무선-약정문의]
           </p>
           <jisa-rm-voc-type2-chart 
             ref="changeBonbu16"
@@ -676,7 +676,7 @@
           md="3"
         >
           <p class="text-h5 text-center">
-            [무선-위약금문의 VOC추이]
+            [무선-위약금문의]
           </p>
           <jisa-rm-voc-type3-chart
             ref="changeBonbu17"
@@ -809,7 +809,7 @@ export default {
 
       this.selectedStartDate=dateResult.start.replace(/\//gi,'')  //현재 선택
       this.selectedEndDate=dateResult.end.replace(/\//gi,'')
-      console.log('selectedstartDate',this.selectedStartDate,this.selectedEndDate);
+      // console.log('selectedstartDate',this.selectedStartDate,this.selectedEndDate);
 
       // this.lastWeekStart=new Date(imsiThisStart);
       // this.lastWeekStart.setDate(this.lastWeekStart.getDate() - 7);

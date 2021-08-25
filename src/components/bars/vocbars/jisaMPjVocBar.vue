@@ -213,7 +213,7 @@ export default {
           },
           {
             label:yyy.jisa+'[무선-금주]',
-            backgroundColor:['#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082'],
+            backgroundColor:['#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082'],
             data:kkk.value,
           },
        

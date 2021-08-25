@@ -212,7 +212,7 @@ export default {
           },
           {
             label:yyy.jisa+'[유선-금주]',
-            backgroundColor:['#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082'],
+            backgroundColor:['#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082','#5CE082'], //bar 색
             data:kkk.value,
           },
        
@@ -228,8 +228,8 @@ export default {
      
     
       const voc1='발열,배터리등단말이상';
-      const voc2='부주의,ID/PW분실등';
-      const voc3='전원,충전이상';
+      const voc2='\"부주의, ID/PW 분실 등\"';
+      const voc3='\"전원, 충전 이상\"';
       const voc4='AS보류(유료화)';
       const voc5='IP공유기이상';
       const voc6='PIN인증오류';
@@ -240,7 +240,7 @@ export default {
       const voc11='air전원불량';
       const voc12='네트워크오류';
       const voc13='네트워크장비장애';
-      const voc14='리모콘작동불가';
+      const voc14='리모컨작동불가';
       const voc15='메뉴실행불가';
       const voc16='모뎀이상';
       const voc17='수신불량';
@@ -355,10 +355,10 @@ export default {
           if(item.voc_gubun.replace(/ /g,"")===voc1){
             voc1Cnt+=item.count_sum;
           }
-          if(item.voc_gubun.replace(/ /g,"")===voc2){
+          if(item.voc_gubun===voc2){
             voc2Cnt+=item.count_sum;
           }
-          if(item.voc_gubun.replace(/ /g,"")===voc3){
+          if(item.voc_gubun===voc3){
             voc3Cnt+=item.count_sum;
           }
           if(item.voc_gubun.replace(/ /g,"")===voc4){
@@ -501,10 +501,10 @@ export default {
           if(item.voc_gubun.replace(/ /g,"")===voc1){
             voc1Cnt2+=item.count_sum;
           }
-          if(item.voc_gubun.replace(/ /g,"")===voc2){
+          if(item.voc_gubun===voc2){
             voc2Cnt2+=item.count_sum;
           }
-          if(item.voc_gubun.replace(/ /g,"")===voc3){
+          if(item.voc_gubun===voc3){
             voc3Cnt2+=item.count_sum;
           }
           if(item.voc_gubun.replace(/ /g,"")===voc4){

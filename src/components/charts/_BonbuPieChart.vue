@@ -60,7 +60,7 @@ export default {
   methods: {
     fillData () {
       const yyy=this.getBonbuNetIncreaseValue();
-      console.log(yyy['북부본부'][yyy['북부본부'].length-1])
+     
       this.dataCollection = {
         labels:Object.keys(yyy).splice(1),
 

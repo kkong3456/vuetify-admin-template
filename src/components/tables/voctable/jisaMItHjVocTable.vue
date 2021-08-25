@@ -337,7 +337,6 @@ export default {
         fourthJisa='의정부지사';
         fifthJisa='춘천지사';
 
-        console.log('동부고객본부');
 
         this.jisaVocData.map((item)=>{
           if(item.jisa===firstJisa){

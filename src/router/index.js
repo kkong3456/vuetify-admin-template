@@ -5,7 +5,7 @@ import VueRouter from 'vue-router'
 // import RS_Dashboard from '@/views/RS_Dashboard'
 // import RS_Scenario from '@/views/RS_Scenario'
 // import RS_DangerousSite from '@/views/RS_DangerousSite'
-// import RS_RsDayTimeLocationsMap from '@/views/RS_RsDayTimeLocationsMap'
+import RSN_DayTimeLocationsMap from '@/views/RSN_DayTimeLocationsMap'
 // import RS_RsNightTimeLocationsMap from '@/views/RS_RsNightTimeLocationsMap'
 
 // import RS_SaleVocProduct from '@/views/RS_SaleVocProduct'
@@ -41,14 +41,19 @@ const routes=[
     path:'/',
     component:DefaultLayout,
     children:[
-      // {
-      // path:'/',
-      // name:'RS_Dashboard',
-      // component:RS_Dashboard
+      {
+        path:'/',
+        name:'RSN_PjVoc',
+        component:RSN_PjVoc
       // path:'/',
       // name:'RS_JisaTv',
       // component:RS_JisaTv
-      // },
+      },
+      {
+        path:'/rs-daytime-locations',
+        name:'RSN_DayTimeLocationsMap',
+        component:RSN_DayTimeLocationsMap,
+      },
       {
         path:'/rsn-hj-voc',
         name:'RSN_HjVoc',

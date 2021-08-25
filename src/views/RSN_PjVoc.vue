@@ -13,7 +13,7 @@
           <template>
             <v-select
               v-model="selectedBonbu"
-              :items="['북부고객본부', '동부고객본부', '서부고객본부', '강남고객본부','충남/충북고객본부','전남/전북고객본부','부산/경남고객본부','대구/경북고객본부']"
+              :items="['북부고객본부', '동부고객본부']"
               label="광역본부"
               @change="changeBonbu(selectedBonbu)"
             >
@@ -611,8 +611,9 @@
           <p class="text-h6 text-center">
             [유선-접속불가]
           </p>
-          <jisa-rit-voc-type1-chart
+          <jisa-qit-voc-type-chart
             ref="changeBonbu11"
+            propsvoctype="접속불가"
           />
         </v-col>
    
@@ -621,10 +622,11 @@
           md="3"
         >
           <p class="text-h6 text-center">
-            [유선-수신불량]
+            [유선-접속지연/끊김]
           </p>
-          <jisa-rit-voc-type2-chart 
+          <jisa-qit-voc-type-chart 
             ref="changeBonbu12"
+            propsvoctype="접속지연/끊김"
           />
         </v-col>
         <v-col
@@ -632,10 +634,11 @@
           md="3"
         >
           <p class="text-h6 text-center">
-            [유선-접속지연/끊김]
+            [유선-수신불량]
           </p>
-          <jisa-rit-voc-type3-chart
+          <jisa-qit-voc-type-chart
             ref="changeBonbu13"
+            propsvoctype="수신불량"
           />
         </v-col>
       </v-row>
@@ -647,10 +650,11 @@
           md="3"
         >
           <p class="text-h6 text-center">
-            [유선-AS보류(유료화)]
+            [유선-리모컨작동불가]
           </p>
-          <jisa-rm-voc-chart 
+          <jisa-qit-voc-type-chart 
             ref="changeBonbu14"
+            propsvoctype="리모컨작동불가"
           />
         </v-col>
     
@@ -659,10 +663,11 @@
           md="3"
         >
           <p class="text-h6 text-center">
-            [유선-STB(작동)이상]
+            [유선-AS보류(유료화)]
           </p>
-          <jisa-rm-voc-type1-chart
+          <jisa-qit-voc-type-chart
             ref="changeBonbu15"
+            propsvoctype="AS보류(유료화)"
           />
         </v-col>
    
@@ -671,10 +676,11 @@
           md="3"
         >
           <p class="text-h6 text-center">
-            [유선-화질이상]
+            [유선-부주의,ID/PW분실 등]
           </p>
-          <jisa-rm-voc-type2-chart 
+          <jisa-qit-voc-type-chart 
             ref="changeBonbu16"
+            propsvoctype="부주의,ID/PW분실등"
           />
         </v-col>
         <v-col
@@ -682,10 +688,116 @@
           md="3"
         >
           <p class="text-h6 text-center">
-            [유선-네트워크오류]
+            [유선-STB(작동)이상]
           </p>
-          <jisa-rm-voc-type3-chart
+          <jisa-qit-voc-type-chart
             ref="changeBonbu17"
+            propsvoctype="STB(작동)이상"
+          />
+        </v-col>
+      </v-row>
+      <v-row
+        class="mt-5"
+      >
+        <v-col
+          cols="12"
+          md="3"
+        >
+          <p class="text-h6 text-center">
+            [무선-총 VOC 추이]
+          </p>
+          <jisa-qm-voc-chart 
+            ref="changeBonbu18"
+          />
+        </v-col>
+    
+        <v-col
+          cols="12"
+          md="3"
+        >
+          <p class="text-h6 text-center">
+            [무선-중계기]
+          </p>
+          <jisa-qm-voc-type-chart
+            ref="changeBonbu19"
+            propsvoctype="중계기"
+          />
+        </v-col>
+        <v-col
+          cols="12"
+          md="3"
+        >
+          <p class="text-h6 text-center">
+            [무선-접속불가]
+          </p>
+          <jisa-qm-voc-type-chart 
+            ref="changeBonbu20"
+            propsvoctype="접속불가"
+          />
+        </v-col>
+        <v-col
+          cols="12"
+          md="3"
+        >
+          <p class="text-h6 text-center">
+            [무선-발신불가]
+          </p>
+          <jisa-qm-voc-type-chart
+            ref="changeBonbu21"
+            propsvoctype="발신불가"
+          />
+        </v-col>
+      </v-row>
+      <v-row
+        class="mt-5"
+      >
+        <v-col
+          cols="12"
+          md="3"
+        >
+          <p class="text-h6 text-center">
+            [무선-화면이동지연불가]
+          </p>
+          <jisa-qm-voc-type-chart 
+            ref="changeBonbu22"
+            propsvoctype="화면이동지연불가"
+          />
+        </v-col>
+    
+        <v-col
+          cols="12"
+          md="3"
+        >
+          <p class="text-h6 text-center">
+            [무선-통화음질불량]
+          </p>
+          <jisa-qm-voc-type-chart
+            ref="changeBonbu23"
+            propsvoctype="통화음질불량"
+          />
+        </v-col>
+        <v-col
+          cols="12"
+          md="3"
+        >
+          <p class="text-h6 text-center">
+            [무선-수신불가/지연]
+          </p>
+          <jisa-qm-voc-type-chart 
+            ref="changeBonbu24"
+            propsvoctype="수신불가/지연"
+          />
+        </v-col>
+        <v-col
+          cols="12"
+          md="3"
+        >
+          <p class="text-h6 text-center">
+            [무선-이용불가]
+          </p>
+          <jisa-qm-voc-type-chart
+            ref="changeBonbu25"
+            propsvoctype="이용불가"
           />
         </v-col>
       </v-row>
@@ -717,14 +829,17 @@ import JisaMPjVocBar from '@/components/bars/vocbars/jisaMPjVocBar';
 import JisaMItPjVocTable from '@/components/tables/voctable/jisaMItPjVocTable';
 
 import JisaQitVocChart from '@/components/charts/vocchart/jisaQitVocChart.vue';
-import JisaRitVocType1Chart from '@/components/charts/vocchart/jisaRitVocType1Chart';
-import JisaRitVocType2Chart from '@/components/charts/vocchart/jisaRitVocType2Chart';
-import JisaRitVocType3Chart from '@/components/charts/vocchart/jisaRitVocType3Chart';
+import JisaQitVocTypeChart from '@/components/charts/vocchart/jisaQitVocTypeChart';
+import JisaQmVocChart from '@/components/charts/vocchart/jisaQmVocChart';
+import JisaQmVocTypeChart from '@/components/charts/vocchart/jisaQmVocTypeChart';
 
-import JisaRmVocChart from '@/components/charts/vocchart/jisaRmVocChart';
-import JisaRmVocType1Chart from '@/components/charts/vocchart/jisaRmVocType1Chart';
-import JisaRmVocType2Chart from '@/components/charts/vocchart/jisaRmVocType2Chart';
-import JisaRmVocType3Chart from '@/components/charts/vocchart/jisaRmVocType3Chart';
+// import JisaRitVocType2Chart from '@/components/charts/vocchart/jisaRitVocType2Chart';
+// import JisaRitVocType3Chart from '@/components/charts/vocchart/jisaRitVocType3Chart';
+
+// import JisaRmVocChart from '@/components/charts/vocchart/jisaRmVocChart';
+// import JisaRmVocType1Chart from '@/components/charts/vocchart/jisaRmVocType1Chart';
+// import JisaRmVocType2Chart from '@/components/charts/vocchart/jisaRmVocType2Chart';
+// import JisaRmVocType3Chart from '@/components/charts/vocchart/jisaRmVocType3Chart';
 
 
 
@@ -756,18 +871,22 @@ export default {
     JisaMPjVocBar,
 
     JisaQitVocChart,
-    JisaRitVocType1Chart,
-    JisaRitVocType2Chart,
-    JisaRitVocType3Chart,
+    JisaQitVocTypeChart,
+    JisaQmVocChart,
+    JisaQmVocTypeChart,
+
+    // JisaRitVocType2Chart,
+    // JisaRitVocType3Chart,
 
     
 
-    JisaRmVocChart,
-    JisaRmVocType1Chart,
-    JisaRmVocType2Chart,
-    JisaRmVocType3Chart,
+    // JisaRmVocChart,
+    // JisaRmVocType1Chart,
+    // JisaRmVocType2Chart,
+    // JisaRmVocType3Chart,
     
     VueHotelDatePicker,
+
     
   },
 
@@ -809,6 +928,8 @@ export default {
       //wordcloud
       tvInternetVoc:this.tvInternetVoc,
       mobileVoc:this.mobileVoc,
+
+      voc30:'접속불가',
     }
   },
 
@@ -819,7 +940,7 @@ export default {
 
       this.selectedStartDate=dateResult.start.replace(/\//gi,'')  //현재 선택
       this.selectedEndDate=dateResult.end.replace(/\//gi,'')
-      console.log('selectedstartDate',this.selectedStartDate,this.selectedEndDate);
+     
 
       // this.lastWeekStart=new Date(imsiThisStart);
       // this.lastWeekStart.setDate(this.lastWeekStart.getDate() - 7);
@@ -936,6 +1057,16 @@ export default {
       this.$refs.changeBonbu15.changeBonbu(selectedBonbu); // 무선VOC- 혜택문의 추이
       this.$refs.changeBonbu16.changeBonbu(selectedBonbu); //무선VOC - 약정문의 추이
       this.$refs.changeBonbu17.changeBonbu(selectedBonbu);  //무선Voc - 위약금 문의 추이
+
+      this.$refs.changeBonbu18.changeBonbu(selectedBonbu); // 무선 VOC추이(지사별)
+      this.$refs.changeBonbu19.changeBonbu(selectedBonbu); // 무선VOC- 혜택문의 추이
+      this.$refs.changeBonbu20.changeBonbu(selectedBonbu); //무선VOC - 약정문의 추이
+      this.$refs.changeBonbu21.changeBonbu(selectedBonbu);  //무선Voc - 위약금 문의 추이
+
+      this.$refs.changeBonbu22.changeBonbu(selectedBonbu); // 무선 VOC추이(지사별)
+      this.$refs.changeBonbu23.changeBonbu(selectedBonbu); // 무선VOC- 혜택문의 추이
+      this.$refs.changeBonbu24.changeBonbu(selectedBonbu); //무선VOC - 약정문의 추이
+      this.$refs.changeBonbu25.changeBonbu(selectedBonbu);  //무선Voc - 위약금 문의 추이
     },
 
   

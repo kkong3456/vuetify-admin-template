@@ -334,11 +334,11 @@ export default {
 
       let jisaCount=0;
 
-      console.log('url is ',url);
+      
      
       if (Object.keys(bonbuJisaObj).includes(url)){
         jisaCount=bonbuJisaObj[url].length;
-        console.log(bonbuJisaObj[url][0]);
+      
       }else{
         console.log('해당 되는 본부명이 없습니다.');
       }

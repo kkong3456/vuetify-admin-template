@@ -205,7 +205,7 @@ export default {
 
     getDesserts(){
       const yyy=this.getJisaVocValue(); 
-      console.log('xxxx',yyy.it.firstJisa); 
+      
       // const selectedStartDate=this.selectedStartDate.substring(2,4)+'-'+this.selectedStartDate.substring(4,6)+'-'+this.selectedStartDate.substring(6,8);
       // const selectedEndDate=this.selectedEndDate.substring(2,4)+'-'+this.selectedEndDate.substring(4,6)+'-'+this.selectedEndDate.substring(6,8)
 

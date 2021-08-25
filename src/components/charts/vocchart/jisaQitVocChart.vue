@@ -447,8 +447,8 @@ export default {
       let bonbuVocDataArray=[];
 
       const voc1='발열배터리등단말이상';
-      const voc2='부주의IDPW분실등';
-      const voc3='전원충전이상';
+      const voc2='\"부주의, ID/PW 분실 등\"';
+      const voc3='\"전원, 충전 이상\"';
       const voc4='AS보류(유료화)';
       const voc5='IP공유기이상';
       const voc6='PIN인증오류';
@@ -459,7 +459,7 @@ export default {
       const voc11='air전원불량';
       const voc12='네트워크오류';
       const voc13='네트워크장비장애';
-      const voc14='리모콘작동불가';
+      const voc14='리모컨작동불가';
       const voc15='메뉴실행불가';
       const voc16='모뎀이상';
       const voc17='수신불량';
@@ -822,10 +822,11 @@ export default {
           if(fifthJisa===item.jisa){fifthJisaVoc1Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(sixthJisa===item.jisa){sixthJisaVoc1Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(seventhJisa===item.jisa){seventhJisaVoc1Array.push({'date':item.basedate,'cnt':item.count_sum});}
-          console.log('first',firstJisaVoc1Array,)
+         
         }
-        if(item.voc_gubun.replace(/[\,\/]/g,'')===voc2){
-          console.log('voc2 is ',item.voc_gubun.replace(/ /g,''));
+        if(item.voc_gubun===voc2){
+        // if('부주의IDPW분실등'===voc2){
+          // console.log('voc2 is ',item.voc_gubun.replace(/[\,\/] /g,''));
           if(firstJisa===item.jisa){firstJisaVoc2Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(secondJisa===item.jisa){secondJisaVoc2Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(thirdJisa===item.jisa){thirdJisaVoc2Array.push({'date':item.basedate,'cnt':item.count_sum});}
@@ -834,8 +835,8 @@ export default {
           if(sixthJisa===item.jisa){sixthJisaVoc2Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(seventhJisa===item.jisa){seventhJisaVoc2Array.push({'date':item.basedate,'cnt':item.count_sum});}
         }
-        if(item.voc_gubun.replace(/[\,\/]/g,'')===voc3){
-          // console.log('voc3 is ',item.voc_gubun.replace(/ /g,''));
+        if(item.voc_gubun===voc3){
+          // console.log('voc3 is ',item.voc_gubun.replace(/[\,\/]/g,''));
           if(firstJisa===item.jisa){firstJisaVoc3Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(secondJisa===item.jisa){secondJisaVoc3Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(thirdJisa===item.jisa){thirdJisaVoc3Array.push({'date':item.basedate,'cnt':item.count_sum});}
@@ -845,7 +846,7 @@ export default {
           if(seventhJisa===item.jisa){seventhJisaVoc3Array.push({'date':item.basedate,'cnt':item.count_sum});}
         }
         if(item.voc_gubun.replace(/ /g,'')===voc4){
-          console.log('voc4 is ',voc1.replace(/[\,\/]/g,''),voc2.replace(/[\,\/]/g,''));
+          // console.log('voc4 is ',item.voc_gubun.replace(/[\,\/]/g,''));
           if(firstJisa===item.jisa){firstJisaVoc4Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(secondJisa===item.jisa){secondJisaVoc4Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(thirdJisa===item.jisa){thirdJisaVoc4Array.push({'date':item.basedate,'cnt':item.count_sum});}
@@ -915,6 +916,7 @@ export default {
           if(seventhJisa===item.jisa){seventhJisaVoc10Array.push({'date':item.basedate,'cnt':item.count_sum});}
         }
         if(item.voc_gubun.replace(/ /g,'')===voc11){
+          // console.log('voc11 is ',item.voc_gubun.replace(/ /g,''));
           if(firstJisa===item.jisa){firstJisaVoc11Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(secondJisa===item.jisa){secondJisaVoc11Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(thirdJisa===item.jisa){thirdJisaVoc11Array.push({'date':item.basedate,'cnt':item.count_sum});}
@@ -924,6 +926,7 @@ export default {
           if(seventhJisa===item.jisa){seventhJisaVoc11Array.push({'date':item.basedate,'cnt':item.count_sum});}
         }
         if(item.voc_gubun.replace(/ /g,'')===voc12){
+          // console.log('voc12 is ',item.voc_gubun.replace(/ /g,''));
           if(firstJisa===item.jisa){firstJisaVoc12Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(secondJisa===item.jisa){secondJisaVoc12Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(thirdJisa===item.jisa){thirdJisaVoc12Array.push({'date':item.basedate,'cnt':item.count_sum});}
@@ -933,6 +936,7 @@ export default {
           if(seventhJisa===item.jisa){seventhJisaVoc12Array.push({'date':item.basedate,'cnt':item.count_sum});}
         }
         if(item.voc_gubun.replace(/ /g,'')===voc13){
+          // console.log('voc13 is ',item.voc_gubun.replace(/ /g,''));
           if(firstJisa===item.jisa){firstJisaVoc13Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(secondJisa===item.jisa){secondJisaVoc13Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(thirdJisa===item.jisa){thirdJisaVoc13Array.push({'date':item.basedate,'cnt':item.count_sum});}
@@ -942,6 +946,7 @@ export default {
           if(seventhJisa===item.jisa){seventhJisaVoc13Array.push({'date':item.basedate,'cnt':item.count_sum});}
         }
         if(item.voc_gubun.replace(/ /g,'')===voc14){
+          // console.log('voc14 is ',item.voc_gubun.replace(/ /g,''));
           if(firstJisa===item.jisa){firstJisaVoc14Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(secondJisa===item.jisa){secondJisaVoc14Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(thirdJisa===item.jisa){thirdJisaVoc14Array.push({'date':item.basedate,'cnt':item.count_sum});}
@@ -951,6 +956,7 @@ export default {
           if(seventhJisa===item.jisa){seventhJisaVoc14Array.push({'date':item.basedate,'cnt':item.count_sum});}
         }
         if(item.voc_gubun.replace(/ /g,'')===voc15){
+          // console.log('voc15 is ',item.voc_gubun.replace(/ /g,''));
           if(firstJisa===item.jisa){firstJisaVoc15Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(secondJisa===item.jisa){secondJisaVoc15Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(thirdJisa===item.jisa){thirdJisaVoc15Array.push({'date':item.basedate,'cnt':item.count_sum});}
@@ -960,6 +966,7 @@ export default {
           if(seventhJisa===item.jisa){seventhJisaVoc15Array.push({'date':item.basedate,'cnt':item.count_sum});}
         }
         if(item.voc_gubun.replace(/ /g,'')===voc16){
+          // console.log('voc16 is ',item.voc_gubun.replace(/ /g,''));
           if(firstJisa===item.jisa){firstJisaVoc16Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(secondJisa===item.jisa){secondJisaVoc16Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(thirdJisa===item.jisa){thirdJisaVoc16Array.push({'date':item.basedate,'cnt':item.count_sum});}
@@ -969,6 +976,7 @@ export default {
           if(seventhJisa===item.jisa){seventhJisaVoc16Array.push({'date':item.basedate,'cnt':item.count_sum});}
         }
         if(item.voc_gubun.replace(/ /g,'')===voc17){
+          // console.log('voc17 is ',item.voc_gubun.replace(/ /g,''));
           if(firstJisa===item.jisa){firstJisaVoc17Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(secondJisa===item.jisa){secondJisaVoc17Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(thirdJisa===item.jisa){thirdJisaVoc17Array.push({'date':item.basedate,'cnt':item.count_sum});}
@@ -978,6 +986,7 @@ export default {
           if(seventhJisa===item.jisa){seventhJisaVoc17Array.push({'date':item.basedate,'cnt':item.count_sum});}
         }
         if(item.voc_gubun.replace(/ /g,'')===voc18){
+          // console.log('voc18 is ',item.voc_gubun.replace(/ /g,''));
           if(firstJisa===item.jisa){firstJisaVoc18Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(secondJisa===item.jisa){secondJisaVoc18Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(thirdJisa===item.jisa){thirdJisaVoc18Array.push({'date':item.basedate,'cnt':item.count_sum});}
@@ -987,6 +996,7 @@ export default {
           if(seventhJisa===item.jisa){seventhJisaVoc18Array.push({'date':item.basedate,'cnt':item.count_sum});}
         }
         if(item.voc_gubun.replace(/ /g,'')===voc19){
+          // console.log('voc19 is ',item.voc_gubun.replace(/ /g,''));
           if(firstJisa===item.jisa){firstJisaVoc19Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(secondJisa===item.jisa){secondJisaVoc19Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(thirdJisa===item.jisa){thirdJisaVoc19Array.push({'date':item.basedate,'cnt':item.count_sum});}
@@ -996,6 +1006,7 @@ export default {
           if(seventhJisa===item.jisa){seventhJisaVoc19Array.push({'date':item.basedate,'cnt':item.count_sum});}
         }
         if(item.voc_gubun.replace(/ /g,'')===voc20){
+          // console.log('voc20 is ',item.voc_gubun.replace(/ /g,''));
           if(firstJisa===item.jisa){firstJisaVoc20Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(secondJisa===item.jisa){secondJisaVoc20Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(thirdJisa===item.jisa){thirdJisaVoc20Array.push({'date':item.basedate,'cnt':item.count_sum});}
@@ -1005,6 +1016,7 @@ export default {
           if(seventhJisa===item.jisa){seventhJisaVoc20Array.push({'date':item.basedate,'cnt':item.count_sum});}
         }
         if(item.voc_gubun.replace(/ /g,'')===voc21){
+          // console.log('voc21 is ',item.voc_gubun.replace(/ /g,''));
           if(firstJisa===item.jisa){firstJisaVoc21Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(secondJisa===item.jisa){secondJisaVoc21Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(thirdJisa===item.jisa){thirdJisaVoc21Array.push({'date':item.basedate,'cnt':item.count_sum});}
@@ -1014,6 +1026,7 @@ export default {
           if(seventhJisa===item.jisa){seventhJisaVoc21Array.push({'date':item.basedate,'cnt':item.count_sum});}
         }
         if(item.voc_gubun.replace(/ /g,'')===voc22){
+          // console.log('voc22 is ',item.voc_gubun.replace(/ /g,''));
           if(firstJisa===item.jisa){firstJisaVoc22Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(secondJisa===item.jisa){secondJisaVoc22Array.push({'date':item.basedate,'cnt':item.count_sum});}
           if(thirdJisa===item.jisa){thirdJisaVoc22Array.push({'date':item.basedate,'cnt':item.count_sum});}
@@ -1211,7 +1224,7 @@ export default {
           return acc;
         },{}));
 
-      console.log('객체',firstJisaDatePlusCntArray);
+      // console.log('객체',firstJisaDatePlusCntArray);
 
       let firstImsiArray=[];   
       for (let i=0;i<firstJisaDatePlusCntArray.length;i++){

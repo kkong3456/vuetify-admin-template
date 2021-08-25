@@ -283,7 +283,7 @@ export default {
         this.$emit('netIncreaseThisMonth',netIncreaseThisMonth);
         this.$emit('netIncreaseDiff',netIncreaseDiff);
 
-        console.log('yyy.last.firstJisa',yyy.last.secondJisa[1]);
+ 
       }
     } , 
     getBonbuNetIncreaseValue(bonbuName){    //axios로 받아온 데이터를 상품별로 Obj로 만든다

@@ -161,7 +161,7 @@ export default {
 
     getDesserts(){
       const yyy=this.getBonbuVocValue();
-      console.log('yyy is xxx',yyy);
+      
   
       let dessertArray=new Array();
     

@@ -33,9 +33,7 @@ export default {
   methods: {
     fillData () {
       const yyy=this.getBonbuNetIncreaseValue();
-      //console.log(`yyyy['북부본부'] is ${yyy['북부본부'][yyy['북부본부'].length-8]}`)
-      //console.log(`xxxx is ${this.bonbutNetIncreaseData[0].date}`);
-      console.log(`일자는 ${yyy[yyy['일자']]}`);
+         
       this.dataCollection = {
         labels:Object.keys(yyy).splice(1),  //첫 일자 제외
 
