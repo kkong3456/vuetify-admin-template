@@ -27,6 +27,7 @@ import DefaultLayout from '@/layouts/default/index'
 import PageLayout from '@/layouts/page/index'
 import AuthenticationLayout from '@/layouts/authentication/index'
 
+import RSN_BonbuSalesPerf from '@/views/RSN_BonbuSalesPerf'
 import RSN_HjVoc from '@/views/RSN_HjVoc'
 import RSN_PjVoc from '@/views/RSN_PjVoc'
 
@@ -53,6 +54,11 @@ const routes=[
         path:'/rs-daytime-locations',
         name:'RSN_DayTimeLocationsMap',
         component:RSN_DayTimeLocationsMap,
+      },
+      {
+        path:'/rsn-bonbu-sales-perf',
+        name:'RSN_BonbuSalesPerf',
+        component:RSN_BonbuSalesPerf,
       },
       {
         path:'/rsn-hj-voc',

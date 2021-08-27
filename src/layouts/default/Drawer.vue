@@ -116,7 +116,7 @@ export default {
           },
           {
             text:'1. 본부별 실적현황',
-            to:'',
+            to:'/rsn-bonbu-sales-perf',
             icon:'mdi-plus',
           },
           {
