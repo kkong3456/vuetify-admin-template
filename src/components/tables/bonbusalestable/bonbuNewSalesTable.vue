@@ -236,43 +236,51 @@ export default {
     
     getDesserts(){
       const yyy=this.getBonbuSalesValue(); 
-      console.log('yyyy', yyy.this);
+      console.log('yyyy', yyy.bonbu[0]);
       
       // const selectedStartDate=this.selectedStartDate.substring(2,4)+'-'+this.selectedStartDate.substring(4,6)+'-'+this.selectedStartDate.substring(6,8);
       // const selectedEndDate=this.selectedEndDate.substring(2,4)+'-'+this.selectedEndDate.substring(4,6)+'-'+this.selectedEndDate.substring(6,8)
 
-      if(this.selectedBonbu==='북부고객본부' || this.selectedBonbu==='동부고객본부' || this.selectedBonbu==='전남/전북고객본부'){
-        this.desserts=
+    
+      this.desserts=
         [
           {
-            name:yyy.it.firstJisa[0],
-            countSum:yyy.it.firstJisa[1].toLocaleString(),
-            mobileCountSum:yyy.mobile.firstJisa[1].toLocaleString(),
+            name:yyy.bonbu[0],
+            countSum:yyy.this[0],
+            lastCountSum:yyy.last[0],
           },
           {
-            name:yyy.it.secondJisa[0],
-            countSum:yyy.it.secondJisa[1].toLocaleString(),
-            mobileCountSum:yyy.mobile.secondJisa[1].toLocaleString(),
+            name:yyy.bonbu[1],
+            countSum:yyy.this[1],
+            lastCountSum:yyy.last[1],
           },
           {
-            name:yyy.it.thirdJisa[0],
-            countSum:yyy.it.thirdJisa[1].toLocaleString(),
-            mobileCountSum:yyy.mobile.thirdJisa[1].toLocaleString(),
+            name:yyy.bonbu[2],
+            countSum:yyy.this[2],
+            lastCountSum:yyy.last[2],
           },
           {
-            name:yyy.it.fourthJisa[0],
-            countSum:yyy.it.fourthJisa[1].toLocaleString(),
-            mobileCountSum:yyy.mobile.fourthJisa[1].toLocaleString(),
+            name:yyy.bonbu[3],
+            countSum:yyy.this[3],
+            lastCountSum:yyy.last[3],
           },
           {
-            name:yyy.it.fifthJisa[0],
-            // startdate:selectedStartDate,
-            // enddate:selectedEndDate,
-            countSum:yyy.it.fifthJisa[1].toLocaleString(),
-            mobileCountSum:yyy.mobile.fifthJisa[1].toLocaleString(),
-          }
+            name:yyy.bonbu[4],
+            countSum:yyy.this[4],
+            lastCountSum:yyy.last[4],
+          },
+          {
+            name:yyy.bonbu[5],
+            countSum:yyy.this[6],
+            lastCountSum:yyy.last[7],
+          },
+          {
+            name:yyy.bonbu[8],
+            countSum:yyy.this[8],
+            lastCountSum:yyy.last[8],
+          },
         ]
-      }
+      
     }, 
 
   
@@ -281,7 +289,7 @@ export default {
       let bonbuSalesDataObj={};
 
       const firstBonbu='북부고객본부';
-      const secondBonbu='동부고객봉부';
+      const secondBonbu='동부고객본부';
       const thirdBonbu='강남고객본부';
       const fourthBonbu='충남/충북고객본부';
       const fifthBonbu='대구/경북고객본부';
