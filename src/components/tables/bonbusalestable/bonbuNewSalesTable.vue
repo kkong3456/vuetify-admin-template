@@ -106,7 +106,7 @@ export default {
         },
         {
           text:'조회기간',
-          value:'mobileCountSum',
+          value:'lastCountSum',
         }
       ]
     }
@@ -173,29 +173,58 @@ export default {
           axios.get(thisBonbuSalesUrl+'부산/경남고객본부'),
           axios.get(thisBonbuSalesUrl+'전남/전북고객본부'),
           axios.get(thisBonbuSalesUrl+'서부고객본부'),
-        ]
-      ).then(axios.spread((res1,res2,res3,res4,res5,res6,res7,res8)=>{
-        this.bonbuSalesData1=res1.data.results;
-        this.bonbuSalesData2=res2.data.results;
-        this.bonbuSalesData3=res3.data.results;
-        this.bonbuSalesData4=res4.data.results;
-        this.bonbuSalesData5=res5.data.results;
-        this.bonbuSalesData6=res6.data.results;
-        this.bonbuSalesData7=res7.data.results;
-        this.bonbuSalesData8=res8.data.results;
 
-        this.bonbuSalesData=[
-          ...this.bonbuSalesData1,
-          ...this.bonbuSalesData2,
-          ...this.bonbuSalesData3,
-          ...this.bonbuSalesData4,
-          ...this.bonbuSalesData5,
-          ...this.bonbuSalesData6,
-          ...this.bonbuSalesData7,
-          ...this.bonbuSalesData8,
+          axios.get(lastBonbuSalesUrl+'북부고객본부'),
+          axios.get(lastBonbuSalesUrl+'동부고객본부'),
+          axios.get(lastBonbuSalesUrl+'강남고객본부'),
+          axios.get(lastBonbuSalesUrl+'충남/충북고객본부'),
+          axios.get(lastBonbuSalesUrl+'대구/경북고객본부'),
+          axios.get(lastBonbuSalesUrl+'부산/경남고객본부'),
+          axios.get(lastBonbuSalesUrl+'전남/전북고객본부'),
+          axios.get(lastBonbuSalesUrl+'서부고객본부'),
+        ]
+      ).then(axios.spread(
+        (res1,res2,res3,res4,res5,res6,res7,res8,res9,res10,res11,res12,res13,res14,res15,res16)=>{
+          this.bonbuSalesData1=res1.data.results;
+          this.bonbuSalesData2=res2.data.results;
+          this.bonbuSalesData3=res3.data.results;
+          this.bonbuSalesData4=res4.data.results;
+          this.bonbuSalesData5=res5.data.results;
+          this.bonbuSalesData6=res6.data.results;
+          this.bonbuSalesData7=res7.data.results;
+          this.bonbuSalesData8=res8.data.results;
+
+          this.lastBonbuSalesData1=res9.data.results;
+          this.lastBonbuSalesData2=res10.data.results;
+          this.lastBonbuSalesData3=res11.data.results;
+          this.lastBonbuSalesData4=res12.data.results;
+          this.lastBonbuSalesData5=res13.data.results;
+          this.lastBonbuSalesData6=res14.data.results;
+          this.lastBonbuSalesData7=res15.data.results;
+          this.lastBonbuSalesData8=res16.data.results;
+
+          this.bonbuSalesData=[
+            ...this.bonbuSalesData1,
+            ...this.bonbuSalesData2,
+            ...this.bonbuSalesData3,
+            ...this.bonbuSalesData4,
+            ...this.bonbuSalesData5,
+            ...this.bonbuSalesData6,
+            ...this.bonbuSalesData7,
+            ...this.bonbuSalesData8,
           
-        ];              
-      })).catch((err)=>{
+          ]; 
+          this.lastBonbuSalesData=[
+            ...this.lastBonbuSalesData1,
+            ...this.lastBonbuSalesData2,
+            ...this.lastBonbuSalesData3,
+            ...this.lastBonbuSalesData4,
+            ...this.lastBonbuSalesData5,
+            ...this.lastBonbuSalesData6,
+            ...this.lastBonbuSalesData7,
+            ...this.lastBonbuSalesData8,
+          ]             
+        })).catch((err)=>{
         console.log('금주 일자 데이터를 가져 오지 못했습니다',err);
       });
       
@@ -207,6 +236,7 @@ export default {
     
     getDesserts(){
       const yyy=this.getBonbuSalesValue(); 
+      console.log('yyyy', yyy.this);
       
       // const selectedStartDate=this.selectedStartDate.substring(2,4)+'-'+this.selectedStartDate.substring(4,6)+'-'+this.selectedStartDate.substring(6,8);
       // const selectedEndDate=this.selectedEndDate.substring(2,4)+'-'+this.selectedEndDate.substring(4,6)+'-'+this.selectedEndDate.substring(6,8)
@@ -248,19 +278,105 @@ export default {
   
 
     getBonbuSalesValue(){    
-      let bonbuSalesDataObj={}; 
+      let bonbuSalesDataObj={};
+
+      const firstBonbu='북부고객본부';
+      const secondBonbu='동부고객봉부';
+      const thirdBonbu='강남고객본부';
+      const fourthBonbu='충남/충북고객본부';
+      const fifthBonbu='대구/경북고객본부';
+      const sixthBonbu='부산/경남고객본부';
+      const seventhBonbu='전남/전북고객본부';
+      const eighthBonbu='서부고객본부';
+
+      let firstCntSum=0;
+      let secondCntSum=0;
+      let thirdCntSum=0;
+      let fourthCntSum=0;
+      let fifthCntSum=0;
+      let sixthCntSum=0;
+      let seventhCntSum=0;
+      let eighthCntSum=0;
+
+      let lastFirstCntSum=0;
+      let lastSecondCntSum=0;
+      let lastThirdCntSum=0;
+      let lastFourthCntSum=0;
+      let lastFifthCntSum=0;
+      let lastSixthCntSum=0;
+      let lastSeventhCntSum=0;
+      let lastEighthCntSum=0;
+
+
+
      
       this.bonbuSalesData.map((item)=>{
-        if(item.jojik2_name===Object.keys(bonbuJisaObj)[0]){
-          console.log('Objects.keys',item.count_sum);
+        if(item.jojik2_name===firstBonbu){   //북부고객본부
+          // console.log(Object.keys(bonbuJisaObj)[0],item.count_sum);
+          firstCntSum+=item.count_sum;
         }
-      })
-     
-      // return {'it':jisaVocDataObj,'mobile':jisaMobileVocDataObj};
-    },
+        if(item.jojik2_name===secondBonbu){
+          secondCntSum+=item.count_sum;
+        }
+        if(item.jojik2_name===thirdBonbu){
+          thirdCntSum+=item.count_sum;
+        }
+        if(item.jojik2_name===fourthBonbu){
+          fourthCntSum+=item.count_sum;
+        }
+        if(item.jojik2_name===fifthBonbu){
+          fifthCntSum+=item.count_sum;
+        }
+        if(item.jojik2_name===sixthBonbu){
+          sixthCntSum+=item.count_sum;
+        }
+        if(item.jojik2_name===seventhBonbu){
+          seventhCntSum+=item.count_sum;
+        }
+        if(item.jojik2_name===eighthBonbu){
+          eighthCntSum+=item.count_sum;
+        }
+      });
 
+      this.lastBonbuSalesData.map((item)=>{
+        if(item.jojik2_name===firstBonbu){   //북부고객본부
+          // console.log(Object.keys(bonbuJisaObj)[0],item.count_sum);
+          lastFirstCntSum+=item.count_sum;
+        }
+        if(item.jojik2_name===secondBonbu){
+          lastSecondCntSum+=item.count_sum;
+        }
+        if(item.jojik2_name===thirdBonbu){
+          lastThirdCntSum+=item.count_sum;
+        }
+        if(item.jojik2_name===fourthBonbu){
+          lastFourthCntSum+=item.count_sum;
+        }
+        if(item.jojik2_name===fifthBonbu){
+          lastFifthCntSum+=item.count_sum;
+        }
+        if(item.jojik2_name===sixthBonbu){
+          lastSixthCntSum+=item.count_sum;
+        }
+        if(item.jojik2_name===seventhBonbu){
+          lastSeventhCntSum+=item.count_sum;
+        }
+        if(item.jojik2_name===eighthBonbu){
+          lastEighthCntSum+=item.count_sum;
+        }
+      
+      });
+     
+      bonbuSalesDataObj={
+        'bonbu':[firstBonbu,secondBonbu,thirdBonbu,fourthBonbu,fifthBonbu,sixthBonbu,seventhBonbu,eighthBonbu],
+        'this':[firstCntSum,secondCntSum,thirdCntSum,fourthCntSum,fifthCntSum,sixthCntSum,seventhCntSum,eighthCntSum],
+        'last':[lastFirstCntSum,lastSecondCntSum,lastThirdCntSum,lastFourthCntSum,lastFifthCntSum,lastSixthCntSum,lastSeventhCntSum,lastEighthCntSum],
+      };
+      return bonbuSalesDataObj;
+    }
   }
 }
+
 </script>
 
 <style scoped>
