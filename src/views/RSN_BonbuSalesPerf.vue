@@ -5,7 +5,7 @@
       <v-row>
         <!-- 기간별 조회 -->
         <v-col>
-          <vue-hotel-date-picker />
+          <vue-hotel-date-picker-sales />
         </v-col>
         <!-- 본부별 조회(검색) -->
         
@@ -38,7 +38,7 @@
               v-model="selectedProduct"             
               :items="['인터넷','미디어','무선']"
               label="상품"
-              @change="changeProduct(selectedProduct)"
+              @change="changedProduct(selectedProduct)"
             >
               <template v-slot:item="{ item, attrs, on }">
                 <v-list-item
@@ -161,16 +161,24 @@
         </v-col>
       </v-row> -->
     
-      <!-- 전주비교 본부-->
+     
       <v-row>
+        <p
+          style="margin:0 20px;font-size:.8rem;"
+        >
+          ※ 조회기간기준 1주전 데이터 비교
+        </p>
+      </v-row>
+
+      <!-- 신규 비교 -->
+      <v-row style="margin-top:0;">
         <v-col>
           <v-card
-            outlined
-            tile
             class="text-center pa-2 font-weight-bold"
             color="blue lighten-2"
+            tile
           >
-            전주대비 증감률({{ selectedBonbu }})
+            신규 ({{ selectedBonbu }} - {{ selectedProduct }})
           </v-card>
           <div
             class="d-flex"
@@ -179,12 +187,13 @@
             <v-card 
               outlined
               class="text-center"
-              width="50%"
+              width="34%"
+              tile
             >
               <v-card-subtitle
                 class="text-left py-0"
               >
-                전주
+                1주전
               </v-card-subtitle>
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4 py-0"
@@ -192,17 +201,18 @@
                 {{ bonbuVocItLastSum }}
               </v-card-text>
             </v-card>  
-            <v-spacer />
+            
 
             <v-card 
               outlined
               class="text-center"
-              width="50%"
+              width="34%"
+              tile
             >
               <v-card-subtitle
                 class="text-left py-0"
               >
-                금주
+                조회기간
               </v-card-subtitle>
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
@@ -211,36 +221,35 @@
               </v-card-text>
             </v-card>
             <!-- <v-spacer /> -->
+            <v-card 
+              outlined    
+              class="text-center"
+              tile
+              width="32%"
+            >
+              <v-card-subtitle
+                class="text-left py-0"
+              >
+                증감비율(%)
+              </v-card-subtitle>
+              <v-card-text
+                class="font-weight-bold text-md-h4 text-lg-h3"
+              >
+                {{ bonbuVocItSumDiff }} %
+              </v-card-text>
+            </v-card>
           </div>
-        
-          <v-card 
-            outlined    
-            class="text-center"
-            style="height:90px;"
-          >
-            <v-card-subtitle
-              class="text-left py-0"
-            >
-              증감비율(%)
-            </v-card-subtitle>
-            <v-card-text
-              class="font-weight-bold text-md-h4 text-lg-h3"
-            >
-              {{ bonbuVocItSumDiff }} %
-            </v-card-text>
-          </v-card>
         </v-col>
 
 
         <!-- 전주비교 지사-유선 -->
         <v-col>
           <v-card
-            outlined
-            tile
             class="text-center pa-2 font-weight-bold"
             color="blue lighten-2"
+            tile
           >
-            전주대비 증감률({{ selectedJisa }})
+            해지 ({{ selectedBonbu }} - {{ selectedProduct }})
           </v-card>
           <div
             class="d-flex"
@@ -249,72 +258,68 @@
             <v-card 
               outlined
               class="text-center"
-              width="50%"
+              width="34%"
+              tile
             >
               <v-card-subtitle
                 class="text-left py-0"
               >
-                전주
+                1주전
               </v-card-subtitle>
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4 py-0"
               >
-                {{ jisaVocItLastSum }}
+                {{ bonbuVocItLastSum }}
               </v-card-text>
             </v-card>  
-            <v-spacer />
+            
 
             <v-card 
               outlined
               class="text-center"
-              width="50%"
+              width="34%"
+              tile
             >
               <v-card-subtitle
                 class="text-left py-0"
               >
-                금주
+                조회기간
               </v-card-subtitle>
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                {{ jisaVocItThisSum }}
+                {{ bonbuVocItThisSum }}
               </v-card-text>
             </v-card>
             <!-- <v-spacer /> -->
+            <v-card 
+              outlined    
+              class="text-center"
+              tile
+              width="32%"
+            >
+              <v-card-subtitle
+                class="text-left py-0"
+              >
+                증감비율(%)
+              </v-card-subtitle>
+              <v-card-text
+                class="font-weight-bold text-md-h4 text-lg-h3"
+              >
+                {{ bonbuVocItSumDiff }} %
+              </v-card-text>
+            </v-card>
           </div>
-        
-          <v-card 
-            outlined    
-            class="text-center"
-            style="height:90px;"
-          >
-            <v-card-subtitle
-              class="text-left py-0"
-            >
-              증감비율(%)
-            </v-card-subtitle>
-            <v-card-text
-              class="font-weight-bold text-md-h4 text-lg-h3"
-            >
-              {{ jisaVocItSumDiff }} %
-            </v-card-text>
-          </v-card>
         </v-col>
 
-        <v-divider
-          vertical
-          inset
-        />
-
-        <!-- 전주비교 본부-무선 -->
+      
         <v-col>
           <v-card
-            outlined
-            tile
             class="text-center pa-2 font-weight-bold"
             color="blue lighten-2"
+            tile
           >
-            전주대비 증감률({{ selectedBonbu }})
+            순 증감 ({{ selectedBonbu }} - {{ selectedProduct }})
           </v-card>
           <div
             class="d-flex"
@@ -323,125 +328,58 @@
             <v-card 
               outlined
               class="text-center"
-              width="50%"
+              width="34%"
+              tile
             >
               <v-card-subtitle
                 class="text-left py-0"
               >
-                전주
+                1주전
               </v-card-subtitle>
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4 py-0"
               >
-                {{ bonbuVocMobileLastSum }}
+                {{ bonbuVocItLastSum }}
               </v-card-text>
             </v-card>  
-            <v-spacer />
+            
 
             <v-card 
               outlined
               class="text-center"
-              width="50%"
+              width="34%"
+              tile
             >
               <v-card-subtitle
                 class="text-left py-0"
               >
-                금주
+                조회기간
               </v-card-subtitle>
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                {{ bonbuVocMobileThisSum }}
+                {{ bonbuVocItThisSum }}
               </v-card-text>
             </v-card>
             <!-- <v-spacer /> -->
-          </div>
-        
-          <v-card 
-            outlined    
-            class="text-center"
-            style="height:90px;"
-          >
-            <v-card-subtitle
-              class="text-left py-0"
-            >
-              증감비율(%)
-            </v-card-subtitle>
-            <v-card-text
-              class="font-weight-bold text-md-h4 text-lg-h3"
-            >
-              {{ bonbuVocMobileSumDiff }} %
-            </v-card-text>
-          </v-card>
-        </v-col>
-
-        <!-- 전주비교  -->
-        <v-col>
-          <v-card
-            outlined
-            tile
-            class="text-center pa-2 font-weight-bold"
-            color="blue lighten-2"
-          >
-            전주대비 증감률({{ selectedJisa }})
-          </v-card>
-          <div
-            class="d-flex"
-            style="height:80px;"
-          >
             <v-card 
-              outlined
+              outlined    
               class="text-center"
-              width="50%"
+              tile
+              width="32%"
             >
               <v-card-subtitle
                 class="text-left py-0"
               >
-                전주
+                증감비율(%)
               </v-card-subtitle>
               <v-card-text
-                class="font-weight-bold text-md-h5 text-lg-h4 py-0"
+                class="font-weight-bold text-md-h4 text-lg-h3"
               >
-                {{ jisaVocMobileLastSum }}
-              </v-card-text>
-            </v-card>  
-            <v-spacer />
-
-            <v-card 
-              outlined
-              class="text-center"
-              width="50%"
-            >
-              <v-card-subtitle
-                class="text-left py-0"
-              >
-                금주
-              </v-card-subtitle>
-              <v-card-text
-                class="font-weight-bold text-md-h5 text-lg-h4"
-              >
-                {{ jisaVocMobileThisSum }}
+                {{ bonbuVocItSumDiff }} %
               </v-card-text>
             </v-card>
-            <!-- <v-spacer /> -->
           </div>
-        
-          <v-card 
-            outlined    
-            class="text-center"
-            style="height:90px;"
-          >
-            <v-card-subtitle
-              class="text-left py-0"
-            >
-              증감비율(%)
-            </v-card-subtitle>
-            <v-card-text
-              class="font-weight-bold text-md-h4 text-lg-h3"
-            >
-              {{ jisaVocMobileSumDiff }} %
-            </v-card-text>
-          </v-card>
         </v-col>
       </v-row>
 
@@ -461,8 +399,9 @@
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
           </p>
-          <bonbu-new-sales-table 
-            ref="changeBonbu9"
+          <bonbu-sales-table 
+            ref="changeProduct1"
+            :propsdata="start"
           />
         </v-col>
     
@@ -479,6 +418,10 @@
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
           </p>
+          <bonbu-sales-table 
+            ref="changeProduct2"
+            :propsdata="end"
+          />
         </v-col>
 
         <v-col
@@ -494,6 +437,10 @@
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
           </p>
+          <bonbu-sales-table
+            ref="changeProduct3"
+            :propsdata="net"
+          />
         </v-col>
       </v-row>   
     
@@ -507,19 +454,18 @@
 import eventBus from '@/js/eventBus.js'
 
 
-import BonbuNewSalesTable from '@/components/tables/bonbusalestable/bonbuNewSalesTable';
+import BonbuSalesTable from '@/components/tables/bonbusalestable/bonbuSalesTable';
 
-import VueHotelDatePicker from '@/components/datepicker/vue-hotel-datepicker';
+import VueHotelDatePickerSales from '@/components/datepicker/vue-hotel-datepicker-sales';
 
 
 
 export default {
-  name:'RSNHjVoc',
+  name:'RSNBonbuSalesPerf',
   components:{
 
-    BonbuNewSalesTable,
-
-    VueHotelDatePicker,
+    BonbuSalesTable, //증가/해지/순즘감 컴포넌트
+    VueHotelDatePickerSales,
     
   },
 
@@ -531,11 +477,12 @@ export default {
       
       // selectedJisa:'고양지사',
       // selectedJijum:'CS부',
+      selectedProduct:'인터넷',
 
       
       
-      selectedStartDate:'20210420',
-      selectedEndDate:'20210426',
+      selectedStartDate:'20210220',
+      selectedEndDate:'20210226',
 
 
       bonbuVocItThisSum:0,
@@ -557,6 +504,11 @@ export default {
       //wordcloud
       tvInternetVoc:this.tvInternetVoc,
       mobileVoc:this.mobileVoc,
+
+      start:"start",  //순증테이블 컴포넌트로 props전달
+      end:"end",
+      net:"net",
+
     }
   },
 
@@ -583,14 +535,11 @@ export default {
   },
 
   methods:{
-    changeJisa(selectedJisa){
-      this.selectedJisa=selectedJisa;
-      this.selectedBonbu=this.selectedBonbu;
-      this.$refs.changeJisa7.changedJisa(selectedJisa,this.selectedBonbu);  //it word cloud
-      this.$refs.changeJisa8.changedJisa(selectedJisa,this.selectedBonbu);
-      this.$refs.changeJisa9.changedJisa(selectedJisa,this.selectedBonbu);  //it bar graph
-      this.$refs.changeJisa10.changedJisa(selectedJisa,this.selectedBonbu);
-      
+    changedProduct(selectedProduct){
+      this.$refs.changeProduct1.changeProduct(selectedProduct);  
+      this.$refs.changeProduct2.changeProduct(selectedProduct);
+      this.$refs.changeProduct3.changeProduct(selectedProduct);
+    
     },
 
 

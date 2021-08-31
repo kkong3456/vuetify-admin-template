@@ -6,18 +6,8 @@
         :headers="headers"
         :items="desserts"
         :items-per-page="10"
-      >
-        <template v-slot:body.append>
-          <tr
-            cols="12"
-            lg="6"    
-          >
-            <td />
-           
-            <td colspan="4" />
-          </tr>
-        </template>
-      </v-data-table>
+        dense
+      />
       <!-- <button v-on:click="getBonbuDesserts()">vvv</button> -->
     </v-card>
   </div>
@@ -53,6 +43,10 @@ export default {
       default:undefined,
     },
     'propsjisadata':{
+      type:String,
+      default:undefined,
+    },
+    'propsdata':{
       type:String,
       default:undefined,
     }
@@ -107,6 +101,10 @@ export default {
         {
           text:'조회기간',
           value:'lastCountSum',
+        },
+        {
+          text:'증감율[%]',
+          value:'rateOfChange'
         }
       ]
     }
@@ -117,7 +115,7 @@ export default {
     eventBus.$on('pickedDates',(dateResult)=>{  //RSN_HjVoc.vue에서 기간 선택시 그 자식 컨포넌트인 vue-hotel-datepicker.vue에서 시작일자와 종료일자를 받아옴  
       const imsiThisStart=dateResult.start.replace(/\//gi,',');
       const imsiThisEnd=dateResult.end.replace(/\//gi,',');
-
+    
       this.selectedStartDate=dateResult.start.replace(/\//gi,'')  //현재 선택
       this.selectedEndDate=dateResult.end.replace(/\//gi,'')
 
@@ -158,8 +156,8 @@ export default {
 
     async changeDate(){
     
-      const thisBonbuSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=start&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=`;
-      const lastBonbuSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=start&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&bonbu=`;
+      const thisBonbuSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=${this.propsdata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=`;
+      const lastBonbuSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=${this.propsdata}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&bonbu=`;
       
       // this.selectedBonbu=this.selectedBonbu;  //propsbonbudata 대신 사용하려고함
 
@@ -232,52 +230,139 @@ export default {
       this.getDesserts();
     },
 
+    async changeProduct(selectedProduct){
+      this.selectedProduct=selectedProduct;
+    
+      const thisBonbuSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=${this.propsdata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=`;
+      const lastBonbuSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=${this.propsdata}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&bonbu=`;
+      
+      // this.selectedBonbu=this.selectedBonbu;  //propsbonbudata 대신 사용하려고함
+
+      
+      await axios.all(
+        [
+          axios.get(thisBonbuSalesUrl+'북부고객본부'),
+          axios.get(thisBonbuSalesUrl+'동부고객본부'),
+          axios.get(thisBonbuSalesUrl+'강남고객본부'),
+          axios.get(thisBonbuSalesUrl+'충남/충북고객본부'),
+          axios.get(thisBonbuSalesUrl+'대구/경북고객본부'),
+          axios.get(thisBonbuSalesUrl+'부산/경남고객본부'),
+          axios.get(thisBonbuSalesUrl+'전남/전북고객본부'),
+          axios.get(thisBonbuSalesUrl+'서부고객본부'),
+
+          axios.get(lastBonbuSalesUrl+'북부고객본부'),
+          axios.get(lastBonbuSalesUrl+'동부고객본부'),
+          axios.get(lastBonbuSalesUrl+'강남고객본부'),
+          axios.get(lastBonbuSalesUrl+'충남/충북고객본부'),
+          axios.get(lastBonbuSalesUrl+'대구/경북고객본부'),
+          axios.get(lastBonbuSalesUrl+'부산/경남고객본부'),
+          axios.get(lastBonbuSalesUrl+'전남/전북고객본부'),
+          axios.get(lastBonbuSalesUrl+'서부고객본부'),
+        ]
+      ).then(axios.spread(
+        (res1,res2,res3,res4,res5,res6,res7,res8,res9,res10,res11,res12,res13,res14,res15,res16)=>{
+          this.bonbuSalesData1=res1.data.results;
+          this.bonbuSalesData2=res2.data.results;
+          this.bonbuSalesData3=res3.data.results;
+          this.bonbuSalesData4=res4.data.results;
+          this.bonbuSalesData5=res5.data.results;
+          this.bonbuSalesData6=res6.data.results;
+          this.bonbuSalesData7=res7.data.results;
+          this.bonbuSalesData8=res8.data.results;
+
+          this.lastBonbuSalesData1=res9.data.results;
+          this.lastBonbuSalesData2=res10.data.results;
+          this.lastBonbuSalesData3=res11.data.results;
+          this.lastBonbuSalesData4=res12.data.results;
+          this.lastBonbuSalesData5=res13.data.results;
+          this.lastBonbuSalesData6=res14.data.results;
+          this.lastBonbuSalesData7=res15.data.results;
+          this.lastBonbuSalesData8=res16.data.results;
+
+          this.bonbuSalesData=[
+            ...this.bonbuSalesData1,
+            ...this.bonbuSalesData2,
+            ...this.bonbuSalesData3,
+            ...this.bonbuSalesData4,
+            ...this.bonbuSalesData5,
+            ...this.bonbuSalesData6,
+            ...this.bonbuSalesData7,
+            ...this.bonbuSalesData8,
+          
+          ]; 
+          this.lastBonbuSalesData=[
+            ...this.lastBonbuSalesData1,
+            ...this.lastBonbuSalesData2,
+            ...this.lastBonbuSalesData3,
+            ...this.lastBonbuSalesData4,
+            ...this.lastBonbuSalesData5,
+            ...this.lastBonbuSalesData6,
+            ...this.lastBonbuSalesData7,
+            ...this.lastBonbuSalesData8,
+          ]             
+        })).catch((err)=>{
+        console.log('금주 일자 데이터를 가져 오지 못했습니다',err);
+      });
+      
+    
+      this.getDesserts();
+    },
+
    
     
     getDesserts(){
-      const yyy=this.getBonbuSalesValue(); 
-      console.log('yyyy', yyy.bonbu[0]);
-      
+      const yyy=this.getBonbuSalesValue();      
       // const selectedStartDate=this.selectedStartDate.substring(2,4)+'-'+this.selectedStartDate.substring(4,6)+'-'+this.selectedStartDate.substring(6,8);
       // const selectedEndDate=this.selectedEndDate.substring(2,4)+'-'+this.selectedEndDate.substring(4,6)+'-'+this.selectedEndDate.substring(6,8)
-
-    
       this.desserts=
         [
           {
             name:yyy.bonbu[0],
             countSum:yyy.this[0],
             lastCountSum:yyy.last[0],
+            rateOfChange:yyy.rateOfChange[0],
           },
           {
             name:yyy.bonbu[1],
             countSum:yyy.this[1],
             lastCountSum:yyy.last[1],
+            rateOfChange:yyy.rateOfChange[1],
           },
           {
             name:yyy.bonbu[2],
             countSum:yyy.this[2],
             lastCountSum:yyy.last[2],
+            rateOfChange:yyy.rateOfChange[2],
           },
           {
             name:yyy.bonbu[3],
             countSum:yyy.this[3],
             lastCountSum:yyy.last[3],
+            rateOfChange:yyy.rateOfChange[3],
           },
           {
             name:yyy.bonbu[4],
             countSum:yyy.this[4],
             lastCountSum:yyy.last[4],
+            rateOfChange:yyy.rateOfChange[4],
           },
           {
             name:yyy.bonbu[5],
-            countSum:yyy.this[6],
-            lastCountSum:yyy.last[7],
+            countSum:yyy.this[5],
+            lastCountSum:yyy.last[5],
+            rateOfChange:yyy.rateOfChange[5],
           },
           {
-            name:yyy.bonbu[8],
-            countSum:yyy.this[8],
-            lastCountSum:yyy.last[8],
+            name:yyy.bonbu[6],
+            countSum:yyy.this[6],
+            lastCountSum:yyy.last[6],
+            rateOfChange:yyy.rateOfChange[6],
+          },
+          {
+            name:yyy.bonbu[7],
+            countSum:yyy.this[7],
+            lastCountSum:yyy.last[7],
+            rateOfChange:yyy.rateOfChange[7],
           },
         ]
       
@@ -375,10 +460,64 @@ export default {
       
       });
      
+      // const firstRatio=((lastFirstCntSum-firstCntSum)/lastFirstCntSum * 100).toFixed(1);
+      // console.log('firstRAtio is 🔺'+firstRatio);
+
+      if(this.propsdata==='net'){
+        // let firstRatio=firstCntSum-lastFirstCntSum;
+        // let secondRatio=secondCntSum-lastSecondCntSum;
+        // let thirdRatio=thirdCntSum-lastThirdCntSum;
+        // let fourthRatio=fourthCntSum-lastFourthCntSum;
+        // let fifthRatio=fifthCntSum-lastFifthCntSum;
+        // let sixthRatio=sixthCntSum-lastSixthCntSum;
+        // let seventhRatio=seventhCntSum-lastSeventhCntSum;
+        // let eigthRatio=eighthCntSum-lastEighthCntSum;
+      }else{
+        let firstRatio=((lastFirstCntSum-firstCntSum)/lastFirstCntSum * 100);
+        let secondRatio=((lastSecondCntSum-secondCntSum)/lastSecondCntSum * 100);
+        let thirdRatio=((lastThirdCntSum-thirdCntSum)/lastThirdCntSum * 100);
+        let fourthRatio=((lastFourthCntSum-fourthCntSum)/lastFourthCntSum * 100);
+        let fifthRatio=((lastFifthCntSum-fifthCntSum)/lastFifthCntSum * 100);
+        let sixthRatio=((lastSixthCntSum-sixthCntSum)/lastSixthCntSum * 100);
+        let seventhRatio=((lastSeventhCntSum-seventhCntSum)/lastSeventhCntSum * 100);
+        let eighthRatio=((lastEighthCntSum-eighthCntSum)/lastEighthCntSum * 100);
+      }
+      
+      
+
+      const plusMinusToIcon=(ratio)=>{
+        if(ratio<0){
+          ratio='🔻 '+(ratio).toFixed(1);
+        }else{
+          ratio=''+ratio.toFixed(1);
+        }
+        return ratio;
+      } 
+
+      firstRatio=plusMinusToIcon(firstRatio);
+      secondRatio=plusMinusToIcon(secondRatio);
+      thirdRatio=plusMinusToIcon(thirdRatio);
+      fourthRatio=plusMinusToIcon(fourthRatio);
+      fifthRatio=plusMinusToIcon(fifthRatio);
+      sixthRatio=plusMinusToIcon(sixthRatio);
+      seventhRatio=plusMinusToIcon(seventhRatio);
+      eighthRatio=plusMinusToIcon(eighthRatio);
+      
       bonbuSalesDataObj={
         'bonbu':[firstBonbu,secondBonbu,thirdBonbu,fourthBonbu,fifthBonbu,sixthBonbu,seventhBonbu,eighthBonbu],
-        'this':[firstCntSum,secondCntSum,thirdCntSum,fourthCntSum,fifthCntSum,sixthCntSum,seventhCntSum,eighthCntSum],
-        'last':[lastFirstCntSum,lastSecondCntSum,lastThirdCntSum,lastFourthCntSum,lastFifthCntSum,lastSixthCntSum,lastSeventhCntSum,lastEighthCntSum],
+        'this':[
+          firstCntSum.toLocaleString(),secondCntSum.toLocaleString(),thirdCntSum.toLocaleString(),
+          fourthCntSum.toLocaleString(),fifthCntSum.toLocaleString(),sixthCntSum.toLocaleString(),
+          seventhCntSum.toLocaleString(),eighthCntSum.toLocaleString()
+        ],
+        'last':[
+          lastFirstCntSum.toLocaleString(),lastSecondCntSum.toLocaleString(),lastThirdCntSum.toLocaleString(),
+          lastFourthCntSum.toLocaleString(),lastFifthCntSum.toLocaleString(),lastSixthCntSum.toLocaleString(),
+          lastSeventhCntSum.toLocaleString(),lastEighthCntSum.toLocaleString()
+        ],
+        'rateOfChange':[
+          firstRatio,secondRatio,thirdRatio,fourthRatio,fifthRatio,sixthRatio,seventhRatio,eighthRatio
+        ]
       };
       return bonbuSalesDataObj;
     }
