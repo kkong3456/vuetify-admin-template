@@ -15,9 +15,9 @@
               v-model="selectedBonbu"
               :items="['북부고객본부', '동부고객본부', '서부고객본부', '강남고객본부','충남/충북고객본부','전남/전북고객본부','부산/경남고객본부','대구/경북고객본부']"
               label="광역본부"
-              @change="changeBonbu(selectedBonbu)"
+              @change="changedBonbu(selectedBonbu,selectedProduct)"
             >
-              <template v-slot:item="{ item, attrs, on }">
+              <!-- <template v-slot:item="{ item, attrs, on }">
                 <v-list-item
                   v-bind="attrs"
                   v-on="on"
@@ -27,7 +27,7 @@
                     v-text="item"
                   />
                 </v-list-item>
-              </template>
+              </template> -->
             </v-select>
           </template>
         </v-col>
@@ -58,108 +58,7 @@
         <v-spacer />
       </v-row>
 
-      <!-- 전체 cloud VOC -->
-  
-      <!-- <v-row
-        class="mt-1"
-      >
-        <v-col
-          cols="12"
-          md="6"
-          lg="3"
-        >
-          <v-card
-            outlined
-          >
-            <v-card-title>{{ selectedBonbu }}</v-card-title>
-            <v-card-content>
-              <bonbu-tv-internet-voc-word-cloud
-                ref="changeBonbu7"
-                :propsbonbudata="selectedBonbu"
-                :propsjisadata="selectedJisa"
-                :propsjijumdata="selectedJijum"
-                @bonbuVocItThisSum="bonbuVocItThisSumFunc"
-                @bonbuVocItLastSum="bonbuVocItLastSumFunc"
-                @bonbuVocItSumDiff="bonbuVocItSumDiffFunc"
-              />
-            </v-card-content>
-          </v-card>
-        </v-col>
-        <v-col
-          cols="12"
-          md="6"
-          lg="3"
-        >
-          <v-card
-            outlined
-          >
-            <v-card-title>{{ selectedJisa }}</v-card-title>
-
-            <v-card-content>
-              <jisa-tv-internet-voc-word-cloud
-                ref="changeJisa7"
-                :propsbonbudata="selectedBonbu"   
-                :propsjisadata="selectedJisa"
-                :propsjijumdata="selectedJijum"
-                @jisaVocItThisSum="jisaVocItThisSumFunc"
-                @jisaVocItLastSum="jisaVocItLastSumFunc"
-                @jisaVocItSumDiff="jisaVocItSumDiffFunc"
-              />
-            </v-card-content>
-          </v-card>
-        </v-col>
-
-        <v-divider
-          vertical
-          inset
-        />
-
-        <v-col
-          cols="12"
-          md="6"
-          lg="3"
-        >
-          <v-card
-            outlined
-          >
-            <v-card-title>{{ selectedBonbu }}</v-card-title>
-            <v-card-content>
-              <bonbu-mobile-voc-word-cloud
-                ref="changeBonbu8"
-                :propsbonbudata="selectedBonbu"
-                :propsjisadata="selectedJisa"
-                :propsjijumdata="selectedJijum"
-                @bonbuVocMobileThisSum="bonbuVocMobileThisSumFunc"
-                @bonbuVocMobileLastSum="bonbuVocMobileLastSumFunc"
-                @bonbuVocMobileSumDiff="bonbuVocMobileSumDiffFunc"
-              />
-            </v-card-content>
-          </v-card>
-        </v-col>
-        <v-col
-          cols="12"
-          md="6"
-          lg="3"
-        >
-          <v-card
-            outlined
-          >
-            <v-card-title>{{ selectedJisa }}</v-card-title>
-
-            <v-card-content>
-              <jisa-mobile-voc-word-cloud
-                ref="changeJisa8"
-                :propsbonbudata="selectedBonbu"
-                :propsjisadata="selectedJisa"
-                :propsjijumdata="selectedJijum"
-                @jisaVocMobileThisSum="jisaVocMobileThisSumFunc"
-                @jisaVocMobileLastSum="jisaVocMobileLastSumFunc"
-                @jisaVocMobileSumDiff="jisaVocMobileSumDiffFunc"
-              />
-            </v-card-content>
-          </v-card>
-        </v-col>
-      </v-row> -->
+    
     
      
       <v-row>
@@ -198,7 +97,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4 py-0"
               >
-                {{ bonbuVocItLastSum }}
+                {{ lastBonbuNewData.toLocaleString() }}
               </v-card-text>
             </v-card>  
             
@@ -217,7 +116,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                {{ bonbuVocItThisSum }}
+                {{ bonbuNewData.toLocaleString() }}
               </v-card-text>
             </v-card>
             <!-- <v-spacer /> -->
@@ -233,9 +132,9 @@
                 증감비율(%)
               </v-card-subtitle>
               <v-card-text
-                class="font-weight-bold text-md-h4 text-lg-h3"
+                class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                {{ bonbuVocItSumDiff }} %
+                {{ ((bonbuNewData-lastBonbuNewData)/lastBonbuNewData*100).toFixed(1) }} 
               </v-card-text>
             </v-card>
           </div>
@@ -269,7 +168,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4 py-0"
               >
-                {{ bonbuVocItLastSum }}
+                {{ lastBonbuEndData.toLocaleString() }}
               </v-card-text>
             </v-card>  
             
@@ -288,7 +187,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                {{ bonbuVocItThisSum }}
+                {{ bonbuEndData.toLocaleString() }}
               </v-card-text>
             </v-card>
             <!-- <v-spacer /> -->
@@ -304,9 +203,9 @@
                 증감비율(%)
               </v-card-subtitle>
               <v-card-text
-                class="font-weight-bold text-md-h4 text-lg-h3"
+                class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                {{ bonbuVocItSumDiff }} %
+                {{ ((bonbuEndData-lastBonbuEndData)/lastBonbuEndData*100).toFixed(1) }} 
               </v-card-text>
             </v-card>
           </div>
@@ -339,7 +238,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4 py-0"
               >
-                {{ bonbuVocItLastSum }}
+                {{ lastBonbuNetData.toLocaleString() }}
               </v-card-text>
             </v-card>  
             
@@ -358,7 +257,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                {{ bonbuVocItThisSum }}
+                {{ bonbuNetData.toLocaleString() }}
               </v-card-text>
             </v-card>
             <!-- <v-spacer /> -->
@@ -371,12 +270,12 @@
               <v-card-subtitle
                 class="text-left py-0"
               >
-                증감비율(%)
+                증감건수
               </v-card-subtitle>
               <v-card-text
-                class="font-weight-bold text-md-h4 text-lg-h3"
+                class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                {{ bonbuVocItSumDiff }} %
+                {{ (bonbuNetData-lastBonbuNetData).toLocaleString() }} 
               </v-card-text>
             </v-card>
           </div>
@@ -400,8 +299,9 @@
             </span>
           </p>
           <bonbu-sales-table 
-            ref="changeProduct1"
+            ref="changeProduct1"          
             :propsdata="start"
+            @bonbuNewData="bonbuNewDataFunc"
           />
         </v-col>
     
@@ -421,6 +321,7 @@
           <bonbu-sales-table 
             ref="changeProduct2"
             :propsdata="end"
+            @bonbuEndData="bonbuEndDataFunc"
           />
         </v-col>
 
@@ -440,6 +341,7 @@
           <bonbu-sales-table
             ref="changeProduct3"
             :propsdata="net"
+            @bonbuNetData="bonbuNetDataFunc"
           />
         </v-col>
       </v-row>   
@@ -452,12 +354,8 @@
 
 <script>
 import eventBus from '@/js/eventBus.js'
-
-
 import BonbuSalesTable from '@/components/tables/bonbusalestable/bonbuSalesTable';
-
 import VueHotelDatePickerSales from '@/components/datepicker/vue-hotel-datepicker-sales';
-
 
 
 export default {
@@ -478,28 +376,19 @@ export default {
       // selectedJisa:'고양지사',
       // selectedJijum:'CS부',
       selectedProduct:'인터넷',
-
-      
       
       selectedStartDate:'20210220',
       selectedEndDate:'20210226',
 
+      bonbuNewData:0,
+      lastBonbuNewData:0,
+   
 
-      bonbuVocItThisSum:0,
-      bonbuVocItLastSum:0,
-      bonbuVocItSumDiff:0,
-
-      bonbuVocMobileThisSum:0,
-      bonbuVocMobileLastSum:0,
-      bonbuVocMobileSumDiff:0,
-
-      jisaVocItThisSum:0,  //금주 Voc건수
-      jisaVocItLastSum:0,  //전주 VOC건수
-      jisaVocItSumDiff:0,
-
-      jisaVocMobileThisSum:0,
-      jisaVocMobileLastSum:0,
-      jisaVocMobileSumDiff:0,
+      bonbuEndData:0,
+      lastBonbuEndData:0,
+     
+      bonbuNetData:0,
+      lastBonbuNetData:0,  
       
       //wordcloud
       tvInternetVoc:this.tvInternetVoc,
@@ -514,8 +403,8 @@ export default {
 
   async created(){
     eventBus.$on('pickedDates',(dateResult)=>{  //RSN_HjVoc.vue에서 기간 선택시 그 자식 컨포넌트인 vue-hotel-datepicker.vue에서 시작일자와 종료일자를 받아옴  
-      // const imsiThisStart=dateResult.start.replace(/\//gi,',');
-      // const imsiThisEnd=dateResult.end.replace(/\//gi,',');
+      const imsiThisStart=dateResult.start.replace(/\//gi,',');
+      const imsiThisEnd=dateResult.end.replace(/\//gi,',');
 
       this.selectedStartDate=dateResult.start.replace(/\//gi,'')  //현재 선택
       this.selectedEndDate=dateResult.end.replace(/\//gi,'')
@@ -535,147 +424,49 @@ export default {
   },
 
   methods:{
-    changedProduct(selectedProduct){
+
+    displayDateText (datetime) {
+      if (datetime) {
+        datetime = typeof (datetime) === 'string' ? new Date(datetime) : datetime
+        const yyyy = datetime.getFullYear()
+        const mm = datetime.getMonth() + 1 > 9 ? datetime.getMonth() + 1 : `0${datetime.getMonth() + 1}`
+        const dd = datetime.getDate() > 9 ? datetime.getDate() : `0${datetime.getDate()}`
+        const displayStr = (this.format || 'YYYY/MM/DD').replace('YYYY', yyyy).replace('MM', mm).replace('DD', dd)
+        return displayStr
+      } else {
+        return undefined
+      }
+    },
+
+    changedProduct(selectedBonbu,selectedProduct){
       this.$refs.changeProduct1.changeProduct(selectedProduct);  
       this.$refs.changeProduct2.changeProduct(selectedProduct);
       this.$refs.changeProduct3.changeProduct(selectedProduct);
-    
+      eventBus.$emit('changedBonbu',selectedBonbu,selectedProduct)
     },
 
 
-    changeBonbu(selectedBonbu){
-      if(this.selectedBonbu==='북부고객본부'){
-        this.selectedJisaArray=['고양지사','광진지사','광화문지사','노원지사','서대문지사'];
-        this.selectedJisa='고양지사';
-        this.$refs.changeJisa7.changedJisa(this.selectedJisa,this.selectedBonbu);  //본부를바꾸면 지사가 바뀌면서 유선 워드 클라우드 데이터 표시
-        this.$refs.changeJisa8.changedJisa(this.selectedJisa,this.selectedBonbu);  // 상동 ,무선 클라우드 데이터 표시
-        this.$refs.changeJisa9.changedJisa(this.selectedJisa,this.selectedBonbu);
-        this.$refs.changeJisa10.changedJisa(this.selectedJisa,this.selectedBonbu);
-        
-      }
+    changedBonbu(selectedBonbu,selectedProduct){  
+      eventBus.$emit('changedBonbu',selectedBonbu,selectedProduct);
+    },
 
-      if(this.selectedBonbu==='동부고객본부'){
-        this.selectedJisaArray=['강릉지사','구리지사','원주지사','의정부지사','춘천지사']; 
-        this.selectedJisa='강릉지사';
-        this.$refs.changeJisa7.changedJisa(this.selectedJisa,this.selectedBonbu);
-        this.$refs.changeJisa8.changedJisa(this.selectedJisa,this.selectedBonbu);
-        this.$refs.changeJisa9.changedJisa(this.selectedJisa,this.selectedBonbu);
-        this.$refs.changeJisa10.changedJisa(this.selectedJisa,this.selectedBonbu);
-      }
+    bonbuNewDataFunc(thisData,lastData){
+      this.bonbuNewData=thisData;
+      this.lastBonbuNewData=lastData;
+    },
 
-      if(this.selectedBonbu==='강남고객본부'){
-        this.selectedJisaArray=['강남지사','분당지사','송파지사','수원지사','용인지사','평택지사'];
-        this.selectedJisa='강남지사'; 
-        this.$refs.changeJisa7.changedJisa(this.selectedJisa);
-        this.$refs.changeJisa8.changedJisa(this.selectedJisa);
-        this.$refs.changeJisa9.changedJisa(this.selectedJisa,this.selectedBonbu);
-        this.$refs.changeJisa10.changedJisa(this.selectedJisa,this.selectedBonbu);
-      }
+    bonbuEndDataFunc(thisData,lastData){
+      this.bonbuEndData=thisData;
+      this.lastBonbuEndData=lastData;
+    },
 
-      if(this.selectedBonbu==='충남/충북고객본부'){
-        this.selectedJisaArray=['대전지사','서대전지사','천안지사','청주지사','충주지사','홍성지사'];
-        this.selectedJisa='대전지사';
-        this.$refs.changeJisa7.changedJisa(this.selectedJisa); 
-        this.$refs.changeJisa8.changedJisa(this.selectedJisa);
-        this.$refs.changeJisa9.changedJisa(this.selectedJisa,this.selectedBonbu);
-        this.$refs.changeJisa10.changedJisa(this.selectedJisa,this.selectedBonbu);
-      }
-
-      if(this.selectedBonbu==='대구/경북고객본부'){
-        this.selectedJisaArray=['구미지사','달서지사','동대구지사','서대구지사','안동지사','포항지사'];
-        this.selectedJisa='구미지사';
-        this.$refs.changeJisa7.changedJisa(this.selectedJisa);
-        this.$refs.changeJisa8.changedJisa(this.selectedJisa);
-        this.$refs.changeJisa9.changedJisa(this.selectedJisa,this.selectedBonbu);
-        this.$refs.changeJisa10.changedJisa(this.selectedJisa,this.selectedBonbu);
-      }
-
-      if(this.selectedBonbu==='부산/경남고객본부'){
-        this.selectedJisaArray=['남부산지사','동부산지사','북부산지사','서부산지사','울산지사','진주지사','창원지사'];
-        this.selectedJisa='남부산지사';
-        this.$refs.changeJisa7.changedJisa(this.selectedJisa);
-        this.$refs.changeJisa8.changedJisa(this.selectedJisa);
-        this.$refs.changeJisa9.changedJisa(this.selectedJisa,this.selectedBonbu);
-        this.$refs.changeJisa10.changedJisa(this.selectedJisa,this.selectedBonbu);
-      }
-
-      if(this.selectedBonbu==='전남/전북고객본부'){
-        this.selectedJisaArray=['광주지사','목포지사','순천지사','익산지사','전주지사'];
-        this.selectedJisa='광주지사';
-        this.$refs.changeJisa7.changedJisa(this.selectedJisa);
-        this.$refs.changeJisa8.changedJisa(this.selectedJisa);
-        this.$refs.changeJisa9.changedJisa(this.selectedJisa,this.selectedBonbu);
-        this.$refs.changeJisa10.changedJisa(this.selectedJisa,this.selectedBonbu);
-      }
-      if(this.selectedBonbu==='서부고객본부'){
-        this.selectedJisaArray=['강서지사','구로지사','부천지사','서인천지사','안산지사','안양지사','인천지사'];
-        this.selectedJisa='강서지사';
-        this.$refs.changeJisa7.changedJisa(this.selectedJisa);
-        this.$refs.changeJisa8.changedJisa(this.selectedJisa);
-        this.$refs.changeJisa9.changedJisa(this.selectedJisa,this.selectedBonbu);
-        this.$refs.changeJisa10.changedJisa(this.selectedJisa,this.selectedBonbu);
-      }
-
-      // 본부가 바뀌면 각 컴포넌트의 changeBonbu 함수를 실행시켜 데이터를 바꾼다.   
-      this.$refs.changeBonbu7.changedBonbu(selectedBonbu);
-      this.$refs.changeBonbu8.changedBonbu(selectedBonbu);
-      this.$refs.changeBonbu9.changedBonbu(selectedBonbu); //voc 테이블 컴포넌터
-      this.$refs.changeBonbu10.changeBonbu(selectedBonbu); // 유선 VOC추이(지사별)
-      this.$refs.changeBonbu11.changeBonbu(selectedBonbu); // 유선VOC- 혜택문의 추이
-      this.$refs.changeBonbu12.changeBonbu(selectedBonbu); //유선VOC - 약정문의 추이
-      this.$refs.changeBonbu13.changeBonbu(selectedBonbu);  //유선Voc - 위약금 문의 추이
-
-      this.$refs.changeBonbu14.changeBonbu(selectedBonbu); // 무선 VOC추이(지사별)
-      this.$refs.changeBonbu15.changeBonbu(selectedBonbu); // 무선VOC- 혜택문의 추이
-      this.$refs.changeBonbu16.changeBonbu(selectedBonbu); //무선VOC - 약정문의 추이
-      this.$refs.changeBonbu17.changeBonbu(selectedBonbu);  //무선Voc - 위약금 문의 추이
+    bonbuNetDataFunc(thisData,lastData){
+      this.bonbuNetData=thisData;
+      this.lastBonbuNetData=lastData;
     },
 
   
-    bonbuVocItThisSumFunc(val){     
-      this.bonbuVocItThisSum=val.toLocaleString(); 
-    },
-    bonbuVocItLastSumFunc(val){     
-      this.bonbuVocItLastSum=val.toLocaleString(); 
-    },
-    bonbuVocItSumDiffFunc(val){     
-      this.bonbuVocItSumDiff=val.toLocaleString(); 
-    },
-
-    jisaVocItThisSumFunc(val){
-      this.jisaVocItThisSum=val.toLocaleString();
-    },
-    jisaVocItLastSumFunc(val){
-      this.jisaVocItLastSum=val.toLocaleString();
-    },
-
-    jisaVocItSumDiffFunc(val){
-      this.jisaVocItSumDiff=val.toLocaleString();
-    },
-
-    bonbuVocMobileThisSumFunc(val){
-      this.bonbuVocMobileThisSum=val.toLocaleString();
-    },
-
-    bonbuVocMobileLastSumFunc(val){
-      this.bonbuVocMobileLastSum=val.toLocaleString();
-    },
-
-    bonbuVocMobileSumDiffFunc(val){
-      this.bonbuVocMobileSumDiff=val.toLocaleString();
-    },
-
-    jisaVocMobileThisSumFunc(val){
-      this.jisaVocMobileThisSum=val.toLocaleString();
-    },
-
-    jisaVocMobileLastSumFunc(val){
-      this.jisaVocMobileLastSum=val.toLocaleString();
-    },
-
-    jisaVocMobileSumDiffFunc(val){
-      this.jisaVocMobileSumDiff=val.toLocaleString();
-    },
+   
     
   }
 

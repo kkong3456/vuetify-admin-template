@@ -31,7 +31,7 @@ const bonbuJisaObj={
 
 export default {
 
-  name:'BonbuNewSalesTable',
+  name:'BonbuSalesTable',
 
   components:{
   
@@ -49,7 +49,7 @@ export default {
     'propsdata':{
       type:String,
       default:undefined,
-    }
+    },
   },
   
  
@@ -64,6 +64,7 @@ export default {
       search:'',
       desserts:this.desserts,
       
+      selectedBonbu:'북부고객본부',
       selectedProduct:'인터넷',
       
       selectedStartDate:'20210220',
@@ -96,14 +97,14 @@ export default {
         // },
         {
           text:'조회기간(1주일전)',
-          value:'countSum',
-        },
-        {
-          text:'조회기간',
           value:'lastCountSum',
         },
         {
-          text:'증감율[%]',
+          text:'조회기간',
+          value:'countSum',
+        },
+        {
+          text:this.propsdata!=='net'?'증감율[%]':'증가건수',
           value:'rateOfChange'
         }
       ]
@@ -129,13 +130,75 @@ export default {
       this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
       this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
       this.changeDate();
+
+
+      
     }); 
     this.changeDate();
 
+    
   },
 
   mounted(){
+    eventBus.$on('changedBonbu',async (selectedBonbu,selectedProduct)=>{
+      this.selectedBonbu=selectedBonbu;
+      this.selectedProduct=selectedProduct;
+
+     
+      let newCountSum=0;
+      let endCountSum=0;
+      let netCountSum=0;
+
+      let lastNewCountSum=0;
+      let lastEndCountSum=0;
+      let lastNetCountSum=0;
     
+      const thisNewSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=start&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=`;
+      const lastNewSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=start&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&bonbu=`;
+
+      const thisEndSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=end&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=`;
+      const lastEndSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=end&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&bonbu=`;
+
+      const thisNetSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=net&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=`;
+      const lastNetSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=net&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&bonbu=`;
+      
+      
+      await axios.all(
+        [
+          axios.get(thisNewSalesUrl+this.selectedBonbu),
+          axios.get(thisEndSalesUrl+this.selectedBonbu),
+          axios.get(thisNetSalesUrl+this.selectedBonbu),
+        
+          axios.get(lastNewSalesUrl+this.selectedBonbu),
+          axios.get(lastEndSalesUrl+this.selectedBonbu),
+          axios.get(lastNetSalesUrl+this.selectedBonbu),
+        ]
+      ).then(axios.spread(
+        (res1,res2,res3,res4,res5,res6)=>{
+          const bonbuSalesData1=res1.data.results.map((item)=>newCountSum+=item.count_sum);
+          
+          const bonbuSalesData2=res2.data.results.map((item)=>endCountSum+=item.count_sum);
+          const bonbuSalesData3=res3.data.results.map((item)=>netCountSum+=item.count_sum);
+            
+         
+          const lastBonbuSalesData1=res4.data.results.map((item)=>lastNewCountSum+=item.count_sum);
+          const lastBonbuSalesData2=res5.data.results.map((item)=>lastEndCountSum+=item.count_sum);
+          const lastBonbuSalesData3=res6.data.results.map((item)=>lastNetCountSum+=item.count_sum);
+         
+        
+
+          this.$emit('bonbuNewData',bonbuSalesData1[bonbuSalesData1.length-1],lastBonbuSalesData1[lastBonbuSalesData1.length-1]);
+          this.$emit('bonbuEndData',bonbuSalesData2[bonbuSalesData2.length-1],lastBonbuSalesData2[lastBonbuSalesData2.length-1]);
+          this.$emit('bonbuNetData',bonbuSalesData3[bonbuSalesData3.length-1],lastBonbuSalesData3[lastBonbuSalesData3.length-1]);
+
+        })).catch((err)=>{
+        console.log('금주 일자 데이터를 가져 오지 못했습니다',err);
+      });
+      
+    
+      // this.getDesserts();
+    })
+
   },
 
   methods: { 
@@ -232,12 +295,9 @@ export default {
 
     async changeProduct(selectedProduct){
       this.selectedProduct=selectedProduct;
-    
+       
       const thisBonbuSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=${this.propsdata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=`;
       const lastBonbuSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=${this.propsdata}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&bonbu=`;
-      
-      // this.selectedBonbu=this.selectedBonbu;  //propsbonbudata 대신 사용하려고함
-
       
       await axios.all(
         [
@@ -299,7 +359,8 @@ export default {
             ...this.lastBonbuSalesData6,
             ...this.lastBonbuSalesData7,
             ...this.lastBonbuSalesData8,
-          ]             
+          ]    
+          
         })).catch((err)=>{
         console.log('금주 일자 데이터를 가져 오지 못했습니다',err);
       });
@@ -308,7 +369,6 @@ export default {
       this.getDesserts();
     },
 
-   
     
     getDesserts(){
       const yyy=this.getBonbuSalesValue();      
@@ -463,36 +523,50 @@ export default {
       // const firstRatio=((lastFirstCntSum-firstCntSum)/lastFirstCntSum * 100).toFixed(1);
       // console.log('firstRAtio is 🔺'+firstRatio);
 
-      if(this.propsdata==='net'){
-        // let firstRatio=firstCntSum-lastFirstCntSum;
-        // let secondRatio=secondCntSum-lastSecondCntSum;
-        // let thirdRatio=thirdCntSum-lastThirdCntSum;
-        // let fourthRatio=fourthCntSum-lastFourthCntSum;
-        // let fifthRatio=fifthCntSum-lastFifthCntSum;
-        // let sixthRatio=sixthCntSum-lastSixthCntSum;
-        // let seventhRatio=seventhCntSum-lastSeventhCntSum;
-        // let eigthRatio=eighthCntSum-lastEighthCntSum;
-      }else{
-        let firstRatio=((lastFirstCntSum-firstCntSum)/lastFirstCntSum * 100);
-        let secondRatio=((lastSecondCntSum-secondCntSum)/lastSecondCntSum * 100);
-        let thirdRatio=((lastThirdCntSum-thirdCntSum)/lastThirdCntSum * 100);
-        let fourthRatio=((lastFourthCntSum-fourthCntSum)/lastFourthCntSum * 100);
-        let fifthRatio=((lastFifthCntSum-fifthCntSum)/lastFifthCntSum * 100);
-        let sixthRatio=((lastSixthCntSum-sixthCntSum)/lastSixthCntSum * 100);
-        let seventhRatio=((lastSeventhCntSum-seventhCntSum)/lastSeventhCntSum * 100);
-        let eighthRatio=((lastEighthCntSum-eighthCntSum)/lastEighthCntSum * 100);
-      }
-      
-      
-
       const plusMinusToIcon=(ratio)=>{
-        if(ratio<0){
+        if(ratio<0 && this.propsdata!=='net'){
           ratio='🔻 '+(ratio).toFixed(1);
+        }else if(ratio<0 && this.propsdata==='net'){
+          ratio="🔻 "+ratio
+        }else if(ratio>=0 && this.propsdata==='net'){
+          ratio='🟢 '+ratio
         }else{
-          ratio=''+ratio.toFixed(1);
+          ratio='🟢 '+ratio.toFixed(1)
         }
         return ratio;
       } 
+
+      let firstRatio=0;
+      let secondRatio=0;
+      let thirdRatio=0;
+      let fourthRatio=0;
+      let fifthRatio=0;
+      let sixthRatio=0;
+      let seventhRatio=0;
+      let eighthRatio=0;
+
+      if(this.propsdata==='net'){
+      
+        firstRatio=firstCntSum-lastFirstCntSum;
+        secondRatio=secondCntSum-lastSecondCntSum;
+        thirdRatio=thirdCntSum-lastThirdCntSum;
+        fourthRatio=fourthCntSum-lastFourthCntSum;
+        fifthRatio=fifthCntSum-lastFifthCntSum;
+        sixthRatio=sixthCntSum-lastSixthCntSum;
+        seventhRatio=seventhCntSum-lastSeventhCntSum;
+        eighthRatio=eighthCntSum-lastEighthCntSum;
+      }else{
+        firstRatio=((-lastFirstCntSum+firstCntSum)/lastFirstCntSum * 100);
+        secondRatio=((-lastSecondCntSum+secondCntSum)/lastSecondCntSum * 100);
+        thirdRatio=((-lastThirdCntSum+thirdCntSum)/lastThirdCntSum * 100);
+        fourthRatio=((-lastFourthCntSum+fourthCntSum)/lastFourthCntSum * 100);
+        fifthRatio=((-lastFifthCntSum+fifthCntSum)/lastFifthCntSum * 100);
+        sixthRatio=((-lastSixthCntSum+sixthCntSum)/lastSixthCntSum * 100);
+        seventhRatio=((-lastSeventhCntSum+seventhCntSum)/lastSeventhCntSum * 100);
+        eighthRatio=((-lastEighthCntSum+eighthCntSum)/lastEighthCntSum * 100);
+
+      
+      }
 
       firstRatio=plusMinusToIcon(firstRatio);
       secondRatio=plusMinusToIcon(secondRatio);
@@ -502,6 +576,12 @@ export default {
       sixthRatio=plusMinusToIcon(sixthRatio);
       seventhRatio=plusMinusToIcon(seventhRatio);
       eighthRatio=plusMinusToIcon(eighthRatio);
+      
+      
+
+    
+
+     
       
       bonbuSalesDataObj={
         'bonbu':[firstBonbu,secondBonbu,thirdBonbu,fourthBonbu,fifthBonbu,sixthBonbu,seventhBonbu,eighthBonbu],
