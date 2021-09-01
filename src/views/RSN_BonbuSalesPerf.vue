@@ -15,7 +15,13 @@
               v-model="selectedBonbu"
               :items="['북부고객본부', '동부고객본부', '서부고객본부', '강남고객본부','충남/충북고객본부','전남/전북고객본부','부산/경남고객본부','대구/경북고객본부']"
               label="광역본부"
-              @change="changedBonbu(selectedBonbu,selectedProduct)"
+              광역본부와
+              상품
+              선택시
+              동일한
+              함수
+              지정
+              @change="changedBonbuProduct(selectedBonbu,selectedProduct)"
             >
               <!-- <template v-slot:item="{ item, attrs, on }">
                 <v-list-item
@@ -38,7 +44,13 @@
               v-model="selectedProduct"             
               :items="['인터넷','미디어','무선']"
               label="상품"
-              @change="changedProduct(selectedProduct)"
+              광역본부와
+              상품
+              선택시
+              동일한
+              함수
+              지정
+              @change="changedBonbuProduct(selectedBonbu,selectedProduct)"
             >
               <template v-slot:item="{ item, attrs, on }">
                 <v-list-item
@@ -141,7 +153,7 @@
         </v-col>
 
 
-        <!-- 전주비교 지사-유선 -->
+        <!-- 해지 데이터 -->
         <v-col>
           <v-card
             class="text-center pa-2 font-weight-bold"
@@ -212,6 +224,7 @@
         </v-col>
 
       
+        <!-- 순 증감 데이터 -->
         <v-col>
           <v-card
             class="text-center pa-2 font-weight-bold"
@@ -354,6 +367,7 @@
 
 <script>
 import eventBus from '@/js/eventBus.js'
+import axios from 'axios';
 import BonbuSalesTable from '@/components/tables/bonbusalestable/bonbuSalesTable';
 import VueHotelDatePickerSales from '@/components/datepicker/vue-hotel-datepicker-sales';
 
@@ -370,15 +384,14 @@ export default {
   data(){
     return{
       selectedBonbu:'북부고객본부',
-      // selectedJisaArray:['고양지사','광진지사','광화문지사','노원지사','서대문지사'],
-      // selectedJijumArray:['CS부','마케팅부','영업기획팀'],
-      
-      // selectedJisa:'고양지사',
-      // selectedJijum:'CS부',
+     
       selectedProduct:'인터넷',
       
       selectedStartDate:'20210220',
       selectedEndDate:'20210226',
+
+      lastWeekStartDate:'20210213',
+      lastWeekEndDate:'20210219',
 
       bonbuNewData:0,
       lastBonbuNewData:0,
@@ -419,7 +432,10 @@ export default {
       this.lastWeekEnd.setDate(this.lastWeekEnd.getDate()- 7);
       this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
       this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
+      
     })
+
+    // this.changedBonbu(this.selectedBonbu);
 
   },
 
@@ -438,35 +454,30 @@ export default {
       }
     },
 
-    changedProduct(selectedBonbu,selectedProduct){
-      this.$refs.changeProduct1.changeProduct(selectedProduct);  
-      this.$refs.changeProduct2.changeProduct(selectedProduct);
-      this.$refs.changeProduct3.changeProduct(selectedProduct);
-      eventBus.$emit('changedBonbu',selectedBonbu,selectedProduct)
+    changedBonbuProduct(selectedBonbu,selectedProduct){
+      this.$refs.changeProduct1.changeBonbuProduct(selectedBonbu,selectedProduct);  
+      this.$refs.changeProduct2.changeBonbuProduct(selectedBonbu,selectedProduct);
+      this.$refs.changeProduct3.changeBonbuProduct(selectedBonbu,selectedProduct);
     },
 
 
-    changedBonbu(selectedBonbu,selectedProduct){  
-      eventBus.$emit('changedBonbu',selectedBonbu,selectedProduct);
-    },
-
-    bonbuNewDataFunc(thisData,lastData){
-      this.bonbuNewData=thisData;
+    
+    //신규/해지/순증감 데이터
+    bonbuNewDataFunc(lastData,thisData){
+     
       this.lastBonbuNewData=lastData;
+      this.bonbuNewData=thisData;
     },
 
-    bonbuEndDataFunc(thisData,lastData){
+    bonbuEndDataFunc(lastData,thisData){
       this.bonbuEndData=thisData;
       this.lastBonbuEndData=lastData;
     },
 
-    bonbuNetDataFunc(thisData,lastData){
+    bonbuNetDataFunc(lastData,thisData){
       this.bonbuNetData=thisData;
       this.lastBonbuNetData=lastData;
     },
-
-  
-   
     
   }
 

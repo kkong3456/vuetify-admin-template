@@ -130,75 +130,17 @@ export default {
       this.lastWeekEnd=this.displayDateText(this.lastWeekEnd);
       this.lastWeekEndDate=this.lastWeekEnd.replace(/\//gi,"");
       this.changeDate();
-
-
-      
+      this.changedBonbu(this.selectedBonbu);
+     
     }); 
     this.changeDate();
-
+    this.changedBonbu(this.selectedBonbu);
+   
     
   },
 
   mounted(){
-    eventBus.$on('changedBonbu',async (selectedBonbu,selectedProduct)=>{
-      this.selectedBonbu=selectedBonbu;
-      this.selectedProduct=selectedProduct;
-
-     
-      let newCountSum=0;
-      let endCountSum=0;
-      let netCountSum=0;
-
-      let lastNewCountSum=0;
-      let lastEndCountSum=0;
-      let lastNetCountSum=0;
     
-      const thisNewSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=start&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=`;
-      const lastNewSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=start&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&bonbu=`;
-
-      const thisEndSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=end&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=`;
-      const lastEndSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=end&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&bonbu=`;
-
-      const thisNetSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=net&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=`;
-      const lastNetSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=net&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&bonbu=`;
-      
-      
-      await axios.all(
-        [
-          axios.get(thisNewSalesUrl+this.selectedBonbu),
-          axios.get(thisEndSalesUrl+this.selectedBonbu),
-          axios.get(thisNetSalesUrl+this.selectedBonbu),
-        
-          axios.get(lastNewSalesUrl+this.selectedBonbu),
-          axios.get(lastEndSalesUrl+this.selectedBonbu),
-          axios.get(lastNetSalesUrl+this.selectedBonbu),
-        ]
-      ).then(axios.spread(
-        (res1,res2,res3,res4,res5,res6)=>{
-          const bonbuSalesData1=res1.data.results.map((item)=>newCountSum+=item.count_sum);
-          
-          const bonbuSalesData2=res2.data.results.map((item)=>endCountSum+=item.count_sum);
-          const bonbuSalesData3=res3.data.results.map((item)=>netCountSum+=item.count_sum);
-            
-         
-          const lastBonbuSalesData1=res4.data.results.map((item)=>lastNewCountSum+=item.count_sum);
-          const lastBonbuSalesData2=res5.data.results.map((item)=>lastEndCountSum+=item.count_sum);
-          const lastBonbuSalesData3=res6.data.results.map((item)=>lastNetCountSum+=item.count_sum);
-         
-        
-
-          this.$emit('bonbuNewData',bonbuSalesData1[bonbuSalesData1.length-1],lastBonbuSalesData1[lastBonbuSalesData1.length-1]);
-          this.$emit('bonbuEndData',bonbuSalesData2[bonbuSalesData2.length-1],lastBonbuSalesData2[lastBonbuSalesData2.length-1]);
-          this.$emit('bonbuNetData',bonbuSalesData3[bonbuSalesData3.length-1],lastBonbuSalesData3[lastBonbuSalesData3.length-1]);
-
-        })).catch((err)=>{
-        console.log('금주 일자 데이터를 가져 오지 못했습니다',err);
-      });
-      
-    
-      // this.getDesserts();
-    })
-
   },
 
   methods: { 
@@ -216,6 +158,8 @@ export default {
         return undefined
       }
     },
+
+    
 
     async changeDate(){
     
@@ -290,11 +234,12 @@ export default {
       });
       
     
-      this.getDesserts();
+      this.getDesserts(this.selectedbonbu);
     },
 
-    async changeProduct(selectedProduct){
+    async changeBonbuProduct(selectedBonbu,selectedProduct){
       this.selectedProduct=selectedProduct;
+      this.selectedBonbu=selectedBonbu;
        
       const thisBonbuSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=${this.propsdata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=`;
       const lastBonbuSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=${this.propsdata}&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&bonbu=`;
@@ -365,15 +310,89 @@ export default {
         console.log('금주 일자 데이터를 가져 오지 못했습니다',err);
       });
       
+      this.changedBonbu(this.selectedBonbu);
+      this.getDesserts(this.selectedBonbu);
+    },
+
+    // changedBonbu(selectedBonbu,selectedProduct){  
+    //   // eventBus.$emit('changedBonbu',selectedBonbu,selectedProduct);
+    //   this.$refs.changeBonbu1.changeBonbu(selectedBonbu);
+      
+    // },
+
+    async changedBonbu(selectedBonbu){
+      // eventBus.$on('changedBonbu',async (selectedBonbu,selectedProduct)=>{
+      this.selectedBonbu=selectedBonbu;
+      // this.selectedProduct=selectedProduct;
+
+      
+
+      let newCountSum=0;
+      let endCountSum=0;
+      let netCountSum=0;
+
+      let lastNewCountSum=0;
+      let lastEndCountSum=0;
+      let lastNetCountSum=0;
     
-      this.getDesserts();
+      const thisNewSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=start&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=`;
+      const lastNewSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=start&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&bonbu=`;
+
+      const thisEndSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=end&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=`;
+      const lastEndSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=end&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&bonbu=`;
+
+      const thisNetSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=net&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=`;
+      const lastNetSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.selectedProduct}&kind=net&begin=${this.lastWeekStartDate}&end=${this.lastWeekEndDate}&bonbu=`;
+      
+           
+      await axios.all(
+        [
+          axios.get(thisNewSalesUrl+this.selectedBonbu),
+          axios.get(thisEndSalesUrl+this.selectedBonbu),
+          axios.get(thisNetSalesUrl+this.selectedBonbu),
+        
+          axios.get(lastNewSalesUrl+this.selectedBonbu),
+          axios.get(lastEndSalesUrl+this.selectedBonbu),
+          axios.get(lastNetSalesUrl+this.selectedBonbu),
+        ]
+      ).then(axios.spread(
+        (res1,res2,res3,res4,res5,res6)=>{
+          console.log('res1 is ',res1);
+          const bonbuSalesData1=res1.data.results.map((item)=>newCountSum+=item.count_sum);
+          
+          const bonbuSalesData2=res2.data.results.map((item)=>endCountSum+=item.count_sum);
+          const bonbuSalesData3=res3.data.results.map((item)=>netCountSum+=item.count_sum);
+            
+         
+          const lastBonbuSalesData1=res4.data.results.map((item)=>lastNewCountSum+=item.count_sum);
+          const lastBonbuSalesData2=res5.data.results.map((item)=>lastEndCountSum+=item.count_sum);
+          const lastBonbuSalesData3=res6.data.results.map((item)=>lastNetCountSum+=item.count_sum);
+
+          this.bonbuNewData=bonbuSalesData1[bonbuSalesData1.length-1];
+          this.lastBonbuNewData=lastBonbuSalesData1[lastBonbuSalesData1.length-1];
+
+          this.bonbuEndData=bonbuSalesData2[bonbuSalesData2.length-1];
+          this.lastBonbuEndData=lastBonbuSalesData2[lastBonbuSalesData2.length-1];
+
+          this.bonbuNetData=bonbuSalesData3[bonbuSalesData3.length-1];
+          this.lastBonbuNetData=lastBonbuSalesData3[lastBonbuSalesData3.length -1];
+
+          console.log('this.bonbuNewData is ',this.bonbuNewData);
+         
+          this.$emit('bonbuNewData',lastBonbuSalesData1[lastBonbuSalesData1.length-1],bonbuSalesData1[bonbuSalesData1.length-1]);
+          this.$emit('bonbuEndData',lastBonbuSalesData2[lastBonbuSalesData2.length-1],bonbuSalesData2[bonbuSalesData2.length-1]);
+          this.$emit('bonbuNetData',lastBonbuSalesData3[lastBonbuSalesData3.length-1],bonbuSalesData3[bonbuSalesData3.length-1]);
+
+        })).catch((err)=>{
+        console.log('금주 일자 데이터를 가져 오지 못했습니다',err);
+      });
+
     },
 
     
-    getDesserts(){
-      const yyy=this.getBonbuSalesValue();      
-      // const selectedStartDate=this.selectedStartDate.substring(2,4)+'-'+this.selectedStartDate.substring(4,6)+'-'+this.selectedStartDate.substring(6,8);
-      // const selectedEndDate=this.selectedEndDate.substring(2,4)+'-'+this.selectedEndDate.substring(4,6)+'-'+this.selectedEndDate.substring(6,8)
+    getDesserts(selectedBonbu){
+      const yyy=this.getBonbuSalesValue(selectedBonbu);      
+     
       this.desserts=
         [
           {
@@ -576,12 +595,7 @@ export default {
       sixthRatio=plusMinusToIcon(sixthRatio);
       seventhRatio=plusMinusToIcon(seventhRatio);
       eighthRatio=plusMinusToIcon(eighthRatio);
-      
-      
-
     
-
-     
       
       bonbuSalesDataObj={
         'bonbu':[firstBonbu,secondBonbu,thirdBonbu,fourthBonbu,fifthBonbu,sixthBonbu,seventhBonbu,eighthBonbu],
