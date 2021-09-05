@@ -28,6 +28,7 @@ import PageLayout from '@/layouts/page/index'
 import AuthenticationLayout from '@/layouts/authentication/index'
 
 import RSN_BonbuSalesPerf from '@/views/RSN_BonbuSalesPerf'
+import RSN_JisaSalesPerf from '@/views/RSN_JisaSalesPerf'
 import RSN_HjVoc from '@/views/RSN_HjVoc'
 import RSN_PjVoc from '@/views/RSN_PjVoc'
 
@@ -43,6 +44,16 @@ const routes=[
     component:DefaultLayout,
     children:[
       {
+        path:'/rsn-bonbu-sales-perf',
+        name:'RSN_BonbuSalesPerf',
+        component:RSN_BonbuSalesPerf,
+      },
+      {
+        path:'/rsn-jisa-sales-perf',
+        name:'RSN_JisaSalesPerf',
+        component:RSN_JisaSalesPerf,
+      },
+      {
         path:'/',
         name:'RSN_PjVoc',
         component:RSN_PjVoc
@@ -55,11 +66,7 @@ const routes=[
         name:'RSN_DayTimeLocationsMap',
         component:RSN_DayTimeLocationsMap,
       },
-      {
-        path:'/rsn-bonbu-sales-perf',
-        name:'RSN_BonbuSalesPerf',
-        component:RSN_BonbuSalesPerf,
-      },
+   
       {
         path:'/rsn-hj-voc',
         name:'RSN_HjVoc',

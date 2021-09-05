@@ -121,7 +121,7 @@ export default {
           },
           {
             text:'2. 지사별 실적현황',
-            to:'',
+            to:'/rsn-jisa-sales-perf',
             icon:'mdi-plus',
           },
           {

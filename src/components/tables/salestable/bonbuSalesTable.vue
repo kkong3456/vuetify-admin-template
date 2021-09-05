@@ -42,10 +42,7 @@ export default {
       type:String,
       default:undefined,
     },
-    'propsjisadata':{
-      type:String,
-      default:undefined,
-    },
+ 
     'propsdata':{
       type:String,
       default:undefined,
@@ -78,7 +75,7 @@ export default {
     headers(){
       return [
         {
-          text:'지사명',
+          text:'본부명',
           align:'start',
           sortable:false,
           value:'name',

@@ -27,7 +27,27 @@ const options={      //chart options prop를 사용하지 않는 하위컴포넌
   hoverBorderWidth:5,
   legend:{
     display:true,
-    // onClick:null,
+    onClick:function(e,legendItem){  //https://codepen.io/jordanwillis/pen/BWKKKo 참고
+      const index=legendItem.datasetIndex;  // 선택된 범례만 선택되고 나머지는 사라진다.
+      
+      const ci=this.chart;
+      let alreadyHidden=(ci.getDatasetMeta(index).hidden===null)?false:ci.getDatasetMeta(index).hidden;
+     
+      ci.data.datasets.forEach((e,i)=>{
+        const meta=ci.getDatasetMeta(i);
+
+        if(i!==index){
+          if(!alreadyHidden){
+            meta.hidden=meta.hidden===null?!meta.hidden:null;
+          }else if(meta.hidden===null){
+            meta.hidden=true;
+          }
+        }else if(i===index){
+          meta.hidden=null;
+        }
+      });
+      ci.update();
+    },
   },
   plugins:{
     legend:{
@@ -48,8 +68,8 @@ const options={      //chart options prop를 사용하지 않는 하위컴포넌
     },
     line:{
       tension:.3,
-      borderWidth:1,
-      //stepped:true,
+      borderWidth:1.2,
+      // stepped:true,
     }
 
   }
@@ -117,6 +137,7 @@ export default {
       
       dataCollection:null,
       options:options,
+     
     }
   },
  
@@ -188,6 +209,7 @@ export default {
       }
     },
 
+   
     async changeDate(){
       const thisBonbuSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.propsproduct}&kind=${this.propsdata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=`;
      
@@ -307,7 +329,7 @@ export default {
 
           {
             label: yyy[6].Bonbu,
-            borderColor: '#C6aEFF',
+            borderColor: '#115924',
             backgroundColor:"transparent",
             data: yyy[6].vocSum,
             fill:false,
@@ -317,7 +339,7 @@ export default {
 
           {
             label: yyy[7].Bonbu,
-            borderColor: '#C6aEFF',
+            borderColor: '#441159',
             backgroundColor:"transparent",
             data: yyy[7].vocSum,
             fill:false,

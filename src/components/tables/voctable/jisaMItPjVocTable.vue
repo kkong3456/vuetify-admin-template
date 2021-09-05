@@ -41,7 +41,7 @@ const bonbuJisaObj={
 
 export default {
 
-  name:'JisaItVocTable',
+  name:'JisaMItVocTable',
 
   components:{
   
