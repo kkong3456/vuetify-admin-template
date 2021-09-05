@@ -134,7 +134,11 @@ export default {
       
     }); 
     this.changeDate();
-    this.renderChart(this.dataCollection,this.options)
+    // this.renderChart(this.dataCollection,this.options)
+  },
+
+  mounted(){
+    this.renderChart(this.dataCollection,this.options)  //renderchart는 mounted 이후에 실행
   },
 
   methods: {
@@ -812,6 +816,7 @@ export default {
        
         return acc;
       },{}));
+     
 
       let firstImsiArray=[];   
       for (let i=0;i<firstJisaDatePlusCntArray.length;i++){

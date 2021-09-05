@@ -10,20 +10,15 @@
         <!-- 본부별 조회(검색) -->
         
         <v-col>
-          <template>
-            <v-select
-              v-model="selectedBonbu"
-              :items="['북부고객본부', '동부고객본부', '서부고객본부', '강남고객본부','충남/충북고객본부','전남/전북고객본부','부산/경남고객본부','대구/경북고객본부']"
-              label="광역본부"
-              광역본부와
-              상품
-              선택시
-              동일한
-              함수
-              지정
-              @change="changedBonbuProduct(selectedBonbu,selectedProduct)"
-            >
-              <!-- <template v-slot:item="{ item, attrs, on }">
+          <!-- <template> -->
+          <v-select
+            v-model="selectedBonbu"
+            :items="['북부고객본부', '동부고객본부', '서부고객본부', '강남고객본부','충남/충북고객본부','전남/전북고객본부','부산/경남고객본부','대구/경북고객본부']"
+            label="광역본부"
+             
+            @change="changedBonbuProduct(selectedBonbu,selectedProduct)"
+          >
+            <!-- <template v-slot:item="{ item, attrs, on }">
                 <v-list-item
                   v-bind="attrs"
                   v-on="on"
@@ -34,25 +29,20 @@
                   />
                 </v-list-item>
               </template> -->
-            </v-select>
-          </template>
+          </v-select>
+          <!-- </template> -->
         </v-col>
         <!-- 상품별 조회 -->
         <v-col>
-          <template>
-            <v-select
-              v-model="selectedProduct"             
-              :items="['인터넷','미디어','무선']"
-              label="상품"
-              광역본부와
-              상품
-              선택시
-              동일한
-              함수
-              지정
-              @change="changedBonbuProduct(selectedBonbu,selectedProduct)"
-            >
-              <template v-slot:item="{ item, attrs, on }">
+          <!-- <template> -->
+          <v-select
+            v-model="selectedProduct"             
+            :items="['인터넷','미디어','무선']"
+            label="상품"
+              
+            @change="changedBonbuProduct(selectedBonbu,selectedProduct)"
+          >
+            <!-- <template v-slot:item="{ item, attrs, on }">
                 <v-list-item
                   v-bind="attrs"
                   v-on="on"
@@ -62,9 +52,9 @@
                     v-text="item"
                   />
                 </v-list-item>
-              </template>
-            </v-select>
-          </template>
+              </template> -->
+          </v-select>
+          <!-- </template> -->
         </v-col>
         <v-spacer />
         <v-spacer />
@@ -146,7 +136,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                {{ ((bonbuNewData-lastBonbuNewData)/lastBonbuNewData*100).toFixed(1) }} 
+                {{ diffNewData }} 
               </v-card-text>
             </v-card>
           </div>
@@ -217,7 +207,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                {{ ((bonbuEndData-lastBonbuEndData)/lastBonbuEndData*100).toFixed(1) }} 
+                {{ diffEndData }} 
               </v-card-text>
             </v-card>
           </div>
@@ -288,7 +278,7 @@
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
               >
-                {{ (bonbuNetData-lastBonbuNetData).toLocaleString() }} 
+                {{ diffNetData }} 
               </v-card-text>
             </v-card>
           </div>
@@ -305,7 +295,7 @@
           md="4"
         >
           <p class="text-h6 text-center">
-            [ 본부별 신규 가입자 현황]<br>
+            [ 신규 - {{ selectedProduct }}]<br>
             <span class="text-h6 text-center">
               '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
@@ -323,7 +313,7 @@
           md="4"
         >
           <p class="text-h6 text-center">
-            [해지 가입자 현황]<br>
+            [해지 - {{ selectedProduct }}]<br>
             <span
               class="text-center text-h6"
             >
@@ -343,7 +333,7 @@
           md="4"
         >
           <p class="text-h6 text-center">
-            [순증(NET) 가입자 현황]<br>
+            [순증(NET) - {{ selectedProduct }}]<br>
             <span
               class="text-center text-h6"
             >
@@ -359,7 +349,185 @@
         </v-col>
       </v-row>   
     
-      <!-- 그래프-->
+      <!-- 인터넷 그래프-->
+      <v-row
+        class="mt-5"
+      >
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <p class="text-h6 text-center">
+            [ 신규 추이 - 인터넷 ]<br>
+            <span class="text-h6 text-center">
+              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
+              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
+            </span>
+          </p>
+          <bonbu-sales-chart          
+            :propsdata="start"
+            :propsproduct="internet"
+          />
+        </v-col>
+    
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <p class="text-h6 text-center">
+            [해지 가입자 추이 - 인터넷]<br>
+            <span
+              class="text-center text-h6"
+            >
+              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
+              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
+            </span>
+          </p>
+          <bonbu-sales-chart 
+            :propsdata="end"
+            :propsproduct="internet"
+          />
+        </v-col>
+
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <p class="text-h6 text-center">
+            [순증(NET) 가입자 추이 - 인터넷]<br>
+            <span
+              class="text-center text-h6"
+            >
+              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
+              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
+            </span>
+          </p>
+          <bonbu-sales-chart
+            :propsdata="net"
+            :propsproduct="internet"
+          />
+        </v-col>
+      </v-row>   
+
+      <!-- TV 그래프-->
+      <v-row
+        class="mt-5"
+      >
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <p class="text-h6 text-center">
+            [ 신규 추이 - 미디어 ]<br>
+            <span class="text-h6 text-center">
+              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
+              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
+            </span>
+          </p>
+          <bonbu-sales-chart          
+            :propsdata="start"
+            :propsproduct="tv"
+          />
+        </v-col>
+    
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <p class="text-h6 text-center">
+            [해지 가입자 추이 - 미디어]<br>
+            <span
+              class="text-center text-h6"
+            >
+              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
+              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
+            </span>
+          </p>
+          <bonbu-sales-chart 
+            :propsdata="end"
+            :propsproduct="tv"
+          />
+        </v-col>
+
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <p class="text-h6 text-center">
+            [순증(NET) 가입자 추이 - 미디어]<br>
+            <span
+              class="text-center text-h6"
+            >
+              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
+              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
+            </span>
+          </p>
+          <bonbu-sales-chart
+            :propsdata="net"
+            :propsproduct="tv"
+          />
+        </v-col>
+      </v-row>   
+
+      <!-- 무선 그래프-->
+      <v-row
+        class="mt-5"
+      >
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <p class="text-h6 text-center">
+            [ 신규 추이 - 무선 ]<br>
+            <span class="text-h6 text-center">
+              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
+              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
+            </span>
+          </p>
+          <bonbu-sales-chart          
+            :propsdata="start"
+            :propsproduct="wireless"
+          />
+        </v-col>
+    
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <p class="text-h6 text-center">
+            [해지 가입자 추이 - 무선]<br>
+            <span
+              class="text-center text-h6"
+            >
+              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
+              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
+            </span>
+          </p>
+          <bonbu-sales-chart 
+            :propsdata="end"
+            :propsproduct="wireless"
+          />
+        </v-col>
+
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <p class="text-h6 text-center">
+            [순증(NET) 가입자 추이 - 무선]<br>
+            <span
+              class="text-center text-h6"
+            >
+              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
+              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
+            </span>
+          </p>
+          <bonbu-sales-chart
+            :propsdata="net"
+            :propsproduct="wireless"
+          />
+        </v-col>
+      </v-row>   
     </v-card>
   </v-container>
 </template>
@@ -369,6 +537,7 @@
 import eventBus from '@/js/eventBus.js'
 import axios from 'axios';
 import BonbuSalesTable from '@/components/tables/bonbusalestable/bonbuSalesTable';
+import BonbuSalesChart from '@/components/charts/bonbusalesperfchart/bonbuSalesChart';
 import VueHotelDatePickerSales from '@/components/datepicker/vue-hotel-datepicker-sales';
 
 
@@ -377,6 +546,7 @@ export default {
   components:{
 
     BonbuSalesTable, //증가/해지/순즘감 컴포넌트
+    BonbuSalesChart, // 본부별/상품별 시계열 그래프
     VueHotelDatePickerSales,
     
   },
@@ -395,13 +565,15 @@ export default {
 
       bonbuNewData:0,
       lastBonbuNewData:0,
-   
+      diffNewData:'^^;',
 
       bonbuEndData:0,
       lastBonbuEndData:0,
+      diffEndData:'^^;',
      
       bonbuNetData:0,
-      lastBonbuNetData:0,  
+      lastBonbuNetData:0,
+      diffNetData:'^^;',  
       
       //wordcloud
       tvInternetVoc:this.tvInternetVoc,
@@ -410,6 +582,10 @@ export default {
       start:"start",  //순증테이블 컴포넌트로 props전달
       end:"end",
       net:"net",
+
+      internet:"인터넷",
+      tv:"미디어",
+      wireless:'무선',
 
     }
   },
@@ -467,16 +643,19 @@ export default {
      
       this.lastBonbuNewData=lastData;
       this.bonbuNewData=thisData;
+      this.diffNewData=((this.bonbuNewData-this.lastBonbuNewData)/this.lastBonbuNewData*100).toFixed(1)
     },
 
     bonbuEndDataFunc(lastData,thisData){
       this.bonbuEndData=thisData;
       this.lastBonbuEndData=lastData;
+      this.diffEndData=((this.bonbuEndData-this.lastBonbuEndData)/this.lastBonbuEndData*100).toFixed(1)
     },
 
     bonbuNetDataFunc(lastData,thisData){
       this.bonbuNetData=thisData;
       this.lastBonbuNetData=lastData;
+      this.diffNetData=((this.bonbuNetData-this.lastBonbuNetData)/this.lastBonbuNetData*100).toFixed(1)
     },
     
   }

@@ -134,7 +134,11 @@ export default {
       
     }); 
     this.changeDate();
-    this.renderChart(this.dataCollection,this.options)
+    // this.renderChart(this.dataCollection,this.options)
+  },
+
+  mounted(){
+    this.renderChart(this.dataCollection,this.options)  //renderchart는 mounted 이후에 실행
   },
 
   methods: {
@@ -196,6 +200,8 @@ export default {
       this.fillData(this.selectedBonbu)
       this.renderChart(this.dataCollection,this.options);
     },
+
+    
 
 
     async changeBonbu(selectedBonbu){

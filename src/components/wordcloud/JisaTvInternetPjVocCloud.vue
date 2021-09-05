@@ -494,8 +494,6 @@ export default {
         return b.vocCnt-a.vocCnt;      //vocCnt기준 내림차순 정렬
       });
 
-      console.log('cloud vocCountArray is ', vocCountArray);
-
       this.lastWeekJisaVocData.map((item)=>{  
         if(item.jisa===this.propsjisadata){
           if(item.voc_gubun.replace(/ /g,"")===voc1){

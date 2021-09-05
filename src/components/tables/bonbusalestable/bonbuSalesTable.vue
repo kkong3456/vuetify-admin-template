@@ -139,9 +139,6 @@ export default {
     
   },
 
-  mounted(){
-    
-  },
 
   methods: { 
    
@@ -357,7 +354,7 @@ export default {
         ]
       ).then(axios.spread(
         (res1,res2,res3,res4,res5,res6)=>{
-          console.log('res1 is ',res1);
+         
           const bonbuSalesData1=res1.data.results.map((item)=>newCountSum+=item.count_sum);
           
           const bonbuSalesData2=res2.data.results.map((item)=>endCountSum+=item.count_sum);
@@ -376,8 +373,6 @@ export default {
 
           this.bonbuNetData=bonbuSalesData3[bonbuSalesData3.length-1];
           this.lastBonbuNetData=lastBonbuSalesData3[lastBonbuSalesData3.length -1];
-
-          console.log('this.bonbuNewData is ',this.bonbuNewData);
          
           this.$emit('bonbuNewData',lastBonbuSalesData1[lastBonbuSalesData1.length-1],bonbuSalesData1[bonbuSalesData1.length-1]);
           this.$emit('bonbuEndData',lastBonbuSalesData2[lastBonbuSalesData2.length-1],bonbuSalesData2[bonbuSalesData2.length-1]);
