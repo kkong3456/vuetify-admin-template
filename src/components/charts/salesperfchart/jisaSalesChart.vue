@@ -19,8 +19,6 @@ const bonbuJisaObj={
   '서부고객본부':['강서지사','구로지사','부천지사','서인천지사','안산지사','안양지사','인천지사']
 }
 
-
-
 const options={      //chart options prop를 사용하지 않는 하위컴포넌트에서는 data에 변수값으로 처리
   responsive:true,
   maintainAspectRatio:false,//차트 width,ehgith  자동 크기조절
@@ -218,162 +216,275 @@ export default {
     async changeDate(){
       const thisBonbuSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.propsproduct}&kind=${this.propsdata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=${this.propsbonbu}`;
      
+     
+      await axios.get(thisBonbuSalesUrl).then((res)=>{
+        
+        this.bonbuSalesData=res.data.results;
+      
+      }).catch((err)=>{
+        console.log('데이터를 가지고 오지 못했습니다!');
+      })
+   
+      
+      this.fillData(this.selectedBonbu)
+      this.renderChart(this.dataCollection,this.options);
+    },
+
+    async changeBonbuProduct(selectedBonbu,selectedProduct){
+      this.propsproduct=selectedProduct;
+      this.propsbonbu=selectedBonbu;
+
+      const thisBonbuSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.propsproduct}&kind=${this.propsdata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=${this.propsbonbu}`;
+      console.log('thisBonbuSalesUrl is ',thisBonbuSalesUrl);
       await axios.get(thisBonbuSalesUrl).then((res)=>{
         // console.log('xxx', res);
         this.bonbuSalesData=res.data.results;
       }).catch((err)=>{
         console.log('데이터를 가지고 오지 못했습니다!');
       })
-      //   await axios.all(
-      //     [
-      //       axios.get(thisBonbuSalesUrl+'북부고객본부'),
-      //       axios.get(thisBonbuSalesUrl+'동부고객본부'),
-      //       axios.get(thisBonbuSalesUrl+'강남고객본부'),
-      //       axios.get(thisBonbuSalesUrl+'충남/충북고객본부'),
-      //       axios.get(thisBonbuSalesUrl+'대구/경북고객본부'),
-      //       axios.get(thisBonbuSalesUrl+'부산/경남고객본부'),
-      //       axios.get(thisBonbuSalesUrl+'전남/전북고객본부'),
-      //       axios.get(thisBonbuSalesUrl+'서부고객본부'),
-
-          
-      //     ]
-      //   ).then(axios.spread(
-      //     (res1,res2,res3,res4,res5,res6,res7,res8)=>{
-      //       this.bonbuSalesData1=res1.data.results;
-      //       this.bonbuSalesData2=res2.data.results;
-      //       this.bonbuSalesData3=res3.data.results;
-      //       this.bonbuSalesData4=res4.data.results;
-      //       this.bonbuSalesData5=res5.data.results;
-      //       this.bonbuSalesData6=res6.data.results;
-      //       this.bonbuSalesData7=res7.data.results;
-      //       this.bonbuSalesData8=res8.data.results;
-
-          
-
-      //       this.bonbuSalesData=[
-      //         ...this.bonbuSalesData1,
-      //         ...this.bonbuSalesData2,
-      //         ...this.bonbuSalesData3,
-      //         ...this.bonbuSalesData4,
-      //         ...this.bonbuSalesData5,
-      //         ...this.bonbuSalesData6,
-      //         ...this.bonbuSalesData7,
-      //         ...this.bonbuSalesData8,
-          
-      //       ]; 
-          
-      //     })).catch((err)=>{
-      //     console.log('금주 일자 데이터를 가져 오지 못했습니다',err);
-      //   });
+   
       
       this.fillData(this.selectedBonbu)
       this.renderChart(this.dataCollection,this.options);
     },
+
+    
     
     fillData () {
       const yyy=this.getBonbuDataValue();
-    
-      this.dataCollection = {
-        labels:yyy[2].basedate.map((day)=>day.substring(5,10)),
-        datasets: [
-          {
-            label:yyy[0].Bonbu,     // 범례
-            borderColor: '#6697F8',
-             
-            //backgroundColor:"#6697F8",
-            //backgroundColor:'rgba(56,56,155,0.3)',
-            data: yyy[0].vocSum,
-            fill:false,
-            tension:.3,
-            pointHoverBorderColor:'#ff0000',
-            //borderWidth:1,
+      // console.log('yyyy is ',yyy);
 
-          },
-          {
-            label:yyy[1].Bonbu,
-            borderColor: '#5CE082',
-            //backgroundColor:"rgba(92,224,130,.1)",
-            data: yyy[1].vocSum,
-            fill:false,
-            tension:.3,
-            pointHoverBorderColor:'#ff0000',
-          },
-          {
-            label: yyy[2].Bonbu,
-            borderColor: '#F7E872',
-            //backgroundColor:"rgba(0,179,0,.1)",
-            data: yyy[2].vocSum,
-            fill:false,
-            tension:.3,
-            pointHoverBorderColor:'#ff0000',
-          },
+      if(this.propsbonbu==='북부고객본부'||this.propsbonbu==='동부고객본부'||this.propsbonbu==='전남/전북고객본부'){
+        this.dataCollection = {
+          labels:yyy[2].basedate.map((day)=>day.substring(5,10)),
+          datasets: [
+            {
+              label:yyy[0].Jisa,     // 범례
+              borderColor: '#6697F8',          
+              //backgroundColor:"#6697F8",
+              //backgroundColor:'rgba(56,56,155,0.3)',
+              data: yyy[0].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+              //borderWidth:1,
 
-          {
-            label: yyy[3].Bonbu,
-            borderColor: '#E0815C',
-            backgroundColor:"transparent",
-            data: yyy[3].vocSum,
-            fill:false,
-            tension:.3,
-            pointHoverBorderColor:'#ff0000',
-          },
+            },
+            {
+              label:yyy[1].Jisa,
+              borderColor: '#5CE082',
+              //backgroundColor:"rgba(92,224,130,.1)",
+              data: yyy[1].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+            },
+            {
+              label: yyy[2].Jisa,
+              borderColor: '#F7E872',
+              //backgroundColor:"rgba(0,179,0,.1)",
+              data: yyy[2].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+            },
 
-          {
-            label: yyy[4].Bonbu,
-            borderColor: '#C641FF',
-            backgroundColor:"transparent",
-            data: yyy[4].vocSum,
-            fill:false,
-            tension:.3,
-            pointHoverBorderColor:'#ff0000',
-          },
+            {
+              label: yyy[3].Jisa,
+              borderColor: '#E0815C',
+              backgroundColor:"transparent",
+              data: yyy[3].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+            },
 
-          {
-            label: yyy[5].Bonbu,
-            borderColor: '#C6aEFF',
-            backgroundColor:"transparent",
-            data: yyy[5].vocSum,
-            fill:false,
-            tension:.3,
-            pointHoverBorderColor:'#ff0000',
-          },
+            {
+              label: yyy[4].Jisa,
+              borderColor: '#C641FF',
+              backgroundColor:"transparent",
+              data: yyy[4].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+            },
 
-          {
-            label: yyy[6].Bonbu,
-            borderColor: '#115924',
-            backgroundColor:"transparent",
-            data: yyy[6].vocSum,
-            fill:false,
-            tension:.3,
-            pointHoverBorderColor:'#ff0000',
-          },
+          ]
+        }
+      }
 
-          {
-            label: yyy[7].Bonbu,
-            borderColor: '#441159',
-            backgroundColor:"transparent",
-            data: yyy[7].vocSum,
-            fill:false,
-            tension:.3,
-            pointHoverBorderColor:'#ff0000',
-          },
-        ]
+      if(this.propsbonbu==='강남고객본부'||this.propsbonbu==='충남/충북고객본부'||this.propsbonbu==='대구/경북고객본부'){
+        this.dataCollection = {
+          labels:yyy[2].basedate.map((day)=>day.substring(5,10)),
+          datasets: [
+            {
+              label:yyy[0].Jisa,     // 범례
+              borderColor: '#6697F8',          
+              //backgroundColor:"#6697F8",
+              //backgroundColor:'rgba(56,56,155,0.3)',
+              data: yyy[0].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+              //borderWidth:1,
+
+            },
+            {
+              label:yyy[1].Jisa,
+              borderColor: '#5CE082',
+              //backgroundColor:"rgba(92,224,130,.1)",
+              data: yyy[1].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+            },
+            {
+              label: yyy[2].Jisa,
+              borderColor: '#F7E872',
+              //backgroundColor:"rgba(0,179,0,.1)",
+              data: yyy[2].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+            },
+
+            {
+              label: yyy[3].Jisa,
+              borderColor: '#E0815C',
+              backgroundColor:"transparent",
+              data: yyy[3].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+            },
+
+            {
+              label: yyy[4].Jisa,
+              borderColor: '#C641FF',
+              backgroundColor:"transparent",
+              data: yyy[4].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+            },
+
+            {
+              label: yyy[5].Jisa,
+              borderColor: '#C6aEFF',
+              backgroundColor:"transparent",
+              data: yyy[5].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+            },
+
+            // {
+            //   label: yyy[6].Jisa,
+            //   borderColor: '#115924',
+            //   backgroundColor:"transparent",
+            //   data: yyy[6].vocSum,
+            //   fill:false,
+            //   tension:.3,
+            //   pointHoverBorderColor:'#ff0000',
+            // },
+
+          ]
+        }
+      }
+
+      if(this.propsbonbu==='부산/경남고객본부'||this.propsbonbu==='서부고객본부'){
+        this.dataCollection = {
+          labels:yyy[2].basedate.map((day)=>day.substring(5,10)),
+          datasets: [
+            {
+              label:yyy[0].Jisa,     // 범례
+              borderColor: '#6697F8',          
+              //backgroundColor:"#6697F8",
+              //backgroundColor:'rgba(56,56,155,0.3)',
+              data: yyy[0].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+              //borderWidth:1,
+
+            },
+            {
+              label:yyy[1].Jisa,
+              borderColor: '#5CE082',
+              //backgroundColor:"rgba(92,224,130,.1)",
+              data: yyy[1].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+            },
+            {
+              label: yyy[2].Jisa,
+              borderColor: '#F7E872',
+              //backgroundColor:"rgba(0,179,0,.1)",
+              data: yyy[2].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+            },
+
+            {
+              label: yyy[3].Jisa,
+              borderColor: '#E0815C',
+              backgroundColor:"transparent",
+              data: yyy[3].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+            },
+
+            {
+              label: yyy[4].Jisa,
+              borderColor: '#C641FF',
+              backgroundColor:"transparent",
+              data: yyy[4].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+            },
+
+            {
+              label: yyy[5].Jisa,
+              borderColor: '#C6aEFF',
+              backgroundColor:"transparent",
+              data: yyy[5].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+            },
+
+            {
+              label: yyy[6].Jisa,
+              borderColor: '#115924',
+              backgroundColor:"transparent",
+              data: yyy[6].vocSum,
+              fill:false,
+              tension:.3,
+              pointHoverBorderColor:'#ff0000',
+            },
+
+          ]
+        }
       }
       
      
     },  //fillData()
 
     getBonbuDataValue(){    
-      let bonbuDataArray=[];
+      let jisaDataArray=[];
 
-      let firstBonbuObj={};
-      // let secondBonbuObj={};
-      // let thirdBonbuObj={};
-      // let fourthBonbuObj={};
-      // let fifthBonbuObj={};
-      // let sixthBonbuObj={};
-      // let seventhBonbuObj={};
-      // let eighthBonbuObj={};
+      let firstJisaObj={};
+      let secondJisaObj={};
+      let thirdJisaObj={};
+      let fourthJisaObj={};
+      let fifthJisaObj={};
+      let sixthJisaObj={};
+      let seventhJisaObj={};
+      let eighthJisaObj={};
 
       let firstJisa='';
       let secondJisa='';
@@ -383,17 +494,6 @@ export default {
       let sixthJisa='';
       let seventhJisa='';
       let eighthJisa='';
-
-
-      let firstCntSum=0;
-      let secondCntSum=0;
-      let thirdCntSum=0;
-      let fourthCntSum=0;
-      let fifthCntSum=0;
-      let sixthCntSum=0;
-      let seventhCntSum=0;
-      let eighthCntSum=0;
-
        
       const firstBonbuName=this.propsbonbu;
       // const secondBonbuName='동부고객본부';
@@ -425,14 +525,71 @@ export default {
         dateKeyArray.push(this.displayDateText2(new Date(this.selectedStartNewDate.setDate(this.selectedStartNewDate.getDate()+1))));  //조회 날자를 배열로 만들고 형식을 '2021-04-01' 형식으로 변경
       }
 
-      if(this.propsbonbu==='북부고객본부'){
-        firstJisa='고양지사';
-        secondJisa='광진지사';
-        thirdJisa='광화문지사';
-        fourthJisa='노원지사';
-        fifthJisa='서대문지사';
-        
-      
+    
+      if(this.propsbonbu){
+        if(this.propsbonbu==='북부고객본부'){
+          firstJisa='고양지사';
+          secondJisa='광진지사';
+          thirdJisa='광화문지사';
+          fourthJisa='노원지사';
+          fifthJisa='서대문지사';
+        }
+        if(this.propsbonbu==='동부고객본부'){
+          firstJisa='강릉지사';
+          secondJisa='구리지사';
+          thirdJisa='원주지사';
+          fourthJisa='의정부지사';
+          fifthJisa='춘천지사';
+        }
+        if(this.propsbonbu==='강남고객본부'){
+          firstJisa='강남지사';
+          secondJisa='분당지사';
+          thirdJisa='송파지사';
+          fourthJisa='수원지사';
+          fifthJisa='용인지사';
+          sixthJisa='평택지사';
+        }
+        if(this.propsbonbu==='충남/충북고객본부'){
+          firstJisa='대전지사';
+          secondJisa='서대전지사';
+          thirdJisa='천안지사';
+          fourthJisa='청주지사';
+          fifthJisa='충주지사';
+          sixthJisa='홍성지사';
+        }
+        if(this.propsbonbu==='대구/경북고객본부'){
+          firstJisa='구미지사';
+          secondJisa='달서지사';
+          thirdJisa='동대구지사';
+          fourthJisa='서대구지사';
+          fifthJisa='안동지사';
+          sixthJisa='포항지사';
+        }
+        if(this.propsbonbu==='부산/경남고객본부'){
+          firstJisa='남부산지사';
+          secondJisa='동부산지사';
+          thirdJisa='북부산지사';
+          fourthJisa='서부산지사';
+          fifthJisa='울산지사';
+          sixthJisa='진주지사';
+          seventhJisa='창원지사';
+        }
+        if(this.propsbonbu==='전남/전북고객본부'){
+          firstJisa='광주지사';
+          secondJisa='목포지사';
+          thirdJisa='순천지사';
+          fourthJisa='익산지사';
+          fifthJisa='전주지사';
+        }
+        if(this.propsbonbu==='서부고객본부'){
+          firstJisa='강서지사';
+          secondJisa='구로지사';
+          thirdJisa='부천지사';
+          fourthJisa='서인천지사';
+          fifthJisa='안산지사';
+          sixthJisa='안양지사';
+          seventhJisa='인천지사';
+        }
         this.bonbuSalesData.map((item,index)=>{
           
           if(item.jojik3_name===firstJisa){
@@ -470,9 +627,6 @@ export default {
         return acc;
       },{}));
 
-      
-      console.log('xxxx is ',firstJisaDatePlusCntArray);
-
       let firstImsiArray=[];   
       for (let i=0;i<firstJisaDatePlusCntArray.length;i++){
         firstImsiArray.push(firstJisaDatePlusCntArray[i].date);
@@ -482,27 +636,23 @@ export default {
         firstJisaDatePlusCntArray.push({'date':firstImsiArray[i],'cnt':0});
       }
 
-      console.log('yyy is ',firstJisaArray);
-
-     
-      let secondBonbuDatePlusCntArray=Object.values([...secondBonbuArray].reduce((acc,{date,cnt})=>{
+      let secondJisaDatePlusCntArray=Object.values([...secondJisaArray].reduce((acc,{date,cnt})=>{
       
         if(acc[date]) acc[date].cnt+=parseInt(cnt);
-        else acc[date]={date,cnt:parseInt(cnt)};
-       
+        else acc[date]={date,cnt:parseInt(cnt)};  
         return acc;
       },{}));
 
       let secondImsiArray=[];
-      for(let i=0;i<secondBonbuDatePlusCntArray.length;i++){
-        secondImsiArray.push(secondBonbuDatePlusCntArray[i].date);
+      for(let i=0;i<secondJisaDatePlusCntArray.length;i++){
+        secondImsiArray.push(secondJisaDatePlusCntArray[i].date);
       }
       secondImsiArray=diffDateArray(dateKeyArray,secondImsiArray);
       for(let i=0;i<secondImsiArray.length;i++){
-        secondBonbuDatePlusCntArray.push({'date':secondImsiArray[i],'cnt':0});
+        secondJisaDatePlusCntArray.push({'date':secondImsiArray[i],'cnt':0});
       }
 
-      let thirdBonbuDatePlusCntArray=Object.values([...thirdBonbuArray].reduce((acc,{date,cnt})=>{
+      let thirdJisaDatePlusCntArray=Object.values([...thirdJisaArray].reduce((acc,{date,cnt})=>{
       
         if(acc[date]) acc[date].cnt+=parseInt(cnt);
         else acc[date]={date,cnt:parseInt(cnt)};
@@ -511,16 +661,16 @@ export default {
       },{}));
 
       let thirdImsiArray=[];
-      for(let i=0;i<thirdBonbuDatePlusCntArray.length;i++){
-        thirdImsiArray.push(thirdBonbuDatePlusCntArray[i].date);
+      for(let i=0;i<thirdJisaDatePlusCntArray.length;i++){
+        thirdImsiArray.push(thirdJisaDatePlusCntArray[i].date);
       }
       thirdImsiArray=diffDateArray(dateKeyArray,thirdImsiArray);
       for(let i=0;i<thirdImsiArray.length;i++){
-        thirdBonbuDatePlusCntArray.push({'date':thirdImsiArray[i],'cnt':0});
+        thirdJisaDatePlusCntArray.push({'date':thirdImsiArray[i],'cnt':0});
       }
 
 
-      let fourthBonbuDatePlusCntArray=Object.values([...fourthBonbuArray].reduce((acc,{date,cnt})=>{
+      let fourthJisaDatePlusCntArray=Object.values([...fourthJisaArray].reduce((acc,{date,cnt})=>{
       
         if(acc[date]) acc[date].cnt+=parseInt(cnt);
         else acc[date]={date,cnt:parseInt(cnt)};
@@ -529,15 +679,15 @@ export default {
       },{}));
 
       let fourthImsiArray=[];
-      for(let i=0;i<fourthBonbuDatePlusCntArray.length;i++){
-        fourthImsiArray.push(fourthBonbuDatePlusCntArray[i].date);
+      for(let i=0;i<fourthJisaDatePlusCntArray.length;i++){
+        fourthImsiArray.push(fourthJisaDatePlusCntArray[i].date);
       }
       fourthImsiArray=diffDateArray(dateKeyArray,fourthImsiArray);
       for(let i=0;i<thirdImsiArray.length;i++){
-        fourthBonbuDatePlusCntArray.push({'date':fourthImsiArray[i],'cnt':0});
+        fourthJisaDatePlusCntArray.push({'date':fourthImsiArray[i],'cnt':0});
       }
 
-      let fifthBonbuDatePlusCntArray=Object.values([...fifthBonbuArray].reduce((acc,{date,cnt})=>{
+      let fifthJisaDatePlusCntArray=Object.values([...fifthJisaArray].reduce((acc,{date,cnt})=>{
       
         if(acc[date]) acc[date].cnt+=parseInt(cnt);
         else acc[date]={date,cnt:parseInt(cnt)};
@@ -546,15 +696,15 @@ export default {
       },{}));
 
       let fifthImsiArray=[];
-      for(let i=0;i<fifthBonbuDatePlusCntArray.length;i++){
-        fifthImsiArray.push(fifthBonbuDatePlusCntArray[i].date);
+      for(let i=0;i<fifthJisaDatePlusCntArray.length;i++){
+        fifthImsiArray.push(fifthJisaDatePlusCntArray[i].date);
       }
       fifthImsiArray=diffDateArray(dateKeyArray,fifthImsiArray);
       for(let i=0;i<fifthImsiArray.length;i++){
-        fifthBonbuDatePlusCntArray.push({'date':fifthImsiArray[i],'cnt':0});
+        fifthJisaDatePlusCntArray.push({'date':fifthImsiArray[i],'cnt':0});
       }
 
-      let sixthBonbuDatePlusCntArray=Object.values([...sixthBonbuArray].reduce((acc,{date,cnt})=>{
+      let sixthJisaDatePlusCntArray=Object.values([...sixthJisaArray].reduce((acc,{date,cnt})=>{
       
         if(acc[date]) acc[date].cnt+=parseInt(cnt);
         else acc[date]={date,cnt:parseInt(cnt)};
@@ -563,15 +713,15 @@ export default {
       },{}));
 
       let sixthImsiArray=[];
-      for(let i=0;i<sixthBonbuDatePlusCntArray.length;i++){
-        sixthImsiArray.push(sixthBonbuDatePlusCntArray[i].date);
+      for(let i=0;i<sixthJisaDatePlusCntArray.length;i++){
+        sixthImsiArray.push(sixthJisaDatePlusCntArray[i].date);
       }
       sixthImsiArray=diffDateArray(dateKeyArray,sixthImsiArray);
       for(let i=0;i<sixthImsiArray.length;i++){
-        sixthBonbuDatePlusCntArray.push({'date':sixthImsiArray[i],'cnt':0});
+        sixthJisaDatePlusCntArray.push({'date':sixthImsiArray[i],'cnt':0});
       }
 
-      let seventhBonbuDatePlusCntArray=Object.values([...seventhBonbuArray].reduce((acc,{date,cnt})=>{
+      let seventhJisaDatePlusCntArray=Object.values([...seventhJisaArray].reduce((acc,{date,cnt})=>{
       
         if(acc[date]) acc[date].cnt+=parseInt(cnt);
         else acc[date]={date,cnt:parseInt(cnt)};
@@ -580,15 +730,15 @@ export default {
       },{}));
 
       let seventhImsiArray=[];
-      for(let i=0;i<seventhBonbuDatePlusCntArray.length;i++){
-        seventhImsiArray.push(seventhBonbuDatePlusCntArray[i].date);
+      for(let i=0;i<seventhJisaDatePlusCntArray.length;i++){
+        seventhImsiArray.push(seventhJisaDatePlusCntArray[i].date);
       }
       seventhImsiArray=diffDateArray(dateKeyArray,seventhImsiArray);
       for(let i=0;i<seventhImsiArray.length;i++){
-        seventhBonbuDatePlusCntArray.push({'date':seventhImsiArray[i],'cnt':0});
+        seventhJisaDatePlusCntArray.push({'date':seventhImsiArray[i],'cnt':0});
       }
 
-      let eighthBonbuDatePlusCntArray=Object.values([...eighthBonbuArray].reduce((acc,{date,cnt})=>{
+      let eighthJisaDatePlusCntArray=Object.values([...eighthJisaArray].reduce((acc,{date,cnt})=>{
       
         if(acc[date]) acc[date].cnt+=parseInt(cnt);
         else acc[date]={date,cnt:parseInt(cnt)};
@@ -597,12 +747,12 @@ export default {
       },{}));
 
       let eighthImsiArray=[];
-      for(let i=0;i<eighthBonbuDatePlusCntArray.length;i++){
-        eighthImsiArray.push(eighthBonbuDatePlusCntArray[i].date);
+      for(let i=0;i<eighthJisaDatePlusCntArray.length;i++){
+        eighthImsiArray.push(eighthJisaDatePlusCntArray[i].date);
       }
       eighthImsiArray=diffDateArray(dateKeyArray,eighthImsiArray);
       for(let i=0;i<eighthImsiArray.length;i++){
-        eighthBonbuDatePlusCntArray.push({'date':eighthImsiArray[i],'cnt':0});
+        eighthJisaDatePlusCntArray.push({'date':eighthImsiArray[i],'cnt':0});
       }
 
       //객체를 일자별로 오름차순으로 정렬하기
@@ -610,144 +760,137 @@ export default {
         return a[key]>a[key]?1:a[key]<b[key]?-1:0;
       };
 
-      firstBonbuDatePlusCntArray=firstBonbuDatePlusCntArray.sort(compare('date'));
-      secondBonbuDatePlusCntArray=secondBonbuDatePlusCntArray.sort(compare('date'));
-      thirdBonbuDatePlusCntArray=thirdBonbuDatePlusCntArray.sort(compare('date'));
-      fourthBonbuDatePlusCntArray=fourthBonbuDatePlusCntArray.sort(compare('date'));
-      fifthBonbuDatePlusCntArray=fifthBonbuDatePlusCntArray.sort(compare('date'));
-      sixthBonbuDatePlusCntArray=sixthBonbuDatePlusCntArray.sort(compare('date'));
-      seventhBonbuDatePlusCntArray=seventhBonbuDatePlusCntArray.sort(compare('date'));
-      eighthBonbuDatePlusCntArray=eighthBonbuDatePlusCntArray.sort(compare('date'));
-
+      firstJisaDatePlusCntArray=firstJisaDatePlusCntArray.sort(compare('date'));
+      secondJisaDatePlusCntArray=secondJisaDatePlusCntArray.sort(compare('date'));
+      thirdJisaDatePlusCntArray=thirdJisaDatePlusCntArray.sort(compare('date'));
+      fourthJisaDatePlusCntArray=fourthJisaDatePlusCntArray.sort(compare('date'));
+      fifthJisaDatePlusCntArray=fifthJisaDatePlusCntArray.sort(compare('date'));
+      sixthJisaDatePlusCntArray=sixthJisaDatePlusCntArray.sort(compare('date'));
+      seventhJisaDatePlusCntArray=seventhJisaDatePlusCntArray.sort(compare('date'));
+      eighthJisaDatePlusCntArray=eighthJisaDatePlusCntArray.sort(compare('date'));
 
       
       //일자와 VOC합으로 일어진 객체를 별도 분리
+      let firstJisaDayArray=[];
+      let firstJisaDayCntArray=[];
 
-      let firstBonbuDayArray=[];
-      let firstBonbuDayCntArray=[];
+      let secondJisaDayArray=[];
+      let secondJisaDayCntArray=[];
 
-      let secondBonbuDayArray=[];
-      let secondBonbuDayCntArray=[];
+      let thirdJisaDayArray=[];
+      let thirdJisaDayCntArray=[];
 
-      let thirdBonbuDayArray=[];
-      let thirdBonbuDayCntArray=[];
+      let fourthJisaDayArray=[];
+      let fourthJisaDayCntArray=[];
 
-      let fourthBonbuDayArray=[];
-      let fourthBonbuDayCntArray=[];
+      let fifthJisaDayArray=[];
+      let fifthJisaDayCntArray=[];
 
-      let fifthBonbuDayArray=[];
-      let fifthBonbuDayCntArray=[];
+      let sixthJisaDayArray=[];
+      let sixthJisaDayCntArray=[];
 
-      let sixthBonbuDayArray=[];
-      let sixthBonbuDayCntArray=[];
+      let seventhJisaDayArray=[];
+      let seventhJisaDayCntArray=[];
 
-      let seventhBonbuDayArray=[];
-      let seventhBonbuDayCntArray=[];
+      let eighthJisaDayArray=[];
+      let eighthJisaDayCntArray=[];
 
-      let eighthBonbuDayArray=[];
-      let eighthBonbuDayCntArray=[];
-
-     
-      for(let i=0;i<firstBonbuDatePlusCntArray.length;i++){
+      for(let i=0;i<firstJisaDatePlusCntArray.length;i++){
        
-        firstBonbuDayArray.push(firstBonbuDatePlusCntArray[i].date);
-        firstBonbuDayCntArray.push(firstBonbuDatePlusCntArray[i].cnt);   
-
+        firstJisaDayArray.push(firstJisaDatePlusCntArray[i].date);
+        firstJisaDayCntArray.push(firstJisaDatePlusCntArray[i].cnt);   
       }
 
           
-      for(let i=0;i<secondBonbuDatePlusCntArray.length;i++){
-       
-        secondBonbuDayArray.push(secondBonbuDatePlusCntArray[i].date);
-        secondBonbuDayCntArray.push(secondBonbuDatePlusCntArray[i].cnt);          
+      for(let i=0;i<secondJisaDatePlusCntArray.length;i++){    
+        secondJisaDayArray.push(secondJisaDatePlusCntArray[i].date);
+        secondJisaDayCntArray.push(secondJisaDatePlusCntArray[i].cnt);          
       }
 
-      for(let i=0;i<thirdBonbuDatePlusCntArray.length;i++){
-       
-        thirdBonbuDayArray.push(thirdBonbuDatePlusCntArray[i].date);
-        thirdBonbuDayCntArray.push(thirdBonbuDatePlusCntArray[i].cnt);          
+      for(let i=0;i<thirdJisaDatePlusCntArray.length;i++){     
+        thirdJisaDayArray.push(thirdJisaDatePlusCntArray[i].date);
+        thirdJisaDayCntArray.push(thirdJisaDatePlusCntArray[i].cnt);          
       }
 
-      for(let i=0;i<fourthBonbuDatePlusCntArray.length;i++){
-       
-        fourthBonbuDayArray.push(fourthBonbuDatePlusCntArray[i].date);
-        fourthBonbuDayCntArray.push(fourthBonbuDatePlusCntArray[i].cnt);          
+      for(let i=0;i<fourthJisaDatePlusCntArray.length;i++){     
+        fourthJisaDayArray.push(fourthJisaDatePlusCntArray[i].date);
+        fourthJisaDayCntArray.push(fourthJisaDatePlusCntArray[i].cnt);          
       }
 
-      for(let i=0;i<fifthBonbuDatePlusCntArray.length;i++){
+      for(let i=0;i<fifthJisaDatePlusCntArray.length;i++){
        
-        fifthBonbuDayArray.push(fifthBonbuDatePlusCntArray[i].date);
-        fifthBonbuDayCntArray.push(fifthBonbuDatePlusCntArray[i].cnt);          
+        fifthJisaDayArray.push(fifthJisaDatePlusCntArray[i].date);
+        fifthJisaDayCntArray.push(fifthJisaDatePlusCntArray[i].cnt);          
       }
 
-      for(let i=0;i<sixthBonbuDatePlusCntArray.length;i++){
+      for(let i=0;i<sixthJisaDatePlusCntArray.length;i++){
        
-        sixthBonbuDayArray.push(sixthBonbuDatePlusCntArray[i].date);
-        sixthBonbuDayCntArray.push(sixthBonbuDatePlusCntArray[i].cnt);          
+        sixthJisaDayArray.push(sixthJisaDatePlusCntArray[i].date);
+        sixthJisaDayCntArray.push(sixthJisaDatePlusCntArray[i].cnt);          
       }
 
-      for(let i=0;i<seventhBonbuDatePlusCntArray.length;i++){
+      for(let i=0;i<seventhJisaDatePlusCntArray.length;i++){
        
-        seventhBonbuDayArray.push(seventhBonbuDatePlusCntArray[i].date);
-        seventhBonbuDayCntArray.push(seventhBonbuDatePlusCntArray[i].cnt);          
+        seventhJisaDayArray.push(seventhJisaDatePlusCntArray[i].date);
+        seventhJisaDayCntArray.push(seventhJisaDatePlusCntArray[i].cnt);          
       }
-      for(let i=0;i<eighthBonbuDatePlusCntArray.length;i++){
+      for(let i=0;i<eighthJisaDatePlusCntArray.length;i++){
        
-        eighthBonbuDayArray.push(eighthBonbuDatePlusCntArray[i].date);
-        eighthBonbuDayCntArray.push(eighthBonbuDatePlusCntArray[i].cnt);          
+        eighthJisaDayArray.push(eighthJisaDatePlusCntArray[i].date);
+        eighthJisaDayCntArray.push(eighthJisaDatePlusCntArray[i].cnt);          
       }
 
      
-      firstBonbuObj={
-        'Bonbu':firstBonbuName,
-        'basedate':firstBonbuDayArray,
-        'vocSum':firstBonbuDayCntArray,
+      firstJisaObj={
+        'Jisa':firstJisa,
+        'basedate':firstJisaDayArray,
+        'vocSum':firstJisaDayCntArray,
       }
-      secondBonbuObj={
-        'Bonbu':secondBonbuName,
-        'basedate':secondBonbuDayArray,
-        'vocSum':secondBonbuDayCntArray,
+      secondJisaObj={
+        'Jisa':secondJisa,
+        'basedate':secondJisaDayArray,
+        'vocSum':secondJisaDayCntArray,
       }
 
-      thirdBonbuObj={
-        'Bonbu':thirdBonbuName,
-        'basedate':thirdBonbuDayArray,
-        'vocSum':thirdBonbuDayCntArray,
+      thirdJisaObj={
+        'Jisa':thirdJisa,
+        'basedate':thirdJisaDayArray,
+        'vocSum':thirdJisaDayCntArray,
       }
 
        
-      fourthBonbuObj={
-        'Bonbu':fourthBonbuName,
-        'basedate':fourthBonbuDayArray,
-        'vocSum':fourthBonbuDayCntArray,
+      fourthJisaObj={
+        'Jisa':fourthJisa,
+        'basedate':fourthJisaDayArray,
+        'vocSum':fourthJisaDayCntArray,
       }
-      fifthBonbuObj={
-        'Bonbu':fifthBonbuName,
-        'basedate':fifthBonbuDayArray,
-        'vocSum':fifthBonbuDayCntArray,
+      fifthJisaObj={
+        'Jisa':fifthJisa,
+        'basedate':fifthJisaDayArray,
+        'vocSum':fifthJisaDayCntArray,
       }
 
-      sixthBonbuObj={
-        'Bonbu':sixthBonbuName,
-        'basedate':sixthBonbuDayArray,
-        'vocSum':sixthBonbuDayCntArray,
+      sixthJisaObj={
+        'Jisa':sixthJisa,
+        'basedate':sixthJisaDayArray,
+        'vocSum':sixthJisaDayCntArray,
       }
       
-      seventhBonbuObj={
-        'Bonbu':seventhBonbuName,
-        'basedate':seventhBonbuDayArray,
-        'vocSum':seventhBonbuDayCntArray,
+      seventhJisaObj={
+        'Jisa':seventhJisa,
+        'basedate':seventhJisaDayArray,
+        'vocSum':seventhJisaDayCntArray,
       }
 
-      eighthBonbuObj={
-        'Bonbu':eighthBonbuName,
-        'basedate':eighthBonbuDayArray,
-        'vocSum':eighthBonbuDayCntArray,
+      eighthJisaObj={
+        'Jisa':eighthJisa,
+        'basedate':eighthJisaDayArray,
+        'vocSum':eighthJisaDayCntArray,
       }
 
-      bonbuDataArray=[firstBonbuObj,secondBonbuObj,thirdBonbuObj,fourthBonbuObj,fifthBonbuObj,sixthBonbuObj,seventhBonbuObj,eighthBonbuObj];
+      jisaDataArray=[firstJisaObj,secondJisaObj,thirdJisaObj,fourthJisaObj,fifthJisaObj,sixthJisaObj,seventhJisaObj,eighthJisaObj];
       
-      return bonbuDataArray;
+      return jisaDataArray;
     }
   }
 }      
