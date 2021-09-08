@@ -111,6 +111,10 @@ export default {
     'propsbonbu':{
       type:String,
       default:undefined,
+    },
+    'propsdongbu':{
+      type:String,
+      default:undefined,
     }
   },
   // mixins: [reactiveProp],
@@ -214,19 +218,52 @@ export default {
 
    
     async changeDate(){
-      const thisBonbuSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.propsproduct}&kind=${this.propsdata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=${this.propsbonbu}`;
+      const thisBonbuSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.propsproduct}&kind=${this.propsdata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=`;
      
      
-      await axios.get(thisBonbuSalesUrl).then((res)=>{
-        
-        this.bonbuSalesData=res.data.results;
+      await axios.all(
+        [
+          axios.get(thisBonbuSalesUrl+'북부고객본부'),
+          axios.get(thisBonbuSalesUrl+'동부고객본부'),
+          axios.get(thisBonbuSalesUrl+'강남고객본부'),
+          axios.get(thisBonbuSalesUrl+'충남/충북고객본부'),
+          axios.get(thisBonbuSalesUrl+'대구/경북고객본부'),
+          axios.get(thisBonbuSalesUrl+'부산/경남고객본부'),
+          axios.get(thisBonbuSalesUrl+'전남/전북고객본부'),
+          axios.get(thisBonbuSalesUrl+'서부고객본부'),
+
+          
+        ]
+      ).then(axios.spread(
+        (res1,res2,res3,res4,res5,res6,res7,res8)=>{
+          this.bonbuSalesData1=res1.data.results;
+          this.bonbuSalesData2=res2.data.results;
+          this.bonbuSalesData3=res3.data.results;
+          this.bonbuSalesData4=res4.data.results;
+          this.bonbuSalesData5=res5.data.results;
+          this.bonbuSalesData6=res6.data.results;
+          this.bonbuSalesData7=res7.data.results;
+          this.bonbuSalesData8=res8.data.results;
+
+          
+
+          this.bonbuSalesData=[
+            ...this.bonbuSalesData1,
+            ...this.bonbuSalesData2,
+            ...this.bonbuSalesData3,
+            ...this.bonbuSalesData4,
+            ...this.bonbuSalesData5,
+            ...this.bonbuSalesData6,
+            ...this.bonbuSalesData7,
+            ...this.bonbuSalesData8,
+          
+          ]; 
+          
+        })).catch((err)=>{
+        console.log('금주 일자 데이터를 가져 오지 못했습니다',err);
+      });
       
-      }).catch((err)=>{
-        console.log('데이터를 가지고 오지 못했습니다!');
-      })
-   
-      
-      this.fillData(this.selectedBonbu)
+      this.fillData()
       this.renderChart(this.dataCollection,this.options);
     },
 
@@ -234,17 +271,51 @@ export default {
       this.propsproduct=selectedProduct;
       this.propsbonbu=selectedBonbu;
 
-      const thisBonbuSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.propsproduct}&kind=${this.propsdata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=${this.propsbonbu}`;
+      const thisBonbuSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.propsproduct}&kind=${this.propsdata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=`;
       console.log('thisBonbuSalesUrl is ',thisBonbuSalesUrl);
-      await axios.get(thisBonbuSalesUrl).then((res)=>{
-        // console.log('xxx', res);
-        this.bonbuSalesData=res.data.results;
-      }).catch((err)=>{
-        console.log('데이터를 가지고 오지 못했습니다!');
-      })
-   
+      await axios.all(
+        [
+          axios.get(thisBonbuSalesUrl+'북부고객본부'),
+          axios.get(thisBonbuSalesUrl+'동부고객본부'),
+          axios.get(thisBonbuSalesUrl+'강남고객본부'),
+          axios.get(thisBonbuSalesUrl+'충남/충북고객본부'),
+          axios.get(thisBonbuSalesUrl+'대구/경북고객본부'),
+          axios.get(thisBonbuSalesUrl+'부산/경남고객본부'),
+          axios.get(thisBonbuSalesUrl+'전남/전북고객본부'),
+          axios.get(thisBonbuSalesUrl+'서부고객본부'),
+
+          
+        ]
+      ).then(axios.spread(
+        (res1,res2,res3,res4,res5,res6,res7,res8)=>{
+          this.bonbuSalesData1=res1.data.results;
+          this.bonbuSalesData2=res2.data.results;
+          this.bonbuSalesData3=res3.data.results;
+          this.bonbuSalesData4=res4.data.results;
+          this.bonbuSalesData5=res5.data.results;
+          this.bonbuSalesData6=res6.data.results;
+          this.bonbuSalesData7=res7.data.results;
+          this.bonbuSalesData8=res8.data.results;
+
+          
+
+          this.bonbuSalesData=[
+            ...this.bonbuSalesData1,
+            ...this.bonbuSalesData2,
+            ...this.bonbuSalesData3,
+            ...this.bonbuSalesData4,
+            ...this.bonbuSalesData5,
+            ...this.bonbuSalesData6,
+            ...this.bonbuSalesData7,
+            ...this.bonbuSalesData8,
+          
+          ]; 
+          
+        })).catch((err)=>{
+        console.log('금주 일자 데이터를 가져 오지 못했습니다',err);
+      });
       
-      this.fillData(this.selectedBonbu)
+      this.fillData();
       this.renderChart(this.dataCollection,this.options);
     },
 
@@ -495,23 +566,66 @@ export default {
       let seventhJisa='';
       let eighthJisa='';
        
-      const firstBonbuName=this.propsbonbu;
-      // const secondBonbuName='동부고객본부';
-      // const thirdBonbuName='강남고객본부';
-      // const fourthBonbuName='충남/충북고객본부';
-      // const fifthBonbuName='대구/경북고객본부';
-      // const sixthBonbuName='부산/경남고객본부';
-      // const seventhBonbuName='전남/전북고객본부';
-      // const eighthBonbuName='서부고객본부';
+     
+      let firstOneJisaArray=[];
+      let secondOneJisaArray=[];
+      let thirdOneJisaArray=[];
+      let fourthOneJisaArray=[];
+      let fifthOneJisaArray=[];
 
-      let firstJisaArray=[];
-      let secondJisaArray=[];
-      let thirdJisaArray=[];
-      let fourthJisaArray=[];
-      let fifthJisaArray=[];
-      let sixthJisaArray=[];
-      let seventhJisaArray=[];
-      let eighthJisaArray=[];
+      let firstTwoJisaArray=[];
+      let secondTwoJisaArray=[];
+      let thirdTwoJisaArray=[];
+      let fourthTwoJisaArray=[];
+      let fifthTwoJisaArray=[];
+
+      let firstThreeJisaArray=[];
+      let secondThreeJisaArray=[];
+      let thirdThreeJisaArray=[];
+      let fourthThreeJisaArray=[];
+      let fifthThreeJisaArray=[];
+      let sixthThreeJisaArray=[];
+
+      let firstFourJisaArray=[];
+      let secondFourJisaArray=[];
+      let thirdFourJisaArray=[];
+      let fourthFourJisaArray=[];
+      let fifthFourJisaArray=[];
+      let sixthFourJisaArray=[];
+
+      let firstFiveJisaArray=[];
+      let secondFiveJisaArray=[];
+      let thirdFiveJisaArray=[];
+      let fourthFiveJisaArray=[];
+      let fifthFiveJisaArray=[];
+      let sixthFiveJisaArray=[];
+
+      let firstSixJisaArray=[];
+      let secondSixJisaArray=[];
+      let thirdSixJisaArray=[];
+      let fourthSixJisaArray=[];
+      let fifthSixJisaArray=[];
+      let sixthSixJisaArray=[];
+      let seventhSixJisaArray=[];
+
+      let firstSevenJisaArray=[];
+      let secondSevenJisaArray=[];
+      let thirdSevenJisaArray=[];
+      let fourthSevenJisaArray=[];
+      let fifthSevenJisaArray=[];
+      let sixthSevenJisaArray=[];
+      let seventhSevenJisaArray=[];
+    
+    
+      let firstEightJisaArray=[];
+      let secondEightJisaArray=[];
+      let thirdEightJisaArray=[];
+      let fourthEightJisaArray=[];
+      let fifthEightJisaArray=[];
+      let sixthEightJisaArray=[];
+      let seventhEightJisaArray=[];
+      let eighthEightJisaArray=[];
+    
 
            
       let dateKeyArray=[];
@@ -526,46 +640,162 @@ export default {
       }
 
     
-      if(this.propsbonbu){
-        if(this.propsbonbu==='북부고객본부'){
+   
+    
+        
+        
+      this.bonbuSalesData.map((item,index)=>{
+        if(item.jojik2_name==='북부고객본부'){
           firstJisa='고양지사';
           secondJisa='광진지사';
           thirdJisa='광화문지사';
           fourthJisa='노원지사';
           fifthJisa='서대문지사';
+
+          if(item.jojik3_name===firstJisa){
+            firstOneJisaArray.push({'jisa':firstJisa,'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});  //date혈식을 '2021-04-01' 문자열로
+          }
+          if(item.jojik3_name===secondJisa){
+            secondOneJisaArray.push({'jisa':secondJisa,'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===thirdJisa){
+            thirdOneJisaArray.push({'jisa':thirdJisa,'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===fourthJisa){
+            fourthOneJisaArray.push({'jisa':fourthJisa,'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===fifthJisa){
+            fifthOneJisaArray.push({'jisa':fifthJisa,'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
         }
-        if(this.propsbonbu==='동부고객본부'){
+                  
+        if(item.jojik2_name==='동부고객본부'){
           firstJisa='강릉지사';
           secondJisa='구리지사';
           thirdJisa='원주지사';
           fourthJisa='의정부지사';
           fifthJisa='춘천지사';
-        }
-        if(this.propsbonbu==='강남고객본부'){
+
+          if(item.jojik3_name===firstJisa){
+            firstTwoJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});  //date혈식을 '2021-04-01' 문자열로
+          }
+          if(item.jojik3_name===secondJisa){
+            secondTwoJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===thirdJisa){
+            thirdTwoJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===fourthJisa){
+            fourthTwoJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===fifthJisa){
+            fifthTwoJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+        } 
+          
+        if(item.jojik2_name==='강남고객본부'){
           firstJisa='강남지사';
           secondJisa='분당지사';
           thirdJisa='송파지사';
           fourthJisa='수원지사';
           fifthJisa='용인지사';
           sixthJisa='평택지사';
-        }
-        if(this.propsbonbu==='충남/충북고객본부'){
+
+          if(item.jojik3_name===firstJisa){
+            firstThreeJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});  //date혈식을 '2021-04-01' 문자열로
+          }
+          if(item.jojik3_name===secondJisa){
+            secondThreeJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===thirdJisa){
+            thirdThreeJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===fourthJisa){
+            fourthThreeJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===fifthJisa){
+            fifthThreeJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===sixthJisa){
+            sixthThreeJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+        } 
+          
+        if(item.jojik2_name==='충남/충북고객본부'){
           firstJisa='대전지사';
           secondJisa='서대전지사';
           thirdJisa='천안지사';
           fourthJisa='청주지사';
           fifthJisa='충주지사';
           sixthJisa='홍성지사';
-        }
-        if(this.propsbonbu==='대구/경북고객본부'){
+
+          if(item.jojik3_name===firstJisa){
+            firstFourJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});  //date혈식을 '2021-04-01' 문자열로
+          }
+          if(item.jojik3_name===secondJisa){
+            secondFourJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===thirdJisa){
+            thirdFourJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===fourthJisa){
+            fourthFourJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===fifthJisa){
+            fifthFourJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===sixthJisa){
+            sixthFourJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+        } 
+
+        if(item.jojik2_name==='대구/경북고객본부'){
           firstJisa='구미지사';
           secondJisa='달서지사';
           thirdJisa='동대구지사';
           fourthJisa='서대구지사';
           fifthJisa='안동지사';
           sixthJisa='포항지사';
-        }
-        if(this.propsbonbu==='부산/경남고객본부'){
+
+          if(item.jojik3_name===firstJisa){
+            firstFiveJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});  //date혈식을 '2021-04-01' 문자열로
+          }
+          if(item.jojik3_name===secondJisa){
+            secondFiveJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===thirdJisa){
+            thirdFiveJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===fourthJisa){
+            fourthFiveJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===fifthJisa){
+            fifthFiveJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===sixthJisa){
+            sixthFiveJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+        } 
+
+        if(item.jojik2_name==='부산/경남고객본부'){
           firstJisa='남부산지사';
           secondJisa='동부산지사';
           thirdJisa='북부산지사';
@@ -573,15 +803,64 @@ export default {
           fifthJisa='울산지사';
           sixthJisa='진주지사';
           seventhJisa='창원지사';
-        }
-        if(this.propsbonbu==='전남/전북고객본부'){
+
+          if(item.jojik3_name===firstJisa){
+            firstSixJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});  //date혈식을 '2021-04-01' 문자열로
+          }
+          if(item.jojik3_name===secondJisa){
+            secondSixJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===thirdJisa){
+            thirdSixJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===fourthJisa){
+            fourthSixJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===fifthJisa){
+            fifthSixJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===sixthJisa){
+            sixthSixJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+          if(item.jojik3_name===seventhJisa){
+            sixthSixJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+        } 
+
+        if(item.jojik2_name==='전남/전북고객본부'){
           firstJisa='광주지사';
           secondJisa='목포지사';
           thirdJisa='순천지사';
           fourthJisa='익산지사';
           fifthJisa='전주지사';
-        }
-        if(this.propsbonbu==='서부고객본부'){
+
+          if(item.jojik3_name===firstJisa){
+            firstSevenJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});  //date혈식을 '2021-04-01' 문자열로
+          }
+          if(item.jojik3_name===secondJisa){
+            secondSevenJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===thirdJisa){
+            thirdSevenJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===fourthJisa){
+            fourthSevenJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+          if(item.jojik3_name===fifthJisa){
+            fifthSevenJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }
+
+       
+        } 
+
+        if(item.jojik2_name==='서부고객본부'){
           firstJisa='강서지사';
           secondJisa='구로지사';
           thirdJisa='부천지사';
@@ -589,43 +868,47 @@ export default {
           fifthJisa='안산지사';
           sixthJisa='안양지사';
           seventhJisa='인천지사';
-        }
-        this.bonbuSalesData.map((item,index)=>{
-          
+
           if(item.jojik3_name===firstJisa){
-            firstJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});  //date혈식을 '2021-04-01' 문자열로
-           
+            firstEightJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});  //date혈식을 '2021-04-01' 문자열로
           }
           if(item.jojik3_name===secondJisa){
-            secondJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+            secondEightJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
           }
 
           if(item.jojik3_name===thirdJisa){
-            thirdJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+            thirdEightJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
           }
 
           if(item.jojik3_name===fourthJisa){
-            fourthJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+            fourthEightJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
           }
 
           if(item.jojik3_name===fifthJisa){
-            fifthJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-        });
-      }
+            fifthEightJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+          }     
+        } 
+      });
+  
 
       const diffDateArray=(a,b)=>a.filter(x=>!b.includes(x));  // 두 배열에서 중복을 제거하고 남은 요소를 다시 배열로.
 
    
       //일자별로 실적 카운트 객체 만들기
+      console.log('firstOne jisa',firstOneJisaArray);
 
-      let firstJisaDatePlusCntArray=Object.values(firstJisaArray.reduce((acc,{date,cnt})=>{
+      let firstBonbuDatePlusCntArray=Object.values([...firstOneJisaArray,...secondOneJisaArray,...thirdOneJisaArray,...fourthOneJisaArray,...fifthOneJisaArray].reduce((acc,{date,cnt})=>{
       
-        if(acc[date]) acc[date].cnt+=parseInt(cnt);
-        else acc[date]={date,cnt:parseInt(cnt)};
+        if(acc[date]) {
+          acc[date].cnt+=parseInt(cnt);
+          acc[jisa]=jisa
+        }else{
+          acc[date]={date,cnt:parseInt(cnt)};
+        }
        
         return acc;
       },{}));
+
 
       let firstImsiArray=[];   
       for (let i=0;i<firstJisaDatePlusCntArray.length;i++){
@@ -635,6 +918,7 @@ export default {
       for(let i=0;i<firstImsiArray.length;i++){                               //voc발생건수가 0인 날자도 포함하여 그래프 데이터로 사용.
         firstJisaDatePlusCntArray.push({'date':firstImsiArray[i],'cnt':0});
       }
+      console.log('firstJisaDatePlusCntArray',firstJisaDatePlusCntArray);
 
       let secondJisaDatePlusCntArray=Object.values([...secondJisaArray].reduce((acc,{date,cnt})=>{
       
