@@ -639,11 +639,6 @@ export default {
         dateKeyArray.push(this.displayDateText2(new Date(this.selectedStartNewDate.setDate(this.selectedStartNewDate.getDate()+1))));  //조회 날자를 배열로 만들고 형식을 '2021-04-01' 형식으로 변경
       }
 
-    
-   
-    
-        
-        
       this.bonbuSalesData.map((item,index)=>{
         if(item.jojik2_name==='북부고객본부'){
           firstJisa='고양지사';
@@ -895,172 +890,182 @@ export default {
 
    
       //일자별로 실적 카운트 객체 만들기
-      console.log('firstOne jisa',firstOneJisaArray);
+      // console.log('firstOne jisa',Object.values([...firstOneJisaArray,...secondOneJisaArray]));
 
-      let firstBonbuDatePlusCntArray=Object.values([...firstOneJisaArray,...secondOneJisaArray,...thirdOneJisaArray,...fourthOneJisaArray,...fifthOneJisaArray].reduce((acc,{date,cnt})=>{
-      
-        if(acc[date]) {
-          acc[date].cnt+=parseInt(cnt);
-          acc[jisa]=jisa
-        }else{
-          acc[date]={date,cnt:parseInt(cnt)};
-        }
+      // let firstBonbuDatePlusCntArray=Object.values([...firstOneJisaArray,...secondOneJisaArray].reduce((acc,{jisa,date,cnt})=>{
+        
+      //   if(acc[date]) {
+      //     acc[date].cnt+=parseInt(cnt);
+          
+      //   }else{
+      //     acc[date]={date,cnt:parseInt(cnt)};
+      //   }
        
-        return acc;
-      },{}));
+      //   return acc;
+      // },{}));
+
+      // console.log('xxx',firstBonbuDatePlusCntArray);
+
+      let firstBonbuDatePlusCntArray=[...firstOneJisaArray,...secondOneJisaArray,...thirdOneJisaArray,...fourthOneJisaArray,...fifthOneJisaArray];
+      let secondBonbuDatePlusCntArray=[...firstTwoJisaArray,...secondTwoJisaArray,...thirdTwoJisaArray,...fourthTwoJisaArray,...fifthTwoJisaArray];
+      let thirdBonbuDatePlusCntArray=[...firstThreeJisaArray,...secondThreeJisaArray,...thirdThreeJisaArray,...fourthThreeJisaArray,...fifthThreeJisaArray,...sixthThreeJisaArray];
+     
 
 
-      let firstImsiArray=[];   
-      for (let i=0;i<firstJisaDatePlusCntArray.length;i++){
-        firstImsiArray.push(firstJisaDatePlusCntArray[i].date);
-      }
-      firstImsiArray=diffDateArray(dateKeyArray,firstImsiArray);
-      for(let i=0;i<firstImsiArray.length;i++){                               //voc발생건수가 0인 날자도 포함하여 그래프 데이터로 사용.
-        firstJisaDatePlusCntArray.push({'date':firstImsiArray[i],'cnt':0});
-      }
-      console.log('firstJisaDatePlusCntArray',firstJisaDatePlusCntArray);
+      // let firstImsiArray=[];   
+      // for (let i=0;i<firstBonbuDatePlusCntArray.length;i++){
+      //   firstImsiArray.push(firstBonbuDatePlusCntArray[i].date);
+      // }
+      // firstImsiArray=diffDateArray(dateKeyArray,firstImsiArray);
+      // for(let i=0;i<firstImsiArray.length;i++){                               //voc발생건수가 0인 날자도 포함하여 그래프 데이터로 사용.
+      //   firstBonbuDatePlusCntArray.push({'date':firstImsiArray[i],'cnt':0});
+      // }
+      // console.log('firstJisaDatePlusCntArray',firstJisaDatePlusCntArray);
 
-      let secondJisaDatePlusCntArray=Object.values([...secondJisaArray].reduce((acc,{date,cnt})=>{
+      // let secondJisaDatePlusCntArray=Object.values([...secondJisaArray].reduce((acc,{date,cnt})=>{
       
-        if(acc[date]) acc[date].cnt+=parseInt(cnt);
-        else acc[date]={date,cnt:parseInt(cnt)};  
-        return acc;
-      },{}));
+      //   if(acc[date]) acc[date].cnt+=parseInt(cnt);
+      //   else acc[date]={date,cnt:parseInt(cnt)};  
+      //   return acc;
+      // },{}));
 
-      let secondImsiArray=[];
-      for(let i=0;i<secondJisaDatePlusCntArray.length;i++){
-        secondImsiArray.push(secondJisaDatePlusCntArray[i].date);
-      }
-      secondImsiArray=diffDateArray(dateKeyArray,secondImsiArray);
-      for(let i=0;i<secondImsiArray.length;i++){
-        secondJisaDatePlusCntArray.push({'date':secondImsiArray[i],'cnt':0});
-      }
+      // let secondImsiArray=[];
+      // for(let i=0;i<secondJisaDatePlusCntArray.length;i++){
+      //   secondImsiArray.push(secondJisaDatePlusCntArray[i].date);
+      // }
+      // secondImsiArray=diffDateArray(dateKeyArray,secondImsiArray);
+      // for(let i=0;i<secondImsiArray.length;i++){
+      //   secondJisaDatePlusCntArray.push({'date':secondImsiArray[i],'cnt':0});
+      // }
 
-      let thirdJisaDatePlusCntArray=Object.values([...thirdJisaArray].reduce((acc,{date,cnt})=>{
+      // let thirdJisaDatePlusCntArray=Object.values([...thirdJisaArray].reduce((acc,{date,cnt})=>{
       
-        if(acc[date]) acc[date].cnt+=parseInt(cnt);
-        else acc[date]={date,cnt:parseInt(cnt)};
+      //   if(acc[date]) acc[date].cnt+=parseInt(cnt);
+      //   else acc[date]={date,cnt:parseInt(cnt)};
        
-        return acc;
-      },{}));
+      //   return acc;
+      // },{}));
 
-      let thirdImsiArray=[];
-      for(let i=0;i<thirdJisaDatePlusCntArray.length;i++){
-        thirdImsiArray.push(thirdJisaDatePlusCntArray[i].date);
-      }
-      thirdImsiArray=diffDateArray(dateKeyArray,thirdImsiArray);
-      for(let i=0;i<thirdImsiArray.length;i++){
-        thirdJisaDatePlusCntArray.push({'date':thirdImsiArray[i],'cnt':0});
-      }
+      // let thirdImsiArray=[];
+      // for(let i=0;i<thirdJisaDatePlusCntArray.length;i++){
+      //   thirdImsiArray.push(thirdJisaDatePlusCntArray[i].date);
+      // }
+      // thirdImsiArray=diffDateArray(dateKeyArray,thirdImsiArray);
+      // for(let i=0;i<thirdImsiArray.length;i++){
+      //   thirdJisaDatePlusCntArray.push({'date':thirdImsiArray[i],'cnt':0});
+      // }
 
 
-      let fourthJisaDatePlusCntArray=Object.values([...fourthJisaArray].reduce((acc,{date,cnt})=>{
+      // let fourthJisaDatePlusCntArray=Object.values([...fourthJisaArray].reduce((acc,{date,cnt})=>{
       
-        if(acc[date]) acc[date].cnt+=parseInt(cnt);
-        else acc[date]={date,cnt:parseInt(cnt)};
+      //   if(acc[date]) acc[date].cnt+=parseInt(cnt);
+      //   else acc[date]={date,cnt:parseInt(cnt)};
        
-        return acc;
-      },{}));
+      //   return acc;
+      // },{}));
 
-      let fourthImsiArray=[];
-      for(let i=0;i<fourthJisaDatePlusCntArray.length;i++){
-        fourthImsiArray.push(fourthJisaDatePlusCntArray[i].date);
-      }
-      fourthImsiArray=diffDateArray(dateKeyArray,fourthImsiArray);
-      for(let i=0;i<thirdImsiArray.length;i++){
-        fourthJisaDatePlusCntArray.push({'date':fourthImsiArray[i],'cnt':0});
-      }
+      // let fourthImsiArray=[];
+      // for(let i=0;i<fourthJisaDatePlusCntArray.length;i++){
+      //   fourthImsiArray.push(fourthJisaDatePlusCntArray[i].date);
+      // }
+      // fourthImsiArray=diffDateArray(dateKeyArray,fourthImsiArray);
+      // for(let i=0;i<thirdImsiArray.length;i++){
+      //   fourthJisaDatePlusCntArray.push({'date':fourthImsiArray[i],'cnt':0});
+      // }
 
-      let fifthJisaDatePlusCntArray=Object.values([...fifthJisaArray].reduce((acc,{date,cnt})=>{
+      // let fifthJisaDatePlusCntArray=Object.values([...fifthJisaArray].reduce((acc,{date,cnt})=>{
       
-        if(acc[date]) acc[date].cnt+=parseInt(cnt);
-        else acc[date]={date,cnt:parseInt(cnt)};
+      //   if(acc[date]) acc[date].cnt+=parseInt(cnt);
+      //   else acc[date]={date,cnt:parseInt(cnt)};
        
-        return acc;
-      },{}));
+      //   return acc;
+      // },{}));
 
-      let fifthImsiArray=[];
-      for(let i=0;i<fifthJisaDatePlusCntArray.length;i++){
-        fifthImsiArray.push(fifthJisaDatePlusCntArray[i].date);
-      }
-      fifthImsiArray=diffDateArray(dateKeyArray,fifthImsiArray);
-      for(let i=0;i<fifthImsiArray.length;i++){
-        fifthJisaDatePlusCntArray.push({'date':fifthImsiArray[i],'cnt':0});
-      }
+      // let fifthImsiArray=[];
+      // for(let i=0;i<fifthJisaDatePlusCntArray.length;i++){
+      //   fifthImsiArray.push(fifthJisaDatePlusCntArray[i].date);
+      // }
+      // fifthImsiArray=diffDateArray(dateKeyArray,fifthImsiArray);
+      // for(let i=0;i<fifthImsiArray.length;i++){
+      //   fifthJisaDatePlusCntArray.push({'date':fifthImsiArray[i],'cnt':0});
+      // }
 
-      let sixthJisaDatePlusCntArray=Object.values([...sixthJisaArray].reduce((acc,{date,cnt})=>{
+      // let sixthJisaDatePlusCntArray=Object.values([...sixthJisaArray].reduce((acc,{date,cnt})=>{
       
-        if(acc[date]) acc[date].cnt+=parseInt(cnt);
-        else acc[date]={date,cnt:parseInt(cnt)};
+      //   if(acc[date]) acc[date].cnt+=parseInt(cnt);
+      //   else acc[date]={date,cnt:parseInt(cnt)};
        
-        return acc;
-      },{}));
+      //   return acc;
+      // },{}));
 
-      let sixthImsiArray=[];
-      for(let i=0;i<sixthJisaDatePlusCntArray.length;i++){
-        sixthImsiArray.push(sixthJisaDatePlusCntArray[i].date);
-      }
-      sixthImsiArray=diffDateArray(dateKeyArray,sixthImsiArray);
-      for(let i=0;i<sixthImsiArray.length;i++){
-        sixthJisaDatePlusCntArray.push({'date':sixthImsiArray[i],'cnt':0});
-      }
+      // let sixthImsiArray=[];
+      // for(let i=0;i<sixthJisaDatePlusCntArray.length;i++){
+      //   sixthImsiArray.push(sixthJisaDatePlusCntArray[i].date);
+      // }
+      // sixthImsiArray=diffDateArray(dateKeyArray,sixthImsiArray);
+      // for(let i=0;i<sixthImsiArray.length;i++){
+      //   sixthJisaDatePlusCntArray.push({'date':sixthImsiArray[i],'cnt':0});
+      // }
 
-      let seventhJisaDatePlusCntArray=Object.values([...seventhJisaArray].reduce((acc,{date,cnt})=>{
+      // let seventhJisaDatePlusCntArray=Object.values([...seventhJisaArray].reduce((acc,{date,cnt})=>{
       
-        if(acc[date]) acc[date].cnt+=parseInt(cnt);
-        else acc[date]={date,cnt:parseInt(cnt)};
+      //   if(acc[date]) acc[date].cnt+=parseInt(cnt);
+      //   else acc[date]={date,cnt:parseInt(cnt)};
        
-        return acc;
-      },{}));
+      //   return acc;
+      // },{}));
 
-      let seventhImsiArray=[];
-      for(let i=0;i<seventhJisaDatePlusCntArray.length;i++){
-        seventhImsiArray.push(seventhJisaDatePlusCntArray[i].date);
-      }
-      seventhImsiArray=diffDateArray(dateKeyArray,seventhImsiArray);
-      for(let i=0;i<seventhImsiArray.length;i++){
-        seventhJisaDatePlusCntArray.push({'date':seventhImsiArray[i],'cnt':0});
-      }
+      // let seventhImsiArray=[];
+      // for(let i=0;i<seventhJisaDatePlusCntArray.length;i++){
+      //   seventhImsiArray.push(seventhJisaDatePlusCntArray[i].date);
+      // }
+      // seventhImsiArray=diffDateArray(dateKeyArray,seventhImsiArray);
+      // for(let i=0;i<seventhImsiArray.length;i++){
+      //   seventhJisaDatePlusCntArray.push({'date':seventhImsiArray[i],'cnt':0});
+      // }
 
-      let eighthJisaDatePlusCntArray=Object.values([...eighthJisaArray].reduce((acc,{date,cnt})=>{
+      // let eighthJisaDatePlusCntArray=Object.values([...eighthJisaArray].reduce((acc,{date,cnt})=>{
       
-        if(acc[date]) acc[date].cnt+=parseInt(cnt);
-        else acc[date]={date,cnt:parseInt(cnt)};
+      //   if(acc[date]) acc[date].cnt+=parseInt(cnt);
+      //   else acc[date]={date,cnt:parseInt(cnt)};
        
-        return acc;
-      },{}));
+      //   return acc;
+      // },{}));
 
-      let eighthImsiArray=[];
-      for(let i=0;i<eighthJisaDatePlusCntArray.length;i++){
-        eighthImsiArray.push(eighthJisaDatePlusCntArray[i].date);
-      }
-      eighthImsiArray=diffDateArray(dateKeyArray,eighthImsiArray);
-      for(let i=0;i<eighthImsiArray.length;i++){
-        eighthJisaDatePlusCntArray.push({'date':eighthImsiArray[i],'cnt':0});
-      }
+      // let eighthImsiArray=[];
+      // for(let i=0;i<eighthJisaDatePlusCntArray.length;i++){
+      //   eighthImsiArray.push(eighthJisaDatePlusCntArray[i].date);
+      // }
+      // eighthImsiArray=diffDateArray(dateKeyArray,eighthImsiArray);
+      // for(let i=0;i<eighthImsiArray.length;i++){
+      //   eighthJisaDatePlusCntArray.push({'date':eighthImsiArray[i],'cnt':0});
+      // }
 
       //객체를 일자별로 오름차순으로 정렬하기
       const compare=(key)=>(a,b)=>{
         return a[key]>a[key]?1:a[key]<b[key]?-1:0;
       };
 
-      firstJisaDatePlusCntArray=firstJisaDatePlusCntArray.sort(compare('date'));
-      secondJisaDatePlusCntArray=secondJisaDatePlusCntArray.sort(compare('date'));
-      thirdJisaDatePlusCntArray=thirdJisaDatePlusCntArray.sort(compare('date'));
-      fourthJisaDatePlusCntArray=fourthJisaDatePlusCntArray.sort(compare('date'));
-      fifthJisaDatePlusCntArray=fifthJisaDatePlusCntArray.sort(compare('date'));
-      sixthJisaDatePlusCntArray=sixthJisaDatePlusCntArray.sort(compare('date'));
-      seventhJisaDatePlusCntArray=seventhJisaDatePlusCntArray.sort(compare('date'));
-      eighthJisaDatePlusCntArray=eighthJisaDatePlusCntArray.sort(compare('date'));
+      firstBonbuDatePlusCntArray=firstJisaDatePlusCntArray.sort(compare('date'));
+      secondBonbuDatePlusCntArray=secondJisaDatePlusCntArray.sort(compare('date'));
+      thirdBonbuDatePlusCntArray=thirdJisaDatePlusCntArray.sort(compare('date'));
+      // fourthJisaDatePlusCntArray=fourthJisaDatePlusCntArray.sort(compare('date'));
+      // fifthJisaDatePlusCntArray=fifthJisaDatePlusCntArray.sort(compare('date'));
+      // sixthJisaDatePlusCntArray=sixthJisaDatePlusCntArray.sort(compare('date'));
+      // seventhJisaDatePlusCntArray=seventhJisaDatePlusCntArray.sort(compare('date'));
+      // eighthJisaDatePlusCntArray=eighthJisaDatePlusCntArray.sort(compare('date'));
 
       
       //일자와 VOC합으로 일어진 객체를 별도 분리
+      let firstJisaNameArray=[];
       let firstJisaDayArray=[];
       let firstJisaDayCntArray=[];
 
+      let secondJisaNameArray=[];
       let secondJisaDayArray=[];
       let secondJisaDayCntArray=[];
 
+      let thirdJisaNameArray=[];
       let thirdJisaDayArray=[];
       let thirdJisaDayCntArray=[];
 
@@ -1079,50 +1084,54 @@ export default {
       let eighthJisaDayArray=[];
       let eighthJisaDayCntArray=[];
 
-      for(let i=0;i<firstJisaDatePlusCntArray.length;i++){
-       
-        firstJisaDayArray.push(firstJisaDatePlusCntArray[i].date);
-        firstJisaDayCntArray.push(firstJisaDatePlusCntArray[i].cnt);   
+      for(let i=0;i<firstBonbuDatePlusCntArray.length;i++){
+        firstJisaNameArray.push(firstBonbuDatePlusCntArray[i].jisa);
+        firstJisaDayArray.push(firstBonbuDatePlusCntArray[i].date);
+        firstJisaDayCntArray.push(firstBonbuDatePlusCntArray[i].cnt);   
       }
 
           
-      for(let i=0;i<secondJisaDatePlusCntArray.length;i++){    
-        secondJisaDayArray.push(secondJisaDatePlusCntArray[i].date);
-        secondJisaDayCntArray.push(secondJisaDatePlusCntArray[i].cnt);          
+      for(let i=0;i<secondBonbuDatePlusCntArray.length;i++){  
+        scondJisaNameArray.push(secondBonbuDatePlusCntArray[i].jisa);  
+        secondJisaDayArray.push(secondBonbuPlusCntArray[i].date);
+        secondJisaDayCntArray.push(secondBonbuDatePlusCntArray[i].cnt);          
       }
 
-      for(let i=0;i<thirdJisaDatePlusCntArray.length;i++){     
-        thirdJisaDayArray.push(thirdJisaDatePlusCntArray[i].date);
-        thirdJisaDayCntArray.push(thirdJisaDatePlusCntArray[i].cnt);          
+      for(let i=0;i<thirdBonbuDatePlusCntArray.length;i++){     
+        thirdJisaNameArray.push(thirdBonbuDatePlusCntArray[i].jisa);
+        thirdJisaDayArray.push(thirdBonbuDatePlusCntArray[i].date);
+        thirdJisaDayCntArray.push(thirdBonbuDatePlusCntArray[i].cnt);          
       }
 
-      for(let i=0;i<fourthJisaDatePlusCntArray.length;i++){     
-        fourthJisaDayArray.push(fourthJisaDatePlusCntArray[i].date);
-        fourthJisaDayCntArray.push(fourthJisaDatePlusCntArray[i].cnt);          
-      }
+      console.log('zzzzz',thirdJisaDayArray);
 
-      for(let i=0;i<fifthJisaDatePlusCntArray.length;i++){
+      // for(let i=0;i<fourthJisaDatePlusCntArray.length;i++){     
+      //   fourthJisaDayArray.push(fourthJisaDatePlusCntArray[i].date);
+      //   fourthJisaDayCntArray.push(fourthJisaDatePlusCntArray[i].cnt);          
+      // }
+
+      // for(let i=0;i<fifthJisaDatePlusCntArray.length;i++){
        
-        fifthJisaDayArray.push(fifthJisaDatePlusCntArray[i].date);
-        fifthJisaDayCntArray.push(fifthJisaDatePlusCntArray[i].cnt);          
-      }
+      //   fifthJisaDayArray.push(fifthJisaDatePlusCntArray[i].date);
+      //   fifthJisaDayCntArray.push(fifthJisaDatePlusCntArray[i].cnt);          
+      // }
 
-      for(let i=0;i<sixthJisaDatePlusCntArray.length;i++){
+      // for(let i=0;i<sixthJisaDatePlusCntArray.length;i++){
        
-        sixthJisaDayArray.push(sixthJisaDatePlusCntArray[i].date);
-        sixthJisaDayCntArray.push(sixthJisaDatePlusCntArray[i].cnt);          
-      }
+      //   sixthJisaDayArray.push(sixthJisaDatePlusCntArray[i].date);
+      //   sixthJisaDayCntArray.push(sixthJisaDatePlusCntArray[i].cnt);          
+      // }
 
-      for(let i=0;i<seventhJisaDatePlusCntArray.length;i++){
+      // for(let i=0;i<seventhJisaDatePlusCntArray.length;i++){
        
-        seventhJisaDayArray.push(seventhJisaDatePlusCntArray[i].date);
-        seventhJisaDayCntArray.push(seventhJisaDatePlusCntArray[i].cnt);          
-      }
-      for(let i=0;i<eighthJisaDatePlusCntArray.length;i++){
+      //   seventhJisaDayArray.push(seventhJisaDatePlusCntArray[i].date);
+      //   seventhJisaDayCntArray.push(seventhJisaDatePlusCntArray[i].cnt);          
+      // }
+      // for(let i=0;i<eighthJisaDatePlusCntArray.length;i++){
        
-        eighthJisaDayArray.push(eighthJisaDatePlusCntArray[i].date);
-        eighthJisaDayCntArray.push(eighthJisaDatePlusCntArray[i].cnt);          
-      }
+      //   eighthJisaDayArray.push(eighthJisaDatePlusCntArray[i].date);
+      //   eighthJisaDayCntArray.push(eighthJisaDatePlusCntArray[i].cnt);          
+      // }
 
      
       firstJisaObj={
