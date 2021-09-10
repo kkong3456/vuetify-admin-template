@@ -19,6 +19,8 @@ const bonbuJisaObj={
   '서부고객본부':['강서지사','구로지사','부천지사','서인천지사','안산지사','안양지사','인천지사']
 }
 
+
+
 const options={      //chart options prop를 사용하지 않는 하위컴포넌트에서는 data에 변수값으로 처리
   responsive:true,
   maintainAspectRatio:false,//차트 width,ehgith  자동 크기조절
@@ -97,7 +99,7 @@ const options={      //chart options prop를 사용하지 않는 하위컴포넌
 
 export default {
 
-  name:'JisaSalesChart',
+  name:'BonbuSalesChart',
   extends: Line,
   props:{
     'propsdata':{
@@ -105,14 +107,6 @@ export default {
       default:undefined,
     },
     'propsproduct':{
-      type:String,
-      default:undefined,
-    },
-    'propsbonbu':{
-      type:String,
-      default:undefined,
-    },
-    'propsdongbu':{
       type:String,
       default:undefined,
     }
@@ -125,7 +119,6 @@ export default {
       
      
       bonbuDataObj:null,
-      bonbuSalesData:null,
 
       selectedProduct:'인터넷',
       
@@ -220,7 +213,6 @@ export default {
     async changeDate(){
       const thisBonbuSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.propsproduct}&kind=${this.propsdata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=`;
      
-     
       await axios.all(
         [
           axios.get(thisBonbuSalesUrl+'북부고객본부'),
@@ -263,369 +255,133 @@ export default {
         console.log('금주 일자 데이터를 가져 오지 못했습니다',err);
       });
       
-      this.fillData()
+      this.fillData(this.selectedBonbu)
       this.renderChart(this.dataCollection,this.options);
     },
-
-    async changeBonbuProduct(selectedBonbu,selectedProduct){
-      this.propsproduct=selectedProduct;
-      this.propsbonbu=selectedBonbu;
-
-      const thisBonbuSalesUrl=`http://172.21.220.97/api/net/jisa.json/?prod=${this.propsproduct}&kind=${this.propsdata}&begin=${this.selectedStartDate}&end=${this.selectedEndDate}&bonbu=`;
-      console.log('thisBonbuSalesUrl is ',thisBonbuSalesUrl);
-      await axios.all(
-        [
-          axios.get(thisBonbuSalesUrl+'북부고객본부'),
-          axios.get(thisBonbuSalesUrl+'동부고객본부'),
-          axios.get(thisBonbuSalesUrl+'강남고객본부'),
-          axios.get(thisBonbuSalesUrl+'충남/충북고객본부'),
-          axios.get(thisBonbuSalesUrl+'대구/경북고객본부'),
-          axios.get(thisBonbuSalesUrl+'부산/경남고객본부'),
-          axios.get(thisBonbuSalesUrl+'전남/전북고객본부'),
-          axios.get(thisBonbuSalesUrl+'서부고객본부'),
-
-          
-        ]
-      ).then(axios.spread(
-        (res1,res2,res3,res4,res5,res6,res7,res8)=>{
-          this.bonbuSalesData1=res1.data.results;
-          this.bonbuSalesData2=res2.data.results;
-          this.bonbuSalesData3=res3.data.results;
-          this.bonbuSalesData4=res4.data.results;
-          this.bonbuSalesData5=res5.data.results;
-          this.bonbuSalesData6=res6.data.results;
-          this.bonbuSalesData7=res7.data.results;
-          this.bonbuSalesData8=res8.data.results;
-
-          
-
-          this.bonbuSalesData=[
-            ...this.bonbuSalesData1,
-            ...this.bonbuSalesData2,
-            ...this.bonbuSalesData3,
-            ...this.bonbuSalesData4,
-            ...this.bonbuSalesData5,
-            ...this.bonbuSalesData6,
-            ...this.bonbuSalesData7,
-            ...this.bonbuSalesData8,
-          
-          ]; 
-          
-        })).catch((err)=>{
-        console.log('금주 일자 데이터를 가져 오지 못했습니다',err);
-      });
-      
-      this.fillData();
-      this.renderChart(this.dataCollection,this.options);
-    },
-
-    
     
     fillData () {
       const yyy=this.getBonbuDataValue();
-      // console.log('yyyy is ',yyy);
+    
+      this.dataCollection = {
+        labels:yyy[2].basedate.map((day)=>day.substring(5,10)),
+        datasets: [
+          {
+            label:yyy[0].Bonbu,     // 범례
+            borderColor: '#6697F8',
+             
+            //backgroundColor:"#6697F8",
+            //backgroundColor:'rgba(56,56,155,0.3)',
+            data: yyy[0].vocSum,
+            fill:false,
+            tension:.3,
+            pointHoverBorderColor:'#ff0000',
+            //borderWidth:1,
 
-      if(this.propsbonbu==='북부고객본부'||this.propsbonbu==='동부고객본부'||this.propsbonbu==='전남/전북고객본부'){
-        this.dataCollection = {
-          labels:yyy[2].basedate.map((day)=>day.substring(5,10)),
-          datasets: [
-            {
-              label:yyy[0].Jisa,     // 범례
-              borderColor: '#6697F8',          
-              //backgroundColor:"#6697F8",
-              //backgroundColor:'rgba(56,56,155,0.3)',
-              data: yyy[0].vocSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-              //borderWidth:1,
+          },
+          {
+            label:yyy[1].Bonbu,
+            borderColor: '#5CE082',
+            //backgroundColor:"rgba(92,224,130,.1)",
+            data: yyy[1].vocSum,
+            fill:false,
+            tension:.3,
+            pointHoverBorderColor:'#ff0000',
+          },
+          {
+            label: yyy[2].Bonbu,
+            borderColor: '#F7E872',
+            //backgroundColor:"rgba(0,179,0,.1)",
+            data: yyy[2].vocSum,
+            fill:false,
+            tension:.3,
+            pointHoverBorderColor:'#ff0000',
+          },
 
-            },
-            {
-              label:yyy[1].Jisa,
-              borderColor: '#5CE082',
-              //backgroundColor:"rgba(92,224,130,.1)",
-              data: yyy[1].vocSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-            },
-            {
-              label: yyy[2].Jisa,
-              borderColor: '#F7E872',
-              //backgroundColor:"rgba(0,179,0,.1)",
-              data: yyy[2].vocSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-            },
+          {
+            label: yyy[3].Bonbu,
+            borderColor: '#E0815C',
+            backgroundColor:"transparent",
+            data: yyy[3].vocSum,
+            fill:false,
+            tension:.3,
+            pointHoverBorderColor:'#ff0000',
+          },
 
-            {
-              label: yyy[3].Jisa,
-              borderColor: '#E0815C',
-              backgroundColor:"transparent",
-              data: yyy[3].vocSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-            },
+          {
+            label: yyy[4].Bonbu,
+            borderColor: '#C641FF',
+            backgroundColor:"transparent",
+            data: yyy[4].vocSum,
+            fill:false,
+            tension:.3,
+            pointHoverBorderColor:'#ff0000',
+          },
 
-            {
-              label: yyy[4].Jisa,
-              borderColor: '#C641FF',
-              backgroundColor:"transparent",
-              data: yyy[4].vocSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-            },
+          {
+            label: yyy[5].Bonbu,
+            borderColor: '#C6aEFF',
+            backgroundColor:"transparent",
+            data: yyy[5].vocSum,
+            fill:false,
+            tension:.3,
+            pointHoverBorderColor:'#ff0000',
+          },
 
-          ]
-        }
-      }
+          {
+            label: yyy[6].Bonbu,
+            borderColor: '#115924',
+            backgroundColor:"transparent",
+            data: yyy[6].vocSum,
+            fill:false,
+            tension:.3,
+            pointHoverBorderColor:'#ff0000',
+          },
 
-      if(this.propsbonbu==='강남고객본부'||this.propsbonbu==='충남/충북고객본부'||this.propsbonbu==='대구/경북고객본부'){
-        this.dataCollection = {
-          labels:yyy[2].basedate.map((day)=>day.substring(5,10)),
-          datasets: [
-            {
-              label:yyy[0].Jisa,     // 범례
-              borderColor: '#6697F8',          
-              //backgroundColor:"#6697F8",
-              //backgroundColor:'rgba(56,56,155,0.3)',
-              data: yyy[0].vocSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-              //borderWidth:1,
-
-            },
-            {
-              label:yyy[1].Jisa,
-              borderColor: '#5CE082',
-              //backgroundColor:"rgba(92,224,130,.1)",
-              data: yyy[1].vocSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-            },
-            {
-              label: yyy[2].Jisa,
-              borderColor: '#F7E872',
-              //backgroundColor:"rgba(0,179,0,.1)",
-              data: yyy[2].vocSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-            },
-
-            {
-              label: yyy[3].Jisa,
-              borderColor: '#E0815C',
-              backgroundColor:"transparent",
-              data: yyy[3].vocSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-            },
-
-            {
-              label: yyy[4].Jisa,
-              borderColor: '#C641FF',
-              backgroundColor:"transparent",
-              data: yyy[4].vocSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-            },
-
-            {
-              label: yyy[5].Jisa,
-              borderColor: '#C6aEFF',
-              backgroundColor:"transparent",
-              data: yyy[5].vocSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-            },
-
-            // {
-            //   label: yyy[6].Jisa,
-            //   borderColor: '#115924',
-            //   backgroundColor:"transparent",
-            //   data: yyy[6].vocSum,
-            //   fill:false,
-            //   tension:.3,
-            //   pointHoverBorderColor:'#ff0000',
-            // },
-
-          ]
-        }
-      }
-
-      if(this.propsbonbu==='부산/경남고객본부'||this.propsbonbu==='서부고객본부'){
-        this.dataCollection = {
-          labels:yyy[2].basedate.map((day)=>day.substring(5,10)),
-          datasets: [
-            {
-              label:yyy[0].Jisa,     // 범례
-              borderColor: '#6697F8',          
-              //backgroundColor:"#6697F8",
-              //backgroundColor:'rgba(56,56,155,0.3)',
-              data: yyy[0].vocSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-              //borderWidth:1,
-
-            },
-            {
-              label:yyy[1].Jisa,
-              borderColor: '#5CE082',
-              //backgroundColor:"rgba(92,224,130,.1)",
-              data: yyy[1].vocSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-            },
-            {
-              label: yyy[2].Jisa,
-              borderColor: '#F7E872',
-              //backgroundColor:"rgba(0,179,0,.1)",
-              data: yyy[2].vocSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-            },
-
-            {
-              label: yyy[3].Jisa,
-              borderColor: '#E0815C',
-              backgroundColor:"transparent",
-              data: yyy[3].vocSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-            },
-
-            {
-              label: yyy[4].Jisa,
-              borderColor: '#C641FF',
-              backgroundColor:"transparent",
-              data: yyy[4].vocSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-            },
-
-            {
-              label: yyy[5].Jisa,
-              borderColor: '#C6aEFF',
-              backgroundColor:"transparent",
-              data: yyy[5].vocSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-            },
-
-            {
-              label: yyy[6].Jisa,
-              borderColor: '#115924',
-              backgroundColor:"transparent",
-              data: yyy[6].vocSum,
-              fill:false,
-              tension:.3,
-              pointHoverBorderColor:'#ff0000',
-            },
-
-          ]
-        }
+          {
+            label: yyy[7].Bonbu,
+            borderColor: '#441159',
+            backgroundColor:"transparent",
+            data: yyy[7].vocSum,
+            fill:false,
+            tension:.3,
+            pointHoverBorderColor:'#ff0000',
+          },
+        ]
       }
       
      
     },  //fillData()
 
     getBonbuDataValue(){    
-      let jisaDataArray=[];
+      let bonbuDataArray=[];
 
-      let firstJisaObj={};
-      let secondJisaObj={};
-      let thirdJisaObj={};
-      let fourthJisaObj={};
-      let fifthJisaObj={};
-      let sixthJisaObj={};
-      let seventhJisaObj={};
-      let eighthJisaObj={};
+      let firstBonbuObj={};
+      let secondBonbuObj={};
+      let thirdBonbuObj={};
+      let fourthBonbuObj={};
+      let fifthBonbuObj={};
+      let sixthBonbuObj={};
+      let seventhBonbuObj={};
+      let eighthBonbuObj={};
 
-      let firstJisa='';
-      let secondJisa='';
-      let thirdJisa='';
-      let fourthJisa='';
-      let fifthJisa='';
-      let sixthJisa='';
-      let seventhJisa='';
-      let eighthJisa='';
        
-     
-      let firstOneJisaArray=[];
-      let secondOneJisaArray=[];
-      let thirdOneJisaArray=[];
-      let fourthOneJisaArray=[];
-      let fifthOneJisaArray=[];
+      const firstBonbuName='북부고객본부';
+      const secondBonbuName='동부고객본부';
+      const thirdBonbuName='강남고객본부';
+      const fourthBonbuName='충남/충북고객본부';
+      const fifthBonbuName='대구/경북고객본부';
+      const sixthBonbuName='부산/경남고객본부';
+      const seventhBonbuName='전남/전북고객본부';
+      const eighthBonbuName='서부고객본부';
 
-      let firstTwoJisaArray=[];
-      let secondTwoJisaArray=[];
-      let thirdTwoJisaArray=[];
-      let fourthTwoJisaArray=[];
-      let fifthTwoJisaArray=[];
-
-      let firstThreeJisaArray=[];
-      let secondThreeJisaArray=[];
-      let thirdThreeJisaArray=[];
-      let fourthThreeJisaArray=[];
-      let fifthThreeJisaArray=[];
-      let sixthThreeJisaArray=[];
-
-      let firstFourJisaArray=[];
-      let secondFourJisaArray=[];
-      let thirdFourJisaArray=[];
-      let fourthFourJisaArray=[];
-      let fifthFourJisaArray=[];
-      let sixthFourJisaArray=[];
-
-      let firstFiveJisaArray=[];
-      let secondFiveJisaArray=[];
-      let thirdFiveJisaArray=[];
-      let fourthFiveJisaArray=[];
-      let fifthFiveJisaArray=[];
-      let sixthFiveJisaArray=[];
-
-      let firstSixJisaArray=[];
-      let secondSixJisaArray=[];
-      let thirdSixJisaArray=[];
-      let fourthSixJisaArray=[];
-      let fifthSixJisaArray=[];
-      let sixthSixJisaArray=[];
-      let seventhSixJisaArray=[];
-
-      let firstSevenJisaArray=[];
-      let secondSevenJisaArray=[];
-      let thirdSevenJisaArray=[];
-      let fourthSevenJisaArray=[];
-      let fifthSevenJisaArray=[];
-      let sixthSevenJisaArray=[];
-      let seventhSevenJisaArray=[];
-    
-    
-      let firstEightJisaArray=[];
-      let secondEightJisaArray=[];
-      let thirdEightJisaArray=[];
-      let fourthEightJisaArray=[];
-      let fifthEightJisaArray=[];
-      let sixthEightJisaArray=[];
-      let seventhEightJisaArray=[];
-      let eighthEightJisaArray=[];
-    
+      let firstBonbuArray=[];
+      let secondBonbuArray=[];
+      let thirdBonbuArray=[];
+      let fourthBonbuArray=[];
+      let fifthBonbuArray=[];
+      let sixthBonbuArray=[];
+      let seventhBonbuArray=[];
+      let eighthBonbuArray=[];
 
            
       let dateKeyArray=[];
@@ -639,551 +395,329 @@ export default {
         dateKeyArray.push(this.displayDateText2(new Date(this.selectedStartNewDate.setDate(this.selectedStartNewDate.getDate()+1))));  //조회 날자를 배열로 만들고 형식을 '2021-04-01' 형식으로 변경
       }
 
+        
       this.bonbuSalesData.map((item,index)=>{
-        if(item.jojik2_name==='북부고객본부'){
-          firstJisa='고양지사';
-          secondJisa='광진지사';
-          thirdJisa='광화문지사';
-          fourthJisa='노원지사';
-          fifthJisa='서대문지사';
-
-          if(item.jojik3_name===firstJisa){
-            firstOneJisaArray.push({'jisa':firstJisa,'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});  //date혈식을 '2021-04-01' 문자열로
-          }
-          if(item.jojik3_name===secondJisa){
-            secondOneJisaArray.push({'jisa':secondJisa,'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===thirdJisa){
-            thirdOneJisaArray.push({'jisa':thirdJisa,'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===fourthJisa){
-            fourthOneJisaArray.push({'jisa':fourthJisa,'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===fifthJisa){
-            fifthOneJisaArray.push({'jisa':fifthJisa,'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
+          
+        if(item.jojik2_name===firstBonbuName){
+          firstBonbuArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});  //date혈식을 '2021-04-01' 문자열로
+           
         }
-                  
-        if(item.jojik2_name==='동부고객본부'){
-          firstJisa='강릉지사';
-          secondJisa='구리지사';
-          thirdJisa='원주지사';
-          fourthJisa='의정부지사';
-          fifthJisa='춘천지사';
+        if(item.jojik2_name===secondBonbuName){
+          secondBonbuArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+        }
 
-          if(item.jojik3_name===firstJisa){
-            firstTwoJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});  //date혈식을 '2021-04-01' 문자열로
-          }
-          if(item.jojik3_name===secondJisa){
-            secondTwoJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
+        if(item.jojik2_name===thirdBonbuName){
+          thirdBonbuArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+        }
 
-          if(item.jojik3_name===thirdJisa){
-            thirdTwoJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
+        if(item.jojik2_name===fourthBonbuName){
+          fourthBonbuArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+        }
 
-          if(item.jojik3_name===fourthJisa){
-            fourthTwoJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
+        if(item.jojik2_name===fifthBonbuName){
+          fifthBonbuArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+        }
 
-          if(item.jojik3_name===fifthJisa){
-            fifthTwoJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-        } 
-          
-        if(item.jojik2_name==='강남고객본부'){
-          firstJisa='강남지사';
-          secondJisa='분당지사';
-          thirdJisa='송파지사';
-          fourthJisa='수원지사';
-          fifthJisa='용인지사';
-          sixthJisa='평택지사';
+        if(item.jojik2_name===sixthBonbuName){
+          sixthBonbuArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+        }
 
-          if(item.jojik3_name===firstJisa){
-            firstThreeJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});  //date혈식을 '2021-04-01' 문자열로
-          }
-          if(item.jojik3_name===secondJisa){
-            secondThreeJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===thirdJisa){
-            thirdThreeJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===fourthJisa){
-            fourthThreeJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===fifthJisa){
-            fifthThreeJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===sixthJisa){
-            sixthThreeJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-        } 
-          
-        if(item.jojik2_name==='충남/충북고객본부'){
-          firstJisa='대전지사';
-          secondJisa='서대전지사';
-          thirdJisa='천안지사';
-          fourthJisa='청주지사';
-          fifthJisa='충주지사';
-          sixthJisa='홍성지사';
-
-          if(item.jojik3_name===firstJisa){
-            firstFourJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});  //date혈식을 '2021-04-01' 문자열로
-          }
-          if(item.jojik3_name===secondJisa){
-            secondFourJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===thirdJisa){
-            thirdFourJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===fourthJisa){
-            fourthFourJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===fifthJisa){
-            fifthFourJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===sixthJisa){
-            sixthFourJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-        } 
-
-        if(item.jojik2_name==='대구/경북고객본부'){
-          firstJisa='구미지사';
-          secondJisa='달서지사';
-          thirdJisa='동대구지사';
-          fourthJisa='서대구지사';
-          fifthJisa='안동지사';
-          sixthJisa='포항지사';
-
-          if(item.jojik3_name===firstJisa){
-            firstFiveJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});  //date혈식을 '2021-04-01' 문자열로
-          }
-          if(item.jojik3_name===secondJisa){
-            secondFiveJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===thirdJisa){
-            thirdFiveJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===fourthJisa){
-            fourthFiveJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===fifthJisa){
-            fifthFiveJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===sixthJisa){
-            sixthFiveJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-        } 
-
-        if(item.jojik2_name==='부산/경남고객본부'){
-          firstJisa='남부산지사';
-          secondJisa='동부산지사';
-          thirdJisa='북부산지사';
-          fourthJisa='서부산지사';
-          fifthJisa='울산지사';
-          sixthJisa='진주지사';
-          seventhJisa='창원지사';
-
-          if(item.jojik3_name===firstJisa){
-            firstSixJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});  //date혈식을 '2021-04-01' 문자열로
-          }
-          if(item.jojik3_name===secondJisa){
-            secondSixJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===thirdJisa){
-            thirdSixJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===fourthJisa){
-            fourthSixJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===fifthJisa){
-            fifthSixJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===sixthJisa){
-            sixthSixJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-          if(item.jojik3_name===seventhJisa){
-            sixthSixJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-        } 
-
-        if(item.jojik2_name==='전남/전북고객본부'){
-          firstJisa='광주지사';
-          secondJisa='목포지사';
-          thirdJisa='순천지사';
-          fourthJisa='익산지사';
-          fifthJisa='전주지사';
-
-          if(item.jojik3_name===firstJisa){
-            firstSevenJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});  //date혈식을 '2021-04-01' 문자열로
-          }
-          if(item.jojik3_name===secondJisa){
-            secondSevenJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===thirdJisa){
-            thirdSevenJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===fourthJisa){
-            fourthSevenJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===fifthJisa){
-            fifthSevenJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-       
-        } 
-
-        if(item.jojik2_name==='서부고객본부'){
-          firstJisa='강서지사';
-          secondJisa='구로지사';
-          thirdJisa='부천지사';
-          fourthJisa='서인천지사';
-          fifthJisa='안산지사';
-          sixthJisa='안양지사';
-          seventhJisa='인천지사';
-
-          if(item.jojik3_name===firstJisa){
-            firstEightJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});  //date혈식을 '2021-04-01' 문자열로
-          }
-          if(item.jojik3_name===secondJisa){
-            secondEightJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===thirdJisa){
-            thirdEightJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===fourthJisa){
-            fourthEightJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }
-
-          if(item.jojik3_name===fifthJisa){
-            fifthEightJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
-          }     
-        } 
+        if(item.jojik2_name===seventhBonbuName){
+          seventhBonbuArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+        }   
+        
+        if(item.jojik2_name===eighthBonbuName){
+          eighthBonbuArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});
+        }   
       });
-  
 
       const diffDateArray=(a,b)=>a.filter(x=>!b.includes(x));  // 두 배열에서 중복을 제거하고 남은 요소를 다시 배열로.
 
    
       //일자별로 실적 카운트 객체 만들기
-      // console.log('firstOne jisa',Object.values([...firstOneJisaArray,...secondOneJisaArray]));
 
-      // let firstBonbuDatePlusCntArray=Object.values([...firstOneJisaArray,...secondOneJisaArray].reduce((acc,{jisa,date,cnt})=>{
-        
-      //   if(acc[date]) {
-      //     acc[date].cnt+=parseInt(cnt);
-          
-      //   }else{
-      //     acc[date]={date,cnt:parseInt(cnt)};
-      //   }
+      let firstBonbuDatePlusCntArray=Object.values(firstBonbuArray.reduce((acc,{date,cnt})=>{
+      
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
        
-      //   return acc;
-      // },{}));
+        return acc;
+      },{}));
 
-      // console.log('xxx',firstBonbuDatePlusCntArray);
+      
+      let firstImsiArray=[];   
+      for (let i=0;i<firstBonbuDatePlusCntArray.length;i++){
+        firstImsiArray.push(firstBonbuDatePlusCntArray[i].date);
+      }
+      firstImsiArray=diffDateArray(dateKeyArray,firstImsiArray);
+      for(let i=0;i<firstImsiArray.length;i++){                               //voc발생건수가 0인 날자도 포함하여 그래프 데이터로 사용.
+        firstBonbuDatePlusCntArray.push({'date':firstImsiArray[i],'cnt':0});
+      }
 
-      let firstBonbuDatePlusCntArray=[...firstOneJisaArray,...secondOneJisaArray,...thirdOneJisaArray,...fourthOneJisaArray,...fifthOneJisaArray];
-      let secondBonbuDatePlusCntArray=[...firstTwoJisaArray,...secondTwoJisaArray,...thirdTwoJisaArray,...fourthTwoJisaArray,...fifthTwoJisaArray];
-      let thirdBonbuDatePlusCntArray=[...firstThreeJisaArray,...secondThreeJisaArray,...thirdThreeJisaArray,...fourthThreeJisaArray,...fifthThreeJisaArray,...sixthThreeJisaArray];
      
-
-
-      // let firstImsiArray=[];   
-      // for (let i=0;i<firstBonbuDatePlusCntArray.length;i++){
-      //   firstImsiArray.push(firstBonbuDatePlusCntArray[i].date);
-      // }
-      // firstImsiArray=diffDateArray(dateKeyArray,firstImsiArray);
-      // for(let i=0;i<firstImsiArray.length;i++){                               //voc발생건수가 0인 날자도 포함하여 그래프 데이터로 사용.
-      //   firstBonbuDatePlusCntArray.push({'date':firstImsiArray[i],'cnt':0});
-      // }
-      // console.log('firstJisaDatePlusCntArray',firstJisaDatePlusCntArray);
-
-      // let secondJisaDatePlusCntArray=Object.values([...secondJisaArray].reduce((acc,{date,cnt})=>{
+      let secondBonbuDatePlusCntArray=Object.values([...secondBonbuArray].reduce((acc,{date,cnt})=>{
       
-      //   if(acc[date]) acc[date].cnt+=parseInt(cnt);
-      //   else acc[date]={date,cnt:parseInt(cnt)};  
-      //   return acc;
-      // },{}));
-
-      // let secondImsiArray=[];
-      // for(let i=0;i<secondJisaDatePlusCntArray.length;i++){
-      //   secondImsiArray.push(secondJisaDatePlusCntArray[i].date);
-      // }
-      // secondImsiArray=diffDateArray(dateKeyArray,secondImsiArray);
-      // for(let i=0;i<secondImsiArray.length;i++){
-      //   secondJisaDatePlusCntArray.push({'date':secondImsiArray[i],'cnt':0});
-      // }
-
-      // let thirdJisaDatePlusCntArray=Object.values([...thirdJisaArray].reduce((acc,{date,cnt})=>{
-      
-      //   if(acc[date]) acc[date].cnt+=parseInt(cnt);
-      //   else acc[date]={date,cnt:parseInt(cnt)};
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
        
-      //   return acc;
-      // },{}));
+        return acc;
+      },{}));
 
-      // let thirdImsiArray=[];
-      // for(let i=0;i<thirdJisaDatePlusCntArray.length;i++){
-      //   thirdImsiArray.push(thirdJisaDatePlusCntArray[i].date);
-      // }
-      // thirdImsiArray=diffDateArray(dateKeyArray,thirdImsiArray);
-      // for(let i=0;i<thirdImsiArray.length;i++){
-      //   thirdJisaDatePlusCntArray.push({'date':thirdImsiArray[i],'cnt':0});
-      // }
+      let secondImsiArray=[];
+      for(let i=0;i<secondBonbuDatePlusCntArray.length;i++){
+        secondImsiArray.push(secondBonbuDatePlusCntArray[i].date);
+      }
+      secondImsiArray=diffDateArray(dateKeyArray,secondImsiArray);
+      for(let i=0;i<secondImsiArray.length;i++){
+        secondBonbuDatePlusCntArray.push({'date':secondImsiArray[i],'cnt':0});
+      }
 
-
-      // let fourthJisaDatePlusCntArray=Object.values([...fourthJisaArray].reduce((acc,{date,cnt})=>{
+      let thirdBonbuDatePlusCntArray=Object.values([...thirdBonbuArray].reduce((acc,{date,cnt})=>{
       
-      //   if(acc[date]) acc[date].cnt+=parseInt(cnt);
-      //   else acc[date]={date,cnt:parseInt(cnt)};
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
        
-      //   return acc;
-      // },{}));
+        return acc;
+      },{}));
 
-      // let fourthImsiArray=[];
-      // for(let i=0;i<fourthJisaDatePlusCntArray.length;i++){
-      //   fourthImsiArray.push(fourthJisaDatePlusCntArray[i].date);
-      // }
-      // fourthImsiArray=diffDateArray(dateKeyArray,fourthImsiArray);
-      // for(let i=0;i<thirdImsiArray.length;i++){
-      //   fourthJisaDatePlusCntArray.push({'date':fourthImsiArray[i],'cnt':0});
-      // }
+      let thirdImsiArray=[];
+      for(let i=0;i<thirdBonbuDatePlusCntArray.length;i++){
+        thirdImsiArray.push(thirdBonbuDatePlusCntArray[i].date);
+      }
+      thirdImsiArray=diffDateArray(dateKeyArray,thirdImsiArray);
+      for(let i=0;i<thirdImsiArray.length;i++){
+        thirdBonbuDatePlusCntArray.push({'date':thirdImsiArray[i],'cnt':0});
+      }
 
-      // let fifthJisaDatePlusCntArray=Object.values([...fifthJisaArray].reduce((acc,{date,cnt})=>{
+
+      let fourthBonbuDatePlusCntArray=Object.values([...fourthBonbuArray].reduce((acc,{date,cnt})=>{
       
-      //   if(acc[date]) acc[date].cnt+=parseInt(cnt);
-      //   else acc[date]={date,cnt:parseInt(cnt)};
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
        
-      //   return acc;
-      // },{}));
+        return acc;
+      },{}));
 
-      // let fifthImsiArray=[];
-      // for(let i=0;i<fifthJisaDatePlusCntArray.length;i++){
-      //   fifthImsiArray.push(fifthJisaDatePlusCntArray[i].date);
-      // }
-      // fifthImsiArray=diffDateArray(dateKeyArray,fifthImsiArray);
-      // for(let i=0;i<fifthImsiArray.length;i++){
-      //   fifthJisaDatePlusCntArray.push({'date':fifthImsiArray[i],'cnt':0});
-      // }
+      let fourthImsiArray=[];
+      for(let i=0;i<fourthBonbuDatePlusCntArray.length;i++){
+        fourthImsiArray.push(fourthBonbuDatePlusCntArray[i].date);
+      }
+      fourthImsiArray=diffDateArray(dateKeyArray,fourthImsiArray);
+      for(let i=0;i<thirdImsiArray.length;i++){
+        fourthBonbuDatePlusCntArray.push({'date':fourthImsiArray[i],'cnt':0});
+      }
 
-      // let sixthJisaDatePlusCntArray=Object.values([...sixthJisaArray].reduce((acc,{date,cnt})=>{
+      let fifthBonbuDatePlusCntArray=Object.values([...fifthBonbuArray].reduce((acc,{date,cnt})=>{
       
-      //   if(acc[date]) acc[date].cnt+=parseInt(cnt);
-      //   else acc[date]={date,cnt:parseInt(cnt)};
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
        
-      //   return acc;
-      // },{}));
+        return acc;
+      },{}));
 
-      // let sixthImsiArray=[];
-      // for(let i=0;i<sixthJisaDatePlusCntArray.length;i++){
-      //   sixthImsiArray.push(sixthJisaDatePlusCntArray[i].date);
-      // }
-      // sixthImsiArray=diffDateArray(dateKeyArray,sixthImsiArray);
-      // for(let i=0;i<sixthImsiArray.length;i++){
-      //   sixthJisaDatePlusCntArray.push({'date':sixthImsiArray[i],'cnt':0});
-      // }
+      let fifthImsiArray=[];
+      for(let i=0;i<fifthBonbuDatePlusCntArray.length;i++){
+        fifthImsiArray.push(fifthBonbuDatePlusCntArray[i].date);
+      }
+      fifthImsiArray=diffDateArray(dateKeyArray,fifthImsiArray);
+      for(let i=0;i<fifthImsiArray.length;i++){
+        fifthBonbuDatePlusCntArray.push({'date':fifthImsiArray[i],'cnt':0});
+      }
 
-      // let seventhJisaDatePlusCntArray=Object.values([...seventhJisaArray].reduce((acc,{date,cnt})=>{
+      let sixthBonbuDatePlusCntArray=Object.values([...sixthBonbuArray].reduce((acc,{date,cnt})=>{
       
-      //   if(acc[date]) acc[date].cnt+=parseInt(cnt);
-      //   else acc[date]={date,cnt:parseInt(cnt)};
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
        
-      //   return acc;
-      // },{}));
+        return acc;
+      },{}));
 
-      // let seventhImsiArray=[];
-      // for(let i=0;i<seventhJisaDatePlusCntArray.length;i++){
-      //   seventhImsiArray.push(seventhJisaDatePlusCntArray[i].date);
-      // }
-      // seventhImsiArray=diffDateArray(dateKeyArray,seventhImsiArray);
-      // for(let i=0;i<seventhImsiArray.length;i++){
-      //   seventhJisaDatePlusCntArray.push({'date':seventhImsiArray[i],'cnt':0});
-      // }
+      let sixthImsiArray=[];
+      for(let i=0;i<sixthBonbuDatePlusCntArray.length;i++){
+        sixthImsiArray.push(sixthBonbuDatePlusCntArray[i].date);
+      }
+      sixthImsiArray=diffDateArray(dateKeyArray,sixthImsiArray);
+      for(let i=0;i<sixthImsiArray.length;i++){
+        sixthBonbuDatePlusCntArray.push({'date':sixthImsiArray[i],'cnt':0});
+      }
 
-      // let eighthJisaDatePlusCntArray=Object.values([...eighthJisaArray].reduce((acc,{date,cnt})=>{
+      let seventhBonbuDatePlusCntArray=Object.values([...seventhBonbuArray].reduce((acc,{date,cnt})=>{
       
-      //   if(acc[date]) acc[date].cnt+=parseInt(cnt);
-      //   else acc[date]={date,cnt:parseInt(cnt)};
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
        
-      //   return acc;
-      // },{}));
+        return acc;
+      },{}));
 
-      // let eighthImsiArray=[];
-      // for(let i=0;i<eighthJisaDatePlusCntArray.length;i++){
-      //   eighthImsiArray.push(eighthJisaDatePlusCntArray[i].date);
-      // }
-      // eighthImsiArray=diffDateArray(dateKeyArray,eighthImsiArray);
-      // for(let i=0;i<eighthImsiArray.length;i++){
-      //   eighthJisaDatePlusCntArray.push({'date':eighthImsiArray[i],'cnt':0});
-      // }
+      let seventhImsiArray=[];
+      for(let i=0;i<seventhBonbuDatePlusCntArray.length;i++){
+        seventhImsiArray.push(seventhBonbuDatePlusCntArray[i].date);
+      }
+      seventhImsiArray=diffDateArray(dateKeyArray,seventhImsiArray);
+      for(let i=0;i<seventhImsiArray.length;i++){
+        seventhBonbuDatePlusCntArray.push({'date':seventhImsiArray[i],'cnt':0});
+      }
+
+      let eighthBonbuDatePlusCntArray=Object.values([...eighthBonbuArray].reduce((acc,{date,cnt})=>{
+      
+        if(acc[date]) acc[date].cnt+=parseInt(cnt);
+        else acc[date]={date,cnt:parseInt(cnt)};
+       
+        return acc;
+      },{}));
+
+      let eighthImsiArray=[];
+      for(let i=0;i<eighthBonbuDatePlusCntArray.length;i++){
+        eighthImsiArray.push(eighthBonbuDatePlusCntArray[i].date);
+      }
+      eighthImsiArray=diffDateArray(dateKeyArray,eighthImsiArray);
+      for(let i=0;i<eighthImsiArray.length;i++){
+        eighthBonbuDatePlusCntArray.push({'date':eighthImsiArray[i],'cnt':0});
+      }
 
       //객체를 일자별로 오름차순으로 정렬하기
       const compare=(key)=>(a,b)=>{
         return a[key]>a[key]?1:a[key]<b[key]?-1:0;
       };
 
-      firstBonbuDatePlusCntArray=firstJisaDatePlusCntArray.sort(compare('date'));
-      secondBonbuDatePlusCntArray=secondJisaDatePlusCntArray.sort(compare('date'));
-      thirdBonbuDatePlusCntArray=thirdJisaDatePlusCntArray.sort(compare('date'));
-      // fourthJisaDatePlusCntArray=fourthJisaDatePlusCntArray.sort(compare('date'));
-      // fifthJisaDatePlusCntArray=fifthJisaDatePlusCntArray.sort(compare('date'));
-      // sixthJisaDatePlusCntArray=sixthJisaDatePlusCntArray.sort(compare('date'));
-      // seventhJisaDatePlusCntArray=seventhJisaDatePlusCntArray.sort(compare('date'));
-      // eighthJisaDatePlusCntArray=eighthJisaDatePlusCntArray.sort(compare('date'));
+      firstBonbuDatePlusCntArray=firstBonbuDatePlusCntArray.sort(compare('date'));
+      secondBonbuDatePlusCntArray=secondBonbuDatePlusCntArray.sort(compare('date'));
+      thirdBonbuDatePlusCntArray=thirdBonbuDatePlusCntArray.sort(compare('date'));
+      fourthBonbuDatePlusCntArray=fourthBonbuDatePlusCntArray.sort(compare('date'));
+      fifthBonbuDatePlusCntArray=fifthBonbuDatePlusCntArray.sort(compare('date'));
+      sixthBonbuDatePlusCntArray=sixthBonbuDatePlusCntArray.sort(compare('date'));
+      seventhBonbuDatePlusCntArray=seventhBonbuDatePlusCntArray.sort(compare('date'));
+      eighthBonbuDatePlusCntArray=eighthBonbuDatePlusCntArray.sort(compare('date'));
+
 
       
       //일자와 VOC합으로 일어진 객체를 별도 분리
-      let firstJisaNameArray=[];
-      let firstJisaDayArray=[];
-      let firstJisaDayCntArray=[];
 
-      let secondJisaNameArray=[];
-      let secondJisaDayArray=[];
-      let secondJisaDayCntArray=[];
+      let firstBonbuDayArray=[];
+      let firstBonbuDayCntArray=[];
 
-      let thirdJisaNameArray=[];
-      let thirdJisaDayArray=[];
-      let thirdJisaDayCntArray=[];
+      let secondBonbuDayArray=[];
+      let secondBonbuDayCntArray=[];
 
-      let fourthJisaDayArray=[];
-      let fourthJisaDayCntArray=[];
+      let thirdBonbuDayArray=[];
+      let thirdBonbuDayCntArray=[];
 
-      let fifthJisaDayArray=[];
-      let fifthJisaDayCntArray=[];
+      let fourthBonbuDayArray=[];
+      let fourthBonbuDayCntArray=[];
 
-      let sixthJisaDayArray=[];
-      let sixthJisaDayCntArray=[];
+      let fifthBonbuDayArray=[];
+      let fifthBonbuDayCntArray=[];
 
-      let seventhJisaDayArray=[];
-      let seventhJisaDayCntArray=[];
+      let sixthBonbuDayArray=[];
+      let sixthBonbuDayCntArray=[];
 
-      let eighthJisaDayArray=[];
-      let eighthJisaDayCntArray=[];
+      let seventhBonbuDayArray=[];
+      let seventhBonbuDayCntArray=[];
 
+      let eighthBonbuDayArray=[];
+      let eighthBonbuDayCntArray=[];
+
+     
       for(let i=0;i<firstBonbuDatePlusCntArray.length;i++){
-        firstJisaNameArray.push(firstBonbuDatePlusCntArray[i].jisa);
-        firstJisaDayArray.push(firstBonbuDatePlusCntArray[i].date);
-        firstJisaDayCntArray.push(firstBonbuDatePlusCntArray[i].cnt);   
+       
+        firstBonbuDayArray.push(firstBonbuDatePlusCntArray[i].date);
+        firstBonbuDayCntArray.push(firstBonbuDatePlusCntArray[i].cnt);   
+
       }
 
           
-      for(let i=0;i<secondBonbuDatePlusCntArray.length;i++){  
-        scondJisaNameArray.push(secondBonbuDatePlusCntArray[i].jisa);  
-        secondJisaDayArray.push(secondBonbuPlusCntArray[i].date);
-        secondJisaDayCntArray.push(secondBonbuDatePlusCntArray[i].cnt);          
+      for(let i=0;i<secondBonbuDatePlusCntArray.length;i++){
+       
+        secondBonbuDayArray.push(secondBonbuDatePlusCntArray[i].date);
+        secondBonbuDayCntArray.push(secondBonbuDatePlusCntArray[i].cnt);          
       }
 
-      for(let i=0;i<thirdBonbuDatePlusCntArray.length;i++){     
-        thirdJisaNameArray.push(thirdBonbuDatePlusCntArray[i].jisa);
-        thirdJisaDayArray.push(thirdBonbuDatePlusCntArray[i].date);
-        thirdJisaDayCntArray.push(thirdBonbuDatePlusCntArray[i].cnt);          
+      for(let i=0;i<thirdBonbuDatePlusCntArray.length;i++){
+       
+        thirdBonbuDayArray.push(thirdBonbuDatePlusCntArray[i].date);
+        thirdBonbuDayCntArray.push(thirdBonbuDatePlusCntArray[i].cnt);          
       }
 
-      console.log('zzzzz',thirdJisaDayArray);
-
-      // for(let i=0;i<fourthJisaDatePlusCntArray.length;i++){     
-      //   fourthJisaDayArray.push(fourthJisaDatePlusCntArray[i].date);
-      //   fourthJisaDayCntArray.push(fourthJisaDatePlusCntArray[i].cnt);          
-      // }
-
-      // for(let i=0;i<fifthJisaDatePlusCntArray.length;i++){
+      for(let i=0;i<fourthBonbuDatePlusCntArray.length;i++){
        
-      //   fifthJisaDayArray.push(fifthJisaDatePlusCntArray[i].date);
-      //   fifthJisaDayCntArray.push(fifthJisaDatePlusCntArray[i].cnt);          
-      // }
+        fourthBonbuDayArray.push(fourthBonbuDatePlusCntArray[i].date);
+        fourthBonbuDayCntArray.push(fourthBonbuDatePlusCntArray[i].cnt);          
+      }
 
-      // for(let i=0;i<sixthJisaDatePlusCntArray.length;i++){
+      for(let i=0;i<fifthBonbuDatePlusCntArray.length;i++){
        
-      //   sixthJisaDayArray.push(sixthJisaDatePlusCntArray[i].date);
-      //   sixthJisaDayCntArray.push(sixthJisaDatePlusCntArray[i].cnt);          
-      // }
+        fifthBonbuDayArray.push(fifthBonbuDatePlusCntArray[i].date);
+        fifthBonbuDayCntArray.push(fifthBonbuDatePlusCntArray[i].cnt);          
+      }
 
-      // for(let i=0;i<seventhJisaDatePlusCntArray.length;i++){
+      for(let i=0;i<sixthBonbuDatePlusCntArray.length;i++){
        
-      //   seventhJisaDayArray.push(seventhJisaDatePlusCntArray[i].date);
-      //   seventhJisaDayCntArray.push(seventhJisaDatePlusCntArray[i].cnt);          
-      // }
-      // for(let i=0;i<eighthJisaDatePlusCntArray.length;i++){
+        sixthBonbuDayArray.push(sixthBonbuDatePlusCntArray[i].date);
+        sixthBonbuDayCntArray.push(sixthBonbuDatePlusCntArray[i].cnt);          
+      }
+
+      for(let i=0;i<seventhBonbuDatePlusCntArray.length;i++){
        
-      //   eighthJisaDayArray.push(eighthJisaDatePlusCntArray[i].date);
-      //   eighthJisaDayCntArray.push(eighthJisaDatePlusCntArray[i].cnt);          
-      // }
+        seventhBonbuDayArray.push(seventhBonbuDatePlusCntArray[i].date);
+        seventhBonbuDayCntArray.push(seventhBonbuDatePlusCntArray[i].cnt);          
+      }
+      for(let i=0;i<eighthBonbuDatePlusCntArray.length;i++){
+       
+        eighthBonbuDayArray.push(eighthBonbuDatePlusCntArray[i].date);
+        eighthBonbuDayCntArray.push(eighthBonbuDatePlusCntArray[i].cnt);          
+      }
 
      
-      firstJisaObj={
-        'Jisa':firstJisa,
-        'basedate':firstJisaDayArray,
-        'vocSum':firstJisaDayCntArray,
+      firstBonbuObj={
+        'Bonbu':firstBonbuName,
+        'basedate':firstBonbuDayArray,
+        'vocSum':firstBonbuDayCntArray,
       }
-      secondJisaObj={
-        'Jisa':secondJisa,
-        'basedate':secondJisaDayArray,
-        'vocSum':secondJisaDayCntArray,
+      secondBonbuObj={
+        'Bonbu':secondBonbuName,
+        'basedate':secondBonbuDayArray,
+        'vocSum':secondBonbuDayCntArray,
       }
 
-      thirdJisaObj={
-        'Jisa':thirdJisa,
-        'basedate':thirdJisaDayArray,
-        'vocSum':thirdJisaDayCntArray,
+      thirdBonbuObj={
+        'Bonbu':thirdBonbuName,
+        'basedate':thirdBonbuDayArray,
+        'vocSum':thirdBonbuDayCntArray,
       }
 
        
-      fourthJisaObj={
-        'Jisa':fourthJisa,
-        'basedate':fourthJisaDayArray,
-        'vocSum':fourthJisaDayCntArray,
+      fourthBonbuObj={
+        'Bonbu':fourthBonbuName,
+        'basedate':fourthBonbuDayArray,
+        'vocSum':fourthBonbuDayCntArray,
       }
-      fifthJisaObj={
-        'Jisa':fifthJisa,
-        'basedate':fifthJisaDayArray,
-        'vocSum':fifthJisaDayCntArray,
+      fifthBonbuObj={
+        'Bonbu':fifthBonbuName,
+        'basedate':fifthBonbuDayArray,
+        'vocSum':fifthBonbuDayCntArray,
       }
 
-      sixthJisaObj={
-        'Jisa':sixthJisa,
-        'basedate':sixthJisaDayArray,
-        'vocSum':sixthJisaDayCntArray,
+      sixthBonbuObj={
+        'Bonbu':sixthBonbuName,
+        'basedate':sixthBonbuDayArray,
+        'vocSum':sixthBonbuDayCntArray,
       }
       
-      seventhJisaObj={
-        'Jisa':seventhJisa,
-        'basedate':seventhJisaDayArray,
-        'vocSum':seventhJisaDayCntArray,
+      seventhBonbuObj={
+        'Bonbu':seventhBonbuName,
+        'basedate':seventhBonbuDayArray,
+        'vocSum':seventhBonbuDayCntArray,
       }
 
-      eighthJisaObj={
-        'Jisa':eighthJisa,
-        'basedate':eighthJisaDayArray,
-        'vocSum':eighthJisaDayCntArray,
+      eighthBonbuObj={
+        'Bonbu':eighthBonbuName,
+        'basedate':eighthBonbuDayArray,
+        'vocSum':eighthBonbuDayCntArray,
       }
 
-      jisaDataArray=[firstJisaObj,secondJisaObj,thirdJisaObj,fourthJisaObj,fifthJisaObj,sixthJisaObj,seventhJisaObj,eighthJisaObj];
+      bonbuDataArray=[firstBonbuObj,secondBonbuObj,thirdBonbuObj,fourthBonbuObj,fifthBonbuObj,sixthBonbuObj,seventhBonbuObj,eighthBonbuObj];
       
-      return jisaDataArray;
+      return bonbuDataArray;
     }
   }
 }      

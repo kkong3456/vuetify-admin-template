@@ -7,14 +7,15 @@
         <v-col>
           <vue-hotel-date-picker-sales />
         </v-col>
-        <!-- 본부별 조회(검색) -->
-        
+        <!-- 본부별 조회(검색) -->     
         <v-col>
           <!-- <template> -->
           <v-select
             v-model="selectedBonbu"
             :items="['북부고객본부', '동부고객본부', '서부고객본부', '강남고객본부','충남/충북고객본부','전남/전북고객본부','부산/경남고객본부','대구/경북고객본부']"
             label="광역본부"
+            outlined
+            prepend-inner-icon="mdi-content-copy"
              
             @change="changedBonbuProduct(selectedBonbu,selectedProduct)"
           >
@@ -41,6 +42,8 @@
             v-model="selectedProduct"             
             :items="['인터넷','미디어','무선']"
             label="상품"
+            outlined
+            prepend-inner-icon="mdi-content-copy"
               
             @change="changedBonbuProduct(selectedBonbu,selectedProduct)"
           >
@@ -346,9 +349,94 @@
             @bonbuNetData="bonbuNetDataFunc"
           />
         </v-col>
+      </v-row>  
+      <v-divider
+        class="ma-5"
+      /> 
+      <v-row>
+        <!-- 본부별 조회(검색) -->     
+        <v-col>
+          <!-- <template> -->
+          <v-select
+            v-model="selectedBonbu1"
+            :items="['북부고객본부', '동부고객본부', '서부고객본부', '강남고객본부','충남/충북고객본부','전남/전북고객본부','부산/경남고객본부','대구/경북고객본부']"
+            label="광역본부"
+            outlined
+            prepend-inner-icon="mdi-content-copy"
+          
+            class="mt-10"
+            @change="changedBonbu1(selectedBonbu1)"
+          />
+          <!-- </template> -->
+        </v-col>
+        <v-spacer />
+        <v-spacer />
+      </v-row>
+    
+      <!-- 본부 신규/해지/순증 인터넷 그래프-->
+      <v-row
+        class="mt-1"
+      >
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <p class="text-h6 text-center">
+            [ {{ selectedBonbu1 }} - 신규 - 인터넷 ]<br>
+            <span class="text-h6 text-center">
+              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
+              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
+            </span>
+          </p>
+          <jisa-sales-chart
+            ref="changeBonbu1"          
+            :propsdata="start"
+            :propsproduct="internet"
+          />
+        </v-col>
+    
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <p class="text-h6 text-center">
+            [ {{ selectedBonbu1 }} - 해지 - 인터넷]<br>
+            <span
+              class="text-center text-h6"
+            >
+              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
+              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
+            </span>
+          </p>
+          <jisa-sales-chart
+            ref="changeBonbu2"
+            :propsdata="end"
+            :propsproduct="internet"
+          />
+        </v-col>
+
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <p class="text-h6 text-center">
+            [ {{ selectedBonbu1 }} - 순증(NET) - 인터넷]<br>
+            <span
+              class="text-center text-h6"
+            >
+              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
+              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
+            </span>
+          </p>
+          <jisa-sales-chart
+            ref="changeBonbu3"
+            :propsdata="net"
+            :propsproduct="internet"
+          />
+        </v-col>
       </v-row>   
-    
-      <!-- 북부 신규/해지/순증 그래프-->
+
+      <!--  신규/해지/순증 미디어 그래프-->
       <v-row
         class="mt-5"
       >
@@ -357,17 +445,16 @@
           md="4"
         >
           <p class="text-h6 text-center">
-            [ 북부 - 신규 - {{ selectedProduct }}]<br>
+            [ {{ selectedBonbu1 }} - 신규 - 미디어]<br>
             <span class="text-h6 text-center">
               '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
           </p>
           <jisa-sales-chart
-            ref="changeProduct4"          
+            ref="changeBonbu4"          
             :propsdata="start"
-            :propsproduct="internet"
-            :propsbonbu="bugbu"
+            :propsproduct="tv"
           />
         </v-col>
     
@@ -376,73 +463,7 @@
           md="4"
         >
           <p class="text-h6 text-center">
-            [북부 - 해지 - {{ selectedProduct }}]<br>
-            <span
-              class="text-center text-h6"
-            >
-              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
-              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
-            </span>
-          </p>
-          <jisa-sales-chart
-            ref="changeProduct5"
-            :propsdata="end"
-            :propsproduct="internet"
-            :propsbonbu="bugbu"
-          />
-        </v-col>
-
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <p class="text-h6 text-center">
-            [북부 - 순증(NET) - {{ selectedProduct }}]<br>
-            <span
-              class="text-center text-h6"
-            >
-              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
-              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
-            </span>
-          </p>
-          <jisa-sales-chart
-            ref="changeProduct6"
-            :propsdata="net"
-            :propsproduct="internet"
-            :propsbonbu="bugbu"
-          />
-        </v-col>
-      </v-row>   
-
-      <!-- 동부 신규/해지/순증 그래프-->
-      <v-row
-        class="mt-5"
-      >
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <p class="text-h6 text-center">
-            [ 동부 - 신규 - {{ selectedProduct }}]<br>
-            <span class="text-h6 text-center">
-              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
-              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
-            </span>
-          </p>
-          <jisa-sales-chart
-            ref="changeProduct7"          
-            :propsdata="start"
-            :propsproduct="internet"
-            :propsbonbu="dongbu"
-          />
-        </v-col>
-    
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <p class="text-h6 text-center">
-            [ 동부 - 해지 - {{ selectedProduct }}]<br>
+            [ {{ selectedBonbu }} - 해지 - 미디어]<br>
             <span
               class="text-center text-h6"
             >
@@ -451,10 +472,9 @@
             </span>
           </p>
           <jisa-sales-chart 
-            ref="changeProduct8"
+            ref="changeBonbu5"
             :propsdata="end"
-            :propsproduct="internet"
-            :propsbonbu="dongbu"
+            :propsproduct="tv"
           />
         </v-col>
 
@@ -463,7 +483,7 @@
           md="4"
         >
           <p class="text-h6 text-center">
-            [ 동부 - 순증(NET) - {{ selectedProduct }}]<br>
+            [ {{ selectedBonbu }} - 순증(NET) - 미디어]<br>
             <span
               class="text-center text-h6"
             >
@@ -472,15 +492,14 @@
             </span>
           </p>
           <jisa-sales-chart
-            ref="changeProduct9"
+            ref="changeBonbu6"
             :propsdata="net"
-            :propsproduct="internet"
-            :propsbonbu="dongbu"
+            :propsproduct="tv"
           />
         </v-col>
       </v-row>
 
-      <!-- 강남 신규/해지/순증 그래프-->
+      <!-- 무선 신규/해지/순증 그래프-->
       <v-row
         class="mt-5"
       >
@@ -489,17 +508,16 @@
           md="4"
         >
           <p class="text-h6 text-center">
-            [ 강남 - 신규 - {{ selectedProduct }}]<br>
+            [ {{ selectedBonbu1 }} - 신규 - 무선 ]<br>
             <span class="text-h6 text-center">
               '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
           </p>
           <jisa-sales-chart
-            ref="changeProduct10"          
+            ref="changeBonbu7"          
             :propsdata="start"
-            :propsproduct="internet"
-            :propsbonbu="gangnam"
+            :propsproduct="wireless"
           />
         </v-col>
     
@@ -508,7 +526,7 @@
           md="4"
         >
           <p class="text-h6 text-center">
-            [ 강남 - 해지 - {{ selectedProduct }}]<br>
+            [ {{ selectedBonbu }} - 해지 - 무선]<br>
             <span
               class="text-center text-h6"
             >
@@ -517,10 +535,9 @@
             </span>
           </p>
           <jisa-sales-chart 
-            ref="changeProduct11"
+            ref="changeBonbu8"
             :propsdata="end"
-            :propsproduct="internet"
-            :propsbonbu="gangnam"
+            :propsproduct="wireless"
           />
         </v-col>
 
@@ -529,7 +546,7 @@
           md="4"
         >
           <p class="text-h6 text-center">
-            [ 강남 - 순증(NET) - {{ selectedProduct }}]<br>
+            [ {{ selectedBonbu }} - 순증(NET) - 무선]<br>
             <span
               class="text-center text-h6"
             >
@@ -538,340 +555,9 @@
             </span>
           </p>
           <jisa-sales-chart
-            ref="changeProduct12"
+            ref="changeBonbu9"
             :propsdata="net"
-            :propsproduct="internet"
-            :propsbonbu="gangnam"
-          />
-        </v-col>
-      </v-row>
-
-      <!-- 충남/충북 신규/해지/순증 그래프-->
-      <v-row
-        class="mt-5"
-      >
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <p class="text-h6 text-center">
-            [ 충남/충북 - 신규 - {{ selectedProduct }}]<br>
-            <span class="text-h6 text-center">
-              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
-              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
-            </span>
-          </p>
-          <jisa-sales-chart
-            ref="changeProduct13"          
-            :propsdata="start"
-            :propsproduct="internet"
-            :propsbonbu="chungnam"
-          />
-        </v-col>
-    
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <p class="text-h6 text-center">
-            [ 충남/충북 - 해지 - {{ selectedProduct }}]<br>
-            <span
-              class="text-center text-h6"
-            >
-              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
-              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
-            </span>
-          </p>
-          <jisa-sales-chart 
-            ref="changeProduct14"
-            :propsdata="end"
-            :propsproduct="internet"
-            :propsbonbu="chungnam"
-          />
-        </v-col>
-
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <p class="text-h6 text-center">
-            [ 충남/충북 - 순증(NET) - {{ selectedProduct }}]<br>
-            <span
-              class="text-center text-h6"
-            >
-              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
-              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
-            </span>
-          </p>
-          <jisa-sales-chart
-            ref="changeProduct15"
-            :propsdata="net"
-            :propsproduct="internet"
-            :propsbonbu="chungnam"
-          />
-        </v-col>
-      </v-row>
-
-      <!-- 대구/경북 신규/해지/순증 그래프-->
-      <v-row
-        class="mt-5"
-      >
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <p class="text-h6 text-center">
-            [ 대구/경북 - 신규 - {{ selectedProduct }}]<br>
-            <span class="text-h6 text-center">
-              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
-              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
-            </span>
-          </p>
-          <jisa-sales-chart
-            ref="changeProduct16"          
-            :propsdata="start"
-            :propsproduct="internet"
-            :propsbonbu="daegu"
-          />
-        </v-col>
-    
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <p class="text-h6 text-center">
-            [ 대구/경북 - 해지 - {{ selectedProduct }}]<br>
-            <span
-              class="text-center text-h6"
-            >
-              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
-              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
-            </span>
-          </p>
-          <jisa-sales-chart 
-            ref="changeProduct17"
-            :propsdata="end"
-            :propsproduct="internet"
-            :propsbonbu="daegu"
-          />
-        </v-col>
-
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <p class="text-h6 text-center">
-            [ 대구/경북 - 순증(NET) - {{ selectedProduct }}]<br>
-            <span
-              class="text-center text-h6"
-            >
-              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
-              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
-            </span>
-          </p>
-          <jisa-sales-chart
-            ref="changeProduct18"
-            :propsdata="net"
-            :propsproduct="internet"
-            :propsbonbu="daegu"
-          />
-        </v-col>
-      </v-row>
-
-      <!-- 부산/경남 신규/해지/순증 그래프-->
-      <v-row
-        class="mt-5"
-      >
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <p class="text-h6 text-center">
-            [ 부산/경남 - 신규 - {{ selectedProduct }}]<br>
-            <span class="text-h6 text-center">
-              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
-              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
-            </span>
-          </p>
-          <jisa-sales-chart
-            ref="changeProduct19"          
-            :propsdata="start"
-            :propsproduct="internet"
-            :propsbonbu="pusan"
-          />
-        </v-col>
-    
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <p class="text-h6 text-center">
-            [ 부산/경남 - 해지 - {{ selectedProduct }}]<br>
-            <span
-              class="text-center text-h6"
-            >
-              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
-              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
-            </span>
-          </p>
-          <jisa-sales-chart 
-            ref="changeProduct20"
-            :propsdata="end"
-            :propsproduct="internet"
-            :propsbonbu="pusan"
-          />
-        </v-col>
-
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <p class="text-h6 text-center">
-            [ 부산/경남 - 순증(NET) - {{ selectedProduct }}]<br>
-            <span
-              class="text-center text-h6"
-            >
-              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
-              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
-            </span>
-          </p>
-          <jisa-sales-chart
-            ref="changeProduct21"
-            :propsdata="net"
-            :propsproduct="internet"
-            :propsbonbu="pusan"
-          />
-        </v-col>
-      </v-row>
-
-      <!-- 전남/전북 신규/해지/순증 그래프-->
-      <v-row
-        class="mt-5"
-      >
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <p class="text-h6 text-center">
-            [ 전남/전북 - 신규 - {{ selectedProduct }}]<br>
-            <span class="text-h6 text-center">
-              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
-              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
-            </span>
-          </p>
-          <jisa-sales-chart
-            ref="changeProduct22"          
-            :propsdata="start"
-            :propsproduct="internet"
-            :propsbonbu="jeonam"
-          />
-        </v-col>
-    
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <p class="text-h6 text-center">
-            [ 전남/전북 - 해지 - {{ selectedProduct }}]<br>
-            <span
-              class="text-center text-h6"
-            >
-              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
-              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
-            </span>
-          </p>
-          <jisa-sales-chart 
-            ref="changeProduct23"
-            :propsdata="end"
-            :propsproduct="internet"
-            :propsbonbu="jeonam"
-          />
-        </v-col>
-
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <p class="text-h6 text-center">
-            [ 전남/전북 - 순증(NET) - {{ selectedProduct }}]<br>
-            <span
-              class="text-center text-h6"
-            >
-              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
-              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
-            </span>
-          </p>
-          <jisa-sales-chart
-            ref="changeProduct24"
-            :propsdata="net"
-            :propsproduct="internet"
-            :propsbonbu="jeonam"
-          />
-        </v-col>
-      </v-row>
-
-      <!-- 서부 신규/해지/순증 그래프-->
-      <v-row
-        class="mt-5"
-      >
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <p class="text-h6 text-center">
-            [ 서부 - 신규 - {{ selectedProduct }}]<br>
-            <span class="text-h6 text-center">
-              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
-              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
-            </span>
-          </p>
-          <jisa-sales-chart
-            ref="changeProduct25"          
-            :propsdata="start"
-            :propsproduct="internet"
-            :propsbonbu="seobu"
-          />
-        </v-col>
-    
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <p class="text-h6 text-center">
-            [ 서부 - 해지 - {{ selectedProduct }}]<br>
-            <span
-              class="text-center text-h6"
-            >
-              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
-              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
-            </span>
-          </p>
-          <jisa-sales-chart 
-            ref="changeProduct26"
-            :propsdata="end"
-            :propsproduct="internet"
-            :propsbonbu="seobu"
-          />
-        </v-col>
-
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <p class="text-h6 text-center">
-            [ 서부 - 순증(NET) - {{ selectedProduct }}]<br>
-            <span
-              class="text-center text-h6"
-            >
-              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
-              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
-            </span>
-          </p>
-          <jisa-sales-chart
-            ref="changeProduct27"
-            :propsdata="net"
-            :propsproduct="internet"
-            :propsbonbu="seobu"
+            :propsproduct="wireless"
           />
         </v-col>
       </v-row>
@@ -941,15 +627,6 @@ export default {
       internet:"인터넷",
       tv:"미디어",
       wireless:'무선',
-
-      bugbu:'북부고객본부',
-      dongbu:'동부고객본부',
-      gangnam:'강남고객본부',
-      chungnam:'충남/충북고객본부',
-      daegu:'대구/경북고객본부',
-      pusan:'부산/경남고객본부',
-      jeonam:'전남/전북고객본부',
-      seobu:'서부고객본부',
     }
   },
 
@@ -992,38 +669,16 @@ export default {
         return undefined
       }
     },
+    changedBonbu1(selectedBonbu1){
+      this.$refs.changeBonbu1.changedBonbu(selectedBonbu1);
+    },
     changedBonbuProduct(selectedBonbu,selectedProduct){
   
       this.$refs.changeProduct1.changeBonbuProduct(selectedBonbu,selectedProduct);  
       this.$refs.changeProduct2.changeBonbuProduct(selectedBonbu,selectedProduct);
       this.$refs.changeProduct3.changeBonbuProduct(selectedBonbu,selectedProduct);
 
-      this.$refs.changeProduct4.changeBonbuProdcut(selectedBonbu,selectedProduct);
-      this.$refs.changeProduct5.changeBonbuProdcut(selectedBonbu,selectedProduct);  
-      this.$refs.changeProduct6.changeBonbuProdcut(selectedBonbu,selectedProduct);
-      this.$refs.changeProduct7.changeBonbuProdcut(selectedBonbu,selectedProduct);
-      this.$refs.changeProduct8.changeBonbuProdcut(selectedBonbu,selectedProduct);
-      this.$refs.changeProduct9.changeBonbuProdcut(selectedBonbu,selectedProduct);
-      this.$refs.changeProduct10.changeBonbuProdcut(selectedBonbu,selectedProduct);  
-      this.$refs.changeProduct11.changeBonbuProdcut(selectedBonbu,selectedProduct);
-      this.$refs.changeProduct12.changeBonbuProdcut(selectedBonbu,selectedProduct);
-      this.$refs.changeProduct13.changeBonbuProdcut(selectedBonbu,selectedProduct);
-      this.$refs.changeProduct14.changeBonbuProdcut(selectedBonbu,selectedProduct);  
-      this.$refs.changeProduct15.changeBonbuProdcut(selectedBonbu,selectedProduct);
-      this.$refs.changeProduct16.changeBonbuProdcut(selectedBonbu,selectedProduct);
-      this.$refs.changeProduct17.changeBonbuProdcut(selectedBonbu,selectedProduct);
-      this.$refs.changeProduct18.changeBonbuProdcut(selectedBonbu,selectedProduct);
-      this.$refs.changeProduct19.changeBonbuProdcut(selectedBonbu,selectedProduct);
-      this.$refs.changeProduct20.changeBonbuProdcut(selectedBonbu,selectedProduct);
-      this.$refs.changeProduct21.changeBonbuProdcut(selectedBonbu,selectedProduct);  
-      this.$refs.changeProduct22.changeBonbuProdcut(selectedBonbu,selectedProduct);
-      this.$refs.changeProduct23.changeBonbuProdcut(selectedBonbu,selectedProduct);
-      this.$refs.changeProduct24.changeBonbuProdcut(selectedBonbu,selectedProduct);
-      this.$refs.changeProduct25.changeBonbuProdcut(selectedBonbu,selectedProduct);  
-      this.$refs.changeProduct26.changeBonbuProdcut(selectedBonbu,selectedProduct);
-      this.$refs.changeProduct27.changeBonbuProdcut(selectedBonbu,selectedProduct);
-
-      
+       
       if(this.selectedBonbu==='북부고객본부'){
         this.selectedJisaArray=['고양지사','광진지사','광화문지사','노원지사','서대문지사'];
         this.selectedJisa='고양지사';
@@ -1099,6 +754,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+  div.col{
+    padding-bottom:0;
+  }
 </style>
