@@ -62,7 +62,6 @@
           <!-- </template> -->
         </v-col>
         <v-spacer />
-        <v-spacer />
       </v-row>
      
       <v-row>
@@ -463,7 +462,7 @@
           md="4"
         >
           <p class="text-h6 text-center">
-            [ {{ selectedBonbu }} - 해지 - 미디어]<br>
+            [ {{ selectedBonbu1 }} - 해지 - 미디어]<br>
             <span
               class="text-center text-h6"
             >
@@ -483,7 +482,7 @@
           md="4"
         >
           <p class="text-h6 text-center">
-            [ {{ selectedBonbu }} - 순증(NET) - 미디어]<br>
+            [ {{ selectedBonbu1 }} - 순증(NET) - 미디어]<br>
             <span
               class="text-center text-h6"
             >
@@ -526,7 +525,7 @@
           md="4"
         >
           <p class="text-h6 text-center">
-            [ {{ selectedBonbu }} - 해지 - 무선]<br>
+            [ {{ selectedBonbu1 }} - 해지 - 무선]<br>
             <span
               class="text-center text-h6"
             >
@@ -546,7 +545,7 @@
           md="4"
         >
           <p class="text-h6 text-center">
-            [ {{ selectedBonbu }} - 순증(NET) - 무선]<br>
+            [ {{ selectedBonbu1 }} - 순증(NET) - 무선]<br>
             <span
               class="text-center text-h6"
             >

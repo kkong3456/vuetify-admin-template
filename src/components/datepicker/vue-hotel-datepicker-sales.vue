@@ -9,6 +9,7 @@
       type="text"
       class="vhd-input"
       aria-label="vue-hotel-datepicker-input"
+          
       @mousedown.prevent="toggle"
       @focus.prevent="toggle"
     >
@@ -556,7 +557,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .vhd-container{
-  border-bottom:1px solid #999999;
+  // border:1px solid #999999;
+  // height:55px;
+  // border-radius:10px;
 }
 @mixin mobile-vhd() {
   .vhd {
@@ -638,17 +641,20 @@ svg {
   &-container {
     display: inline-block;
     position: relative;
+    width:100%;
   }
   &-input {
-    min-width: 300px;
-    padding: 8px;
-    border: solid 1px #eeeeee;
+    max-width: 100%;
+    width:100%;
+    padding: 2px 80px 2px 20px;
+    border: solid 1px #999999;
+    border-radius:5px;
     color: #505050;
-    font-size: 16px;
-    line-height: 32px;
+    font-size: 1.2rem;
+    line-height: 50px;
     outline: none;
     &::placeholder {
-      color: #cccccc;
+      color: #ffcccc;
     }
   }
   &-picker {

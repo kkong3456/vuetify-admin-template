@@ -15,6 +15,8 @@
               v-model="selectedBonbu"
               :items="['북부고객본부', '동부고객본부']"
               label="광역본부"
+              prepend-inner-icon="mdi-content-copy"
+              outlined
               @change="changeBonbu(selectedBonbu)"
             >
               <template v-slot:item="{ item, attrs, on }">
@@ -38,6 +40,8 @@
               v-model="selectedJisa"             
               :items="selectedJisaArray"
               label="지사"
+              outlined
+              prepend-inner-icon="mdi-content-copy"
               @change="changeJisa(selectedJisa)"
             >
               <template v-slot:item="{ item, attrs, on }">
@@ -54,71 +58,7 @@
             </v-select>
           </template>
         </v-col>
-        <!-- (유선)지점명 조회 -->
-        <v-col>
-          <template>
-            <v-select
-              v-model="selectedJijum"             
-              :items="selectedJijumArray"
-              label="지점"
-            >
-              <template v-slot:item="{ item, attrs, on }">
-                <v-list-item
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <v-list-item-title
-                    :id="attrs['aria-labelledby']"
-                    v-text="item"
-                  />
-                </v-list-item>
-              </template>
-            </v-select>
-          </template>
-        </v-col>
-        <!-- VOC 유형별 조회 -->
-        <v-col>
-          <template>
-            <v-select
-              v-model="selectedItVocType"             
-              :items="selectedItVocTypeArray"
-              label="유선VOC유형"
-            >
-              <template v-slot:item="{ item, attrs, on }">
-                <v-list-item
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <v-list-item-title
-                    :id="attrs['aria-labelledby']"
-                    v-text="item"
-                  />
-                </v-list-item>
-              </template>
-            </v-select>
-          </template>
-        </v-col>
-        <v-col>
-          <template>
-            <v-select
-              v-model="selectedMobileVocType"             
-              :items="selectedMobileVocTypeArray"
-              label="무선VOC유형"
-            >
-              <template v-slot:item="{ item, attrs, on }">
-                <v-list-item
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <v-list-item-title
-                    :id="attrs['aria-labelledby']"
-                    v-text="item"
-                  />
-                </v-list-item>
-              </template>
-            </v-select>
-          </template>
-        </v-col>
+        <v-spacer />
       </v-row>
 
       <!-- 전체 cloud VOC -->

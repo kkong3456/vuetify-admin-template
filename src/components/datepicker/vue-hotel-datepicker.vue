@@ -556,7 +556,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .vhd-container{
-  border-bottom:1px solid #999999;
+  // border-bottom:1px solid #999999;
 }
 @mixin mobile-vhd() {
   .vhd {
@@ -638,14 +638,17 @@ svg {
   &-container {
     display: inline-block;
     position: relative;
+    width:100%;
   }
   &-input {
-    min-width: 300px;
-    padding: 8px;
-    border: solid 1px #eeeeee;
+    max-width: 100%;
+    width:100%;
+    padding: 3px 80px 3px 20px;
+    border: solid 1px #273442;
+    border-radius:5px;
     color: #505050;
-    font-size: 16px;
-    line-height: 32px;
+    font-size: 1.2rem;
+    line-height:50px;
     outline: none;
     &::placeholder {
       color: #cccccc;
