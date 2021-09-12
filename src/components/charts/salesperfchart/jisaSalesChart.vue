@@ -163,8 +163,7 @@ export default {
     // this.renderChart(this.dataCollection,this.options)
   },
   mounted(){
-
-    this.renderChart(this.dataCollection,this.options);
+    this.renderChart(this.dataCollection,this.options);  //chart render는 mount단계에서 처리해야 한다.SPA
   },
 
   methods: {
