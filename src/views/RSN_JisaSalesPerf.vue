@@ -592,7 +592,8 @@ export default {
     return{
       selectedBonbu:'북부고객본부',
       selectedJisaArray:['고양지사','광진지사','광화문지사','노원지사','서대문지사'],
-            
+      selectedBonbu1:'북부고객본부',    
+      
       selectedJisa:'고양지사',
       selectedJijum:'CS부',
      
@@ -669,10 +670,18 @@ export default {
         return undefined
       }
     },
-    changedBonbu1(selectedBonbu1){
+    changedBonbu1(selectedBonbu1){   //chart
       this.$refs.changeBonbu1.changedBonbu(selectedBonbu1);
+      this.$refs.changeBonbu2.changedBonbu(selectedBonbu1);
+      this.$refs.changeBonbu3.changedBonbu(selectedBonbu1);
+      this.$refs.changeBonbu4.changedBonbu(selectedBonbu1);
+      this.$refs.changeBonbu5.changedBonbu(selectedBonbu1);
+      this.$refs.changeBonbu6.changedBonbu(selectedBonbu1);
+      this.$refs.changeBonbu7.changedBonbu(selectedBonbu1);
+      this.$refs.changeBonbu8.changedBonbu(selectedBonbu1);
+      this.$refs.changeBonbu9.changedBonbu(selectedBonbu1);
     },
-    changedBonbuProduct(selectedBonbu,selectedProduct){
+    changedBonbuProduct(selectedBonbu,selectedProduct){  //테이블
   
       this.$refs.changeProduct1.changeBonbuProduct(selectedBonbu,selectedProduct);  
       this.$refs.changeProduct2.changeBonbuProduct(selectedBonbu,selectedProduct);
