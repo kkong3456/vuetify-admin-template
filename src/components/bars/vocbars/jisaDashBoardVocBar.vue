@@ -62,7 +62,8 @@ export default {
     propsdata:{
       type:String,
       default:undefined,
-    }
+    },
+  
   },
  
   data () {
@@ -268,7 +269,7 @@ export default {
         if(item.bonbu===selectedBonbu){
           if(item.jisa===firstJisaName){
             // firstJisaArray.push({'date':this.displayDateText2(item.sysdate),'cnt':item.count_sum});  //date혈식을 '2021-04-01' 문자열로
-            console.log('xxx');
+           
             firstJisaCountSum+=item.count_sum;
           }
           if(item.jisa===secondJisaName){

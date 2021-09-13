@@ -21,7 +21,8 @@ const bonbuJisaObj={
 
 const options={
   responsive:true,
-  maintainAspectRatio:true,
+  maintainAspectRatio:false,
+  height:1500,
   interaction:{
     interset:false,
   },

@@ -295,13 +295,24 @@
           cols="12"
           md="4"
         >
-          <p class="text-h6 text-center">
-            [ 신규 - {{ selectedProduct }}]<br>
+          <v-tooltip top>
+            <template v-slot:activator="{on,attrs}">
+              <span
+                v-bind="attrs"
+                v-on="on"
+              >
+                <p class="text-h6 text-center">
+                  [ 신규 - {{ selectedBonbu.substring(0,2) }} - {{ selectedProduct }}]
+                </p>
+              </span>
+            </template>
+           
             <span class="text-h6 text-center">
               '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
-          </p>
+          </v-tooltip>
+
           <jisa-sales-table 
             ref="changeProduct1"          
             :propsdata="start"
@@ -313,15 +324,23 @@
           cols="12"
           md="4"
         >
-          <p class="text-h6 text-center">
-            [해지 - {{ selectedProduct }}]<br>
-            <span
-              class="text-center text-h6"
-            >
+          <v-tooltip top>
+            <template v-slot:activator="{on,attrs}">
+              <span
+                v-bind="attrs"
+                v-on="on"
+              >
+                <p class="text-h6 text-center">
+                  [ 해지 - {{ selectedBonbu.substring(0,2) }} - {{ selectedProduct }}]
+                </p>
+              </span>
+            </template>
+           
+            <span class="text-h6 text-center">
               '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
-          </p>
+          </v-tooltip>
           <jisa-sales-table 
             ref="changeProduct2"
             :propsdata="end"
@@ -333,15 +352,23 @@
           cols="12"
           md="4"
         >
-          <p class="text-h6 text-center">
-            [순증(NET) - {{ selectedProduct }}]<br>
-            <span
-              class="text-center text-h6"
-            >
+          <v-tooltip top>
+            <template v-slot:activator="{on,attrs}">
+              <span
+                v-bind="attrs"
+                v-on="on"
+              >
+                <p class="text-h6 text-center">
+                  [ 순증(NET) - {{ selectedBonbu.substring(0,2) }} - {{ selectedProduct }}]
+                </p>
+              </span>
+            </template>
+           
+            <span class="text-h6 text-center">
               '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
-          </p>
+          </v-tooltip>
           <jisa-sales-table
             ref="changeProduct3"
             :propsdata="net"
@@ -356,12 +383,26 @@
           cols="12"
           md="6"
         >
-          <p class="text-h5 text-center">
-            [유선-해지징후 VOC]
-          </p>
+          <v-tooltip top>
+            <template v-slot:activator="{on,attrs}">
+              <span
+                v-bind="attrs"
+                v-on="on"
+              >
+                <p class="text-h6 text-center">
+                  [{{ selectedBonbu.substring(0,2) }} - 유선 - 해지징후 VOC ]
+                </p>
+              </span>
+            </template>
+           
+            <span class="text-h6 text-center">
+              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
+              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
+            </span>
+          </v-tooltip>
           <jisa-dash-board-voc-bar
             ref="changeProduct4"
-            height="100"
+            :height="100"
             :propsdata="rit"
           />
         </v-col>
@@ -369,12 +410,26 @@
           cols="12"
           md="6"
         >
-          <p class="text-h5 text-center">
-            [무선-해지징후 VOC]
-          </p>
+          <v-tooltip top>
+            <template v-slot:activator="{on,attrs}">
+              <span
+                v-bind="attrs"
+                v-on="on"
+              >
+                <p class="text-h6 text-center">
+                  [{{ selectedBonbu.substring(0,2) }} - 무선 - 해지징후 VOC ]
+                </p>
+              </span>
+            </template>
+           
+            <span class="text-h6 text-center">
+              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
+              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
+            </span>
+          </v-tooltip>
           <jisa-dash-board-voc-bar
             ref="changeProduct5"
-            height="100"
+            :height="100"
             :propsdata="rm"
           />
         </v-col>
@@ -386,12 +441,26 @@
           cols="12"
           md="6"
         >
-          <p class="text-h5 text-center">
-            [유선-품질 VOC]
-          </p>
+          <v-tooltip top>
+            <template v-slot:activator="{on,attrs}">
+              <span
+                v-bind="attrs"
+                v-on="on"
+              >
+                <p class="text-h6 text-center">
+                  [{{ selectedBonbu.substring(0,2) }} - 유선 - 품질 VOC ]
+                </p>
+              </span>
+            </template>
+           
+            <span class="text-h6 text-center">
+              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
+              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
+            </span>
+          </v-tooltip>
           <jisa-dash-board-voc-bar
-            ref="changeProduct4"
-            height="100"
+            ref="changeProduct6"
+            :height="100"
             :propsdata="qit"
           />
         </v-col>
@@ -399,12 +468,26 @@
           cols="12"
           md="6"
         >
-          <p class="text-h5 text-center">
-            [무선-품질 VOC]
-          </p>
+          <v-tooltip top>
+            <template v-slot:activator="{on,attrs}">
+              <span
+                v-bind="attrs"
+                v-on="on"
+              >
+                <p class="text-h6 text-center">
+                  [{{ selectedBonbu.substring(0,2) }} - 무선 - 품질 VOC ]
+                </p>
+              </span>
+            </template>
+           
+            <span class="text-h6 text-center">
+              '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
+              ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
+            </span>
+          </v-tooltip>
           <jisa-dash-board-voc-bar
-            ref="changeProduct5"
-            height="100"
+            ref="changeProduct7"
+            :height="100"
             :propsdata="qm"
           />
         </v-col>
@@ -486,6 +569,7 @@ export default {
       internet:"인터넷",
       tv:"미디어",
       wireless:'무선',
+
     }
   },
 
@@ -537,6 +621,8 @@ export default {
 
       this.$refs.changeProduct4.changeBonbuProduct(selectedBonbu,selectedProduct);  //bar
       this.$refs.changeProduct5.changeBonbuProduct(selectedBonbu,selectedProduct);
+      this.$refs.changeProduct6.changeBonbuProduct(selectedBonbu,selectedProduct);
+      this.$refs.changeProduct7.changeBonbuProduct(selectedBonbu,selectedProduct);
        
       if(this.selectedBonbu==='북부고객본부'){
         this.selectedJisaArray=['고양지사','광진지사','광화문지사','노원지사','서대문지사'];

@@ -204,7 +204,7 @@
               <v-card-subtitle
                 class="text-left py-0"
               >
-                전주
+                조회기간(1주일전)
               </v-card-subtitle>
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4 py-0"
@@ -222,7 +222,7 @@
               <v-card-subtitle
                 class="text-left py-0"
               >
-                금주
+                조회기간
               </v-card-subtitle>
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
@@ -274,7 +274,7 @@
               <v-card-subtitle
                 class="text-left py-0"
               >
-                전주
+                조회기간(1주일전)
               </v-card-subtitle>
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4 py-0"
@@ -292,7 +292,7 @@
               <v-card-subtitle
                 class="text-left py-0"
               >
-                금주
+                조회기간
               </v-card-subtitle>
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
@@ -348,7 +348,7 @@
               <v-card-subtitle
                 class="text-left py-0"
               >
-                전주
+                조회기간(1주일전)
               </v-card-subtitle>
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4 py-0"
@@ -366,7 +366,7 @@
               <v-card-subtitle
                 class="text-left py-0"
               >
-                금주
+                조회기간
               </v-card-subtitle>
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
@@ -417,7 +417,7 @@
               <v-card-subtitle
                 class="text-left py-0"
               >
-                전주
+                조회기간(1주일전)
               </v-card-subtitle>
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4 py-0"
@@ -435,7 +435,7 @@
               <v-card-subtitle
                 class="text-left py-0"
               >
-                금주
+                조회기간
               </v-card-subtitle>
               <v-card-text
                 class="font-weight-bold text-md-h5 text-lg-h4"
@@ -468,19 +468,30 @@
 
       <!-- 테이블 -->
       <v-row
-        class="mt-5"
+        class="mt-10"
       >
         <v-col
           cols="12"
           md="4"
         >
-          <p class="text-h6 text-center">
-            [{{ selectedBonbu }} - VOC누적현황]<br>
+          <v-tooltip top>
+            <template v-slot:activator="{on,attrs}">
+              <span
+                v-bind="attrs"
+                v-on="on"
+              >
+                <p class="text-h6 text-center">
+                  [{{ selectedBonbu }} - VOC누적현황]
+                </p>
+              </span>
+            </template>
+           
             <span class="text-h6 text-center">
               '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
-          </p>
+          </v-tooltip>
+         
           <jisa-m-it-hj-voc-table 
             ref="changeBonbu9"
           />
@@ -490,18 +501,26 @@
           cols="12"
           md="4"
         >
-          <p class="text-h6 text-center">
-            [{{ selectedJisa }} - VOC 유형 - 유선]<br>
-            <span
-              class="text-center text-h6"
-            >
+          <v-tooltip top>
+            <template v-slot:activator="{on,attrs}">
+              <span
+                v-bind="attrs"
+                v-on="on"
+              >
+                <p class="text-h6 text-center">
+                  [{{ selectedJisa }} - VOC 유형 - 유선]
+                </p>
+              </span>
+            </template>
+           
+            <span class="text-h6 text-center">
               '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
-          </p>
+          </v-tooltip>        
+      
           <jisa-it-hj-voc-bar 
             ref="changeJisa9"
-            :height="300"
           />
         </v-col>
 
@@ -509,25 +528,32 @@
           cols="12"
           md="4"
         >
-          <p class="text-h6 text-center">
-            [{{ selectedJisa }} - VOC 유형 - 무선]<br>
-            <span
-              class="text-center text-h6"
-            >
+          <v-tooltip top>
+            <template v-slot:activator="{on,attrs}">
+              <span
+                v-bind="attrs"
+                v-on="on"
+              >
+                <p class="text-h6 text-center">
+                  [{{ selectedJisa }} - VOC 유형 - 무선]
+                </p></span>
+            </template>
+           
+            <span class="text-h6 text-center">
               '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
-          </p>
+          </v-tooltip>
+                  
           <jisa-m-hj-voc-bar 
             ref="changeJisa10"
-            :height="300"
           />
         </v-col>
       </v-row>   
     
       <!-- 그래프-->
       <v-row
-        class="mt-5"
+        class="mt-10"
       >
         <v-col
           cols="12"

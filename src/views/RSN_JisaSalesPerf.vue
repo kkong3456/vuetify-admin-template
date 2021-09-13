@@ -289,19 +289,30 @@
 
       <!-- 테이블 -->
       <v-row
-        class="mt-5"
+        class="mt-10"
       >
         <v-col
           cols="12"
           md="4"
         >
-          <p class="text-h6 text-center">
-            [ 신규 - {{ selectedProduct }}]<br>
+          <v-tooltip top>
+            <template v-slot:activator="{on,attrs}">
+              <span
+                v-bind="attrs"
+                v-on="on"
+              >
+                <p class="text-h6 text-center">
+                  [ 신규 - {{ selectedProduct }}]
+                </p>
+              </span>
+            </template>
+           
             <span class="text-h6 text-center">
               '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
-          </p>
+          </v-tooltip>
+        
           <jisa-sales-table 
             ref="changeProduct1"          
             :propsdata="start"
@@ -313,15 +324,24 @@
           cols="12"
           md="4"
         >
-          <p class="text-h6 text-center">
-            [해지 - {{ selectedProduct }}]<br>
-            <span
-              class="text-center text-h6"
-            >
+          <v-tooltip top>
+            <template v-slot:activator="{on,attrs}">
+              <span
+                v-bind="attrs"
+                v-on="on"
+              >
+                <p class="text-h6 text-center">
+                  [해지 - {{ selectedProduct }}]
+                </p>
+              </span>
+            </template>
+           
+            <span class="text-h6 text-center">
               '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
-          </p>
+          </v-tooltip>
+          
           <jisa-sales-table 
             ref="changeProduct2"
             :propsdata="end"
@@ -333,15 +353,24 @@
           cols="12"
           md="4"
         >
-          <p class="text-h6 text-center">
-            [순증(NET) - {{ selectedProduct }}]<br>
-            <span
-              class="text-center text-h6"
-            >
+          <v-tooltip top>
+            <template v-slot:activator="{on,attrs}">
+              <span
+                v-bind="attrs"
+                v-on="on"
+              >
+                <p class="text-h6 text-center">
+                  [순증(NET) - {{ selectedProduct }}]
+                </p>
+              </span>
+            </template>
+           
+            <span class="text-h6 text-center">
               '{{ selectedStartDate.substring(2,4)+'.'+selectedStartDate.substring(4,6)+'.'+selectedStartDate.substring(6,8) }} 
               ~ {{ selectedEndDate.substring(2,4)+'.'+selectedEndDate.substring(4,6)+'.'+selectedEndDate.substring(6,8) }} 
             </span>
-          </p>
+          </v-tooltip>
+         
           <jisa-sales-table
             ref="changeProduct3"
             :propsdata="net"
