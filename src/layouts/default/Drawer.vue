@@ -111,7 +111,7 @@ export default {
         subLinks:[
           {
             text :'0. 위치기반 해지 추이',
-            to:'/rs-daytime-locations',
+            to:'/rsn-daytime-locations',
             icon:'mdi-plus',
           },
           {

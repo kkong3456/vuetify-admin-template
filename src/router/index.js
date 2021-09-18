@@ -46,7 +46,7 @@ const routes=[
       },
       
       {
-        path:'/rs-daytime-locations',
+        path:'/rsn-daytime-locations',
         name:'RSN_DayTimeLocationsMap',
         component:RSN_DayTimeLocationsMap,
       },
